@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    
+   	<TextView
+        android:id="@+id/tv_search_result_info"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:text="@string/empty_string" 
+        android:textSize="@dimen/tab_information_text_font_size"
+        android:visibility="gone"
+        />	
+        
+	<ListView 
+	    android:id="@+id/lv_any_list"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:orientation="vertical"
+	    android:visibility="gone"
+	    />
+
+</FrameLayout>

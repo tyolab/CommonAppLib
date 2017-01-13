@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ 	android:paddingStart="@dimen/body_padding_left"
+	android:paddingEnd="@dimen/body_padding_right"
+	android:paddingLeft="@dimen/body_padding_left"
+	android:paddingRight="@dimen/body_padding_right"	
+ -->
+<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/scrollView1"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content" 
+	android:paddingTop="@dimen/body_view_padding_top"    
+	android:paddingBottom="@dimen/body_view_padding_bottom"
+	android:paddingStart="@dimen/body_view_padding_left"
+	android:paddingEnd="@dimen/body_view_padding_right"
+	android:paddingLeft="@dimen/body_view_padding_left"
+	android:paddingRight="@dimen/body_view_padding_right"	
+	 >
+   
+    <LinearLayout
+          android:id="@+id/summary_views"
+	     android:layout_width="match_parent"
+		 android:layout_height="wrap_content"
+		 android:gravity="top|center_horizontal"
+		 android:orientation="vertical"
+  		>
+
+
+	</LinearLayout>
+	
+</ScrollView>

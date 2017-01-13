@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="welcome">Welcome</string>
+    <string name="congratulations">Congratulations</string>
+    <string name="congrats">Congrats</string>
+    <string name="title_activity_launcher">CommonAppLib - Launcher</string>
+</resources>

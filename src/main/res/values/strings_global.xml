@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CommonAppLib</string>
+    
+    
+    <string name="title_section1">SMS</string>
+    <string name="title_section2">File System</string>
+    <string name="title_section3">Audio</string>
+    <string name="title_section4">Videos</string>
+    
+    
+    <string name="action_settings">Settings</string>
+    
+    <string name="app_slang"/>
+    <string name="app_slang2"/>
+    
+    <string name="ui_class"></string>
+    
+    <!-- Ad -->
+    <string name="app_ad_unit_id_splash_screen_interstitial">ca-app-pub-7239401099056195/3079360461</string>
+</resources>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<au.com.tyo.app.ui.InformationView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/information_box"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_vertical|center_horizontal"
+    android:layout_marginBottom="2dp"
+    android:layout_marginLeft="1dp"
+    android:layout_marginRight="1dp"
+    android:layout_marginTop="2dp"
+    android:maxHeight="40dp"
+    android:orientation="horizontal" >
+    
+    <!-- 
+    	android:textAlignment="center" is for 4.2 and up? 
+     -->
+       <TextView
+           android:id="@+id/input"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_gravity="center_vertical|center_horizontal|center"
+           android:ellipsize="end"
+           android:gravity="center_vertical|center_horizontal|center"
+           android:maxLines="1"
+           android:shadowDx="1"
+           android:shadowDy="1"
+           android:singleLine="true"
+           android:text="@string/empty_string"
+
+           android:textSize="@dimen/actionbar_text_font_size"
+           android:textStyle="bold"
+           android:typeface="sans" 
+           android:maxHeight="45dp"
+           android:layout_marginTop="-1dp"
+           />
+
+	<FrameLayout
+		    android:id="@+id/actionbar_wiki_name_button"
+		    android:layout_width="wrap_content"
+		    android:layout_height="match_parent"
+		    android:layout_gravity="center"
+		    android:clickable="true"
+		    android:focusable="true"
+		    android:addStatesFromChildren="true"
+		    android:visibility="gone"
+		    android:background="@drawable/background_selectable"
+		    >
+		
+		    <TextView
+				android:id="@+id/wiki_name_text"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center"
+				android:paddingRight="2dp"
+				android:gravity="center"
+				android:text="@string/empty_string" 
+				android:textStyle="bold"
+				android:typeface="sans" 
+				android:maxHeight="45dp"
+				android:layout_marginTop="-1dp"
+				android:textAllCaps="true"
+				android:textSize="@dimen/actionbar_title_font_size"        
+		        />
+		
+	</FrameLayout>
+        
+</au.com.tyo.app.ui.InformationView>

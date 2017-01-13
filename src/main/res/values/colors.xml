@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+
+    color options:
+       very light blue: dce4fb
+       kinda orage: fdcda2
+       orage: #FF9700
+       quite blue: 1E84CF
+ -->
+<resources>
+    <color name="header_background_color">#80abd8fb</color>
+    <color name="footer_background_color">#80abd8fb</color>
+    <color name="body_background_color">#80c6e6ff</color>
+    
+    <color name="term_highlight_1">#950e08</color>
+    <color name="term_highlight_2">#53a93f</color>
+    <color name="term_highlight_3">#385d8a</color>
+    <color name="term_highlight_4">#6d702d</color>
+    <color name="term_highlight_5">#d22b35</color>
+    <color name="term_highlight_6">#ff953a</color>
+    <color name="term_highlight_7">#d69902</color>
+    <color name="term_highlight_8">#6c3e82</color>
+    
+</resources>

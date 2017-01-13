@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+    android:layout_marginTop="@dimen/header_margin_top"
+	android:layout_marginLeft="@dimen/header_margin_left"
+	android:layout_marginRight="@dimen/header_margin_right"
+	android:paddingTop="@dimen/header_padding_top"
+	android:paddingBottom="@dimen/header_padding_bottom"
+ -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/HeaderStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="@dimen/header_height_minimum"
+    android:fadingEdge="horizontal"
+    android:fadingEdgeLength="24dip" 
+    android:orientation="vertical"
+    >
+        
+    <include
+        layout="@layout/search_bar"
+        android:id="@+id/search_view"
+        />
+ 
+    <!-- 
+    
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:background="@color/light_grey"
+        />
+            
+	<include layout="@layout/ad"
+	    />
+	    
+   	<include layout="@layout/information_view"
+    />
+	-->
+
+</LinearLayout>

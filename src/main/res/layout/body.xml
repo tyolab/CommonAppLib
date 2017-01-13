@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ 	android:paddingStart="@dimen/body_padding_left"
+	android:paddingEnd="@dimen/body_padding_right"
+	android:paddingLeft="@dimen/body_padding_left"
+	android:paddingRight="@dimen/body_padding_right"	
+ -->
+<au.com.tyo.app.ui.BodyView  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    style="@style/BodyStyle"
+    >
+	    
+	<include
+	    android:id="@+id/content_view"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    layout="@layout/content" />
+	
+	<include   	        
+ 	    layout="@layout/suggestion"
+ 	    android:visibility="gone"
+ 	    />
+	
+</au.com.tyo.app.ui.BodyView>

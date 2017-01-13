@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+The background that can be set to:     android:background="@drawable/bg_searchbar" 
+    android:background="@drawable/searchview_plate"
+    android:fadingEdge="horizontal"
+    android:fadingEdgeLength="24dip"     
+        android:id="@+id/title_bg"
+            android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
+ -->
+<au.com.tyo.app.ui.SearchView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingRight="3dip"
+    android:paddingLeft="3dip"
+    android:orientation="horizontal"
+    android:gravity="center_vertical|center_horizontal"
+    >
+    
+    <!-- 
+    <include layout="@layout/main_menu" />
+     -->
+    <RelativeLayout
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.0"
+        android:layout_marginTop="2dip"
+        android:layout_marginBottom="2dip"
+        android:layout_marginLeft="8dip"
+        android:layout_marginRight="5dip"
+         >
+       
+         <LinearLayout
+		    android:id="@+id/prevent_edittext_focus"
+		    android:focusable="true"
+		    android:focusableInTouchMode="true"
+		    android:layout_width="0px"
+		    android:layout_height="0px"
+		    android:orientation="vertical"
+		    />
+         
+     <!--  
+    	 remove the background 
+         android:background="@drawable/textfield_search_empty_wikipedia" 
+         
+         couldn't remember why we need to do this, will go back here to 
+     -->
+     <include layout="@layout/search_input_view"
+         android:gravity="left"
+         android:nextFocusUp="@id/search_input_view" 
+         android:nextFocusLeft="@id/search_input_view"
+         android:nextFocusDown="@+id/search_go_btn"
+         />
+        
+     <include layout="@layout/searchview_overlay"/>
+
+    </RelativeLayout>
+
+    <ImageButton 
+        android:id="@+id/search_go_btn"
+        android:background="@null"
+        android:src="@android:drawable/ic_menu_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dip"
+        android:layout_marginBottom="2dip"
+        android:contentDescription="@string/function_button_search"
+        android:visibility="visible"
+    />
+    
+    <ImageButton 
+        android:id="@+id/btn_clear_search"
+        android:background="@null"
+        android:src="?attr/ic_clear_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dip"
+        android:layout_marginBottom="2dip"
+        android:contentDescription="@string/empty_string"
+        android:visibility="gone"
+    />
+
+    <ImageButton
+        android:id="@+id/search_voice_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@null"
+        android:src="@drawable/ic_btn_speak_now"
+        android:layout_marginRight="-4dip"
+        android:contentDescription=""
+        android:visibility="gone"
+    />
+
+</au.com.tyo.app.ui.SearchView>

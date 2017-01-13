@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<au.com.tyo.app.ui.SearchInputView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/search_input_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" 
+    android:focusable="true"
+    android:paddingLeft="2dip"
+    android:paddingRight="2dip"
+    android:paddingTop="3dip"
+    android:paddingBottom="3dip"
+    android:hint="@string/search_hint"
+    android:singleLine="true"
+    android:ellipsize="end"
+    android:lines="1"
+    android:inputType="text"
+    android:imeOptions="actionSearch"
+    android:background="@null"
+    android:textCursorDrawable="@null"
+    android:selectAllOnFocus="true"
+    
+    >
+    
+
+</au.com.tyo.app.ui.SearchInputView>

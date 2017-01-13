@@ -1,0 +1,25 @@
+<resources>
+    
+    <style name="HeaderStyle">
+        <item name="android:windowBackground">@color/header_background_color</item>
+    	<item name="android:colorBackground">@color/header_background_color</item>
+    	<item name="android:background">@color/header_background_color</item>
+    </style>
+    
+    <style name="BodyStyle">
+        <item name="android:windowBackground">@color/body_background_color</item>
+    	<item name="android:colorBackground">@color/body_background_color</item>
+    	<item name="android:background">@color/body_background_color</item>
+    </style> 
+    
+    <style name="FooterStyle">
+        <item name="android:windowBackground">@color/footer_background_color</item>
+    	<item name="android:colorBackground">@color/footer_background_color</item>
+    	<item name="android:background">@color/footer_background_color</item>
+    </style>    
+    
+    <style name="SuggestionTextStyle">
+        <item name="android:textAppearance">?android:attr/textAppearanceMediumInverse</item>
+    </style>
+
+</resources>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+	<LinearLayout
+	    android:id="@+id/logo_container"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	   	android:layout_centerInParent="true"
+	    android:orientation="vertical" 
+	   	android:gravity="center_horizontal|center_vertical"
+	   	android:layout_marginLeft="10dp"
+	   	android:layout_marginRight="10dp"
+	    >
+	 
+	    <ImageView
+	        android:id="@+id/app_logo"
+	        android:layout_width="@dimen/splash_screen_logo_width"
+	        android:layout_height="@dimen/splash_screen_logo_height"
+	        android:src="@drawable/ic_launcher" />
+	    
+	    <View 
+	        android:layout_width="30dp"
+	        android:layout_height="30dp"
+	        android:background="@android:color/transparent"
+	        />
+	    
+	    <TextView
+	        android:id="@+id/app_slang"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textSize="@dimen/splash_screen_slang_font_size"
+	        android:text="@string/app_slang" 
+	       	android:layout_gravity="center_horizontal|center_vertical"
+	       	android:fontFamily="sans-serif-condensed"
+	        />
+	    
+	   	<TextView
+	        android:id="@+id/app_slang2"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textSize="@dimen/splash_screen_slang_font_size"
+	        android:text="@string/app_slang2" 
+	       	android:layout_gravity="center_horizontal|center_vertical"
+	       	android:fontFamily="sans-serif-condensed"
+	        />
+    
+     </LinearLayout>
+     
+    <ProgressBar
+        android:id="@+id/progress_splash"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="180dip"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/logo_container"
+        android:layout_centerHorizontal="true"
+        android:max="100"
+        android:paddingTop="10dp"
+        android:progress="0"
+        android:visibility="gone"
+         />
+
+</RelativeLayout>

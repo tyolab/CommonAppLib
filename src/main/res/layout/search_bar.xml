@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+	@drawable/card_bg_light
+    android:layout_marginLeft="@dimen/search_bar_margin_left"
+    android:layout_marginRight="@dimen/search_bar_margin_right"
+    android:layout_marginTop="@dimen/search_bar_margin_top"	
+    android:paddingLeft="@dimen/search_bar_padding_left"
+    android:paddingRight="@dimen/search_bar_padding_right"  
+ -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+	android:paddingTop="@dimen/search_bar_padding_top"    
+	android:paddingBottom="@dimen/search_bar_padding_bottom"
+	android:paddingStart="@dimen/search_bar_padding_left"
+	android:paddingEnd="@dimen/search_bar_padding_right"
+	android:paddingLeft="@dimen/search_bar_padding_left"
+	android:paddingRight="@dimen/search_bar_padding_right"
+    >
+    
+	<include layout="@layout/search_frame" />
+	
+</FrameLayout>

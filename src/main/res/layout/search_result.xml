@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<au.com.tyo.app.ui.SearchResultView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/search_result_view"
+    android:layout_margin="@dimen/search_result_list_margin"
+    android:layout_marginTop="@dimen/search_result_list_margin_top"
+    android:paddingLeft="@dimen/search_result_list_padding_left"
+    android:paddingRight="@dimen/search_result_list_padding_right"
+    android:paddingTop="@dimen/search_result_list_padding_top"
+    android:paddingBottom="@dimen/search_result_list_padding_bottom"
+    >
+	        
+    <include layout="@layout/view_container_with_progressbar" />
+
+</au.com.tyo.app.ui.SearchResultView>
