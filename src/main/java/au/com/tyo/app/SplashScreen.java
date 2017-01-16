@@ -112,7 +112,7 @@ public class SplashScreen extends Activity implements SplashScreenMessageListene
         /*
          * We have to have this 
          */
-//	        controller.setActivityContext(SplashScreen.this);
+//	        controller.setCurrentActivity(SplashScreen.this);
 		else /*if (!(controller.getContext() instanceof Activity))*/
         	controller.setContext(SplashScreen.this);
 		

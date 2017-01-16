@@ -103,15 +103,10 @@ public class UIBase implements UI {
 		}
         this.context = context;
 
-        /**
-		 * Only if the default layout is used then we do the UI elements (search bar, footer, body, header, etc) setup
-		 */
-		if (mainUiResId == R.layout.activity_common) {
-			setupComponents();
+        setupComponents();
 
-			if (!alwaysShowSearchView)
-				hideSearchView();
-		}
+        if (!alwaysShowSearchView)
+            hideSearchView();
 	}
 
 	private void hideSearchView() {
@@ -150,7 +145,7 @@ public class UIBase implements UI {
 	@Override
 	public void onSearchInputFocusStatus(boolean focused) {
 		
-}
+    }
 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
@@ -159,24 +154,29 @@ public class UIBase implements UI {
 	}
 	
 	public void setupComponents() {
-		bodyView = (ViewGroup) mainView.findViewById(R.id.body_view);
-		
-        footerView = (ViewGroup) mainView.findViewById(R.id.footer_view);
-        headerView = (ViewGroup) mainView.findViewById(R.id.header_view);
-        
-        if (hasSearchBar())
-        	setupSearchView();
-        
-		ad = (AllAdView) mainView.findViewById(R.id.all_ad_view);
-		if (null != ad) {
-			addAdView();
-			
-			if (controller.getSettings().hasAd())
-				ad.loadBannerAd();
-		}
-		
-		if (!controller.getNetworkMonitor().hasInternet())
-			onNetworkDisonnected();
+        /**
+         * Only if the default layout is used then we do the UI elements (search bar, footer, body, header, etc) setup
+         */
+        if (mainUiResId == R.layout.activity_common) {
+            bodyView = (ViewGroup) mainView.findViewById(R.id.body_view);
+
+            footerView = (ViewGroup) mainView.findViewById(R.id.footer_view);
+            headerView = (ViewGroup) mainView.findViewById(R.id.header_view);
+
+            if (hasSearchBar())
+                setupSearchView();
+
+            ad = (AllAdView) mainView.findViewById(R.id.all_ad_view);
+            if (null != ad) {
+                addAdView();
+
+                if (controller.getSettings().hasAd())
+                    ad.loadBannerAd();
+            }
+
+            if (!controller.getNetworkMonitor().hasInternet())
+                onNetworkDisonnected();
+        }
 		
 	}
 	
@@ -249,7 +249,7 @@ public class UIBase implements UI {
 	}
 	
 	protected void showDialog(Dialog dialog) {
-		if(dialog != null && ! controller.getActivityContext().isFinishing())
+		if(dialog != null && ! controller.getCurrentActivity().isFinishing())
 			dialog.show();
 	}
 

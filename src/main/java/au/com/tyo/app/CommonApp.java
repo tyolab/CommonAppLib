@@ -23,7 +23,6 @@ import au.com.tyo.app.data.ImagedSearchableItem;
 import au.com.tyo.app.data.Searchable;
 import au.com.tyo.app.ui.UI;
 import au.com.tyo.app.ui.UIBase;
-import au.com.tyo.app.R;
 
 /**
  * @author Eric Tang <eric.tang@tyo.com.au>
@@ -232,7 +231,7 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 	public void onSearchInputFocused() {
 		getUi().setSuggestionViewVisibility(true);
 		
-		getActivityContext().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+		getCurrentActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 		getUi().hideAd();
 	}
 
@@ -242,7 +241,7 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
     	 * we dont hide the suggestion view just if search input focus lose
     	 */
 //    	getUI().setSuggestionViewVisibility(false);
-    	getActivityContext().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+    	getCurrentActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     	getUi().showAd();
 	}
 

@@ -15,7 +15,6 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewConfiguration;
-import android.widget.FrameLayout;
 
 import java.lang.reflect.Field;
 
@@ -75,7 +74,7 @@ public class CommonActivity extends Activity  {
 //        		else
 //        			controller.setContext(this);
 //            	CommonApp.initializeInstance();
-                controller.setActivityContext(this);
+                controller.setCurrentActivity(this);
                 controller.setContext(this);
                 
         		run(savedInstanceState);
@@ -135,36 +134,28 @@ public class CommonActivity extends Activity  {
 		 * now show the overflow menu
 		 */
 		showOverflowMenu();
-        
-        if (true) {
-			/**
-			 * do it in a different way
-			 */
-//        	setContentView(R.layout.activity_common);
-//            FrameLayout frameLayout = (FrameLayout) getWindow()
-//                    .getDecorView().findViewById(android.R.id.content);
 
-            controller.getUi().initializeUi(this);
-			setContentView(controller.getUi().getMainView());
-        }
-        else {
-            FrameLayout frameLayout = (FrameLayout) getWindow()
-                    .getDecorView().findViewById(android.R.id.content);
-            
-	        frameLayout.removeAllViews();
-	        controller.getUi().assignMainUiContainer(frameLayout);        
-	        controller.getUi().initializeUi(this);
-        }
-//        
-//        /*
-//         * to some ui initial work in case something wrong with VM when this activity class was recreated
-//         *  
-//         */
-//        controller.getUi().onCreateMainActivity(this);
-//        
-//        controller.onCreateCheck();
-//        
-//        controller.onFinishActivityCreation();
+        /**
+         * do it in a different way
+         *
+         * alternatively,
+         *
+
+        setContentView(R.layout.activity_common);
+         FrameLayout frameLayout = (FrameLayout) getWindow()
+                 .getDecorView().findViewById(android.R.id.content);
+
+         */
+
+
+        controller.getUi().initializeUi(this);
+        setContentView(controller.getUi().getMainView());
+
+        /*
+         * to some ui initial work in case something wrong with VM when this activity class was recreated
+         *
+         *
+         */
         
         this.processExtras();
         
@@ -302,7 +293,7 @@ public class CommonActivity extends Activity  {
   	protected void onResume() {
   		super.onResume();
   		
-        controller.setActivityContext(this);
+        controller.setCurrentActivity(this);
         controller.setContext(this);
   		
 		processExtras();
