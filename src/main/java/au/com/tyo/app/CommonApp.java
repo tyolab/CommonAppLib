@@ -5,15 +5,20 @@
 
 package au.com.tyo.app;
 
+import android.app.NotificationManager;
+import android.content.Context;
+import android.content.Intent;
+import android.content.res.Configuration;
+import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.WindowManager;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.List;
-
-import android.app.NotificationManager;
-import android.content.Context;
-import android.content.res.Configuration;
-import android.view.WindowManager;
+import java.util.Observable;
 
 import au.com.tyo.android.CommonApplicationImpl;
 import au.com.tyo.android.CommonInitializer;
@@ -274,5 +279,52 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 	@Override
 	public void onAppStart() {
 	}
-	
+
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+	}
+
+	@Override
+	public boolean onKeyLongPress(int keyCode, KeyEvent event) {
+		return false;
+	}
+
+	@Override
+	public void onPostCreate(Bundle savedInstanceState) {
+	}
+
+	@Override
+	public void update(Observable observable, Object data) {
+	}
+
+	@Override
+	public void onResume() {
+
+	}
+
+	@Override
+	public void onDestroy() {
+	}
+
+	@Override
+	public void onPause() {
+		ui.onPause(this.currentActivity);
+	}
+
+	@Override
+	public void onStop() {
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle savedInstanceState) {
+	}
+
+	@Override
+	public void onRestoreInstanceState(Bundle savedInstanceState) {
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+	}
+
 }

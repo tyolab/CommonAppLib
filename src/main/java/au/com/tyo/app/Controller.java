@@ -5,16 +5,18 @@
 
 package au.com.tyo.app;
 
-import java.util.List;
-
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.Menu;
+
+import java.util.List;
+
 import au.com.tyo.android.CommonController;
 import au.com.tyo.android.services.ImageDownloader;
 import au.com.tyo.app.data.DisplayItem;
 import au.com.tyo.app.data.ImagedSearchableItem;
 import au.com.tyo.app.data.Searchable;
-import au.com.tyo.app.data.SearchableItem;
 import au.com.tyo.app.ui.UI;
 
 /**
@@ -74,5 +76,18 @@ public interface Controller extends CommonController {
 	void search(Searchable page, int fromHistory, boolean b);
 
 	List<String> getQueryList();
-	
+
+	void onResume();
+
+	void onDestroy();
+
+	void onCreate();
+
+	void onPause();
+
+	void onPrepareOptionsMenu(Menu menu);
+
+	boolean onKeyLongPress(int keyCode, KeyEvent event);
+
+	void onStop();
 }

@@ -54,4 +54,7 @@ public interface UI {
 
 	public void setUiRecreationRequierd(boolean value);
 
+	void onPause(Context context);
+
+	void onResume(Context context);
 }
