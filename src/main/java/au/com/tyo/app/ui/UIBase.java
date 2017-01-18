@@ -72,6 +72,16 @@ public class UIBase implements UI {
 	}
 
 	@Override
+	public void onPause(Context context) {
+		// should be overrode if needed
+	}
+
+	@Override
+	public void onResume(Context context) {
+		// should be overrode if needed
+	}
+
+	@Override
 	public void assignMainUiContainer(FrameLayout frameLayout) {
 		if (mainView.getParent() != null)
 			((ViewGroup) mainView.getParent()).removeView(mainView);

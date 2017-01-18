@@ -81,8 +81,6 @@ public interface Controller extends CommonController {
 
 	void onDestroy();
 
-	void onCreate();
-
 	void onPause();
 
 	void onPrepareOptionsMenu(Menu menu);
