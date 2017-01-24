@@ -11,11 +11,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.widget.ProgressBar;
 
-import com.google.android.gms.ads.*;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 
-import au.com.tyo.android.AndroidSettings;
 import au.com.tyo.android.AndroidUtils;
-import au.com.tyo.app.R;
 
 /**
  * @author Eric Tang <eric.tang@tyo.com.au>
@@ -116,8 +116,8 @@ public class SplashScreen extends Activity implements SplashScreenMessageListene
 		else /*if (!(controller.getContext() instanceof Activity))*/
         	controller.setContext(SplashScreen.this);
 		
-		if (!showAd)
-			startBackgroundTasks();
+//		if (!showAd)
+		startBackgroundTasks();
 		
 		handler.sendEmptyMessageDelayed(MESSAGE_AD_TIMEUP, 12000);
 	}
@@ -172,7 +172,7 @@ public class SplashScreen extends Activity implements SplashScreenMessageListene
 		}
 	}
 
-	private class AppInitializer extends AsyncTask<Void, Void, Void> {
+	private class AppInitializer extends AsyncTask<Void, Integer, Void> {
 		
 		private static final String LOG_TAG = "AppInitializer";
 		
@@ -185,6 +185,11 @@ public class SplashScreen extends Activity implements SplashScreenMessageListene
 			super.onPreExecute();
 			
 			Thread.currentThread().setName("AppInitializer");
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... progress) {
+			progressBar.setProgress(progress[0]);
 		}
 		
 		@Override
@@ -200,8 +205,8 @@ public class SplashScreen extends Activity implements SplashScreenMessageListene
 //				}
 			} catch (InterruptedException e) {
 			}
-			
-			progressBar.setProgress(10);
+
+			publishProgress(10);
 
 			controller.initializeInBackgroundThread(SplashScreen.this);
 			
@@ -212,7 +217,7 @@ public class SplashScreen extends Activity implements SplashScreenMessageListene
 			/*
 			 * Sleep for one second to make sure to the splash screen can be seen
 			 */
-			progressBar.setProgress(100);
+			publishProgress(100);
 
 			return null;
 		}

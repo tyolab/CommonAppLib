@@ -65,4 +65,6 @@
 			 />
 
 	</RelativeLayout>
+
+	<include layout="@layout/splash_screen_overlay" />
 </FrameLayout>
