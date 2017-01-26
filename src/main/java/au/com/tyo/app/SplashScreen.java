@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.View;
 import android.widget.ProgressBar;
 
 import com.google.android.gms.ads.AdListener;
@@ -43,6 +44,8 @@ public class SplashScreen extends Activity implements SplashScreenMessageListene
 	private boolean adLoaded;
 	
 	private boolean tasksStarted;
+
+	private View viewOverlay;
 	
 	public SplashScreen() {
 		super();
@@ -115,8 +118,9 @@ public class SplashScreen extends Activity implements SplashScreenMessageListene
 //	        controller.setCurrentActivity(SplashScreen.this);
 		else /*if (!(controller.getContext() instanceof Activity))*/
         	controller.setContext(SplashScreen.this);
-		
-//		if (!showAd)
+
+		viewOverlay = findViewById(R.id.splash_screen_overlay);
+
 		startBackgroundTasks();
 		
 		handler.sendEmptyMessageDelayed(MESSAGE_AD_TIMEUP, 12000);
@@ -185,6 +189,8 @@ public class SplashScreen extends Activity implements SplashScreenMessageListene
 			super.onPreExecute();
 			
 			Thread.currentThread().setName("AppInitializer");
+
+			controller.onBackgroundTaskStarted(SplashScreen.this);
 		}
 
 		@Override
@@ -213,6 +219,10 @@ public class SplashScreen extends Activity implements SplashScreenMessageListene
 			handler.sendEmptyMessage(MESSAGE_APP_INITIALIZED);
 			
 			controller.createUi();
+
+			if (null != controller.getUi()) {
+				controller.getUi().setSplashScreenOverlayView(viewOverlay);
+			}
 			
 			/*
 			 * Sleep for one second to make sure to the splash screen can be seen
@@ -231,10 +241,16 @@ public class SplashScreen extends Activity implements SplashScreenMessageListene
 					Thread.sleep(AndroidUtils.getAndroidVersion() > 10 ? 4500 : 3000);
 				} catch (InterruptedException e) {
 				}
-			controller.startMainActivity();
- 
-            // close this activity
-            finish();
+
+			/**
+			 * if it returns false, it means the function will take care the main activity startup
+			 */
+			if (!controller.onBackgroundTaskEndded(SplashScreen.this)) {
+				controller.startMainActivity();
+
+				// close this activity
+				finish();
+			}
 		}
 	}
 

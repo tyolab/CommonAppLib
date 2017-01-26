@@ -5,6 +5,7 @@
 
 package au.com.tyo.app;
 
+import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -25,6 +26,40 @@ import au.com.tyo.app.ui.UI;
 
 
 public interface Controller extends CommonController {
+
+	void onMessageBackgroundTaskStageTwo();
+
+	void onMessageBackgroundTaskStageThree();
+
+	void onMessageBackgroundTaskStageFour();
+
+	void onMessageBackgroundTaskStageFive();
+
+	void onMessageBackgroundTaskStageSix();
+
+	void onMessageCustomeTwo();
+
+	void onMessageCustomeOne();
+
+	void onMessageCustomeFour();
+
+	void onMessageCustomeFive();
+
+	void onMessageCustomeSix();
+
+	void onMessageCustomeSeven();
+
+	void onMessageCustomeEight();
+
+	void onMessageCustomeNine();
+
+	void onMessageCustomeTen();
+
+	void onMessageBackgroundTaskStageOne();
+
+	void onMessageBackgroundTaskEndded();
+
+	void onMessageBackgroundTaskStarted();
 
 	UI getUi();
 
@@ -88,4 +123,8 @@ public interface Controller extends CommonController {
 	boolean onKeyLongPress(int keyCode, KeyEvent event);
 
 	void onStop();
+
+	boolean onBackgroundTaskEndded(Activity activity);
+
+	void onBackgroundTaskStarted(Activity activity);
 }

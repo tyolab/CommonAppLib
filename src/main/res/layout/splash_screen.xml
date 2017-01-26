@@ -66,5 +66,9 @@
 
 	</RelativeLayout>
 
-	<include layout="@layout/splash_screen_overlay" />
+	<include layout="@layout/splash_screen_overlay"
+		android:id="@+id/splash_screen_overlay"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		/>
 </FrameLayout>

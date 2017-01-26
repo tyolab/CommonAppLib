@@ -52,6 +52,8 @@ public class UIBase implements UI {
 
 	protected int mainUiResId = -1;
 
+	private View splashScreenOverlayView;
+
 	public UIBase(Controller controller) {
 		this.controller = controller;
 		alwaysShowSearchView = true;
@@ -79,6 +81,15 @@ public class UIBase implements UI {
 	@Override
 	public void onResume(Context context) {
 		// should be overrode if needed
+	}
+
+	@Override
+	public void setSplashScreenOverlayView(View viewOverlay) {
+		this.splashScreenOverlayView = viewOverlay;
+	}
+
+	public View getSplashScreenOverlayView() {
+		return splashScreenOverlayView;
 	}
 
 	@Override

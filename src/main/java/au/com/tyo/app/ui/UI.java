@@ -57,4 +57,6 @@ public interface UI {
 	void onPause(Context context);
 
 	void onResume(Context context);
+
+	void setSplashScreenOverlayView(View viewOverlay);
 }

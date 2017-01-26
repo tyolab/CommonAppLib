@@ -5,11 +5,14 @@
 
 package au.com.tyo.app;
 
+import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.WindowManager;
@@ -76,7 +79,167 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 		inputManager = new InputManager();
 	}
 
-	@Override
+	/**
+	 * Messages are used between threads
+	 */
+	private class MessageHandler extends Handler {
+
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+			/* could get call from background service */
+			if (null == ui)
+				return;
+
+			switch (msg.what) {
+				case Constants.MESSAGE_BACKGROUND_TASK_STARTED:
+					onMessageBackgroundTaskStarted();
+					break;
+				case Constants.MESSAGE_BACKGROUND_TASK_ENDDED:
+					onMessageBackgroundTaskEndded();
+					break;
+				case Constants.MESSAGE_BACKGROUND_TASK_STAGE_ONE:
+					onMessageBackgroundTaskStageOne();
+					break;
+				case Constants.MESSAGE_BACKGROUND_TASK_STAGE_TWO:
+					onMessageBackgroundTaskStageTwo();
+					break;
+				case Constants.MESSAGE_BACKGROUND_TASK_STAGE_THREE:
+					onMessageBackgroundTaskStageThree();
+					break;
+				case Constants.MESSAGE_BACKGROUND_TASK_STAGE_FOUR:
+					onMessageBackgroundTaskStageFour();
+					break;
+				case Constants.MESSAGE_BACKGROUND_TASK_STAGE_FIVE:
+					onMessageBackgroundTaskStageFive();
+					break;
+				case Constants.MESSAGE_BACKGROUND_TASK_STAGE_SIX:
+					onMessageBackgroundTaskStageSix();
+					break;
+				case Constants.MESSAGE_CUSTOM_ONE:
+					onMessageCustomeOne();
+					break;
+                case Constants.MESSAGE_CUSTOM_TWO:
+                    onMessageCustomeTwo();
+                    break;
+                case Constants.MESSAGE_CUSTOM_THREE:
+                    onMessageCustomeOne();
+                    break;
+                case Constants.MESSAGE_CUSTOM_FOUR:
+                    onMessageCustomeFour();
+                    break;
+                case Constants.MESSAGE_CUSTOM_FIVE:
+                    onMessageCustomeFive();
+                    break;
+                case Constants.MESSAGE_CUSTOM_SIX:
+                    onMessageCustomeSix();
+                    break;
+                case Constants.MESSAGE_CUSTOM_SEVEN:
+                    onMessageCustomeSeven();
+                    break;
+                case Constants.MESSAGE_CUSTOM_EIGHT:
+                    onMessageCustomeEight();
+                    break;
+                case Constants.MESSAGE_CUSTOM_NINE:
+                    onMessageCustomeNine();
+                    break;
+                case Constants.MESSAGE_CUSTOM_TEN:
+                    onMessageCustomeTen();
+                    break;
+			}
+		}
+
+		@Override
+		public void dispatchMessage(Message msg) {
+			super.dispatchMessage(msg);
+
+		}
+
+	}
+
+    @Override
+    public void onMessageBackgroundTaskStageTwo() {
+
+    }
+
+    @Override
+    public  void onMessageBackgroundTaskStageThree() {
+
+    }
+
+    @Override
+    public void onMessageBackgroundTaskStageFour() {
+
+    }
+
+    @Override
+    public void onMessageBackgroundTaskStageFive() {
+
+    }
+
+    @Override
+    public void onMessageBackgroundTaskStageSix() {
+
+    }
+
+    @Override
+    public void onMessageCustomeTwo() {
+
+    }
+
+    @Override
+    public void onMessageCustomeOne() {
+
+    }
+
+    @Override
+    public void onMessageCustomeFour() {
+
+    }
+
+    @Override
+    public void onMessageCustomeFive() {
+
+    }
+
+    @Override
+    public void onMessageCustomeSix() {
+
+    }
+
+    @Override
+    public void onMessageCustomeSeven() {
+
+    }
+
+    @Override
+    public void onMessageCustomeEight() {
+
+    }
+
+    @Override
+    public void onMessageCustomeNine() {
+
+    }
+
+    @Override
+    public void onMessageCustomeTen() {
+
+    }
+
+    @Override
+    public void onMessageBackgroundTaskStageOne() {
+    }
+
+    @Override
+    public void onMessageBackgroundTaskEndded() {
+    }
+
+    @Override
+    public void onMessageBackgroundTaskStarted() {
+    }
+
+    @Override
 	public UI getUi() {
 		return ui;
 	}
@@ -169,6 +332,8 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 		
 		watchDog = NetworkMonitor.getInstance(this);
 		watchDog.start();
+
+		this.setMessageHandler(new MessageHandler());
 	}
 
 	@Override
@@ -313,6 +478,16 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 
 	@Override
 	public void onStop() {
+	}
+
+	@Override
+	public boolean onBackgroundTaskEndded(Activity activity) {
+		return false;
+	}
+
+	@Override
+	public void onBackgroundTaskStarted(Activity activity) {
+
 	}
 
 	@Override
