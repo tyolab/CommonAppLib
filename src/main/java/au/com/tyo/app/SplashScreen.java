@@ -23,14 +23,6 @@ import au.com.tyo.android.AndroidUtils;
  */
 public class SplashScreen extends Activity implements SplashScreenMessageListener {
 	
-	private static int MESSAGE_AD_LOADED = 99;
-	
-	private static int MESSAGE_AD_FAILED = -1;
-	
-	private static int MESSAGE_AD_TIMEUP = -2;
-	
-	private static int MESSAGE_APP_INITIALIZED = 1000;
-	
 	private ProgressBar progressBar;
 	
 	private Controller controller;
@@ -90,7 +82,7 @@ public class SplashScreen extends Activity implements SplashScreenMessageListene
 	            public void onAdLoaded() {
 	                super.onAdLoaded();
 			        Message msg = Message.obtain();
-			        msg.what = MESSAGE_AD_LOADED;
+			        msg.what = Constants.MESSAGE_AD_LOADED;
 			        handler.sendMessage(msg);
 	            }
 
@@ -98,7 +90,7 @@ public class SplashScreen extends Activity implements SplashScreenMessageListene
 	            public void onAdFailedToLoad(int errorCode) {
 	                super.onAdFailedToLoad(errorCode);
 			        Message msg = Message.obtain();
-			        msg.what = MESSAGE_AD_FAILED;
+			        msg.what = Constants.MESSAGE_AD_FAILED;
 			        handler.sendMessage(msg);
 	            }
 	        });
@@ -112,10 +104,6 @@ public class SplashScreen extends Activity implements SplashScreenMessageListene
 			
 		if (controller.getContext() == null)
 			controller.initializeInMainThread(this);
-        /*
-         * We have to have this 
-         */
-//	        controller.setCurrentActivity(SplashScreen.this);
 		else /*if (!(controller.getContext() instanceof Activity))*/
         	controller.setContext(SplashScreen.this);
 
@@ -123,7 +111,7 @@ public class SplashScreen extends Activity implements SplashScreenMessageListene
 
 		startBackgroundTasks();
 		
-		handler.sendEmptyMessageDelayed(MESSAGE_AD_TIMEUP, 12000);
+		handler.sendEmptyMessageDelayed(Constants.MESSAGE_AD_TIMEUP, 12000);
 	}
 	
 	public void startBackgroundTasks() {  	
@@ -165,10 +153,10 @@ public class SplashScreen extends Activity implements SplashScreenMessageListene
 		@SuppressWarnings("unchecked")
 		@Override
 		public void handleMessage(Message msg) {			
-			if (msg.what == MESSAGE_APP_INITIALIZED)
+			if (msg.what == Constants.MESSAGE_APP_INITIALIZED)
 			    listener.onAppInitialized();
 			else {
-				if (msg.what == MESSAGE_AD_LOADED)
+				if (msg.what == Constants.MESSAGE_AD_LOADED)
 					listener.onAdLoaded();
 					
 				listener.startBackgroundTasks();
@@ -213,17 +201,16 @@ public class SplashScreen extends Activity implements SplashScreenMessageListene
 			}
 
 			publishProgress(10);
-
-			controller.initializeInBackgroundThread(SplashScreen.this);
-			
-			handler.sendEmptyMessage(MESSAGE_APP_INITIALIZED);
 			
 			controller.createUi();
 
+			handler.sendEmptyMessage(Constants.MESSAGE_APP_INITIALIZED);
+
 			if (null != controller.getUi()) {
-				controller.getUi().setSplashScreenOverlayView(viewOverlay);
+				controller.getUi().setupStartupAdView(viewOverlay, SplashScreen.this);
 			}
-			
+
+			controller.initializeInBackgroundThread(SplashScreen.this);
 			/*
 			 * Sleep for one second to make sure to the splash screen can be seen
 			 */

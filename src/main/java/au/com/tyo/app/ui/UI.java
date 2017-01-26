@@ -5,6 +5,7 @@
 
 package au.com.tyo.app.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.view.View;
@@ -59,4 +60,6 @@ public interface UI {
 	void onResume(Context context);
 
 	void setSplashScreenOverlayView(View viewOverlay);
+
+	void setupStartupAdView(View viewOverlay, Activity splashScreen);
 }

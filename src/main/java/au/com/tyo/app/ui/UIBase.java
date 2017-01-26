@@ -7,6 +7,7 @@ package au.com.tyo.app.ui;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -86,6 +87,11 @@ public class UIBase implements UI {
 	@Override
 	public void setSplashScreenOverlayView(View viewOverlay) {
 		this.splashScreenOverlayView = viewOverlay;
+	}
+
+	@Override
+	public void setupStartupAdView(View viewOverlay, Activity splashScreen) {
+
 	}
 
 	public View getSplashScreenOverlayView() {

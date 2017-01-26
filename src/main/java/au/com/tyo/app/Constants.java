@@ -38,4 +38,13 @@ public interface Constants {
 	int MESSAGE_CUSTOM_EIGHT = 28;
 	int MESSAGE_CUSTOM_NINE = 29;
 	int MESSAGE_CUSTOM_TEN = 30;
+
+	// SPLASH SCREEN
+	int MESSAGE_AD_LOADED = 99;
+
+	int MESSAGE_AD_FAILED = -1;
+
+	int MESSAGE_AD_TIMEUP = -2;
+
+	int MESSAGE_APP_INITIALIZED = 1000;
 }
