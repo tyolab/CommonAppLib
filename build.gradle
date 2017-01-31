@@ -1,12 +1,12 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "24.0.1"
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
 
     defaultConfig {
         minSdkVersion 11
-        targetSdkVersion 21
+        targetSdkVersion 19
     }
 
     buildTypes {
@@ -21,6 +21,4 @@ dependencies {
     compile project(':CommonAndroid')
     compile project(':CommonUiLib')
     compile 'com.google.android.gms:play-services:10.0.1'
-    compile 'com.android.support:appcompat-v7:23.0.1'
-    compile 'com.android.support:support-v4:23.2.+'
 }
