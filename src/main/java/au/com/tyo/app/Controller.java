@@ -127,4 +127,5 @@ public interface Controller extends CommonController {
 	boolean onBackgroundTaskEndded(Activity activity);
 
 	void onBackgroundTaskStarted(Activity activity);
+
 }

@@ -108,12 +108,15 @@ public class SplashScreen extends Activity implements SplashScreenMessageListene
         	controller.setContext(SplashScreen.this);
 
 		viewOverlay = findViewById(R.id.splash_screen_overlay);
-
-		startBackgroundTasks();
 		
 		handler.sendEmptyMessageDelayed(Constants.MESSAGE_AD_TIMEUP, 12000);
+
+		/**
+		 * Start background tasks
+		 */
+		startBackgroundTasks();
 	}
-	
+
 	public void startBackgroundTasks() {  	
 		synchronized (this) {
 			if (!tasksStarted) {
@@ -189,14 +192,8 @@ public class SplashScreen extends Activity implements SplashScreenMessageListene
 		@Override
 		protected Void doInBackground(Void... params) {
 			/* it has to be run in an activity class */
-//			KoalaSearchApp.getInstance().initializeVariablesForGUI();
 			try {
-//				if (/*controller.getUi() == null && */) {
-//					if (adLoaded)
-//						Thread.sleep(AndroidUtils.getAndroidVersion() > 10 ? 4500 : 3000);
-//					else
-						Thread.sleep(AndroidUtils.getAndroidVersion() > 10 ? 500 : 0);
-//				}
+				Thread.sleep(AndroidUtils.getAndroidVersion() > 10 ? 500 : 0);
 			} catch (InterruptedException e) {
 			}
 
