@@ -14,7 +14,9 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.ViewGroup;
 
 import java.lang.reflect.Field;
 
@@ -149,6 +151,11 @@ public class CommonActivity extends Activity  {
 
 
         controller.getUi().initializeUi(this);
+		View mainView = controller.getUi().getMainView();
+		if (mainView.getParent() != null && mainView instanceof ViewGroup) {
+			ViewGroup parent = (ViewGroup) mainView.getParent();
+			if (null != parent) parent.removeView(mainView);
+		}
         setContentView(controller.getUi().getMainView());
 
         /*
