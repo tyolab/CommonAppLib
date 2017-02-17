@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import java.lang.reflect.Field;
 
 import au.com.tyo.android.AndroidUtils;
+import au.com.tyo.android.CommonInitializer;
 import au.com.tyo.app.ui.UI;
 
 /**
@@ -41,7 +42,7 @@ public class CommonActivity extends Activity  {
 		
         if (controller == null) {
 			if (CommonApp.getInstance() == null)
-				CommonApp.initializeInstance(CommonApp.class, this);
+				CommonApp.setInstance(CommonInitializer.initializeInstance(CommonApp.class, this));
 	        controller = (Controller) CommonApp.getInstance();
         }
         

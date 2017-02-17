@@ -277,8 +277,8 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 			else 
 				clsUI = UIBase.class;
 			
-			/* Get Controller Class Information */
-			Class<?> clsController = (null == CommonInitializer.clsController) ? Controller.class : CommonInitializer.clsController; 
+			/* Get Controller Interface Information */
+			Class<?> clsController = (null == CommonInitializer.clsControllerInterface) ? Controller.class : CommonInitializer.clsControllerInterface;
 			
 			try {
 				Constructor ctor = clsUI.getConstructor(clsController/*Classes.clsController*/);

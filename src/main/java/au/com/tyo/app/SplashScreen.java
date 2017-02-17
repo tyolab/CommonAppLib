@@ -17,6 +17,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 
 import au.com.tyo.android.AndroidUtils;
+import au.com.tyo.android.CommonInitializer;
 
 /**
  * @author Eric Tang <eric.tang@tyo.com.au>
@@ -44,7 +45,7 @@ public class SplashScreen extends Activity implements SplashScreenMessageListene
 		
         if (controller == null) {
 			if (CommonApp.getInstance() == null)
-				CommonApp.initializeInstance(null);
+				CommonApp.setInstance(CommonInitializer.initializeInstance(null));
 	        controller = (Controller) CommonApp.getInstance();
         }
 	}
