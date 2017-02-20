@@ -272,9 +272,11 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 						gotIt = false;
 					}
 			}
-			else if (CommonInitializer.clsUi != null) 
+
+			if (null == clsUI && CommonInitializer.clsUi != null)
 				clsUI = CommonInitializer.clsUi;
-			else 
+
+			if (null == clsUI)
 				clsUI = UIBase.class;
 			
 			/* Get Controller Interface Information */
