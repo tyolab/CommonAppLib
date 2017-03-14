@@ -25,7 +25,6 @@ import au.com.tyo.android.services.Downloader;
 import au.com.tyo.android.services.DownloaderInterface;
 import au.com.tyo.android.services.ImageDownloader;
 import au.com.tyo.app.Controller;
-import au.com.tyo.app.Request;
 import au.com.tyo.app.adapter.HistoryAdapter;
 import au.com.tyo.common.ImageTextListItem;
 import au.com.tyo.io.CacheInterface;
@@ -302,11 +301,12 @@ public class History extends Downloader<String, ImagedSearchableItem>
 	 * we are not downloading file but actually load the downloaded file
 	 * 
 	 * load cache will load the gzipped string into the text, we will do the parsing here
-	 * 
-	 * @param url - the page title
-	 */
+	 *
+     * @param callback
+     * @param url - the page title
+     */
 	@Override
-	public String downloadFile(ImagedSearchableItem page, String url) {
+	public String downloadFile(Callback callback, ImagedSearchableItem page, String url) {
 		String text = "";
 		
 //		try {
