@@ -19,6 +19,8 @@ public interface UI {
 
 	boolean recreationRequried();
 
+	void initialiseComponents();
+
 	void assignMainUiContainer(FrameLayout frameLayout);
 
 	void initializeUi(Context context);

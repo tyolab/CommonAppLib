@@ -105,7 +105,11 @@ public class UIBase implements UI {
 	 */
 	@Override
 	public void onWidowReady() {
+		initialiseComponents();
+	}
 
+	@Override
+	public void initialiseComponents() {
 	}
 
 	public View getSplashScreenOverlayView() {
