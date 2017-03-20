@@ -26,7 +26,7 @@ public class UIBase implements UI {
 	private static final String LOG_TAG = "GUI";
 
 	protected View mainView;
-	
+
 	protected ViewGroup footerView;
 	
 	protected ViewGroup headerView;
@@ -91,6 +91,20 @@ public class UIBase implements UI {
 
 	@Override
 	public void setupStartupAdView(View viewOverlay, Activity splashScreen) {
+
+	}
+
+	@Override
+	public void setMainView(View mainView) {
+		this.mainView = mainView;
+	}
+
+	/**
+	 * When the window is create, all layout / elements / components are inflated
+	 *
+	 */
+	@Override
+	public void onWidowReady() {
 
 	}
 
@@ -179,7 +193,8 @@ public class UIBase implements UI {
 		if (null != ad)
 			ad.loadBannerAd();
 	}
-	
+
+	@Override
 	public void setupComponents() {
         /**
          * Only if the default layout is used then we do the UI elements (search bar, footer, body, header, etc) setup

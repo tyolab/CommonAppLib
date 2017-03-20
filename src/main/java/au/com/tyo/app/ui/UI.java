@@ -62,4 +62,10 @@ public interface UI {
 	void setSplashScreenOverlayView(View viewOverlay);
 
 	void setupStartupAdView(View viewOverlay, Activity splashScreen);
+
+    void onWidowReady();
+
+    void setMainView(View mainView);
+
+	void setupComponents();
 }
