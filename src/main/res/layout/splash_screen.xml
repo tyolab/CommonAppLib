@@ -10,7 +10,7 @@
 		android:layout_height="match_parent" >
 
 		<LinearLayout
-			android:id="@+id/logo_container"
+			android:name="@+name/logo_container"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_centerInParent="true"
@@ -30,7 +30,7 @@
 				/>
 
 			<TextView
-				android:id="@+id/app_slang"
+				android:name="@+name/app_slang"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:textSize="@dimen/splash_screen_slang_font_size"
@@ -40,7 +40,7 @@
 				/>
 
 			<TextView
-				android:id="@+id/app_slang2"
+				android:name="@+name/app_slang2"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:textSize="@dimen/splash_screen_slang_font_size"
@@ -52,11 +52,11 @@
 		 </LinearLayout>
 
 		<ProgressBar
-			android:id="@+id/progress_splash"
+			android:name="@+name/progress_splash"
 			style="?android:attr/progressBarStyleHorizontal"
 			android:layout_width="180dip"
 			android:layout_height="wrap_content"
-			android:layout_below="@id/logo_container"
+			android:layout_below="@name/logo_container"
 			android:layout_centerHorizontal="true"
 			android:max="100"
 			android:paddingTop="10dp"
@@ -67,7 +67,7 @@
 	</RelativeLayout>
 
 	<include layout="@layout/splash_screen_overlay"
-		android:id="@+id/splash_screen_overlay"
+		android:name="@+name/splash_screen_overlay"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		/>

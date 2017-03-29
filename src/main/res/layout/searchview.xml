@@ -4,7 +4,7 @@ The background that can be set to:     android:background="@drawable/bg_searchba
     android:background="@drawable/searchview_plate"
     android:fadingEdge="horizontal"
     android:fadingEdgeLength="24dip"     
-        android:id="@+id/title_bg"
+        android:name="@+name/title_bg"
             android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true"
  -->
@@ -31,7 +31,7 @@ The background that can be set to:     android:background="@drawable/bg_searchba
          >
        
          <LinearLayout
-		    android:id="@+id/prevent_edittext_focus"
+		    android:name="@+name/prevent_edittext_focus"
 		    android:focusable="true"
 		    android:focusableInTouchMode="true"
 		    android:layout_width="0px"
@@ -47,9 +47,9 @@ The background that can be set to:     android:background="@drawable/bg_searchba
      -->
      <include layout="@layout/search_input_view"
          android:gravity="left"
-         android:nextFocusUp="@id/search_input_view" 
-         android:nextFocusLeft="@id/search_input_view"
-         android:nextFocusDown="@+id/search_go_btn"
+         android:nextFocusUp="@name/search_input_view"
+         android:nextFocusLeft="@name/search_input_view"
+         android:nextFocusDown="@+name/search_go_btn"
          />
         
      <include layout="@layout/searchview_overlay"/>
@@ -57,7 +57,7 @@ The background that can be set to:     android:background="@drawable/bg_searchba
     </RelativeLayout>
 
     <ImageButton 
-        android:id="@+id/search_go_btn"
+        android:name="@+name/search_go_btn"
         android:background="@null"
         android:src="@android:drawable/ic_menu_search"
         android:layout_width="wrap_content"
@@ -69,7 +69,7 @@ The background that can be set to:     android:background="@drawable/bg_searchba
     />
     
     <ImageButton 
-        android:id="@+id/btn_clear_search"
+        android:name="@+name/btn_clear_search"
         android:background="@null"
         android:src="?attr/ic_clear_search"
         android:layout_width="wrap_content"
@@ -81,7 +81,7 @@ The background that can be set to:     android:background="@drawable/bg_searchba
     />
 
     <ImageButton
-        android:id="@+id/search_voice_btn"
+        android:name="@+name/search_voice_btn"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:background="@null"
