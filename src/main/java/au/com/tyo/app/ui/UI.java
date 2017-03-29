@@ -70,4 +70,6 @@ public interface UI {
     void setMainView(View mainView);
 
 	void setupComponents();
+
+    boolean onBackPressed();
 }

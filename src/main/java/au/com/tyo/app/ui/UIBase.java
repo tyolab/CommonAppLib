@@ -225,7 +225,7 @@ public class UIBase implements UI {
         }
 		
 	}
-	
+
 	private boolean hasSearchBar() {
 		return null != mainView.findViewById(R.id.search_nav_bar);
 	}
@@ -377,5 +377,10 @@ public class UIBase implements UI {
 	public void hideSuggestionView() {
 		searchView.requestFocusForSearchButton();
 		setSuggestionViewVisibility(false);
+	}
+
+	@Override
+	public boolean onBackPressed() {
+		return false;
 	}
 }
