@@ -201,7 +201,7 @@ public class History extends Downloader<String, ImagedSearchableItem>
 	 * @param url - the full path when reading, the wiki domain + : +  title when writing
 	 */
 	@Override
-	public File urlToFile(String url, boolean readingOrWriting) {
+	public File locationToFile(String url, boolean readingOrWriting) {
 		File f = null;
 		if (readingOrWriting) {
 			f = new File(url);
@@ -345,7 +345,7 @@ public class History extends Downloader<String, ImagedSearchableItem>
 //				|| page.getTitle().length() == 0 ||page.getText().length() == 0)
 //			return;
 //		String name = pageToName(page);
-//		File file = urlToFile(name, false);
+//		File file = locationToFile(name, false);
 //		try {
 //			if (page.getFromSource() == ImagedSearchableItem.FROM_SOURCE_LOCAL)
 //				file.createNewFile(); // we don't need to write content just the name we need
