@@ -38,7 +38,7 @@ public class SearchResultAdapter extends ListViewItemAdapter<ImagedSearchableIte
 //        convertView.post(new Runnable() {
 //
 //			@Override
-//			public void run() {
+//			public void initialise() {
 //
 //				SearchResultAdapter.this.notifyDataSetChanged();
 //			}

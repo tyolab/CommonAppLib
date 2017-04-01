@@ -192,7 +192,7 @@ public class SplashScreen extends Activity implements SplashScreenMessageListene
 		
 		@Override
 		protected Void doInBackground(Void... params) {
-			/* it has to be run in an activity class */
+			/* it has to be initialise in an activity class */
 			try {
 				Thread.sleep(AndroidUtils.getAndroidVersion() > 10 ? 500 : 0);
 			} catch (InterruptedException e) {

@@ -35,7 +35,7 @@ public class MessageReceiver extends BroadcastReceiver{
 				
 				
 				monitor.setNetworkConnected(true);
-			//	 	monitor.checkInternetAvailability(monitor.hasInternet() );  // cannot run it in the main thread
+			//	 	monitor.checkInternetAvailability(monitor.hasInternet() );  // cannot initialise it in the main thread
 				if (!monitor.hasInternet() && monitor.getJob() == NetworkMonitor.JOB_NONE) {
 					monitor.setJob(NetworkMonitor.JOB_CHECK_INTERNET );
 				}

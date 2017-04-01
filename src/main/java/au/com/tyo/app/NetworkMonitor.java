@@ -42,7 +42,7 @@ public class NetworkMonitor implements Runnable {
 	}
 	
 	public NetworkMonitor() {
-		job = JOB_CHECK_NETWORK; // the first thing when the job starts to run
+		job = JOB_CHECK_NETWORK; // the first thing when the job starts to initialise
 		this.hasInternet = false;
 	}
 	

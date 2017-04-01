@@ -34,65 +34,32 @@ public class CommonActivity extends Activity  {
 	private static final String LOG_TAG = "CommonActivity";
 	
 	private Controller controller;
-	
-//	protected boolean startingMainUi;
+
+	protected View contentView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		
+		super.onCreate(savedInstanceState);
+
         if (controller == null) {
 			if (CommonApp.getInstance() == null)
 				CommonApp.setInstance(CommonInitializer.initializeInstance(CommonApp.class, this));
 	        controller = (Controller) CommonApp.getInstance();
         }
-        
-        
-//    	startingMainUi = true;
-        
-//        boolean hasExtras = checkExtras();
-//        
-//        if (!hasExtras && (controller.getUi() == null/* || controller.getUi().getMainView() == null)*/) {
-//			super.onCreate(savedInstanceState);
-//			
-//        	controller.startSplashScreenActivity(this);
-//        	
-////        	startingMainUi = false;
-//        	
-//        	finish();
-//        }
-//        else {
-        	/*
-        	 * Things need to be done before having the UI inflated
-        	 */
-//        	if (controller.isDataReady() && controller.isDataDownloaded()) {
-//                /*
-//                 * We have to have this 
-//                 */
-//        		if (hasExtras) {
-//	        		if (controller.isAppReady())
-//	        			controller.setContext(this);
-//	        		else
-//	        			controller.setContext(null);
-//        		}
-//        		else
-//        			controller.setContext(this);
-//            	CommonApp.initializeInstance();
-                controller.setCurrentActivity(this);
-                controller.setContext(this);
-                
-        		run(savedInstanceState);
-//        	}
-//        	else {
-//    			super.onCreate(savedInstanceState);
-//        		startDataHandlingActivity();
-//        	}
-//        }
-        		
-                
-        /*
+
+		controller.setCurrentActivity(this);
+		controller.setContext(this);
+
+		initialise(savedInstanceState);
+
+		onActivityStart();
+	}
+
+	protected void onActivityStart() {
+		/*
          * after UI initialization, do whatever needs to be done, like setting tup the settings, etc.
          */
-        controller.onAppStart();
+		controller.onAppStart();
 	}
 
 	protected void startDataHandlingActivity() {
@@ -100,33 +67,23 @@ public class CommonActivity extends Activity  {
 	}
 
 	@SuppressWarnings("unused")
-	protected void run(Bundle savedInstanceState) {
+	protected void initialise(Bundle savedInstanceState) {
     	if (savedInstanceState != null)
     		controller.onRestoreInstanceState(savedInstanceState);
     	
     	if (controller.getUi() == null || controller.getUi().recreationRequried())
     		controller.createUi();
-    	
-//        controller.getSettings().setDefaultLocale();
+
 		int themeId = controller.getSettings().getThemeId();
 		if (themeId > 0)
 			setTheme(themeId);
 		
 		super.onCreate(savedInstanceState);
-		
-		/*
-		 * TODO
-		 * 
-		 * implement this for optimization for tablet
-		 * 
-		 */
-//        if (!AndroidSettings.isTablet(this))
-//        	setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         
 		if (AndroidUtils.getAndroidVersion() < 7)
 			setupTitleBar1();
-        
-//        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+
         
 		if (AndroidUtils.getAndroidVersion() >= 7)
 			setupActionBarBar(controller.getUi());
@@ -150,24 +107,25 @@ public class CommonActivity extends Activity  {
 
          */
 
+		/**
+		 * Create contentView
+		 */
+		initialiseUi();
 
-        controller.getUi().initializeUi(this);
-		View mainView = controller.getUi().getMainView();
-		if (mainView.getParent() != null && mainView instanceof ViewGroup) {
-			ViewGroup parent = (ViewGroup) mainView.getParent();
-			if (null != parent) parent.removeView(mainView);
+		if (contentView.getParent() != null && contentView instanceof ViewGroup) {
+			ViewGroup parent = (ViewGroup) contentView.getParent();
+			if (null != parent) parent.removeView(contentView);
 		}
-        setContentView(controller.getUi().getMainView());
-
-        /*
-         * to some ui initial work in case something wrong with VM when this activity class was recreated
-         *
-         *
-         */
+		setContentView(contentView);
         
         this.processExtras();
         
         controller.onUiReady();
+	}
+
+	protected void initialiseUi() {
+		controller.getUi().initializeUi(this);
+		contentView = controller.getUi().getMainView();
 	}
 
 	private void setupTitleBar1() {
@@ -180,38 +138,10 @@ public class CommonActivity extends Activity  {
 
 	@SuppressLint("NewApi")
 	protected void setupActionBarBar(UI ui) {
-//        getSupportActionBar().setCustomView(R.layout.title);
-//        getSupportActionBar().setDisplayShowCustomEnabled(true);
 		Object bar = null;
 		if (AndroidUtils.getAndroidVersion() >= 11)
 			bar = getActionBar();
         ui.setupActionBar(bar);
-
-//        bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
-//        InformationView customActionBarView = 
-//            (InformationView) getLayoutInflater().inflate(R.layout.information_view, null, true);
-//        ui.setInformationView(customActionBarView);
-//        customActionBarView.setupComponents(controller);
-//        
-//        ActionBar.LayoutParams lp = 
-//            new ActionBar.LayoutParams(LayoutParams.WRAP_CONTENT, 
-//                LayoutParams.WRAP_CONTENT);
-//
-//        lp.gravity = Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL;
-////        lp.topMargin = -18;
-//        
-//        bar.setCustomView(customActionBarView, lp);
-        /*
-        bar.setLogo(R.drawable.logo);
-//        bar.setIcon(R.drawable.ic_launcher);
-        bar.setDisplayUseLogoEnabled(true);
-//        bar.setHomeButtonEnabled(true);
-//        bar.setDisplayHomeAsUpEnabled(true);
-//        bar.setDisplayShowCustomEnabled(true);
-        bar.setDisplayShowHomeEnabled(true);
-        bar.setDisplayShowTitleEnabled(false);
-        */
 	}
 	
 	protected boolean checkExtras() {
@@ -267,14 +197,7 @@ public class CommonActivity extends Activity  {
 	protected void setController(Controller controller) {
 		this.controller = controller;
 	}
-      
-//	private void setupCompoments() {
-//	    TextView titleTextView = (TextView) findViewById(R.id.app_title);
-//	    TextView langInfoTextView = (TextView) findViewById(R.id.language_info);
-//		UI ui = controller.getUi();
-//		ui.setTitleTextView(titleTextView);
-//		ui.setLangInfoTextView(langInfoTextView);
-//	}
+
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -307,11 +230,7 @@ public class CommonActivity extends Activity  {
 		processExtras();
 		
   		controller.onResume();
-		
-  		/*
-  		 * The wiki language info may have been changed
-  		 */
-//		supportInvalidateOptionsMenu();
+
   	}
 
   	@Override
@@ -370,13 +289,6 @@ public class CommonActivity extends Activity  {
         // Always call the superclass so it can save the view hierarchy state
         super.onSaveInstanceState(savedInstanceState);
     }
-    
-/*    public void onRestoreInstanceState(Bundle savedInstanceState) {
-        // Always call the superclass so it can restore the view hierarchy
-        super.onRestoreInstanceState(savedInstanceState);
-       
-        controller.onRestoreInstanceState(savedInstanceState);
-    }*/
     
     /**
      * show the overflow menu (three-dot)
