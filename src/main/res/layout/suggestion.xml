@@ -4,13 +4,13 @@
 		android:divider="@null"
  -->
 <au.com.tyo.app.ui.SuggestionView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:name="@+name/suggestion_view"
+    android:id="@+id/suggestion_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 	 >
     
     <ListView
-        android:name="@+name/lv_suggestion"
+        android:id="@+id/lv_suggestion"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="visible" />

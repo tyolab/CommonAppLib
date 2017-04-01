@@ -9,7 +9,7 @@
     tools:context="au.com.tyo.app.KoalaSearchActivity$PlaceholderFragment" >
 
     <TextView
-        android:name="@+name/section_label"
+        android:id="@+id/section_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="You know me"

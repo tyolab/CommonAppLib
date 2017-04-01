@@ -7,7 +7,7 @@
     >
     
    	<include
-   	    android:name="@+name/footer_view"
+   	    android:id="@+id/footer_view"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"  	    
    	    android:layout_alignParentBottom="true"
@@ -15,7 +15,7 @@
     
    	<!-- 
 	<RelativeLayout
-	    android:name="@+name/main_view_container"
+	    android:id="@+id/main_view_container"
 	    android:layout_alignParentTop="true"	    
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent"
@@ -24,24 +24,24 @@
 		android:paddingEnd="@dimen/main_view_padding_right"
 		android:paddingLeft="@dimen/main_view_padding_left"
 		android:paddingRight="@dimen/main_view_padding_right"	
-		android:layout_above="@name/footer_view"
+		android:layout_above="@id/footer_view"
 	    >     
     --> 
     
 	    <!-- header removed, may be on Tablet mode?  --> 
 	    <include
-	        android:name="@+name/header_view"
+	        android:id="@+id/header_view"
 		    android:layout_width="match_parent"
 		    android:layout_height="wrap_content"        
 	        android:layout_alignParentTop="true"
 	        layout="@layout/header" />
 	         
 	   	<include
-	   	    android:name="@+name/body_view"
+	   	    android:id="@+id/body_view"
 	   	    android:layout_width="match_parent"
 	   	    android:layout_height="match_parent"
-	   	    android:layout_below="@name/header_view"
-	   	    android:layout_above="@name/footer_view"
+	   	    android:layout_below="@id/header_view"
+	   	    android:layout_above="@id/footer_view"
 	   	    layout="@layout/body"
 	   	    />
 
