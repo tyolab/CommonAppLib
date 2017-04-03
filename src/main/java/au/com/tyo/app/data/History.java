@@ -198,13 +198,13 @@ public class History extends Downloader<String, ImagedSearchableItem>
 	}
 
 	/**
-	 * @param url - the full path when reading, the wiki domain + : +  title when writing
+	 * @param location - the full path when reading, the wiki domain + : +  title when writing
 	 */
 	@Override
-	public File locationToFile(String url, boolean readingOrWriting) {
+	public File locationToFile(String location, boolean readingOrWriting) {
 		File f = null;
 		if (readingOrWriting) {
-			f = new File(url);
+			f = new File(location);
 		}
 		else {
 			String formattedDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
@@ -213,7 +213,7 @@ public class History extends Downloader<String, ImagedSearchableItem>
 			if (!dirFile.exists())
 				dirFile.mkdirs();
 	//	   	String filename = String.valueOf(url.hashCode());
-		   	f = new File(dir, url);
+		   	f = new File(dir, location);
 		}
 	   	return f;
 	}
@@ -396,12 +396,12 @@ public class History extends Downloader<String, ImagedSearchableItem>
 		
 		ImageTextListItem page = adapter.getItem(position);
 		
-//		File file = new File(page.getUrl());
+//		File file = new File(page.getLocation());
 //		if (!file.exists() || file.length() == 0)
 //			controller.onHistoryItemClick(page, Request.FROM_HISTORY, false);
 //		else {
 ////			controller.getUi().onLoadingPage();
-//			this.download(page.getUrl(), page, true);
+//			this.download(page.getLocation(), page, true);
 //		}
 	}
 
