@@ -42,12 +42,15 @@ public class SplashScreen extends Activity implements SplashScreenMessageListene
 	
 	public SplashScreen() {
 		super();
-		
-        if (controller == null) {
+
+		if (controller == null) {
 			if (CommonApp.getInstance() == null)
-				CommonApp.setInstance(CommonInitializer.initializeInstance(null));
-	        controller = (Controller) CommonApp.getInstance();
-        }
+				CommonApp.setInstance(CommonInitializer.initializeInstance(CommonApp.class, this));
+			controller = (Controller) CommonApp.getInstance();
+		}
+
+		controller.setCurrentActivity(this);
+		controller.setContext(this);
 	}
 
 	@Override
