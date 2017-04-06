@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 
-	?cardBackgroundRoundCorner
+<!--
+    android:background="?searchBarBackground"
+?cardBackgroundRoundCorner
  -->
 <RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/search_frame"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?searchBarBackground"     
+	android:background="?searchBarBackground"
     >
-	
+
     <!--  
     <FrameLayout
         android:layout_width="wrap_content"

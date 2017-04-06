@@ -337,7 +337,8 @@ public class UIBase implements UI {
 				}
 				else {
 					
-					if (AndroidUtils.getAndroidVersion() >= 14) {
+					if (controller.getContext().getResources().getBoolean(R.bool.showIconOnActionBar)
+                            && AndroidUtils.getAndroidVersion() >= 14) {
 						bar.setLogo(R.drawable.ic_logo);
 					}
 					

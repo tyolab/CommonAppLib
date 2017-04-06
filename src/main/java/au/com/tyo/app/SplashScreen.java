@@ -43,6 +43,15 @@ public class SplashScreen extends Activity implements SplashScreenMessageListene
 	public SplashScreen() {
 		super();
 
+	}
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		/**
+		 * Controller initialisation
+		 */
 		if (controller == null) {
 			if (CommonApp.getInstance() == null)
 				CommonApp.setInstance(CommonInitializer.initializeInstance(CommonApp.class, this));
@@ -51,14 +60,10 @@ public class SplashScreen extends Activity implements SplashScreenMessageListene
 
 		controller.setCurrentActivity(this);
 		controller.setContext(this);
-	}
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		
-//        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
-		
+		/**
+		 * set splash screen layout
+		 */
 		setContentView(R.layout.splash_screen);
 		
 		adLoaded = false;
@@ -66,8 +71,6 @@ public class SplashScreen extends Activity implements SplashScreenMessageListene
 		tasksStarted = false;
 		
 		handler = new MessageHandler(this);
-			
-//        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title); 
 		
 		progressBar = (ProgressBar) findViewById(R.id.progress_splash);
 		

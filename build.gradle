@@ -21,4 +21,5 @@ dependencies {
     compile project(':CommonAndroid')
     compile project(':CommonUiLib')
     compile 'com.google.android.gms:play-services:10.0.1'
+    compile 'com.android.support:support-v4:25.2.0'
 }
