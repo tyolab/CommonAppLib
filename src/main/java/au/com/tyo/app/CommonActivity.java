@@ -5,11 +5,11 @@
 package au.com.tyo.app;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -29,7 +29,7 @@ import au.com.tyo.app.ui.UI;
  * @author Eric Tang <eric.tang@tyo.com.au>
  * 
  */
-public class CommonActivity extends Activity  {
+public class CommonActivity extends FragmentActivity {
 	
 	private static final String LOG_TAG = "CommonActivity";
 	
@@ -37,10 +37,9 @@ public class CommonActivity extends Activity  {
 
 	protected View contentView;
 
-	@Override
+	@SuppressLint("MissingSuperCall")
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
         if (controller == null) {
 			if (CommonApp.getInstance() == null)
 				CommonApp.setInstance(CommonInitializer.initializeInstance(CommonApp.class, this));
@@ -66,7 +65,11 @@ public class CommonActivity extends Activity  {
 		// do nothing here
 	}
 
-	@SuppressWarnings("unused")
+    /**
+     * Super call is happened here
+     *
+     * @param savedInstanceState
+     */
 	protected void initialise(Bundle savedInstanceState) {
     	if (savedInstanceState != null)
     		controller.onRestoreInstanceState(savedInstanceState);

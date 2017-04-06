@@ -5,7 +5,7 @@ android {
     buildToolsVersion "25.0.2"
 
     defaultConfig {
-        minSdkVersion 11
+        minSdkVersion 14
         targetSdkVersion 19
     }
 
@@ -20,6 +20,7 @@ android {
 dependencies {
     compile project(':CommonAndroid')
     compile project(':CommonUiLib')
-    compile 'com.google.android.gms:play-services:10.0.1'
-    compile 'com.android.support:support-v4:25.2.0'
+
+    compile 'com.google.android.gms:play-services-ads:10.2.1'
+
 }
