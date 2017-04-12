@@ -31,6 +31,8 @@ public class UIBase implements UI {
 
 	protected View pageView;
 
+	protected View pageProgressView;
+
 	protected ViewGroup footerView;
 	
 	protected ViewGroup headerView;
@@ -215,6 +217,7 @@ public class UIBase implements UI {
          */
         if (mainUiResId == R.layout.activity_common) {
 			pageView = mainView.findViewById(R.id.tyodroid_page);
+			pageProgressView = mainView.findViewById(R.id.tyodroid_page_progress_bar);
 
             bodyView = (ViewGroup) mainView.findViewById(R.id.body_view);
 
