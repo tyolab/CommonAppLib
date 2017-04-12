@@ -504,4 +504,8 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 	}
 
+	@Override
+	public void onWidowReady() {
+		ui.onWidowReady();
+	}
 }

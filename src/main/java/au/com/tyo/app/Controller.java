@@ -128,4 +128,5 @@ public interface Controller extends CommonController {
 
 	void onBackgroundTaskStarted(Activity activity);
 
+    void onWidowReady();
 }

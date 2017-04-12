@@ -314,6 +314,6 @@ public class CommonActivity extends FragmentActivity {
 		super.onWindowFocusChanged(hasFocus);
 
 		if (hasFocus)
-			controller.getUi().onWidowReady();
+			controller.onWidowReady();
 	}
 }
