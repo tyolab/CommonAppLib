@@ -308,4 +308,12 @@ public class CommonActivity extends FragmentActivity {
            e.printStackTrace();
        }
      }
+
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		super.onWindowFocusChanged(hasFocus);
+
+		if (hasFocus)
+			controller.getUi().onWidowReady();
+	}
 }

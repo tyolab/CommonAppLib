@@ -22,4 +22,10 @@
         <item name="android:textAppearance">?android:attr/textAppearanceMediumInverse</item>
     </style>
 
+    <style name="TyoDroid.Widget.ProgressBar.Inverse" parent="@android:style/Widget.ProgressBar.Inverse">
+    </style>
+
+    <style name="TyoDroid.Widget.ProgressBar" parent="@android:style/Widget.ProgressBar">
+    </style>
+
 </resources>

@@ -354,7 +354,7 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 
 	@Override
 	public void onUiReady() {
-		ui.hideMainProgressBar();
+		ui.hideProgressBar();
 	}
 
 	@Override

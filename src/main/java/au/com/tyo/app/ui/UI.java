@@ -51,7 +51,7 @@ public interface UI {
 
 	void setupActionBar(Object bar);
 
-	void hideMainProgressBar();
+	void hideProgressBar();
 
 	void hideSuggestionView();
 
@@ -72,4 +72,6 @@ public interface UI {
 	void setupComponents();
 
     boolean onBackPressed();
+
+    void showProgressBar();
 }

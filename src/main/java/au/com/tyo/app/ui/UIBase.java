@@ -25,7 +25,11 @@ public class UIBase implements UI {
 	
 	private static final String LOG_TAG = "GUI";
 
+	protected ViewContainerWithProgressBar mainViewContainer;
+
 	protected View mainView;
+
+	protected View pageView;
 
 	protected ViewGroup footerView;
 	
@@ -148,6 +152,12 @@ public class UIBase implements UI {
 		}
         this.context = context;
 
+		if (null != mainView.findViewById(R.id.activity_view_with_progressbar)) {
+			mainViewContainer = (ViewContainerWithProgressBar) mainView.findViewById(R.id.activity_view_with_progressbar);
+			mainViewContainer.addContentView(R.layout.page);
+			mainView = mainViewContainer.getContentView();
+		}
+
         setupComponents();
 
         if (!alwaysShowSearchView)
@@ -204,6 +214,8 @@ public class UIBase implements UI {
          * Only if the default layout is used then we do the UI elements (search bar, footer, body, header, etc) setup
          */
         if (mainUiResId == R.layout.activity_common) {
+			pageView = mainView.findViewById(R.id.tyodroid_page);
+
             bodyView = (ViewGroup) mainView.findViewById(R.id.body_view);
 
             footerView = (ViewGroup) mainView.findViewById(R.id.footer_view);
@@ -371,7 +383,9 @@ public class UIBase implements UI {
 	}
 
 	@Override
-	public void hideMainProgressBar() {
+	public void hideProgressBar() {
+		if (null != pageView)
+			pageView.setVisibility(View.VISIBLE);
 	}
 
 	@Override
@@ -383,5 +397,11 @@ public class UIBase implements UI {
 	@Override
 	public boolean onBackPressed() {
 		return false;
+	}
+
+	@Override
+	public void showProgressBar() {
+		if (null != pageView)
+			pageView.setVisibility(View.GONE);
 	}
 }

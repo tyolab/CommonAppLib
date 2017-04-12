@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- if now progress bar needed, just make a copy of this file and comment off the below -->
+    <!--
+    <include layout="@layout/page"
+        android:id="@+id/activity_page_view"
+        />
+     -->
+
+    <include layout="@layout/view_container_with_progressbar"
+        android:id="@+id/activity_view_with_progressbar" />
+
+</merge>

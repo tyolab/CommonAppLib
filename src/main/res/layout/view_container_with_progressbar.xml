@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<au.com.tyo.app.ui.ViewContainerWithProgressBar xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:gravity="center_vertical|center_horizontal"
+    >
+    
+    <!--     android:indeterminateDrawable="@drawable/progress"  -->
+    
+	<include layout="@layout/container_and_progressbar"/>
+
+</au.com.tyo.app.ui.ViewContainerWithProgressBar>
