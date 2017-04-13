@@ -389,6 +389,8 @@ public class UIBase implements UI {
 	public void hideProgressBar() {
 		if (null != pageView)
 			pageView.setVisibility(View.VISIBLE);
+		if (null != pageProgressView)
+			pageProgressView.setVisibility(View.GONE);
 	}
 
 	@Override
@@ -406,5 +408,7 @@ public class UIBase implements UI {
 	public void showProgressBar() {
 		if (null != pageView)
 			pageView.setVisibility(View.GONE);
+		if (null != pageProgressView)
+			pageProgressView.setVisibility(View.VISIBLE);
 	}
 }
