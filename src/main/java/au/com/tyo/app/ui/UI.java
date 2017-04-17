@@ -74,4 +74,5 @@ public interface UI {
     boolean onBackPressed();
 
     void showProgressBar();
+
 }

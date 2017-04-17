@@ -31,9 +31,11 @@
             
 	<include layout="@layout/ad"
 	    />
-	    
+	    	-->
+
    	<include layout="@layout/information_view"
+        android:visibility="gone"
     />
-	-->
+
 
 </LinearLayout>

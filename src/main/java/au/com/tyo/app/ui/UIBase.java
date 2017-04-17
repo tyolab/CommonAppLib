@@ -61,9 +61,19 @@ public class UIBase implements UI {
 
 	private View splashScreenOverlayView;
 
+	private InformationView informationView;
+
 	public UIBase(Controller controller) {
 		this.controller = controller;
 		alwaysShowSearchView = true;
+	}
+
+	public InformationView getInformationView() {
+		return informationView;
+	}
+
+	public void setInformationView(InformationView informationView) {
+		this.informationView = informationView;
 	}
 
 	public int getMainUiResId () {
