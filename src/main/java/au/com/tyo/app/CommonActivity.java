@@ -65,6 +65,28 @@ public class CommonActivity extends FragmentActivity {
 		// do nothing here
 	}
 
+	protected void createUI() {
+		if (controller.getUi() == null || controller.getUi().recreationRequried())
+			controller.createUi();
+	}
+
+	protected void setupTheme() {
+		int themeId = controller.getSettings().getThemeId();
+		if (themeId > 0)
+			setTheme(themeId);
+	}
+
+	protected void setupActionbar() {
+		if (AndroidUtils.getAndroidVersion() < 7)
+			setupTitleBar1();
+
+
+		if (AndroidUtils.getAndroidVersion() >= 7)
+			setupActionBarBar(controller.getUi());
+		else
+			setupTitleBar2();
+	}
+
     /**
      * Super call is happened here
      *
@@ -73,25 +95,14 @@ public class CommonActivity extends FragmentActivity {
 	protected void initialise(Bundle savedInstanceState) {
     	if (savedInstanceState != null)
     		controller.onRestoreInstanceState(savedInstanceState);
-    	
-    	if (controller.getUi() == null || controller.getUi().recreationRequried())
-    		controller.createUi();
 
-		int themeId = controller.getSettings().getThemeId();
-		if (themeId > 0)
-			setTheme(themeId);
+		createUI();
+		setupTheme();
 		
 		super.onCreate(savedInstanceState);
 
         
-		if (AndroidUtils.getAndroidVersion() < 7)
-			setupTitleBar1();
-
-        
-		if (AndroidUtils.getAndroidVersion() >= 7)
-			setupActionBarBar(controller.getUi());
-		else
-			setupTitleBar2();
+		setupActionbar();
 		
 		/*
 		 * now show the overflow menu
