@@ -475,7 +475,8 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 
 	@Override
 	public void onPause() {
-		ui.onPause(this.currentActivity);
+        if (null != ui)
+		    ui.onPause(this.currentActivity);
 	}
 
 	@Override
@@ -513,8 +514,13 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 	public void quitOrRestart(boolean restart) {
 		/**
 		 * Need to recreate UI if it got started again as the activity finishes
+         *
+         * ui = null;
+         *
+         * it seems the above will affect the onPause call
 		 */
-		ui = null;
+		ui.setUiRecreationRequierd(true);
+
 
 		super.quitOrRestart(restart);
 	}
