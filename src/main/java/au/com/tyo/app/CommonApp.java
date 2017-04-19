@@ -508,4 +508,14 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 	public void onWidowReady() {
 		ui.onWidowReady();
 	}
+
+	@Override
+	public void quitOrRestart(boolean restart) {
+		/**
+		 * Need to recreate UI if it got started again as the activity finishes
+		 */
+		ui = null;
+
+		super.quitOrRestart(restart);
+	}
 }
