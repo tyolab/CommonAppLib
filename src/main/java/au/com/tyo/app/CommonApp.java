@@ -431,7 +431,7 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 	}
 
 	@Override
-	public void open(Searchable item) {
+	public void onOpenSearchItemClicked(Searchable item) {
 	}
 
 	@Override

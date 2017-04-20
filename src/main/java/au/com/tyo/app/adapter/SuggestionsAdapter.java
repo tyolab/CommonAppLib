@@ -1,7 +1,5 @@
 package au.com.tyo.app.adapter;
 
-import java.util.List;
-
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.os.Handler;
@@ -14,14 +12,17 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.List;
+
 import au.com.tyo.android.utils.BitmapUtils;
 import au.com.tyo.android.utils.ListViewItemAdapter;
 import au.com.tyo.app.Constants;
 import au.com.tyo.app.Controller;
+import au.com.tyo.app.R;
 import au.com.tyo.app.data.DisplayItem;
 import au.com.tyo.app.data.Searchable;
 import au.com.tyo.common.ui.AutoResizeTextView;
-import au.com.tyo.app.R;
 
 /*
  * 
@@ -281,7 +282,11 @@ public class SuggestionsAdapter extends ListViewItemAdapter<Searchable> /*ArrayA
          * for displaying something really short like initials for easy identify the item
          */
         final AutoResizeTextView tvName = (AutoResizeTextView) convertView.findViewById(R.id.itl_text_view);
-		
+
+		Object obj = this.getItem(position);
+		if (!(obj instanceof Searchable))
+			throw new IllegalArgumentException("getSuggestions method need to implemented, the data type shoould be implemented with Searchable interface");
+
 		final Searchable item = this.getItem(position);
 		
 		if (item.requiresFurtherProcess()) {

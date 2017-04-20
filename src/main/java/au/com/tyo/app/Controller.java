@@ -106,7 +106,7 @@ public interface Controller extends CommonController {
 
 	void onSearchInputFocused();
 	
-	void open(Searchable item);
+	void onOpenSearchItemClicked(Searchable item);
 	
 	void search(Searchable page, int fromHistory, boolean b);
 

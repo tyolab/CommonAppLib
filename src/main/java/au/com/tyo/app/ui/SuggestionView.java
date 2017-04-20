@@ -92,6 +92,6 @@ public class SuggestionView extends CommonListView implements OnItemClickListene
 			long id) {
 		Searchable item = adapter.getItem(position);
 		controller.getUi().hideSuggestionView();
-		controller.open(item);
+		controller.onOpenSearchItemClicked(item);
 	}
 }
