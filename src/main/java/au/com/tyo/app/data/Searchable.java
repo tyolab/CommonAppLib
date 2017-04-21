@@ -1,5 +1,7 @@
 package au.com.tyo.app.data;
 
+import android.graphics.drawable.Drawable;
+
 public interface Searchable {
 
 	boolean requiresFurtherProcess();
@@ -13,5 +15,7 @@ public interface Searchable {
 	long getPosition(); // the position in the return result list
 	
 	void setPosition(long position);
+
+	Drawable getDrawable();
 	
 }

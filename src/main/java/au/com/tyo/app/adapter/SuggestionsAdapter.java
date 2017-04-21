@@ -326,6 +326,7 @@ public class SuggestionsAdapter extends ListViewItemAdapter<Searchable> /*ArrayA
 			}
 			else
 				tvName.setVisibility(View.GONE);
+			iv.setImageDrawable(item.getDrawable());
 		}
         
 		return convertView;

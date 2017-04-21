@@ -1,5 +1,7 @@
 package au.com.tyo.app.data;
 
+import android.graphics.drawable.Drawable;
+
 import java.io.Serializable;
 import java.util.Comparator;
 
@@ -121,6 +123,11 @@ public class SearchableItem implements Searchable, Serializable, Comparator<Sear
 
 	@Override
 	public String getShort() {
+		return null;
+	}
+
+	@Override
+	public Drawable getDrawable() {
 		return null;
 	}
 }
