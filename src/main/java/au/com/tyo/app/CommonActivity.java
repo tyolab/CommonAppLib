@@ -178,20 +178,12 @@ public class CommonActivity extends FragmentActivity {
 			getIntent().setAction("");
 		}
 		else {
-//			Bundle extras =intent.getExtras();
 			String url = intent.getDataString();
 			if (url != null && url.length() > 0) {
-//				controller.processUrl(url);
 				intent.setData(null);
 			}
-			
-//			if (extras != null) {
-				intent.replaceExtras((Bundle) null);
-	//			if (indexStr != null) {
-	//				int index = Integer.parseInt(indexStr);
-	//				controller.setCurrentDoodle(index);
-	//			}
-//			}
+
+			intent.replaceExtras((Bundle) null);
 		}
 	}
 
@@ -215,7 +207,6 @@ public class CommonActivity extends FragmentActivity {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-//		getSupportMenuInflater().inflate(R.menu.activity_wikie_talkie, menu);
 		return controller.onCreateOptionsMenu(menu);
 	}
 	
