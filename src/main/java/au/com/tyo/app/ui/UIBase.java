@@ -101,6 +101,11 @@ public class UIBase implements UI {
 	}
 
 	@Override
+	public void onStop(Context currentActivity) {
+		// should be overrode if needed
+	}
+
+	@Override
 	public void setSplashScreenOverlayView(View viewOverlay) {
 		this.splashScreenOverlayView = viewOverlay;
 	}

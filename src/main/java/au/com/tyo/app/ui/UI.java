@@ -75,4 +75,5 @@ public interface UI {
 
     void showProgressBar();
 
+    void onStop(Context currentActivity);
 }

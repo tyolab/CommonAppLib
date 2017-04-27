@@ -481,6 +481,8 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 
 	@Override
 	public void onStop() {
+		if (null != ui)
+			ui.onStop(this.currentActivity);
 	}
 
 	@Override
