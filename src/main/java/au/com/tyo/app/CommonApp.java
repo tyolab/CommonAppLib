@@ -52,10 +52,6 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 	
 	protected List<String> queries;
 	
-	public CommonApp() {
-		init();
-	}
-	
 	public CommonApp(Context context) {
 		super(context);
 		init();
@@ -65,13 +61,13 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 		if (instance == null)
 			instance = this;
 		
-		if (this.mainActivityClass == null)
+		if (CommonInitializer.mainActivityClass == null)
 			setMainActivityClass(CommonActivity.class);
 		
-		if (this.splashScreenClass == null)
+		if (CommonInitializer.splashScreenClass == null)
 			setSplashScreenClass(SplashScreen.class);
 		
-		if (this.preferenceActivityClass == null)
+		if (CommonInitializer.preferenceActivityClass == null)
 			setPreferenceActivityClass(SettingsActivity.class);
 		
 		ui = null;
@@ -328,7 +324,9 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 	@Override
 	public void initializeInMainThread(Context context) {
 		super.initializeInMainThread(context);
-		
+
+        settings = (CommonAppSettings) CommonInitializer.newSettings(context);
+
 		if (settings == null)
 			settings = new CommonAppSettings(context);
 		
