@@ -7,6 +7,7 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 19
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -15,9 +16,18 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
+
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
 }
 
 dependencies {
+    compile 'com.android.support:multidex:1.0.1'
+
     compile project(':CommonAndroid')
     compile project(':CommonUiLib')
 
