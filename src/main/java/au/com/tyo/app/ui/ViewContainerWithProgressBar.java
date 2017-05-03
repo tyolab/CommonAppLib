@@ -132,6 +132,7 @@ public class ViewContainerWithProgressBar extends FrameLayout {
 	}
 	
 	public void addContentView(int resourceid) {
+		setContentViewResourceId(resourceid);
         LayoutInflater factory = LayoutInflater.from(this.getContext());
         addContentView(factory.inflate(resourceid, null));
 	}

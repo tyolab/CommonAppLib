@@ -12,6 +12,9 @@
     android:paddingBottom="@dimen/search_result_list_padding_bottom"
     >
 	        
-    <include layout="@layout/view_container_with_progressbar" />
+    <include layout="@layout/view_container_with_progressbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
 
 </au.com.tyo.app.ui.SearchResultView>

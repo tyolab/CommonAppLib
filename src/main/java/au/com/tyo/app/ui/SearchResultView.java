@@ -1,19 +1,13 @@
 package au.com.tyo.app.ui;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
-import au.com.tyo.android.utils.ListViewItemAdapter;
-import au.com.tyo.common.ui.CommonListView;
+
 import au.com.tyo.app.R;
+import au.com.tyo.common.ui.CommonListView;
 
 /**
  * @author Eric Tang <eric.tang@tyo.com.au>
@@ -23,6 +17,8 @@ import au.com.tyo.app.R;
 public class SearchResultView extends CommonListView {
 	
 	private TextView headerTextForSearchResults;
+
+	private ViewContainerWithProgressBar wheelHolder;
 
 	public SearchResultView(Context context) {
 		super(context);
@@ -46,8 +42,19 @@ public class SearchResultView extends CommonListView {
 		 */
 //		addContentView(R.layout.search_result_content);
 //		this.showProgressBar();
-		
-		list = (ListView) findViewById(R.id.lv_any_list);
+        wheelHolder = (ViewContainerWithProgressBar) findViewById(R.id.view_container_with_progress_bar);
+        if (null != wheelHolder) {
+        //if (getChildCount() > 0 && getChildAt(0) instanceof ViewContainerWithProgressBar) {
+            //wheelHolder = (ViewContainerWithProgressBar) findViewById(R.id.view_container_with_progress_bar);
+            wheelHolder = (ViewContainerWithProgressBar) getChildAt(0);
+
+            wheelHolder.addContentView(R.layout.search_result_content);
+
+            list = (ListView) wheelHolder.findViewById(R.id.lv_any_list);
+        }
+        else {
+            list = (ListView) findViewById(R.id.lv_any_list);
+        }
 		
 		headerTextForSearchResults  = (TextView) findViewById(R.id.tv_search_result_info); 
 //		expandableList = (ExpandableListView) findViewById(R.id.lv_any_list_expandable);
