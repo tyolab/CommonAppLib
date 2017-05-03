@@ -22,9 +22,17 @@ public class CommonAppInitializer extends MultiDexApplication {
         getController(context);
     }
 
+    public static Controller getController() {
+        return controller;
+    }
+
     public static Controller getController(Context context) {
         if (null == controller) {
             controller = (Controller) CommonInitializer.initializeController(context);
+
+            if (controller == null)
+                throw new IllegalStateException("Controller Impl class can't be detected");
+
             CommonApp.setInstance(controller);
         }
 

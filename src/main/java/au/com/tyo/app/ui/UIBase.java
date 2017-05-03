@@ -39,8 +39,6 @@ public class UIBase implements UI {
 	
 	protected AllAdView ad;
 	
-	private Controller controller;
-	
 	private SuggestionView suggestionView;
 	
 	private SearchView searchView;
@@ -50,7 +48,12 @@ public class UIBase implements UI {
 	private ViewGroup bodyView;
 	
 	private boolean alwaysShowSearchView;
-	
+
+	/**
+	 * It has to be a private member as the sub controller class won't be the same
+	 */
+	private Controller controller;
+
 	protected Context context;
 	
 	protected boolean hideActionBar = false;
@@ -155,7 +158,7 @@ public class UIBase implements UI {
 
 	@Override
 	public void initializeUi(View v) {
-		mainView = v;
+		setMainView(v);
 		initializeUi(v.getContext());
 	}
 
@@ -165,14 +168,14 @@ public class UIBase implements UI {
 			if (mainUiResId == -1) {
 				mainUiResId = R.layout.activity_common;
 			}
-			mainView = LayoutInflater.from(context).inflate(mainUiResId, null);
+			setMainView(LayoutInflater.from(context).inflate(mainUiResId, null));
 		}
         this.context = context;
 
 		if (null != mainView.findViewById(R.id.activity_view_with_progressbar)) {
 			mainViewContainer = (ViewContainerWithProgressBar) mainView.findViewById(R.id.activity_view_with_progressbar);
 			mainViewContainer.addContentView(R.layout.page);
-			mainView = mainViewContainer.getContentView();
+			setMainView(mainViewContainer.getContentView());
 		}
 
         setupComponents();
