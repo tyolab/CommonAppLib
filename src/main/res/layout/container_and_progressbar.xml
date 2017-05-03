@@ -28,6 +28,7 @@
             android:layout_gravity="center_vertical|center_horizontal"
             android:indeterminateBehavior="repeat"
             android:id="@+id/tyodroid_progress_bar"
+			android:visibility="gone"
             />
 
     </FrameLayout>
