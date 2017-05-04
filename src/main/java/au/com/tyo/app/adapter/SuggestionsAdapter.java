@@ -285,7 +285,7 @@ public class SuggestionsAdapter extends ListViewItemAdapter<Searchable> /*ArrayA
 
 		Object obj = this.getItem(position);
 		if (!(obj instanceof Searchable))
-			throw new IllegalArgumentException("getSuggestions method need to implemented, the data type shoould be implemented with Searchable interface");
+			throw new IllegalArgumentException("getSuggestions method need to implemented, the data type should be implemented with Searchable interface");
 
 		final Searchable item = this.getItem(position);
 		
