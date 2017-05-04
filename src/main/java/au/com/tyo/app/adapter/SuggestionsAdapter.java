@@ -40,8 +40,6 @@ public class SuggestionsAdapter extends ListViewItemAdapter<Searchable> /*ArrayA
 	
 	private Filter filter;
 	
-//	private List<Searchable> items;
-	
 	private Handler handler;
 	
 	private Controller controller;
@@ -268,8 +266,7 @@ public class SuggestionsAdapter extends ListViewItemAdapter<Searchable> /*ArrayA
 	public void setKeepOldItems(boolean b) {
 		this.keepOriginal = b;
 	}
-	
-	
+
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) 
