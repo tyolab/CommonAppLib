@@ -237,7 +237,15 @@ public class UIBase implements UI {
 			pageView = mainView.findViewById(R.id.tyodroid_page);
 			pageProgressView = mainView.findViewById(R.id.tyodroid_page_progress_bar);
 
+			/**
+			 * the root view of body.xml
+			 */
             bodyView = (ViewGroup) mainView.findViewById(R.id.body_view);
+
+			/**
+			 * the root view of content.xml
+			 */
+			contentView = (ViewGroup) mainView.findViewById(R.id.content_view);
 
             footerView = (ViewGroup) mainView.findViewById(R.id.footer_view);
             headerView = (ViewGroup) mainView.findViewById(R.id.header_view);
@@ -268,8 +276,6 @@ public class UIBase implements UI {
 	 * keep these line for future use
 	 */
 	public void setupSearchView() {
-		contentView = (ViewGroup) mainView.findViewById(R.id.content_view);
-		
 		searchView = (SearchView) mainView.findViewById(R.id.search_nav_bar);
 	    searchView.setupComponents(controller);
 		
