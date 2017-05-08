@@ -153,7 +153,7 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 
 	}
 
-    @Override
+	@Override
     public void onMessageBackgroundTaskStageTwo() {
 
     }
