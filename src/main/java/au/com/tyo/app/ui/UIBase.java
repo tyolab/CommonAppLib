@@ -425,7 +425,7 @@ public class UIBase implements UI {
                         bar.setDisplayUseLogoEnabled(true);
                     }
                     bar.setHomeButtonEnabled(true);
-                    bar.setDisplayHomeAsUpEnabled(true);
+                    // bar.setDisplayHomeAsUpEnabled(true);
 			        bar.setDisplayShowCustomEnabled(true);
 			        bar.setDisplayShowHomeEnabled(true);
 			        bar.setDisplayShowTitleEnabled(controller.getContext().getResources().getBoolean(R.bool.showTitleOnActionBar));
