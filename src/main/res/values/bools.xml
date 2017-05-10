@@ -2,4 +2,5 @@
 <resources>
 	<bool name="show_ad_splash_screen_interstitial">true</bool>
     <bool name="showIconOnActionBar">false</bool>
+    <bool name="showTitleOnActionBar">false</bool>
 </resources>

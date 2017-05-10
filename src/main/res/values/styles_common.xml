@@ -57,9 +57,9 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
-    <style name="CommonTheme.Light" parent="Theme.AppCompat"/>
+    <style name="CommonTheme.Light" parent="Theme.AppCompat.Light.NoActionBar"/>
 
-    <style name="CommonTheme.Light.Pale">
+    <style name="CommonTheme.Light.Pale"  parent="CommonTheme.Light">
 
         <!--  don not use this one -->
         <!--
@@ -121,10 +121,9 @@
         <item name="progressBarStyle">@style/TyoDroid.Widget.ProgressBar.Inverse</item>
     </style>
 
-    <style name="CommonTheme.Dark" parent="Theme.AppCompat" />
+    <style name="CommonTheme.Dark" parent="Theme.AppCompat.NoActionBar" />
 
     <style name="CommonTheme.Dark.Night">
-
         <!--
         <item name="android:windowBackground">@color/theme_dark_background_color</item>
     	<item name="android:colorBackground">@color/theme_dark_background_color</item>

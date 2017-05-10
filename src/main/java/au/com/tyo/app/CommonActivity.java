@@ -9,7 +9,8 @@ import android.app.SearchManager;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -29,7 +30,7 @@ import au.com.tyo.app.ui.UI;
  * @author Eric Tang <eric.tang@tyo.com.au>
  * 
  */
-public class CommonActivity extends FragmentActivity {
+public class CommonActivity extends AppCompatActivity {
 	
 	private static final String LOG_TAG = "CommonActivity";
 	
@@ -77,12 +78,19 @@ public class CommonActivity extends FragmentActivity {
 	}
 
 	protected void setupActionbar() {
+		Object toolbar = controller.getUi().getToolbar();
+
+        if (null == toolbar)
+            toolbar = findViewById(R.id.tyodroid_toolbar);
+
+        if (toolbar != null)
+            setSupportActionBar((Toolbar) toolbar);
+
 		if (AndroidUtils.getAndroidVersion() < 7)
 			setupTitleBar1();
 
-
 		if (AndroidUtils.getAndroidVersion() >= 7)
-			setupActionBarBar(controller.getUi());
+			setupActionBar(controller.getUi());
 		else
 			setupTitleBar2();
 	}
@@ -101,14 +109,6 @@ public class CommonActivity extends FragmentActivity {
 		
 		super.onCreate(savedInstanceState);
 
-        
-		setupActionbar();
-		
-		/*
-		 * now show the overflow menu
-		 */
-		showOverflowMenu();
-
         /**
          * do it in a different way
          *
@@ -126,11 +126,22 @@ public class CommonActivity extends FragmentActivity {
 		 */
 		initialiseUi();
 
-		if (contentView.getParent() != null && contentView instanceof ViewGroup) {
+        if (contentView.getParent() != null && contentView instanceof ViewGroup) {
 			ViewGroup parent = (ViewGroup) contentView.getParent();
 			if (null != parent) parent.removeView(contentView);
 		}
 		setContentView(contentView);
+
+        /**
+         * set up action bar as we use toolbar now it is part of content view
+         */
+        setupActionbar();
+
+		/*
+		 * now show the overflow menu
+		 */
+        showOverflowMenu();
+
         
         this.processExtras();
         
@@ -151,11 +162,15 @@ public class CommonActivity extends FragmentActivity {
 	}
 
 	@SuppressLint("NewApi")
-	protected void setupActionBarBar(UI ui) {
+	protected Object setupActionBar(UI ui) {
 		Object bar = null;
 		if (AndroidUtils.getAndroidVersion() >= 11)
 			bar = getActionBar();
-        ui.setupActionBar(bar);
+
+        if (bar == null)
+            bar = getSupportActionBar();
+
+        return ui.setupActionBar(bar);
 	}
 	
 	protected boolean checkExtras() {

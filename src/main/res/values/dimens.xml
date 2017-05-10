@@ -40,5 +40,6 @@
 
     <!-- SPLASH SCREEN -->
     <dimen name="splash_screen_logo_container_margin_top">160dp</dimen>
+    <dimen name="toolbar_elevation">2dp</dimen>
 
 </resources>

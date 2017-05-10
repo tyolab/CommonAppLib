@@ -1,37 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
 
-    <FrameLayout
-        android:id="@+id/tyodroid_page_progress_bar"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tyodroid_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerInParent="true"
-        android:visibility="visible"
-        android:background="@android:color/transparent"
-        >
-
-        <ProgressBar
-            style="?android:progressBarStyleInverse"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|center_horizontal"
-            android:indeterminateBehavior="repeat"
-            android:id="@+id/tyodroid_progress_bar"
-            />
-
-    </FrameLayout>
-
-
-    <include layout="@layout/page"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="@dimen/toolbar_elevation"
         />
 
-    <!-- Alternatively -->
-    <!--
-	<include layout="@layout/page_with_progressbar"
-		android:id="@+id/activity_page_view"
-		/>
-		-->
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/tyodroid_drawers"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-</FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <FrameLayout
+                android:id="@+id/tyodroid_page_progress_bar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:visibility="visible"
+                android:background="@android:color/transparent"
+                >
+
+                <ProgressBar
+                    style="?android:progressBarStyleInverse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:indeterminateBehavior="repeat"
+                    android:id="@+id/tyodroid_progress_bar"
+                    />
+
+            </FrameLayout>
+
+
+            <include layout="@layout/page"
+                />
+
+            <!-- Alternatively -->
+            <!--
+            <include layout="@layout/page_with_progressbar"
+                android:id="@+id/activity_page_view"
+                />
+                -->
+
+        </FrameLayout>
+
+
+        <FrameLayout
+            android:id="@+id/left_drawer_view"
+            android:layout_width="@dimen/drawer_left_width"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="start"
+            >
+
+            <!--
+            <include layout="@layout/left_drawer_view" />
+             -->
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/right_drawer_view"
+            android:layout_width="@dimen/drawer_right_width"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="end"
+            >
+
+            <!--
+            <include layout="@layout/right_drawer_view" />
+              -->
+        </FrameLayout>
+
+    </android.support.v4.widget.DrawerLayout>
+</LinearLayout>

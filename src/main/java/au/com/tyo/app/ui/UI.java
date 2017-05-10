@@ -8,6 +8,7 @@ package au.com.tyo.app.ui;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.FrameLayout;
 
@@ -49,7 +50,7 @@ public interface UI {
 
 	void onAdLoaded();
 
-	void setupActionBar(Object bar);
+	Object setupActionBar(Object bar);
 
 	void hideProgressBar();
 
@@ -76,4 +77,6 @@ public interface UI {
     void showProgressBar();
 
     void onStop(Context currentActivity);
+
+	Toolbar getToolbar();
 }

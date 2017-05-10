@@ -11,6 +11,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +27,8 @@ public class UIBase implements UI {
 	private static final String LOG_TAG = "GUI";
 
 	protected ViewContainerWithProgressBar mainViewContainer;
+
+    private Toolbar toolbar;
 
 	protected View mainView;
 
@@ -71,7 +74,12 @@ public class UIBase implements UI {
 		alwaysShowSearchView = true;
 	}
 
-	public InformationView getInformationView() {
+    @Override
+    public Toolbar getToolbar() {
+        return toolbar;
+    }
+
+    public InformationView getInformationView() {
 		return informationView;
 	}
 
@@ -232,9 +240,18 @@ public class UIBase implements UI {
 	public void setupComponents() {
         /**
          * Only if the default layout is used then we do the UI elements (search bar, footer, body, header, etc) setup
+         *
+         * for the extreme case we might need the sanity check
          */
-        if (mainUiResId == R.layout.activity_common) {
-			pageView = mainView.findViewById(R.id.tyodroid_page);
+            /**
+             * actionbar / toolbar
+             */
+            toolbar = (Toolbar) mainView.findViewById(R.id.tyodroid_toolbar);
+
+            /**
+             *
+             */
+            pageView = mainView.findViewById(R.id.tyodroid_page);
 			pageProgressView = mainView.findViewById(R.id.tyodroid_page_progress_bar);
 
 			/**
@@ -253,17 +270,18 @@ public class UIBase implements UI {
             if (hasSearchBar())
                 setupSearchView();
 
-            ad = (AllAdView) mainView.findViewById(R.id.all_ad_view);
-            if (null != ad) {
-                addAdView();
+            if (null != mainView) {
+                ad = (AllAdView) mainView.findViewById(R.id.all_ad_view);
+                if (null != ad) {
+                    addAdView();
 
-                if (controller.getSettings().hasAd())
-                    ad.loadBannerAd();
+                    if (controller.getSettings().hasAd())
+                        ad.loadBannerAd();
+                }
             }
 
             if (!controller.getNetworkMonitor().hasInternet())
                 onNetworkDisonnected();
-        }
 		
 	}
 
@@ -366,7 +384,7 @@ public class UIBase implements UI {
 	 */
 	@SuppressLint("NewApi")
 	@Override
-	public void setupActionBar(Object barObj) {
+	public Object setupActionBar(Object barObj) {
 		
 		if (barObj != null) {
 			if (barObj instanceof android.app.ActionBar) {
@@ -375,18 +393,23 @@ public class UIBase implements UI {
 					bar.hide();
 				}
 				else {
-					
-					if (controller.getContext().getResources().getBoolean(R.bool.showIconOnActionBar)
-                            && AndroidUtils.getAndroidVersion() >= 14) {
-						bar.setLogo(R.drawable.ic_logo);
+					if (controller.getContext().getResources().getBoolean(R.bool.showIconOnActionBar)) {
+                        if (AndroidUtils.getAndroidVersion() >= 11)
+                            bar.setDisplayUseLogoEnabled(true);
+
+                        if (AndroidUtils.getAndroidVersion() >= 14)
+                            bar.setLogo(R.drawable.ic_logo);
 					}
-					
-					if (AndroidUtils.getAndroidVersion() >= 11) {
-						bar.setDisplayUseLogoEnabled(true);
-					    bar.setDisplayShowHomeEnabled(true);
-					}
-					
-				    bar.setDisplayShowTitleEnabled(false);
+					else {
+                        bar.setHomeButtonEnabled(true);
+                        if (AndroidUtils.getAndroidVersion() >= 11) {
+                            bar.setDisplayShowHomeEnabled(true);
+                        }
+
+                        bar.setDisplayHomeAsUpEnabled(true);
+                    }
+
+				    bar.setDisplayShowTitleEnabled(controller.getContext().getResources().getBoolean(R.bool.showTitleOnActionBar));
 				}
 			}
 			else if (barObj instanceof android.support.v7.app.ActionBar) {
@@ -396,17 +419,28 @@ public class UIBase implements UI {
 					bar.hide();
 				}
 				else {
-			        bar.setLogo(R.drawable.ic_logo);
-			//      bar.setIcon(R.drawable.ic_launcher);
-			        bar.setDisplayUseLogoEnabled(true);
-			//      bar.setHomeButtonEnabled(true);
-			//      bar.setDisplayHomeAsUpEnabled(true);
-			//      bar.setDisplayShowCustomEnabled(true);
+                    if (controller.getContext().getResources().getBoolean(R.bool.showIconOnActionBar)){
+                        bar.setLogo(R.drawable.ic_logo);
+                        // bar.setIcon(R.drawable.ic_launcher);
+                        bar.setDisplayUseLogoEnabled(true);
+                    }
+                    bar.setHomeButtonEnabled(true);
+                    bar.setDisplayHomeAsUpEnabled(true);
+			        bar.setDisplayShowCustomEnabled(true);
 			        bar.setDisplayShowHomeEnabled(true);
-			        bar.setDisplayShowTitleEnabled(false);
+			        bar.setDisplayShowTitleEnabled(controller.getContext().getResources().getBoolean(R.bool.showTitleOnActionBar));
+                    bar.setDisplayUseLogoEnabled(true);
 				}
 			}
 		}
+		else {
+            if (null != mainView) {
+                toolbar = (Toolbar) mainView.findViewById(R.id.tyodroid_toolbar);
+            }
+            return toolbar;
+        }
+
+        return barObj;
 	}
 
 	@Override
