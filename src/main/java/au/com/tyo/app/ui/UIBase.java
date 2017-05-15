@@ -12,6 +12,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,7 +49,7 @@ public class UIBase implements UI {
 	
 	private ViewGroup contentView;
 	
-	private ViewGroup bodyView;
+	private BodyView bodyView;
 	
 	private boolean alwaysShowSearchView;
 
@@ -142,6 +143,14 @@ public class UIBase implements UI {
 
 	@Override
 	public void initialiseComponents() {
+		if (null != bodyView) {
+            bodyView.detectScreenLocation();
+
+            DisplayMetrics dm = new DisplayMetrics();
+            controller.getCurrentActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
+            int offset = dm.heightPixels - bodyView.getMeasuredHeight();
+            bodyView.setScreenOffet(offset);
+        }
 	}
 
 	public View getSplashScreenOverlayView() {
@@ -257,7 +266,7 @@ public class UIBase implements UI {
 			/**
 			 * the root view of body.xml
 			 */
-            bodyView = (ViewGroup) mainView.findViewById(R.id.body_view);
+            bodyView = (BodyView) mainView.findViewById(R.id.body_view);
 
 			/**
 			 * the root view of content.xml

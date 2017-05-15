@@ -17,12 +17,34 @@ public class BodyView extends FrameLayout {
 		super(context, attrs);
 	}
 
+    private int x;
+
+    private int y;
+
+    private int screenOffet = 0;
+
 	@SuppressLint("NewApi")
 	public BodyView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 	}
-	
-	@Override
+
+    public int getScreenOffet() {
+        return screenOffet;
+    }
+
+    public void setScreenOffet(int screenOffet) {
+        this.screenOffet = screenOffet;
+    }
+
+    public int getScreenX() {
+        return x;
+    }
+
+    public int getScreenY() {
+        return y;
+    }
+
+    @Override
 	public boolean dispatchTouchEvent (MotionEvent ev) {
 	   for(int i = 0; i < this.getChildCount(); i++){
 		   View v = this.getChildAt(i);
@@ -32,4 +54,15 @@ public class BodyView extends FrameLayout {
 		
 	   return super.dispatchTouchEvent(ev);
 	}
+
+    public void detectScreenLocation() {
+        int[] xy = new int[2];
+        getLocationOnScreen(xy);
+        x = xy[0];
+        y = xy[1];
+    }
+
+    public int getRealY() {
+        return y - screenOffet;
+    }
 }
