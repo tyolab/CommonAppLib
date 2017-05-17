@@ -62,7 +62,7 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 			instance = this;
 		
 		if (CommonInitializer.mainActivityClass == null)
-			setMainActivityClass(CommonActivity.class);
+			setMainActivityClass(CommonMainActivity.class);
 		
 		if (CommonInitializer.splashScreenClass == null)
 			setSplashScreenClass(SplashScreen.class);
