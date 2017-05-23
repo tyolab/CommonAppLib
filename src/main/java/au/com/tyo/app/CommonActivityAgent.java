@@ -32,14 +32,22 @@ public class CommonActivityAgent {
 
     protected View contentView;
 
-    public void onCreate(Activity activity, Bundle savedInstanceState) {
+
+    public CommonActivityAgent(Activity activity) {
         this.activity = activity;
 
+        init();
+    }
+
+    private void init() {
         if (controller == null) {
             if (CommonApp.getInstance() == null)
                 CommonApp.setInstance(CommonInitializer.initializeInstance(CommonApp.class, activity));
             controller = (Controller) CommonApp.getInstance();
         }
+    }
+
+    public void onCreate(Bundle savedInstanceState) {
 
         controller.setCurrentActivity(activity);
         controller.setContext(activity);
@@ -131,6 +139,7 @@ public class CommonActivityAgent {
     }
 
     public void preInitialize(Bundle savedInstanceState) {
+
         if (savedInstanceState != null)
             controller.onRestoreInstanceState(savedInstanceState);
 

@@ -27,12 +27,12 @@ public class CommonAppCompatActivity extends AppCompatActivity {
 	@SuppressLint("MissingSuperCall")
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
-        agent = new CommonActivityAgent();
+        agent = new CommonActivityAgent(this);
         agent.preInitialize(savedInstanceState);
 
         super.onCreate(savedInstanceState);
 
-        agent.onCreate(this, savedInstanceState);
+        agent.onCreate(savedInstanceState);
 
 		controller = (Controller) CommonApp.getInstance();
 	}

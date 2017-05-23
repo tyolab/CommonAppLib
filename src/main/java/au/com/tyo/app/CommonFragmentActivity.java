@@ -29,12 +29,12 @@ public class CommonFragmentActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 
 		if (null == agent)
-        	agent = new CommonActivityAgent();
+        	agent = new CommonActivityAgent(this);
         agent.preInitialize(savedInstanceState);
 
         super.onCreate(savedInstanceState);
 
-        agent.onCreate(this, savedInstanceState);
+        agent.onCreate(savedInstanceState);
 
 		controller = (Controller) CommonApp.getInstance();
 	}
