@@ -19,7 +19,7 @@ import au.com.tyo.android.CommonInitializer;
 import au.com.tyo.app.ui.UI;
 
 /**
- * Created by monfee on 23/5/17.
+ * Created by Eric Tang (eric.tang@tyo.com.au) on 23/5/17.
  */
 
 public class CommonActivityAgent {
