@@ -14,6 +14,7 @@ import android.view.Menu;
 import java.util.List;
 
 import au.com.tyo.android.CommonController;
+import au.com.tyo.android.NetworkMonitor;
 import au.com.tyo.android.services.ImageDownloader;
 import au.com.tyo.app.data.DisplayItem;
 import au.com.tyo.app.data.ImagedSearchableItem;
