@@ -18,6 +18,7 @@ import com.google.android.gms.ads.InterstitialAd;
 
 import au.com.tyo.android.AndroidUtils;
 import au.com.tyo.android.CommonInitializer;
+import au.com.tyo.android.NetworkMonitor;
 
 /**
  * @author Eric Tang <eric.tang@tyo.com.au>
@@ -78,7 +79,7 @@ public class SplashScreen extends Activity implements SplashScreenMessageListene
 		
 		showAd = controller.hasAd() 
 				&& this.getResources().getBoolean(R.bool.show_ad_splash_screen_interstitial) 
-				&& NetworkMonitor.checkNetworkState(this);
+				&& NetworkMonitor.hasInternet(this);
 		
 		if (showAd) {
 			 // Create the interstitial.

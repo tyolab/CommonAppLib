@@ -9,11 +9,7 @@ package au.com.tyo.app;
  * @author Eric Tang <eric.tang@tyo.com.au>
  */
 
-public interface Constants {
-
-	int MESSAGE_NETWORK_READY = 88888;
-	
-	int MESSAGE_NETWORK_DISCONNECTED = 99999;
+public interface Constants extends au.com.tyo.android.Constants {
 	
 	int MESSAGE_SUGGESTION_RETURN = 99;
 

@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.util.Log;
 
+import au.com.tyo.android.NetworkMonitor;
+
 /**
  * @author Eric Tang <eric.tang@tyo.com.au>
  */

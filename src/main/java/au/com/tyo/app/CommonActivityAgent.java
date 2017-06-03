@@ -85,8 +85,14 @@ public class CommonActivityAgent {
         if (null == toolbar)
             toolbar = activity.findViewById(R.id.tyodroid_toolbar);
 
-        if (toolbar != null)
-            ((AppCompatActivity) activity).setSupportActionBar((Toolbar) toolbar);
+        if (toolbar != null) {
+            try {
+                ((AppCompatActivity) activity).setSupportActionBar((Toolbar) toolbar);
+            }
+            catch (Exception ex) {
+                CommonAppLog.error(LOG_TAG, ex);
+            }
+        }
 
         if (AndroidUtils.getAndroidVersion() < 7)
             setupTitleBar1();

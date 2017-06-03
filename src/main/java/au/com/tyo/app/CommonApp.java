@@ -25,6 +25,7 @@ import java.util.Observable;
 
 import au.com.tyo.android.CommonApplicationImpl;
 import au.com.tyo.android.CommonInitializer;
+import au.com.tyo.android.NetworkMonitor;
 import au.com.tyo.android.services.ImageDownloader;
 import au.com.tyo.app.data.DisplayItem;
 import au.com.tyo.app.data.ImagedSearchableItem;
