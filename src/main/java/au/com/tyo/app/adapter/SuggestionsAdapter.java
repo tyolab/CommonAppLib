@@ -200,7 +200,7 @@ public class SuggestionsAdapter extends ListViewItemAdapter<Searchable> /*ArrayA
 		@Override
         protected List<?> doInBackground(CharSequence... params) {
         	String query = params[0].toString();
-        	List<?> results = controller.getSuggesions(query, hasToBeBestMatch); //new ArrayList<WikiSearch>();
+        	List<?> results = controller.getSuggestions(query, hasToBeBestMatch); //new ArrayList<WikiSearch>();
         
             return results;
         }

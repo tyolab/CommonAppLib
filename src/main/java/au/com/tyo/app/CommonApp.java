@@ -375,12 +375,12 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 	}
 	
 	@Override
-	public List<?> getSuggesions(String query, boolean hasToBeBestMatch) {
-		return getSuggesions(query, "", hasToBeBestMatch);
+	public List<?> getSuggestions(String query, boolean hasToBeBestMatch) {
+		return getSuggestions(query, "", hasToBeBestMatch);
 	}
 
 	@Override
-	public List<?> getSuggesions(String query, 	String extra, boolean hasToBeBestMatch) {
+	public List<?> getSuggestions(String query, String extra, boolean hasToBeBestMatch) {
 		return Arrays.asList(new String[] {"suggestion method is not implemented yet"});
 	}
 
@@ -524,5 +524,10 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 
 
 		super.quitOrRestart(restart);
+	}
+
+	@Override
+	public void restart() {
+		quitOrRestart(true);
 	}
 }

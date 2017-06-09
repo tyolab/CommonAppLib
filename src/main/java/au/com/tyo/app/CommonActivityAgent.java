@@ -77,6 +77,11 @@ public class CommonActivityAgent {
         int themeId = controller.getSettings().getThemeId();
         if (themeId > 0)
             activity.setTheme(themeId);
+        else {
+            // we use light theme by default
+            controller.getSettings().setThemeId(R.style.AppTheme_Light_NoActionBar);
+            activity.setTheme(R.style.AppTheme_Light_NoActionBar);
+        }
     }
 
     protected void setupActionbar() {

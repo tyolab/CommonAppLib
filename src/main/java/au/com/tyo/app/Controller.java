@@ -88,9 +88,9 @@ public interface Controller extends CommonController {
 
 	DisplayItem getItemText(Searchable item);
 
-	List<?> getSuggesions(String query, String extra, boolean hasToBeBestMatch);
+	List<?> getSuggestions(String query, String extra, boolean hasToBeBestMatch);
 	
-	List<?> getSuggesions(String query, boolean hasToBeBestMatch);
+	List<?> getSuggestions(String query, boolean hasToBeBestMatch);
 
 	void loadHistory();
 	

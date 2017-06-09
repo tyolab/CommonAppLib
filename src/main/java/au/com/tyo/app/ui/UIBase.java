@@ -181,6 +181,7 @@ public class UIBase implements UI {
 
 	@Override
 	public void initializeUi(Context context) {
+		setUiRecreationRequierd(false);
 		if (null == mainView) {
 			if (mainUiResId == -1) {
 				mainUiResId = R.layout.activity_common;
