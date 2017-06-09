@@ -6,6 +6,7 @@
 package au.com.tyo.app;
 
 import android.app.Activity;
+import android.app.Application;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
@@ -529,5 +530,36 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 	@Override
 	public void restart() {
 		quitOrRestart(true);
+	}
+
+	protected void setThemeUsage(int themeId) {
+		settings.updateThemePreference(themeId);
+
+		settings.setLightThemeUsed(themeId == R.style.AppTheme_Light);
+	}
+
+	protected void setThemeByIndex(int index) {
+
+		Application application = null;
+		if (null != getCurrentActivity())
+			application = getCurrentActivity().getApplication();
+
+		if (application != null) {
+
+			int themeId = R.style.AppTheme_Light;
+
+			if (index == 0)
+				themeId = R.style.AppTheme_Light;
+			else if (index == 1)
+				themeId = R.style.AppTheme_Dark;
+
+			setThemeUsage(themeId);
+
+			application.setTheme(themeId); // set the application wise theme
+
+			ui.setUiRecreationRequierd(true);
+
+			this.quitOrRestart(true);
+		}
 	}
 }
