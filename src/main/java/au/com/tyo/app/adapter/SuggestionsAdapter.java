@@ -13,6 +13,7 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import au.com.tyo.android.utils.BitmapUtils;
@@ -227,6 +228,9 @@ public class SuggestionsAdapter extends ListViewItemAdapter<Searchable> /*ArrayA
             }
             else {
             	checkSuggestions(hint);
+
+				if (null == items)
+					items = new ArrayList<>();
                 results.count = items.size();
                 results.values = items;
             }
