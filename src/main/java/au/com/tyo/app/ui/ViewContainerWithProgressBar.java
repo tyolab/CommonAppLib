@@ -109,20 +109,15 @@ public class ViewContainerWithProgressBar extends FrameLayout {
 	}
 	
 	public void hideProgressBar() {
-//		if (null != progressBarContainer)
-//			progressBarContainer.setVisibility(View.GONE);
+		if (null != progressBarContainer)
+			progressBarContainer.setVisibility(View.GONE);
 		viewContainer.setVisibility(View.VISIBLE);
 	}
 	
 	public void showProgressBar() {
-        //contentView.setVisibility(View.GONE);
 		viewContainer.setVisibility(View.GONE);
-//		if (null != progressBarContainer) {
-//            progressBarContainer.setVisibility(VISIBLE);
-//
-//            if (null != progressBar)
-//                progressBar.setVisibility(VISIBLE);
-//        }
+		if (null != progressBarContainer)
+            progressBarContainer.setVisibility(VISIBLE);
 	}
 	
 	public void addContentView(View view) {
@@ -148,8 +143,6 @@ public class ViewContainerWithProgressBar extends FrameLayout {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	public void initializeChildContentView(int resId, Runnable job) {
 		this.contentViewResourceId = resId;
-
-
 	}
 
 	public void startTask(Runnable job) {

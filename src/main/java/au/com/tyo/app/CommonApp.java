@@ -562,4 +562,10 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 			this.quitOrRestart(true);
 		}
 	}
+
+	@Override
+	protected void onBackKeyPressed() {
+		if (!ui.onBackPressed())
+			super.onBackKeyPressed();
+	}
 }
