@@ -119,7 +119,7 @@ public interface Controller extends CommonController {
 
 	void onPause();
 
-	void onPrepareOptionsMenu(Menu menu);
+	void onPrepareOptionsMenu(Object actionBar, Menu menu);
 
 	boolean onKeyLongPress(int keyCode, KeyEvent event);
 

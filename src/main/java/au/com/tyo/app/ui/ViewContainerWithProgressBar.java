@@ -86,7 +86,10 @@ public class ViewContainerWithProgressBar extends FrameLayout {
 		
 		setupComponents();
 	}
-	
+
+	/**
+	 *
+	 */
 	public void setupComponents() {
 		
        viewContainer = (ViewGroup) findViewById(viewContainerResId);
@@ -107,25 +110,39 @@ public class ViewContainerWithProgressBar extends FrameLayout {
            }
        }
 	}
-	
+
+	/**
+	 *
+	 */
 	public void hideProgressBar() {
 		if (null != progressBarContainer)
 			progressBarContainer.setVisibility(View.GONE);
 		viewContainer.setVisibility(View.VISIBLE);
 	}
-	
+
+	/**
+	 *
+	 */
 	public void showProgressBar() {
 		viewContainer.setVisibility(View.GONE);
 		if (null != progressBarContainer)
             progressBarContainer.setVisibility(VISIBLE);
 	}
-	
+
+	/**
+	 *
+	 * @param view
+	 */
 	public void addContentView(View view) {
 		contentView = view;
 		viewContainer.removeAllViews();
 		viewContainer.addView(view);
 	}
-	
+
+	/**
+	 *
+	 * @param resourceid
+	 */
 	public void addContentView(int resourceid) {
 		setContentViewResourceId(resourceid);
         LayoutInflater factory = LayoutInflater.from(this.getContext());

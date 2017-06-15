@@ -92,7 +92,7 @@ public class CommonFragmentActivity extends FragmentActivity {
 	
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {	   
-		controller.onPrepareOptionsMenu(menu);
+		controller.onPrepareOptionsMenu(getActionBar(), menu);
 		return super.onPrepareOptionsMenu(menu);
 	}
 	

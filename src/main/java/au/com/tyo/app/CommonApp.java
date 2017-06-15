@@ -448,7 +448,7 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 	}
 
 	@Override
-	public void onPrepareOptionsMenu(Menu menu) {
+	public void onPrepareOptionsMenu(Object actionBar, Menu menu) {
 	}
 
 	@Override

@@ -90,7 +90,7 @@ public class CommonAppCompatActivity extends AppCompatActivity {
 	
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {	   
-		controller.onPrepareOptionsMenu(menu);
+		controller.onPrepareOptionsMenu(getSupportActionBar(), menu);
 		return super.onPrepareOptionsMenu(menu);
 	}
 	
