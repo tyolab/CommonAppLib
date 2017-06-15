@@ -79,4 +79,6 @@ public interface UI {
     void onStop(Context currentActivity);
 
 	Toolbar getToolbar();
+
+    void onAppStart();
 }

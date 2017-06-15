@@ -3,12 +3,13 @@ package au.com.tyo.app.ui;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import au.com.tyo.app.R;
 
@@ -103,10 +104,19 @@ public class ViewContainerWithProgressBar extends FrameLayout {
 //    	   progressBarContainer.setVisibility(View.GONE);
            progressBar = (ProgressBar) progressBarContainer.findViewById(R.id.tyodroid_progress_bar);
            if (null != progressBar) {
-               FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-               params.gravity = Gravity.CENTER;
-
-               progressBar.setLayoutParams(params);
+               if (progressBarContainer instanceof RelativeLayout) {
+                   RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+                   params.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+                   progressBar.setLayoutParams(params);
+               }
+               else if (progressBarContainer instanceof LinearLayout) {
+                   LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+                   progressBar.setLayoutParams(params);
+               }
+               else if (progressBarContainer instanceof FrameLayout) {
+                   LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+                   progressBar.setLayoutParams(params);
+               }
            }
        }
 	}

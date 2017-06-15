@@ -445,6 +445,7 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 
 	@Override
 	public void onAppStart() {
+        ui.onAppStart();
 	}
 
 	@Override
@@ -568,4 +569,9 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 		if (!ui.onBackPressed())
 			super.onBackKeyPressed();
 	}
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        return false;
+    }
 }

@@ -134,4 +134,9 @@ public class CommonAppCompatActivity extends AppCompatActivity {
 		if (hasFocus)
 			controller.onWidowReady();
 	}
+
+	@Override
+	public boolean onSupportNavigateUp() {
+		return controller.onSupportNavigateUp() || super.onSupportNavigateUp();
+	}
 }

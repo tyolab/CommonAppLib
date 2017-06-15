@@ -479,4 +479,9 @@ public class UIBase implements UI {
 		if (null != pageProgressView)
 			pageProgressView.setVisibility(View.VISIBLE);
 	}
+
+	@Override
+	public void onAppStart() {
+
+	}
 }
