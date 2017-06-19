@@ -13,12 +13,14 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import au.com.tyo.app.ui.UIActivity;
+
 /**
  * 
  * @author Eric Tang <eric.tang@tyo.com.au>
  * 
  */
-public class CommonFragmentActivity extends FragmentActivity {
+public class CommonFragmentActivity extends FragmentActivity implements UIActivity {
 
     protected CommonActivityAgent agent;
 
@@ -135,5 +137,10 @@ public class CommonFragmentActivity extends FragmentActivity {
 
 		if (hasFocus)
 			controller.onWidowReady();
+	}
+
+	@Override
+	public void onUICreated() {
+		// do nothing
 	}
 }

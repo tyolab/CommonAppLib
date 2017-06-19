@@ -371,18 +371,27 @@ public class UIBase implements UI {
 		return mainView;
 	}
 
+	/**
+	 *
+	 */
 	@Override
 	public void onNetworkDisonnected() {
 //		footerView.setVisibility(View.GONE);
 		hideAd();
 	}
 
+	/**
+	 *
+	 */
 	@Override
 	public void onNetworkConnected() {
 //		footerView.setVisibility(View.VISIBLE);
 		showAd();
 	}
 
+	/**
+	 *
+	 */
 	@Override
 	public void onAdLoaded() {
 		Log.d(LOG_TAG, "Ad loaded");
@@ -453,6 +462,9 @@ public class UIBase implements UI {
         return barObj;
 	}
 
+	/**
+	 *
+	 */
 	@Override
 	public void hideProgressBar() {
 		if (null != pageView)
@@ -461,17 +473,27 @@ public class UIBase implements UI {
 			pageProgressView.setVisibility(View.GONE);
 	}
 
+	/**
+	 *
+	 */
 	@Override
 	public void hideSuggestionView() {
 		searchView.requestFocusForSearchButton();
 		setSuggestionViewVisibility(false);
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	@Override
 	public boolean onBackPressed() {
 		return false;
 	}
 
+	/**
+	 *
+	 */
 	@Override
 	public void showProgressBar() {
 		if (null != pageView)
@@ -480,8 +502,26 @@ public class UIBase implements UI {
 			pageProgressView.setVisibility(View.VISIBLE);
 	}
 
+	/**
+	 *
+	 */
 	@Override
 	public void onAppStart() {
 
+	}
+
+	/**
+	 *
+	 * @param activity
+	 */
+	public void setupTheme(Activity activity) {
+		int themeId = controller.getSettings().getThemeId();
+		if (themeId > 0)
+			activity.setTheme(themeId);
+		else {
+			// we use light theme by default
+			controller.getSettings().setThemeId(R.style.AppTheme_Light_NoActionBar);
+			activity.setTheme(R.style.AppTheme_Light_NoActionBar);
+		}
 	}
 }

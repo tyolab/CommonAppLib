@@ -17,6 +17,7 @@ import java.lang.reflect.Field;
 import au.com.tyo.android.AndroidUtils;
 import au.com.tyo.android.CommonInitializer;
 import au.com.tyo.app.ui.UI;
+import au.com.tyo.app.ui.UIActivity;
 
 /**
  * Created by Eric Tang (eric.tang@tyo.com.au) on 23/5/17.
@@ -28,7 +29,16 @@ public class CommonActivityAgent {
 
     protected Controller controller;
 
+    /**
+     * the main activity
+     */
     protected Activity activity;
+
+    /**
+     * TODO
+     *
+     * maybe we could maintain a list of activities we use
+     */
 
     protected View contentView;
 
@@ -36,6 +46,8 @@ public class CommonActivityAgent {
     public CommonActivityAgent(Activity activity) {
         this.activity = activity;
 
+        if (!(activity instanceof UIActivity))
+            throw new IllegalArgumentException("Activity must be implmented with UIActivity interface");
         init();
     }
 
@@ -71,17 +83,6 @@ public class CommonActivityAgent {
     protected void createUI() {
         if (controller.getUi() == null || controller.getUi().recreationRequried())
             controller.createUi();
-    }
-
-    protected void setupTheme() {
-        int themeId = controller.getSettings().getThemeId();
-        if (themeId > 0)
-            activity.setTheme(themeId);
-        else {
-            // we use light theme by default
-            controller.getSettings().setThemeId(R.style.AppTheme_Light_NoActionBar);
-            activity.setTheme(R.style.AppTheme_Light_NoActionBar);
-        }
     }
 
     protected void setupActionbar() {
@@ -155,7 +156,7 @@ public class CommonActivityAgent {
             controller.onRestoreInstanceState(savedInstanceState);
 
         createUI();
-        setupTheme();
+        controller.getUi().setupTheme(activity);
     }
 
     /**
@@ -198,15 +199,19 @@ public class CommonActivityAgent {
 		 */
         showOverflowMenu();
 
-
         processExtras();
 
         controller.onUiReady();
     }
 
+    /**
+     * Call activity's onUICreated after UI gets initialised
+     */
     protected void initialiseUi() {
         controller.getUi().initializeUi(activity);
         contentView = controller.getUi().getMainView();
+
+        ((UIActivity) activity).onUICreated();
     }
 
     private void setupTitleBar1() {
@@ -233,6 +238,9 @@ public class CommonActivityAgent {
         }
     }
 
+    /**
+     *
+     */
     public void onResume() {
         controller.setCurrentActivity(activity);
         controller.setContext(activity);

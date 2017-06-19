@@ -81,4 +81,6 @@ public interface UI {
 	Toolbar getToolbar();
 
     void onAppStart();
+
+    void setupTheme(Activity activity);
 }

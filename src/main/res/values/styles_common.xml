@@ -1,19 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="CommonAlertDialog" parent="android:Theme.Dialog" />
 
-    <style name="CommonAlertDialog.Light">
+    <!--
+        <item name="colorAccent">@color/green</item>
+        for the checkbox color
+    -->
+    <style name="CommonAlertDialog.Light" parent="Theme.AppCompat.Light.Dialog" >
+
+        <item name="colorPrimary">@color/theme_light_text_color</item>
+        <item name="colorPrimaryDark">@color/theme_dark_text_color</item>
+
         <item name="android:windowBackground">@color/theme_light_background_color</item>
         <item name="android:colorBackground">@color/theme_light_background_color</item>
+
         <item name="android:textColor">@color/theme_light_text_color</item>
         <item name="android:checkboxStyle">@style/CommonCheckBox.Light</item>
+
+        <item name="colorAccent">#FFC107</item>
+
+        <item name="android:textColorPrimary">@color/theme_light_text_color</item>
+        <item name="android:textColorSecondary">@color/theme_light_text_color</item>
     </style>
 
-    <style name="CommonAlertDialog.Dark">
+    <style name="CommonAlertDialog.Dark" parent="Theme.AppCompat.DayNight.Dialog">
+        <item name="colorPrimary">@color/theme_dark_text_color</item>
+        <item name="colorPrimaryDark">@color/theme_light_text_color</item>
+
         <item name="android:windowBackground">@color/theme_dark_background_color</item>
         <item name="android:colorBackground">@color/theme_dark_background_color</item>
+
         <item name="android:textColor">@color/theme_dark_text_color</item>
         <item name="android:checkboxStyle">@style/CommonCheckBox.Dark</item>
+
+        <item name="colorAccent">#FFC107</item>
+
+        <item name="android:textColorPrimary">@color/theme_dark_text_color</item>
+        <item name="android:textColorSecondary">@color/theme_dark_text_color</item>
     </style>
 
     <style name="CommonCheckBox"></style>
@@ -76,6 +98,7 @@
         <item name="drawerBackgroundColor">@color/theme_light_drawer_background_color</item>
 
         <item name="android:alertDialogStyle">@style/CommonAlertDialog.Light</item>
+        <item name="android:alertDialogTheme">@style/CommonAlertDialog.Light</item>
 
         <item name="ic_action_settings">@drawable/ic_action_settings_light</item>
         <item name="ic_action_exit">@drawable/ic_action_exit_light</item>
@@ -137,6 +160,7 @@
         <item name="drawerBackgroundColor">@color/theme_dark_drawer_background_color</item>
 
         <item name="android:alertDialogStyle">@style/CommonAlertDialog.Dark</item>
+        <item name="android:alertDialogTheme">@style/CommonAlertDialog.Dark</item>
 
         <item name="ic_action_settings">@drawable/ic_action_settings_dark</item>
         <item name="ic_action_exit">@drawable/ic_action_exit_dark</item>

@@ -13,12 +13,14 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import au.com.tyo.app.ui.UIActivity;
+
 /**
  * 
  * @author Eric Tang <eric.tang@tyo.com.au>
  * 
  */
-public class CommonAppCompatActivity extends AppCompatActivity {
+public class CommonAppCompatActivity extends AppCompatActivity implements UIActivity {
 
     protected CommonActivityAgent agent;
 
@@ -138,5 +140,10 @@ public class CommonAppCompatActivity extends AppCompatActivity {
 	@Override
 	public boolean onSupportNavigateUp() {
 		return controller.onSupportNavigateUp() || super.onSupportNavigateUp();
+	}
+
+	@Override
+	public void onUICreated() {
+		// do nothing
 	}
 }
