@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="CommonTextAppearance.Light" parent="TextAppearance.AppCompat.Small">
+
+    </style>
+
+    <style name="CommonTextAppearance.Dark" parent="TextAppearance.AppCompat.Small.Inverse">
+        <item name="android:textColor">@color/theme_dark_text_color</item>
+    </style>
+
     <!--
         <item name="colorAccent">@color/green</item>
         for the checkbox color
@@ -20,22 +28,31 @@
 
         <item name="android:textColorPrimary">@color/theme_light_text_color</item>
         <item name="android:textColorSecondary">@color/theme_light_text_color</item>
+
+        <item name="android:textAppearanceListItem">@style/CommonTextAppearance.Light</item>
     </style>
 
     <style name="CommonAlertDialog.Dark" parent="Theme.AppCompat.DayNight.Dialog">
         <item name="colorPrimary">@color/theme_dark_text_color</item>
-        <item name="colorPrimaryDark">@color/theme_light_text_color</item>
+        <item name="colorPrimaryDark">@color/theme_dark_text_color</item>
 
-        <item name="android:windowBackground">@color/theme_dark_background_color</item>
-        <item name="android:colorBackground">@color/theme_dark_background_color</item>
+        <item name="android:windowBackground">@color/theme_dark_card_background_color</item>
+        <item name="android:colorBackground">@color/theme_dark_card_background_color</item>
 
         <item name="android:textColor">@color/theme_dark_text_color</item>
         <item name="android:checkboxStyle">@style/CommonCheckBox.Dark</item>
 
         <item name="colorAccent">#FFC107</item>
 
+        <item name="android:color">@color/theme_dark_text_color</item>
         <item name="android:textColorPrimary">@color/theme_dark_text_color</item>
         <item name="android:textColorSecondary">@color/theme_dark_text_color</item>
+
+        <!-- This is the one will change the text color of radiobutton in the listview-->
+        <item name="android:textColorAlertDialogListItem">@color/dialog_background_color_dark</item>
+
+        <item name="android:textAppearanceListItem">@style/CommonTextAppearance.Dark</item>
+        <item name="android:textAppearance">@style/CommonTextAppearance.Dark</item>
     </style>
 
     <style name="CommonCheckBox"></style>

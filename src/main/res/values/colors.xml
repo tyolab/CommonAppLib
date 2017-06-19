@@ -11,6 +11,9 @@
     <color name="header_background_color">#80abd8fb</color>
     <color name="footer_background_color">#80abd8fb</color>
     <color name="body_background_color">#80c6e6ff</color>
+
+    <color name="dialog_background_color_dark">#80c6e6ff</color>
+    <color name="dialog_background_color_light">#cefafd</color>
     
     <color name="term_highlight_1">#950e08</color>
     <color name="term_highlight_2">#53a93f</color>
