@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/frame_empty"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:addStatesFromChildren="true"
+    >
+
+    <TextView
+        android:id="@+id/frame_fragment_title"
+        android:text="@string/empty_string"
+        android:textSize="@dimen/fragment_title_text_size"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="@dimen/fragment_title_margin_left"
+        android:layout_marginStart="@dimen/fragment_title_margin_left"
+        android:visibility="gone"
+        />
+
+    <FrameLayout
+        android:id="@+id/frame_fragment_content"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@id/frame_fragment_title"
+        android:layout_margin="6dp"
+        >
+
+    </FrameLayout>
+
+</RelativeLayout>

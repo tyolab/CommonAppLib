@@ -42,4 +42,8 @@
     <dimen name="splash_screen_logo_container_margin_top">160dp</dimen>
     <dimen name="toolbar_elevation">2dp</dimen>
 
+    <!-- FRAGMENT -->
+    <dimen name="fragment_title_margin_left">3dp</dimen>
+    <dimen name="fragment_title_text_size">16sp</dimen>
+
 </resources>
