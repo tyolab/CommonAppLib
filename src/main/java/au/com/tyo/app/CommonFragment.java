@@ -25,8 +25,16 @@ public abstract class CommonFragment extends Fragment {
     private int[] xyPositionInWindow = new int[2];
 
     private View fragmentView;
-    protected ViewGroup contentContainer;
-    protected View contentView;
+    private ViewGroup contentContainer;
+    private View contentView;
+
+    public View getFragmentView() {
+        return fragmentView;
+    }
+
+    public View getContentView() {
+        return contentView;
+    }
 
     public void setFragmentResId(int fragmentResId) {
         this.fragmentResId = fragmentResId;

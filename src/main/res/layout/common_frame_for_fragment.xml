@@ -24,7 +24,10 @@
         android:layout_width="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_below="@id/frame_fragment_title"
-        android:layout_margin="6dp"
+        android:layout_marginLeft="@dimen/fragment_content_margin_left"
+        android:layout_marginStart="@dimen/fragment_content_margin_left"
+        android:layout_marginRight="@dimen/fragment_content_margin_right"
+        android:layout_marginEnd="@dimen/fragment_content_margin_right"
         >
 
     </FrameLayout>
