@@ -173,7 +173,7 @@ public class ViewContainerWithProgressBar extends FrameLayout {
 	}
 
 	public void startTask(Runnable job) {
-		new BackgroudTask(job).execute();
+		new BackgroundTask(job).execute();
 	}
 
 	public View getContentView() {
@@ -189,16 +189,16 @@ public class ViewContainerWithProgressBar extends FrameLayout {
 		void onPostExecute(Object o);
 	}
 
-	public class BackgroudTask extends AsyncTask<Void, Integer, Object> {
+	public class BackgroundTask extends AsyncTask<Void, Integer, Object> {
 
 		private Caller caller;
 		private Runnable job;
 
-		public BackgroudTask(Runnable job) {
+		public BackgroundTask(Runnable job) {
 			this(job, null);
 		}
 
-		public BackgroudTask(Runnable job, Caller caller) {
+		public BackgroundTask(Runnable job, Caller caller) {
 			this.caller = caller;
 			this.job = job;
 		}

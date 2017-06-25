@@ -36,20 +36,20 @@
         <item name="colorPrimary">@color/theme_dark_text_color</item>
         <item name="colorPrimaryDark">@color/theme_dark_text_color</item>
 
-        <item name="android:windowBackground">@color/theme_dark_card_background_color</item>
-        <item name="android:colorBackground">@color/theme_dark_card_background_color</item>
+        <item name="android:windowBackground">@color/dialog_background_color_dark</item>
+        <item name="android:colorBackground">@color/dialog_background_color_dark</item>
 
         <item name="android:textColor">@color/theme_dark_text_color</item>
         <item name="android:checkboxStyle">@style/CommonCheckBox.Dark</item>
 
-        <item name="colorAccent">#FFC107</item>
+        <item name="colorAccent">#00359f</item>
 
         <item name="android:color">@color/theme_dark_text_color</item>
         <item name="android:textColorPrimary">@color/theme_dark_text_color</item>
         <item name="android:textColorSecondary">@color/theme_dark_text_color</item>
 
         <!-- This is the one will change the text color of radiobutton in the listview-->
-        <item name="android:textColorAlertDialogListItem">@color/dialog_background_color_dark</item>
+        <item name="android:textColorAlertDialogListItem">@color/theme_dark_text_color</item>
 
         <item name="android:textAppearanceListItem">@style/CommonTextAppearance.Dark</item>
         <item name="android:textAppearance">@style/CommonTextAppearance.Dark</item>

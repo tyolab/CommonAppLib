@@ -26,7 +26,7 @@ import au.com.tyo.android.services.DownloaderInterface;
 import au.com.tyo.android.services.ImageDownloader;
 import au.com.tyo.app.Controller;
 import au.com.tyo.app.adapter.HistoryAdapter;
-import au.com.tyo.common.ImageTextListItem;
+import au.com.tyo.common.model.ImageTextListItem;
 import au.com.tyo.io.CacheInterface;
 import au.com.tyo.io.StreamUtils;
 import au.com.tyo.io.WildcardFileStack;
