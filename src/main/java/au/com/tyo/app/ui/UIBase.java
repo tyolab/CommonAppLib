@@ -149,7 +149,7 @@ public class UIBase implements UI {
             DisplayMetrics dm = new DisplayMetrics();
             controller.getCurrentActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
             int offset = dm.heightPixels - bodyView.getMeasuredHeight();
-            bodyView.setScreenOffet(offset);
+            bodyView.setScreenOffset(offset);
         }
 	}
 

@@ -21,19 +21,19 @@ public class BodyView extends FrameLayout {
 
     private int y;
 
-    private int screenOffet = 0;
+    private int screenOffset = 0;
 
 	@SuppressLint("NewApi")
 	public BodyView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 	}
 
-    public int getScreenOffet() {
-        return screenOffet;
+    public int getScreenOffset() {
+        return screenOffset;
     }
 
-    public void setScreenOffet(int screenOffet) {
-        this.screenOffet = screenOffet;
+    public void setScreenOffset(int screenOffset) {
+        this.screenOffset = screenOffset;
     }
 
     public int getScreenX() {
@@ -63,6 +63,6 @@ public class BodyView extends FrameLayout {
     }
 
     public int getRealY() {
-        return y - screenOffet;
+        return y - screenOffset;
     }
 }
