@@ -28,6 +28,10 @@ public abstract class CommonFragment extends Fragment {
     private ViewGroup contentContainer;
     private View contentView;
 
+    public int getScreenLocationY() {
+        return xyPosition[1];
+    }
+
     public View getFragmentView() {
         return fragmentView;
     }
