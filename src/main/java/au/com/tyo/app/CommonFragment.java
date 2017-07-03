@@ -15,11 +15,15 @@ public abstract class CommonFragment extends Fragment {
 
     private static final String TAG = "FragmentShared";
 
+    /**
+     * UI widgets
+     */
+
     private int fragmentResId = R.layout.common_frame_for_fragment;
     protected int contentViewResId = -1;
     protected boolean ready;
 
-    protected TextView tvTitle;
+    protected TextView tvTitle = null;
 
     private int[] xyPosition = new int[2];
     private int[] xyPositionInWindow = new int[2];
@@ -27,6 +31,20 @@ public abstract class CommonFragment extends Fragment {
     private View fragmentView;
     private ViewGroup contentContainer;
     private View contentView;
+
+    /**
+     * Data for bindings
+     */
+
+    private String title = null;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public int getScreenLocationY() {
         return xyPosition[1];
@@ -53,7 +71,10 @@ public abstract class CommonFragment extends Fragment {
         fragmentView.getLocationInWindow(xyPositionInWindow);
     }
 
-    protected abstract void initialiseTitle();
+    protected void initialiseTitle() {
+        if (title != null && tvTitle != null)
+            tvTitle.setText(title);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
