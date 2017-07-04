@@ -9,6 +9,20 @@
         <item name="android:textColor">@color/theme_dark_text_color</item>
     </style>
 
+    <style name="CommonFragmentTitleStyle">
+        <item name="android:paddingLeft">@dimen/common_fragment_title_padding_left</item>
+        <item name="android:paddingTop">@dimen/common_fragment_title_padding_top</item>
+        <item name="android:paddingBottom">@dimen/common_fragment_title_padding_bottom</item>
+    </style>
+
+    <style name="CommonFragmentTitleStyle.Light">
+        <item name="android:textColor">@color/theme_light_text_color</item>
+    </style>
+
+    <style name="CommonFragmentTitleStyle.Dark">
+        <item name="android:textColor">@color/theme_dark_text_color</item>
+    </style>
+
     <!--
         <item name="colorAccent">@color/green</item>
         for the checkbox color
@@ -159,6 +173,8 @@
         <item name="searchBarBackground">@drawable/searchbar_bg_light</item>
 
         <item name="progressBarStyle">@style/TyoDroid.Widget.ProgressBar.Inverse</item>
+
+        <item name="fragmentTitleStyle">@style/CommonFragmentTitleStyle.Light</item>
     </style>
 
     <style name="CommonTheme.Dark" parent="Theme.AppCompat.NoActionBar" />
@@ -221,6 +237,8 @@
         <item name="searchBarBackground">@drawable/searchbar_bg_dark</item>
 
         <item name="progressBarStyle">@style/TyoDroid.Widget.ProgressBar</item>
+
+        <item name="fragmentTitleStyle">@style/CommonFragmentTitleStyle.Dark</item>
     </style>
 
     <style name="AppBaseTheme.Light" parent="CommonTheme.Light.Pale">
@@ -310,4 +328,6 @@
         <item name="android:textColor">@color/grey</item>
     </style>
 
+    <dimen name="common_fragment_title_padding_top">3dp</dimen>
+    <dimen name="common_fragment_title_padding_bottom">3dp</dimen>
 </resources>

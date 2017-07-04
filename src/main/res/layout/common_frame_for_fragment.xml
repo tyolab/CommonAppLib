@@ -16,6 +16,7 @@
         android:layout_marginLeft="@dimen/fragment_title_margin_left"
         android:layout_marginStart="@dimen/fragment_title_margin_left"
         android:visibility="gone"
+        style="?fragmentTitleStyle"
         />
 
     <FrameLayout

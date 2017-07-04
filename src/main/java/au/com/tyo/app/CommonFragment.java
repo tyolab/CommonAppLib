@@ -72,8 +72,10 @@ public abstract class CommonFragment extends Fragment {
     }
 
     protected void initialiseTitle() {
-        if (title != null && tvTitle != null)
+        if (title != null && tvTitle != null) {
+            tvTitle.setVisibility(View.VISIBLE);
             tvTitle.setText(title);
+        }
     }
 
     @Override
