@@ -9,17 +9,27 @@
         <item name="android:textColor">@color/theme_dark_text_color</item>
     </style>
 
-    <style name="CommonFragmentTitleStyle">
+    <style name="CommonLayoutPaddingAndMargin">
+
+    </style>
+
+    <style name="CommonFragmentTitleStyle" parent="CommonLayoutPaddingAndMargin">
         <item name="android:paddingLeft">@dimen/common_fragment_title_padding_left</item>
         <item name="android:paddingTop">@dimen/common_fragment_title_padding_top</item>
         <item name="android:paddingBottom">@dimen/common_fragment_title_padding_bottom</item>
+        <item name="android:layout_marginLeft">@dimen/fragment_title_margin_left</item>
+        <item name="android:layout_marginTop">@dimen/fragment_title_margin_top</item>
+        <item name="android:layout_marginBottom">@dimen/fragment_title_margin_bottom</item>
     </style>
 
-    <style name="CommonFragmentTitleStyle.Light">
+    <style name="CommonFragmentTitleStyleExtra">
+    </style>
+
+    <style name="CommonFragmentTitleStyleExtra.Light">
         <item name="android:textColor">@color/theme_light_text_color</item>
     </style>
 
-    <style name="CommonFragmentTitleStyle.Dark">
+    <style name="CommonFragmentTitleStyleExtra.Dark">
         <item name="android:textColor">@color/theme_dark_text_color</item>
     </style>
 
@@ -174,7 +184,7 @@
 
         <item name="progressBarStyle">@style/TyoDroid.Widget.ProgressBar.Inverse</item>
 
-        <item name="fragmentTitleStyle">@style/CommonFragmentTitleStyle.Light</item>
+        <item name="fragmentTitleStyle">@style/CommonFragmentTitleStyleExtra.Light</item>
     </style>
 
     <style name="CommonTheme.Dark" parent="Theme.AppCompat.NoActionBar" />
@@ -238,7 +248,7 @@
 
         <item name="progressBarStyle">@style/TyoDroid.Widget.ProgressBar</item>
 
-        <item name="fragmentTitleStyle">@style/CommonFragmentTitleStyle.Dark</item>
+        <item name="fragmentTitleStyle">@style/CommonFragmentTitleStyleExtra.Dark</item>
     </style>
 
     <style name="AppBaseTheme.Light" parent="CommonTheme.Light.Pale">
@@ -328,6 +338,4 @@
         <item name="android:textColor">@color/grey</item>
     </style>
 
-    <dimen name="common_fragment_title_padding_top">3dp</dimen>
-    <dimen name="common_fragment_title_padding_bottom">3dp</dimen>
 </resources>

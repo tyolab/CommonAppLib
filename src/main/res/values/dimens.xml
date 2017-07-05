@@ -44,10 +44,13 @@
 
     <!-- FRAGMENT -->
     <dimen name="fragment_title_margin_left">0dp</dimen>
+    <dimen name="fragment_title_margin_bottom">0dp</dimen>
+    <dimen name="fragment_title_margin_top">0dp</dimen>
     <dimen name="fragment_title_text_size">16sp</dimen>
     <dimen name="fragment_content_margin_left">0dp</dimen>
     <dimen name="fragment_content_margin_right">0dp</dimen>
 
     <dimen name="common_fragment_title_padding_left">6dp</dimen>
-
+    <dimen name="common_fragment_title_padding_top">3dp</dimen>
+    <dimen name="common_fragment_title_padding_bottom">3dp</dimen>
 </resources>

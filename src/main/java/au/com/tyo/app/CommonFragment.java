@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import au.com.tyo.app.ui.CommonFragmentView;
+
 /**
  * Created by Eric Tang (eric.tang@tyo.com.au) on 25/6/17.
  */
@@ -25,10 +27,7 @@ public abstract class CommonFragment extends Fragment {
 
     protected TextView tvTitle = null;
 
-    private int[] xyPosition = new int[2];
-    private int[] xyPositionInWindow = new int[2];
-
-    private View fragmentView;
+    private CommonFragmentView fragmentView;
     private ViewGroup contentContainer;
     private View contentView;
 
@@ -46,11 +45,7 @@ public abstract class CommonFragment extends Fragment {
         this.title = title;
     }
 
-    public int getScreenLocationY() {
-        return xyPosition[1];
-    }
-
-    public View getFragmentView() {
+    public CommonFragmentView getFragmentView() {
         return fragmentView;
     }
 
@@ -67,8 +62,7 @@ public abstract class CommonFragment extends Fragment {
     }
 
     public void checkLocationOnScreen() {
-        fragmentView.getLocationOnScreen(xyPosition);
-        fragmentView.getLocationInWindow(xyPositionInWindow);
+        fragmentView.checkLocationOnScreen();
     }
 
     protected void initialiseTitle() {
@@ -87,7 +81,7 @@ public abstract class CommonFragment extends Fragment {
         else if (fragmentResId == 0)
             return super.onCreateView(inflater, container, savedInstanceState);
 
-        fragmentView = inflater.inflate(fragmentResId,
+        fragmentView = (CommonFragmentView) inflater.inflate(fragmentResId,
                 container, false);
 
 
