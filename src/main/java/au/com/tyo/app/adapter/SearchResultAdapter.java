@@ -85,7 +85,7 @@ public class SearchResultAdapter extends ListViewItemAdapter<ImagedSearchableIte
 //            if ((pos = link.indexOf("file://")) > -1)
 //            	link = link.substring(pos + 7);
 //	        	
-//	        controller.getImageDownloader().download(link, image);
+//	        controller.getImageDownloader().fetch(link, image);
 //        }
 //        else {
 //        	if (hideImageViewWhenImageUnavaiable)

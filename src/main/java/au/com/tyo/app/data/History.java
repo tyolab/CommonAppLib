@@ -1,5 +1,11 @@
 package au.com.tyo.app.data;
 
+import android.os.AsyncTask;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -16,14 +22,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.zip.GZIPOutputStream;
 
-import android.os.AsyncTask;
-import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import au.com.tyo.android.services.Downloader;
-import au.com.tyo.android.services.DownloaderInterface;
 import au.com.tyo.android.services.ImageDownloader;
+import au.com.tyo.android.services.ResourceFetcher;
+import au.com.tyo.android.services.ResourceFetchererInterface;
 import au.com.tyo.app.Controller;
 import au.com.tyo.app.adapter.HistoryAdapter;
 import au.com.tyo.common.model.ImageTextListItem;
@@ -31,8 +32,8 @@ import au.com.tyo.io.CacheInterface;
 import au.com.tyo.io.StreamUtils;
 import au.com.tyo.io.WildcardFileStack;
 
-public class History extends Downloader<String, ImagedSearchableItem> 
-	implements CacheInterface<String>, DownloaderInterface<String, ImagedSearchableItem>, OnItemClickListener {
+public class History extends ResourceFetcher<String, ImagedSearchableItem>
+	implements CacheInterface<String>, ResourceFetchererInterface<String, ImagedSearchableItem>, OnItemClickListener {
 
 	public static final String DOMAIN_TITLE_SEPARATOR = "__";
 	
@@ -268,7 +269,7 @@ public class History extends Downloader<String, ImagedSearchableItem>
 //		pageHistory.push(page);
 		
 		if (page.getThumbnailLink() != null)
-			imageDownloader.download(page.getThumbnailLink(), null);
+			imageDownloader.fetch(page.getThumbnailLink(), null);
 		
 		String title = page.getTitle();
 		if (names != null && title != null) {
@@ -401,7 +402,7 @@ public class History extends Downloader<String, ImagedSearchableItem>
 //			controller.onHistoryItemClick(page, Request.FROM_HISTORY, false);
 //		else {
 ////			controller.getUi().onLoadingPage();
-//			this.download(page.getLocation(), page, true);
+//			this.fetch(page.getLocation(), page, true);
 //		}
 	}
 
