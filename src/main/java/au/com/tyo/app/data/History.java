@@ -337,7 +337,7 @@ public class History extends ResourceFetcher<String, ImagedSearchableItem>
 	 * this is useless bit, because we have totally different logic for getting the page cache
 	 */
 	@Override
-	protected String processInputStream(InputStream inputStream) {
+	protected String processInputStream(InputStream inputStream, String url) {
 		return null;
 	}
 

@@ -16,7 +16,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import au.com.tyo.android.utils.BitmapUtils;
+import au.com.tyo.android.images.utils.BitmapUtils;
 import au.com.tyo.android.utils.ListViewItemAdapter;
 import au.com.tyo.app.Constants;
 import au.com.tyo.app.Controller;
