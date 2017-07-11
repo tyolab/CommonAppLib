@@ -77,7 +77,7 @@ public class History extends ResourceFetcher<String, ImagedSearchableItem>
 		while ((file = fileStack.next()) != null)
 			file.delete();
 		
-		this.getCacheDirectory().delete();
+		this.getCacheDirectoryFromLocation().delete();
 		
 		if (names != null)
 			names.clear();
@@ -92,7 +92,7 @@ public class History extends ResourceFetcher<String, ImagedSearchableItem>
 	private void loadInHistoryDirectoy() {
 		if (fileStack == null && this.isCacheEnabled())
 			try {
-				fileStack = new WildcardFileStack(this.getCacheDirectory(), "*__*");
+				fileStack = new WildcardFileStack(this.getCacheDirectoryFromLocation(), "*__*");
 				fileStack.setIncludeAllSubfolders(true);
 //				fileStack.setToListAllFiles(true);
 				fileStack.listFiles();
@@ -209,7 +209,7 @@ public class History extends ResourceFetcher<String, ImagedSearchableItem>
 		}
 		else {
 			String formattedDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-			String dir = getCacheDirectory().toString() + File.separator + formattedDate;
+			String dir = getCacheDirectoryFromLocation().toString() + File.separator + formattedDate;
 			File dirFile = new File(dir);
 			if (!dirFile.exists())
 				dirFile.mkdirs();
@@ -367,7 +367,7 @@ public class History extends ResourceFetcher<String, ImagedSearchableItem>
 //		ImageDownloader imageDownloader = controller.getImageDownloader();
 //		
 //		if (tokens.length == 3) {
-//			page.setThumbnailLink(imageDownloader.getCacheDirectory().toString() + File.separator + tokens[0]);
+//			page.setThumbnailLink(imageDownloader.getCacheDirectoryFromLocation().toString() + File.separator + tokens[0]);
 //			page.setLangCode(tokens[1]);
 //			page.setTitle(tokens[2].replace('_', ' '));
 //		}
