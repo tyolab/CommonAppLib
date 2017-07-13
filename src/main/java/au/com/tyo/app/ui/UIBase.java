@@ -343,11 +343,20 @@ public class UIBase implements UI {
 		return contentView;
 	}
 
+    public void setContentView(ViewGroup contentView) {
+        this.contentView = contentView;
+    }
+
+    @Override
 	public ViewGroup getBodyView() {
 		return bodyView;
 	}
 
-	protected void addAdView() {
+    public void setBodyView(BodyView bodyView) {
+        this.bodyView = bodyView;
+    }
+
+    protected void addAdView() {
 		ad.initialize(controller, footerView);
 	}
 

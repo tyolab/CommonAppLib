@@ -17,6 +17,8 @@ public abstract class CommonFragment extends Fragment {
 
     private static final String TAG = "FragmentShared";
 
+    private int parentContainerHeight = -1;
+
     /**
      * UI widgets
      */
@@ -43,6 +45,18 @@ public abstract class CommonFragment extends Fragment {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public int getParentContainerHeight() {
+        return parentContainerHeight;
+    }
+
+    public void setParentContainerHeight(int parentContainerHeight) {
+        this.parentContainerHeight = parentContainerHeight;
+    }
+
+    public ViewGroup getContentContainer() {
+        return contentContainer;
     }
 
     public CommonFragmentView getFragmentView() {
