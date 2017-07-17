@@ -70,14 +70,29 @@ public class UIBase implements UI {
 
 	private InformationView informationView;
 
+	private ActionBarMenu actionBarMenu;
+
 	public UIBase(Controller controller) {
 		this.controller = controller;
 		alwaysShowSearchView = true;
+
+        configActionBarMenu();
 	}
+
+    protected void configActionBarMenu() {
+    }
 
     @Override
     public Toolbar getToolbar() {
         return toolbar;
+    }
+
+    public ActionBarMenu getActionBarMenu() {
+        return actionBarMenu;
+    }
+
+    public void setActionBarMenu(ActionBarMenu actionBarMenu) {
+        this.actionBarMenu = actionBarMenu;
     }
 
     public InformationView getInformationView() {
@@ -292,10 +307,14 @@ public class UIBase implements UI {
 
             if (!controller.getNetworkMonitor().hasInternet())
                 onNetworkDisonnected();
-		
+
+        setupActionBarMenu();
 	}
 
-	private boolean hasSearchBar() {
+    protected void setupActionBarMenu() {
+    }
+
+    private boolean hasSearchBar() {
 		return null != mainView.findViewById(R.id.search_nav_bar);
 	}
 	
