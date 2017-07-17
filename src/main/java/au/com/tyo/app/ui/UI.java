@@ -86,4 +86,6 @@ public interface UI {
     void setupTheme(Activity activity);
 
     ViewGroup getBodyView();
+
+	ActionBarMenu getActionBarMenu();
 }

@@ -450,6 +450,8 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 
 	@Override
 	public void onPrepareOptionsMenu(Object actionBar, Menu menu) {
+		if (null != ui.getActionBarMenu())
+			ui.getActionBarMenu().initializeMenuForActionBar(actionBar, menu);
 	}
 
 	@Override
