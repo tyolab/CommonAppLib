@@ -27,7 +27,7 @@ public class CommonAppInitializer extends MultiDexApplication {
     }
 
     public static Controller getController(Context context) {
-        if (null == controller) {
+        if (null == controller || controller.isAppQuit()) {
             controller = (Controller) CommonInitializer.initializeController(context);
 
             if (controller == null)

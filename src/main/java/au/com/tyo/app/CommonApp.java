@@ -53,6 +53,8 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 	protected NetworkMonitor watchDog;
 	
 	protected List<String> queries;
+
+	private boolean appAuit;
 	
 	public CommonApp(Context context) {
 		super(context);
@@ -75,6 +77,15 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 		ui = null;
 		
 		inputManager = new InputManager();
+	}
+
+	@Override
+	public boolean isAppQuit() {
+		return appAuit;
+	}
+
+	public void setAppAuit(boolean appAuit) {
+		this.appAuit = appAuit;
 	}
 
 	/**
@@ -500,6 +511,7 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
+		setAppAuit(true);
 	}
 
 	@Override

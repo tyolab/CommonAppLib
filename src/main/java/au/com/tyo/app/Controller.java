@@ -28,7 +28,9 @@ import au.com.tyo.app.ui.UI;
 
 public interface Controller extends CommonController {
 
-	void onMessageBackgroundTaskStageTwo();
+    boolean isAppQuit();
+
+    void onMessageBackgroundTaskStageTwo();
 
 	void onMessageBackgroundTaskStageThree();
 
