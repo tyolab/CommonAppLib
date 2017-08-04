@@ -1,4 +1,4 @@
-package au.com.tyo.app.data;
+package au.com.tyo.app.model;
 
 import android.graphics.drawable.Drawable;
 

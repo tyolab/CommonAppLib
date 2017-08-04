@@ -10,7 +10,10 @@ package au.com.tyo.app;
  */
 
 public interface Constants extends au.com.tyo.android.Constants {
-	
+
+	/**
+	 * Message Constants
+	 */
 	int MESSAGE_SUGGESTION_RETURN = 99;
 
 	int MESSAGE_BACKGROUND_TASK_STARTED = 0;
@@ -43,4 +46,11 @@ public interface Constants extends au.com.tyo.android.Constants {
 	int MESSAGE_AD_TIMEUP = -2;
 
 	int MESSAGE_APP_INITIALIZED = 1000;
+
+	/**
+	 * Activity Communication
+	 */
+	String DATA = "TYODROID_DATA";
+    String BUNDLE = "TYODROID_BUNDLE";
+	String RESULT = "TYODROID_RESULT";
 }

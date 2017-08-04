@@ -6,17 +6,22 @@
 package au.com.tyo.app;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Application;
+import android.app.Dialog;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -24,13 +29,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Observable;
 
+import au.com.tyo.android.AndroidUtils;
 import au.com.tyo.android.CommonApplicationImpl;
 import au.com.tyo.android.CommonInitializer;
+import au.com.tyo.android.DialogFactory;
 import au.com.tyo.android.NetworkMonitor;
 import au.com.tyo.android.services.ImageDownloader;
-import au.com.tyo.app.data.DisplayItem;
-import au.com.tyo.app.data.ImagedSearchableItem;
-import au.com.tyo.app.data.Searchable;
+import au.com.tyo.app.model.DisplayItem;
+import au.com.tyo.app.model.ImagedSearchableItem;
+import au.com.tyo.app.model.Searchable;
 import au.com.tyo.app.ui.UI;
 import au.com.tyo.app.ui.UIBase;
 
@@ -54,7 +61,9 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 	
 	protected List<String> queries;
 
-	private boolean appAuit;
+	private boolean appQuit;
+
+	private Object parcel;
 	
 	public CommonApp(Context context) {
 		super(context);
@@ -80,12 +89,23 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 	}
 
 	@Override
-	public boolean isAppQuit() {
-		return appAuit;
+	public Object getParcel() {
+		return parcel;
 	}
 
-	public void setAppAuit(boolean appAuit) {
-		this.appAuit = appAuit;
+
+	@Override
+	public void setParcel(Object parcel) {
+		this.parcel = parcel;
+	}
+
+	@Override
+	public boolean isAppQuit() {
+		return appQuit;
+	}
+
+	public void setAppQuit(boolean appQuit) {
+		this.appQuit = appQuit;
 	}
 
 	/**
@@ -360,12 +380,12 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 		 * this can be called even the UI is not created yet
 		 */
 		if (ui != null)
-			ui.onConfigurationChanged(newConfig);
+			ui.getCurrentScreen().onConfigurationChanged(newConfig);
 	}
 
 	@Override
 	public void onUiReady() {
-		ui.hideProgressBar();
+		ui.getCurrentScreen().hideProgressBar();
 	}
 
 	@Override
@@ -412,10 +432,10 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 
 	@Override
 	public void onSearchInputFocused() {
-		getUi().setSuggestionViewVisibility(true);
+		getUi().getCurrentScreen().setSuggestionViewVisibility(true);
 		
 		getCurrentActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-		getUi().hideAd();
+		getUi().getCurrentScreen().hideAd();
 	}
 
 	@Override
@@ -425,7 +445,7 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
     	 */
 //    	getUI().setSuggestionViewVisibility(false);
     	getCurrentActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-    	getUi().showAd();
+    	getUi().getCurrentScreen().showAd();
 	}
 
 	@Override
@@ -455,14 +475,14 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 	}
 
 	@Override
-	public void onAppStart() {
+	public void onCurrentActivityStart() {
         ui.onAppStart();
 	}
 
 	@Override
 	public void onPrepareOptionsMenu(Object actionBar, Menu menu) {
-		if (null != ui.getActionBarMenu())
-			ui.getActionBarMenu().initializeMenuForActionBar(actionBar, menu);
+		if (null != ui.getCurrentScreen().getActionBarMenu())
+			ui.getCurrentScreen().getActionBarMenu().initializeMenuForActionBar(actionBar, menu);
 	}
 
 	@Override
@@ -511,7 +531,7 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
-		setAppAuit(true);
+		setAppQuit(true);
 	}
 
 	@Override
@@ -538,7 +558,6 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 		 */
 		ui.setUiRecreationRequierd(true);
 
-
 		super.quitOrRestart(restart);
 	}
 
@@ -555,12 +574,6 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 
 	protected void setThemeByIndex(int index) {
 
-		Application application = null;
-		if (null != getCurrentActivity())
-			application = getCurrentActivity().getApplication();
-
-		if (application != null) {
-
 			int themeId = R.style.AppTheme_Light;
 
 			if (index == 0)
@@ -570,11 +583,30 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 
 			setThemeUsage(themeId);
 
-			application.setTheme(themeId); // set the application wise theme
 
-			ui.setUiRecreationRequierd(true);
+		setThemeById(themeId);
+	}
 
-			this.quitOrRestart(true);
+	public void setThemeById(int themeId) {
+		Application application = null;
+		if (null != getCurrentActivity())
+			application = getCurrentActivity().getApplication();
+
+		if (application != null) {
+			int oldId = -1;
+			try {
+				oldId = AndroidUtils.getPredefinedApplicationThemeId(context);
+				//oldId = AndroidUtils.getApplicationThemeId(context, application.getTheme());
+			} catch (PackageManager.NameNotFoundException e) {
+
+			}
+			if (oldId != themeId) {
+				application.setTheme(themeId); // set the application wise theme
+
+				ui.setUiRecreationRequierd(true);
+
+				this.quitOrRestart(true);
+			}
 		}
 	}
 
@@ -588,4 +620,39 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
     public boolean onSupportNavigateUp() {
         return false;
     }
+
+    @Override
+	protected void showInfo(boolean showAcknowledgement) {
+		// Inflate the about message contents
+		View messageView = ((Activity) context).getLayoutInflater().inflate(au.com.tyo.android.R.layout.info_dialog, null, false);
+		View acknowledgement = messageView.findViewById(au.com.tyo.android.R.id.acknowledge_view);
+		if (showAcknowledgement) {
+			acknowledgement.setVisibility(View.VISIBLE);
+
+			if (null != acknowledgementTitle) {
+				TextView tv = (TextView) acknowledgement.findViewById(au.com.tyo.android.R.id.tv_acknowledgement_title);
+				tv.setText(acknowledgementTitle);
+			}
+
+			if (null != acknowledgementInfo) {
+				TextView tv = (TextView) acknowledgement.findViewById(au.com.tyo.android.R.id.info_acknowledgement);
+				tv.setText(acknowledgementInfo);
+			}
+		}
+
+
+		String appDesc = getAppNameWithVersion();
+
+		AlertDialog.Builder builder = DialogFactory.getBuilder(context, R.style.CommonAlertDialog_Light);
+		builder.setIcon(logoResId);
+		builder.setTitle(appDesc);
+		builder.setView(messageView);
+		Dialog dialog = builder.create();
+		showDialog(dialog);
+	}
+
+	@Override
+	public void initializeOnce() {
+
+	}
 }

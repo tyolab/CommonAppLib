@@ -5,20 +5,24 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+
 import au.com.tyo.app.Controller;
-import au.com.tyo.app.adapter.SuggestionsAdapter;
-import au.com.tyo.app.data.Searchable;
-import au.com.tyo.common.ui.CommonListView;
 import au.com.tyo.app.R;
+import au.com.tyo.app.adapter.SuggestionsAdapter;
+import au.com.tyo.app.model.Searchable;
+import au.com.tyo.common.ui.CommonListView;
 
 /**
  * @author Eric Tang <eric.tang@tyo.com.au>
  */
 
 
-public class SuggestionView extends CommonListView implements OnItemClickListener {
+public class SuggestionView extends CommonListView {
 
 	private SuggestionsAdapter adapter;
 	
@@ -42,7 +46,7 @@ public class SuggestionView extends CommonListView implements OnItemClickListene
 		super.onFinishInflate();
 		
 		/*
-		 * don't need this, the listview will be created programmatically
+		 * probably don't need this, the listview will be created programmatically
 		 */
 		list = (ListView) findViewById(R.id.lv_suggestion);
 	}
@@ -57,25 +61,27 @@ public class SuggestionView extends CommonListView implements OnItemClickListene
 		adapter.setKeepOldItems(false);
 		
 		list.setAdapter(adapter);
-		
+
 		if (controller.getUi() != null) {
-			SearchInputView inputView = controller.getUi().getSearchInputView();
+			SearchInputView inputView = controller.getUi().getCurrentScreen().getSearchInputView();
 			inputView.setAdapter(adapter);
-			list.setOnItemClickListener(this);
 		}
-		
+
+	}
+
+	public void addDemoDataIfListIsEmpty() {
 		if (list.getChildCount() == 0) {
 			controller.displayHistory();
 			/*
 			 * for debugging the listview
 			 */
-//			ArrayList<String> listItems=new ArrayList<String>();
-//			listItems.add("Test1");
-//			listItems.add("Test2");
-//			listItems.add("Test3");
-//			list.setAdapter(new ArrayAdapter<String>(getContext(),
-//		            android.R.layout.simple_list_item_1,
-//		            listItems));
+			ArrayList<String> listItems = new ArrayList<String>();
+			listItems.add("Test1");
+			listItems.add("Test2");
+			listItems.add("Test3");
+			list.setAdapter(new ArrayAdapter<String>(getContext(),
+		            android.R.layout.simple_list_item_1,
+		            listItems));
 		}
 	}
 	
@@ -83,15 +89,8 @@ public class SuggestionView extends CommonListView implements OnItemClickListene
 		list.setAdapter(adapter);
 	}
 	
-	public SuggestionsAdapter getWikiSuggestionAdapter() {
+	public SuggestionsAdapter getSuggestionAdapter() {
 		return adapter;
 	}
-	
-	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position,
-			long id) {
-		Searchable item = adapter.getItem(position);
-		controller.getUi().hideSuggestionView();
-		controller.onOpenSearchItemClicked(item);
-	}
+
 }

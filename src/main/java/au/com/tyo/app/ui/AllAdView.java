@@ -143,7 +143,7 @@ public class AllAdView extends FrameLayout {
 		public void onAdLoaded() {
 			super.onAdLoaded();
 			
-			controller.getUi().onAdLoaded();
+			controller.getUi().getCurrentScreen().onAdLoaded();
 		}
 
     }
@@ -160,7 +160,7 @@ public class AllAdView extends FrameLayout {
          */
         public void onAdLoaded(final Ad ad, final AdProperties adProperties) {
             Log.i(LOG_TAG, adProperties.getAdType().toString() + " ad loaded successfully.");
-            controller.getUi().onAdLoaded();
+            controller.getUi().getCurrentScreen().onAdLoaded();
         }
         
         /**

@@ -2,8 +2,8 @@ package au.com.tyo.app.adapter;
 
 import android.view.View;
 import android.view.ViewGroup;
-import au.com.tyo.app.Controller;
-import au.com.tyo.app.data.ImagedSearchableItem;
+
+import au.com.tyo.app.model.ImagedSearchableItem;
 import au.com.tyo.common.ui.ImageTextListViewAdapter;
 
 public class HistoryAdapter extends ImageTextListViewAdapter {

@@ -3,7 +3,7 @@
  *
  */
 
-package au.com.tyo.app.data;
+package au.com.tyo.app.model;
 
 public class DisplayItem {
 	

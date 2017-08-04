@@ -13,33 +13,95 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import au.com.tyo.app.ui.UIActivity;
+import au.com.tyo.app.ui.Page;
+import au.com.tyo.app.ui.UIPage;
 
 /**
  * 
  * @author Eric Tang <eric.tang@tyo.com.au>
  * 
  */
-public class CommonAppCompatActivity extends AppCompatActivity implements UIActivity {
+public class CommonAppCompatActivity extends AppCompatActivity implements CommonActivityAgent.ActivityActionListener {
 
     protected CommonActivityAgent agent;
 
-	protected Controller controller;
+	private Controller controller;
+
+	protected UIPage page;
 
 	@SuppressLint("MissingSuperCall")
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
+		controller = (Controller) CommonApp.getInstance();
+		if (null == controller) {
+			controller = CommonAppInitializer.getController(this);
+			CommonApp.setInstance(controller);
+		}
+
         agent = new CommonActivityAgent(this);
-        agent.preInitialize(savedInstanceState);
+
+		createPage();
+        onPageCreated();
+
+        agent.preInitialize(savedInstanceState, page);
 
         super.onCreate(savedInstanceState);
 
         agent.onCreate(savedInstanceState);
 
-		controller = (Controller) CommonApp.getInstance();
 	}
 
-  	@Override
+	/**
+	 * Create an assoicated page that contains all the widgets / controls
+	 *
+	 * if a custom page is needed just override this method to create a different page setting
+	 */
+	protected void createPage() {
+        if (null == page)
+		    page = new Page(controller, this);
+	}
+
+	/**
+	 *
+	 */
+    protected void onPageCreated() {
+        if (page.getContentViewResId() <= 0)
+            page.setContentViewResId(R.layout.content);
+    }
+
+    public UIPage getPage() {
+        return page;
+    }
+
+    public void setPage(UIPage page) {
+        this.page = page;
+    }
+
+	@Override
+	public void bindData() {
+		page.bindData();
+	}
+
+	@Override
+    public void bindData(Intent intent) {
+		page.bindData(intent);
+    }
+
+    @Override
+    public void onSaveData(Bundle savedInstanceState) {
+
+    }
+
+    /**
+	 * Get the controller instance
+	 *
+	 * @return
+	 */
+	public Controller getController() {
+		return controller;
+	}
+
+	@Override
 	protected void onNewIntent(Intent intent) {
   		setIntent(intent); 
   		agent.handleIntent(intent);
@@ -52,7 +114,7 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if (!controller.onOptionsItemSelected(this, item)) {
+		if (!page.onOptionsItemSelected(item)) {
 			return super.onOptionsItemSelected(item);
 		}
 		return true;
@@ -69,7 +131,7 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
   	protected void onResume() {
   		super.onResume();
   		
-		agent.onResume();
+		agent.onResume(page);
   	}
 
   	@Override
@@ -143,7 +205,9 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 	}
 
 	@Override
-	public void onUICreated() {
-		// do nothing
+	public void finish() {
+		page.onFinish();
+
+		super.finish();
 	}
 }

@@ -17,7 +17,7 @@ import java.lang.reflect.Field;
 import au.com.tyo.android.AndroidUtils;
 import au.com.tyo.android.CommonInitializer;
 import au.com.tyo.app.ui.UI;
-import au.com.tyo.app.ui.UIActivity;
+import au.com.tyo.app.ui.UIPage;
 
 /**
  * Created by Eric Tang (eric.tang@tyo.com.au) on 23/5/17.
@@ -41,13 +41,25 @@ public class CommonActivityAgent {
      */
 
     protected View contentView;
+    
+    private ActivityActionListener actionListener;
+    
+    public interface ActivityActionListener {
+
+        void bindData(Intent intent);
+
+        void onSaveData(Bundle savedInstanceState);
+
+        void bindData();
+    }
 
 
     public CommonActivityAgent(Activity activity) {
         this.activity = activity;
 
-        if (!(activity instanceof UIActivity))
-            throw new IllegalArgumentException("Activity must be implmented with UIActivity interface");
+        if (activity instanceof ActivityActionListener)
+            actionListener = (ActivityActionListener) activity;
+
         init();
     }
 
@@ -57,6 +69,14 @@ public class CommonActivityAgent {
                 CommonApp.setInstance(CommonInitializer.initializeInstance(CommonApp.class, activity));
             controller = (Controller) CommonApp.getInstance();
         }
+    }
+
+    public ActivityActionListener getActionListener() {
+        return actionListener;
+    }
+
+    public void setActionListener(ActivityActionListener actionListener) {
+        this.actionListener = actionListener;
     }
 
     public void onCreate(Bundle savedInstanceState) {
@@ -69,24 +89,29 @@ public class CommonActivityAgent {
         onActivityStart();
     }
 
+    /**
+     *
+     */
     protected void onActivityStart() {
 		/*
          * after UI initialization, do whatever needs to be done, like setting tup the settings, etc.
          */
-        controller.onAppStart();
+        controller.onCurrentActivityStart();
     }
 
     protected void startDataHandlingActivity() {
         // do nothing here
     }
 
-    protected void createUI() {
-        if (controller.getUi() == null || controller.getUi().recreationRequried())
+    protected void createUI(UIPage screen) {
+        if (controller.getUi() == null || controller.getUi().recreationRequired())
             controller.createUi();
+        controller.getUi().setCurrentScreen(screen);
+        controller.getUi().onScreenAttached(screen);
     }
 
     protected void setupActionbar() {
-        Object toolbar = controller.getUi().getToolbar();
+        Object toolbar = controller.getUi().getCurrentScreen().getToolbar();
 
         if (null == toolbar)
             toolbar = activity.findViewById(R.id.tyodroid_toolbar);
@@ -118,7 +143,7 @@ public class CommonActivityAgent {
         if (bar == null && activity instanceof AppCompatActivity)
             bar = ((AppCompatActivity) activity).getSupportActionBar();
 
-        return ui.setupActionBar(bar);
+        return ui.getCurrentScreen().setupActionBar(bar);
     }
 
     protected boolean checkExtras() {
@@ -132,30 +157,54 @@ public class CommonActivityAgent {
         return false;
     }
 
-    protected void processExtras() {
-        Intent intent = activity.getIntent();
-        String action =intent.getAction();
-        // to see where it is from
-        if (action != null && action.equalsIgnoreCase("android.intent.action.ASSIST")) {
-            Log.d(LOG_TAG, "starting native voice recognizer from main activity");
-            activity.getIntent().setAction("");
-        }
-        else {
-            String url = intent.getDataString();
-            if (url != null && url.length() > 0) {
-                intent.setData(null);
+    protected void processExtras(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            Intent intent = activity.getIntent();
+            if (null != intent && (null != intent.getData() || null != intent.getExtras())) {
+                String action = intent.getAction();
+                // to see where it is from
+                if (action != null && action.equalsIgnoreCase("android.intent.action.ASSIST")) {
+                    Log.d(LOG_TAG, "starting native voice recognizer from main activity");
+                    activity.getIntent().setAction("");
+                } else {
+                    if (getActionListener() != null)
+                        getActionListener().bindData(intent);
+                    else
+                        consumeInterActivityData(intent);
+                }
             }
-
-            intent.replaceExtras((Bundle) null);
+            else {
+                // in case we need to bind other data that is not passed through intent
+                if (getActionListener() != null)
+                    getActionListener().bindData();
+            }
         }
+        else if (getActionListener() != null)
+            getActionListener().onSaveData(savedInstanceState);
     }
 
-    public void preInitialize(Bundle savedInstanceState) {
+    /**
+     *
+     * @param intent
+     */
+    protected void consumeInterActivityData(Intent intent) {
+        //  do nothing
+
+//        String url = intent.getDataString();
+//        if (url != null && url.length() > 0) {
+//            intent.setData(null);
+//        }
+//
+//        intent.replaceExtras((Bundle) null);
+    }
+
+    public void preInitialize(Bundle savedInstanceState, UIPage screen) {
 
         if (savedInstanceState != null)
             controller.onRestoreInstanceState(savedInstanceState);
 
-        createUI();
+        createUI(screen);
+
         controller.getUi().setupTheme(activity);
     }
 
@@ -199,7 +248,7 @@ public class CommonActivityAgent {
 		 */
         showOverflowMenu();
 
-        processExtras();
+        processExtras(savedInstanceState);
 
         controller.onUiReady();
     }
@@ -209,9 +258,7 @@ public class CommonActivityAgent {
      */
     protected void initialiseUi() {
         controller.getUi().initializeUi(activity);
-        contentView = controller.getUi().getMainView();
-
-        ((UIActivity) activity).onUICreated();
+        contentView = controller.getUi().getCurrentScreen().getMainView();
     }
 
     private void setupTitleBar1() {
@@ -240,12 +287,19 @@ public class CommonActivityAgent {
 
     /**
      *
+     * @param page
      */
-    public void onResume() {
+    public void onResume(UIPage page) {
+        controller.getUi().setCurrentScreen(page);
+
         controller.setCurrentActivity(activity);
         controller.setContext(activity);
 
-        processExtras();
+        /**
+         * Can't remember why we need to deal with extra onResume
+         * comment it off fow now
+         */
+        // processExtras();
 
         controller.onResume();
     }

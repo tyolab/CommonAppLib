@@ -13,32 +13,79 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import au.com.tyo.app.ui.UIActivity;
+import au.com.tyo.app.ui.Page;
+import au.com.tyo.app.ui.UIPage;
 
 /**
  * 
  * @author Eric Tang <eric.tang@tyo.com.au>
  * 
  */
-public class CommonFragmentActivity extends FragmentActivity implements UIActivity {
+public class CommonFragmentActivity extends FragmentActivity implements CommonActivityAgent.ActivityActionListener {
 
     protected CommonActivityAgent agent;
 
 	protected Controller controller;
 
+	protected UIPage page;
+
+	public UIPage getPage() {
+		return page;
+	}
+
 	@SuppressLint("MissingSuperCall")
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
+		controller = (Controller) CommonApp.getInstance();
+		if (null == controller) {
+			controller = CommonAppInitializer.getController(this);
+			CommonApp.setInstance(controller);
+		}
 
-		if (null == agent)
-        	agent = new CommonActivityAgent(this);
-        agent.preInitialize(savedInstanceState);
+		agent = new CommonActivityAgent(this);
+
+		createPage();
+		onPageCreated();
+
+        agent.preInitialize(savedInstanceState, page);
 
         super.onCreate(savedInstanceState);
 
         agent.onCreate(savedInstanceState);
 
 		controller = (Controller) CommonApp.getInstance();
+	}
+
+	/**
+	 * Create an assoicated page that contains all the widgets / controls
+	 *
+	 * if an custom page is needed just override this method to create a different page setting
+	 */
+	protected void createPage() {
+		page = new Page(controller, this);
+		page.setContentViewResId(R.layout.content);
+	}
+
+	/**
+	 *
+	 */
+	protected void onPageCreated() {
+	}
+
+
+	@Override
+	public void bindData(Intent intent) {
+        page.bindData(intent);
+	}
+
+    @Override
+    public void bindData() {
+        page.bindData();
+    }
+
+    @Override
+	public void onSaveData(Bundle savedInstanceState) {
+
 	}
 
   	@Override
@@ -71,7 +118,7 @@ public class CommonFragmentActivity extends FragmentActivity implements UIActivi
   	protected void onResume() {
   		super.onResume();
   		
-		agent.onResume();
+		agent.onResume(page);
   	}
 
   	@Override
@@ -140,7 +187,9 @@ public class CommonFragmentActivity extends FragmentActivity implements UIActivi
 	}
 
 	@Override
-	public void onUICreated() {
-		// do nothing
+	public void finish() {
+		page.onFinish();
+
+		super.finish();
 	}
 }

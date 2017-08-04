@@ -42,7 +42,7 @@
         <item name="colorPrimary">@color/theme_light_text_color</item>
         <item name="colorPrimaryDark">@color/theme_dark_text_color</item>
 
-        <item name="android:windowBackground">@color/theme_light_background_color</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:colorBackground">@color/theme_light_background_color</item>
 
         <item name="android:textColor">@color/theme_light_text_color</item>
@@ -60,7 +60,7 @@
         <item name="colorPrimary">@color/theme_dark_text_color</item>
         <item name="colorPrimaryDark">@color/theme_dark_text_color</item>
 
-        <item name="android:windowBackground">@color/dialog_background_color_dark</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:colorBackground">@color/dialog_background_color_dark</item>
 
         <item name="android:textColor">@color/theme_dark_text_color</item>
@@ -140,6 +140,7 @@
 
         <item name="android:alertDialogStyle">@style/CommonAlertDialog.Light</item>
         <item name="android:alertDialogTheme">@style/CommonAlertDialog.Light</item>
+        <item name="alertDialogTheme">@style/CommonAlertDialog.Light</item>
 
         <item name="ic_action_settings">@drawable/ic_action_settings_light</item>
         <item name="ic_action_exit">@drawable/ic_action_exit_light</item>
@@ -204,6 +205,7 @@
 
         <item name="android:alertDialogStyle">@style/CommonAlertDialog.Dark</item>
         <item name="android:alertDialogTheme">@style/CommonAlertDialog.Dark</item>
+        <item name="alertDialogTheme">@style/CommonAlertDialog.Dark</item>
 
         <item name="ic_action_settings">@drawable/ic_action_settings_dark</item>
         <item name="ic_action_exit">@drawable/ic_action_exit_dark</item>

@@ -1,4 +1,4 @@
-package au.com.tyo.app.data;
+package au.com.tyo.app.model;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -395,7 +395,7 @@ public class History extends ResourceFetcher<String, ImagedSearchableItem>
 			long id) {
 //		controller.getUi().closeDrawer();
 		
-		ImageTextListItem page = adapter.getItem(position);
+		ImageTextListItem page = (ImageTextListItem) adapter.getItem(position);
 		
 //		File file = new File(page.getLocation());
 //		if (!file.exists() || file.length() == 0)

@@ -9,6 +9,7 @@
     android:paddingLeft="@dimen/image_text_list_padding_left"
     android:paddingRight="@dimen/image_text_list_padding_right"
     android:paddingTop="5dp"
+    android:descendantFocusability="beforeDescendants"
     >
 
     <ImageView
@@ -17,6 +18,7 @@
 	    android:layout_height="@dimen/image_text_list_cell_height"
 	    android:gravity="left|center_vertical"
 	    android:scaleType="centerCrop"
+		android:visibility="gone"
 		 />
     
     <au.com.tyo.common.ui.AutoResizeTextView
@@ -38,5 +40,21 @@
         android:gravity="left|center_vertical"
 		style="@style/SuggestionTextStyle"
         />
+
+	<!--############################
+	 	be very careful here, add a button will disable the
+	 	onitemclicklistener
+	 	############################-->
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@android:id/button1" >
+        <ImageView
+            android:id="@+id/button1_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            />
+    </FrameLayout>
 		
 </LinearLayout>

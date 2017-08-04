@@ -16,9 +16,9 @@ import java.util.List;
 import au.com.tyo.android.CommonController;
 import au.com.tyo.android.NetworkMonitor;
 import au.com.tyo.android.services.ImageDownloader;
-import au.com.tyo.app.data.DisplayItem;
-import au.com.tyo.app.data.ImagedSearchableItem;
-import au.com.tyo.app.data.Searchable;
+import au.com.tyo.app.model.DisplayItem;
+import au.com.tyo.app.model.ImagedSearchableItem;
+import au.com.tyo.app.model.Searchable;
 import au.com.tyo.app.ui.UI;
 
 /**
@@ -28,7 +28,9 @@ import au.com.tyo.app.ui.UI;
 
 public interface Controller extends CommonController {
 
-    boolean isAppQuit();
+	void setParcel(Object parcel);
+
+	boolean isAppQuit();
 
     void onMessageBackgroundTaskStageTwo();
 
@@ -84,7 +86,7 @@ public interface Controller extends CommonController {
 	
 	void setUi(UI ui);
 
-	void onAppStart();
+	void onCurrentActivityStart();
 
 	String getTextForSearchResultItem(ImagedSearchableItem ws, String query);
 
@@ -134,4 +136,8 @@ public interface Controller extends CommonController {
     void onWidowReady();
 
 	boolean onSupportNavigateUp();
+
+    Object getParcel();
+
+    void initializeOnce();
 }

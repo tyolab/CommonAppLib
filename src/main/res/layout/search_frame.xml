@@ -1,8 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-    android:background="?searchBarBackground"
-?cardBackgroundRoundCorner
- -->
 <RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/search_frame"
     android:layout_width="match_parent"
@@ -10,38 +6,12 @@
 	android:background="?searchBarBackground"
     >
 
-    <!--  
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" 
-        >
+	<include
+		layout="@layout/searchview"
+		android:id="@+id/search_nav_bar"
+		android:layout_width="match_parent"
+		android:layout_height="@dimen/toolbar_height"
+		android:layout_gravity="center_horizontal|center_vertical"
+		/>
 
-            <ImageView
-                android:id="@+id/wiki_logo_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:background="@android:color/transparent"
-                android:contentDescription="@string/empty_string"
-                android:src="@drawable/wikipedia_logo_big" />
-         -->
-		    <include
-		        layout="@layout/searchview"
-		        android:id="@+id/search_nav_bar"
-		        android:layout_width="match_parent"
-		        android:layout_height="@dimen/toolbar_height" 
-		       	android:layout_gravity="center_horizontal|center_vertical"
-		        />
-		    
-    <!--  
-	</FrameLayout>
-    <au.com.tyo.app.ui.PageProgressView
-        android:id="@+id/progress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:background="@null"
-        android:visibility="visible" />
-	-->
 </RelativeLayout>

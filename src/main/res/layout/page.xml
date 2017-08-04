@@ -13,21 +13,6 @@
         android:layout_alignParentBottom="true"
         layout="@layout/footer" />
 
-    <!--
- <RelativeLayout
-     android:id="@+id/main_view_container"
-     android:layout_alignParentTop="true"
-     android:layout_width="match_parent"
-     android:layout_height="match_parent"
-     android:paddingTop="@dimen/main_view_padding_top"
-     android:paddingStart="@dimen/main_view_padding_left"
-     android:paddingEnd="@dimen/main_view_padding_right"
-     android:paddingLeft="@dimen/main_view_padding_left"
-     android:paddingRight="@dimen/main_view_padding_right"
-     android:layout_above="@id/footer_view"
-     >
- -->
-
     <!-- header removed, may be on Tablet mode?  -->
     <include
         android:id="@+id/header_view"

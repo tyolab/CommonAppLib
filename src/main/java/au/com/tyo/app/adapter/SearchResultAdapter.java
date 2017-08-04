@@ -7,12 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import au.com.tyo.android.utils.ListViewItemAdapter;
+import au.com.tyo.android.adapter.ListViewItemAdapter;
 import au.com.tyo.app.Controller;
-import au.com.tyo.app.data.ImagedSearchableItem;
+import au.com.tyo.app.model.ImagedSearchableItem;
 import au.com.tyo.common.ui.R;
 
-public class SearchResultAdapter extends ListViewItemAdapter<ImagedSearchableItem> {
+public class SearchResultAdapter extends ListViewItemAdapter {
 	
 	private Controller controller;
 	
@@ -51,7 +51,7 @@ public class SearchResultAdapter extends ListViewItemAdapter<ImagedSearchableIte
             final TextView tvSnippet = (TextView) v.findViewById(R.id.tv_snippet);
             final ProgressBar progressBar = (ProgressBar) v.findViewById(R.id.snippet_progress_bar);
             
-			final ImagedSearchableItem ws = items.get(position);
+			final ImagedSearchableItem ws = (ImagedSearchableItem) items.get(position);
 			
 			v.post(new Runnable() {
 

@@ -21,7 +21,7 @@
 			android:paddingTop="@dimen/splash_screen_logo_container_margin_top"
 			>
 
-			<include layout="@layout/app_icon" />
+			<include layout="@layout/splash_image" />
 
 			<View
 				android:layout_width="30dp"

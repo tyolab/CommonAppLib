@@ -1,6 +1,9 @@
 package au.com.tyo.app;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import au.com.tyo.app.ui.CommonFragmentView;
+import au.com.tyo.app.ui.UIPage;
 
 /**
  * Created by Eric Tang (eric.tang@tyo.com.au) on 25/6/17.
@@ -16,6 +20,11 @@ import au.com.tyo.app.ui.CommonFragmentView;
 public abstract class CommonFragment extends Fragment {
 
     private static final String TAG = "FragmentShared";
+
+    /**
+     * UI Page
+     */
+    UIPage page;
 
     private int parentContainerHeight = -1;
 
@@ -38,6 +47,15 @@ public abstract class CommonFragment extends Fragment {
      */
 
     private String title = null;
+    private boolean toShow = true;
+
+    public boolean isToShow() {
+        return toShow;
+    }
+
+    public void setToShow(boolean toShow) {
+        this.toShow = toShow;
+    }
 
     public String getTitle() {
         return title;
@@ -86,6 +104,46 @@ public abstract class CommonFragment extends Fragment {
         }
     }
 
+    public UIPage getPage() {
+        return page;
+    }
+
+    public void setPage(UIPage page) {
+        this.page = page;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        onFragmentAttach(context);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        onFragmentAttach(activity);
+    }
+
+    protected void onFragmentAttach(Context context) {
+        // do nothing
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        //fragmentView.getViewTreeObserver().addOnGlobalFocusChangeListener(controller.getUi().getOnGolbalFocusChangeListener());
+        if (null != page)
+            page.addFragmentToList(this);
+
+        /**
+         * All the UI elements are created
+         */
+        onFragmentReady();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -109,17 +167,11 @@ public abstract class CommonFragment extends Fragment {
 
         initialiseTitle();
 
-        //fragmentView.getViewTreeObserver().addOnGlobalFocusChangeListener(controller.getUi().getOnGolbalFocusChangeListener());
-        /**
-         * All the UI elements are created
-         */
-        onFragmentReady();
-
         return fragmentView;
     }
 
     public boolean shallDisplay() {
-        return true;
+        return toShow;
     }
 
     protected void showOrHide() {
@@ -139,6 +191,11 @@ public abstract class CommonFragment extends Fragment {
 
             transaction.commit();
         }
+    }
+
+    public void showOrHide(boolean b) {
+        setToShow(b);
+        showOrHide();
     }
 
     private void onHiding() {

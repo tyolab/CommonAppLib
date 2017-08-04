@@ -1,4 +1,4 @@
-package au.com.tyo.app.data;
+package au.com.tyo.app.model;
 
 import android.graphics.drawable.Drawable;
 
@@ -11,7 +11,7 @@ public interface Searchable {
 	String getSnippet();
 
 	String getShort();
-	
+
 	long getPosition(); // the position in the return result list
 	
 	void setPosition(long position);

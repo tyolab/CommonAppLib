@@ -2,19 +2,20 @@ package au.com.tyo.app.ui;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.TextKeyListener;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.widget.Filter;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
+import android.widget.Filter;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
+
 import au.com.tyo.app.Controller;
 import au.com.tyo.app.Request;
 import au.com.tyo.app.adapter.SuggestionsAdapter;
@@ -25,7 +26,7 @@ import au.com.tyo.app.adapter.SuggestionsAdapter.CompletionListener;
  */
 
 
-public class SearchInputView extends EditText /*AutoCompleteTextView*/ implements OnEditorActionListener,
+public class SearchInputView extends AppCompatEditText /*AutoCompleteTextView*/ implements OnEditorActionListener,
 	CompletionListener, TextWatcher, Filter.FilterListener {
 	
 	private SearchStateListener searchStateListener;
@@ -134,25 +135,14 @@ public class SearchInputView extends EditText /*AutoCompleteTextView*/ implement
 	}
 	
 	public void setupComponents(Controller theController) {
-		this.setController(theController);
-
-////        setAdapter(adapter);
-//        
-//        switch(controller.getSettings().getAppMode()) {
-//        	case Constants.APP_MODE_WIKIE_TALKIE_OFFLINE_FULL:
-//	        case Constants.APP_MODE_WIKIE_TALKIE_OFFLINE:
-//	        	theController.setSearchMethod(Constants.SEARCH_METHOD_LOCAL);
-//	        	break;
-//        	default:
-//	        case Constants.APP_MODE_WIKIE_TALKIE:
-//	        	theController.setSearchMethod(Constants.SEARCH_METHOD_WIKIPEDIA);
-//	        	break;
-//        }
+		setController(theController);
 	}
 
 	@Override
 	protected void onFocusChanged(final boolean focused, int direction,
 			Rect previouslyFocusedRect) {
+		super.onFocusChanged(focused, direction, previouslyFocusedRect);
+
 		final UI ui = controller.getUi();
 		
         if (focused) { 	    	
@@ -190,7 +180,7 @@ public class SearchInputView extends EditText /*AutoCompleteTextView*/ implement
         	controller.onSearchInputFocusEscaped();
         	
         	if (!this.keepShowingSuggestionView)
-        		ui.setSuggestionViewVisibility(false);
+        		ui.getCurrentScreen().setSuggestionViewVisibility(false);
 //            // reset the selection state
 //            state = SearchStateListener.SEARCH_NORMAL;
 //        	if (getText().toString().length() > 0) {
@@ -207,7 +197,7 @@ public class SearchInputView extends EditText /*AutoCompleteTextView*/ implement
             	/*
             	 * change the drawer icon to < 
             	 */
-            	ui.onSearchInputFocusStatus(focused);
+            	ui.getCurrentScreen().onSearchInputFocusStatus(focused);
             		
                 changeState(s);
             }
@@ -257,8 +247,8 @@ public class SearchInputView extends EditText /*AutoCompleteTextView*/ implement
 		String text = getText().toString().trim();
 		if (text.length() > 0 && (null == lastInput || !lastInput.equals(text))) {
 			lastInput = text;
-			if (controller != null &&  controller.getUi() != null && controller.getUi().getMainView() != null)
-				controller.getUi().getSuggestionView().restoreAdapter();
+			if (controller != null &&  controller.getUi() != null && controller.getUi().getCurrentScreen().getMainView() != null)
+				controller.getUi().getCurrentScreen().getSuggestionView().restoreAdapter();
 			if (filter != null) filter.filter(text, this);
 		}
 	}
@@ -324,7 +314,7 @@ public class SearchInputView extends EditText /*AutoCompleteTextView*/ implement
                 if (event.isTracking() && !event.isCanceled()) {
                 	parent.requestFocusForSearchButton();
 //                	controller.getUi().onSearchInputFocusStatus(false);
-                	controller.getUi().setSuggestionViewVisibility(false);
+                	controller.getUi().getCurrentScreen().setSuggestionViewVisibility(false);
                     return true;
                 }
             }

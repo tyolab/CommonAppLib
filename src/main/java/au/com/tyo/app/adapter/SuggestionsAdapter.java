@@ -5,8 +5,8 @@ import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -17,27 +17,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 import au.com.tyo.android.images.utils.BitmapUtils;
-import au.com.tyo.android.utils.ListViewItemAdapter;
+import au.com.tyo.android.adapter.ListViewItemAdapter;
 import au.com.tyo.app.Constants;
 import au.com.tyo.app.Controller;
 import au.com.tyo.app.R;
-import au.com.tyo.app.data.DisplayItem;
-import au.com.tyo.app.data.Searchable;
+import au.com.tyo.app.model.DisplayItem;
+import au.com.tyo.app.model.Searchable;
 import au.com.tyo.common.ui.AutoResizeTextView;
 
-/*
+/**
  * 
  * ArrayAdapter will require layout of TextView only
  * so, if other than TextView resource provided will cause exception 
  *             "ArrayAdapter requires the resource ID to be a TextView"
  * 
  */
-public class SuggestionsAdapter extends ListViewItemAdapter<Searchable> /*ArrayAdapter<Searchable>*/ implements Filterable,
-	OnClickListener {
+public class SuggestionsAdapter extends ListViewItemAdapter implements Filterable {
 	
 	public static final String LOG_TAG = "SuggestionsAdapter";
 
-	private CompletionListener listener;
+    private CompletionListener listener;
 	
 	private Filter filter;
 	
@@ -52,6 +51,12 @@ public class SuggestionsAdapter extends ListViewItemAdapter<Searchable> /*ArrayA
 	private CharSequence currentSearch;
 	
 	private boolean showImage;
+
+	private SuggestionListener suggestionListener;
+
+	public interface SuggestionListener {
+		List<?> onRequestSuggestions(String query, boolean bestMatch);
+	}
 	
 	public SuggestionsAdapter(Controller controller) {
 		super(R.layout.suggestion_list_cell/*au.com.tyo.android.R.layout.simple_dropdown_item_1line*/);
@@ -59,29 +64,14 @@ public class SuggestionsAdapter extends ListViewItemAdapter<Searchable> /*ArrayA
 		this.controller = controller;
 		init();
 	}
-	
-//	public SuggestionsAdapter(Controller controller, int resourceId) {
-//		super(controller.getContext(), resourceId);
-//		this.controller = controller;
-//		
-//		init();
-//	}
-//	
-//	public SuggestionsAdapter(Context context, int resourceId) {
-//		super(context, resourceId);
-//		
-//		init();
-//	}
-//	
-//	public SuggestionsAdapter(Context context, int resourceId,
-//			CompletionListener listener) {
-//		super(context, resourceId);
-//		this.listener = listener;
-//		
-//		
-//		
-//		init();
-//	}
+
+	public SuggestionListener getSuggestionListener() {
+		return suggestionListener;
+	}
+
+	public void setSuggestionListener(SuggestionListener suggestionListener) {
+		this.suggestionListener = suggestionListener;
+	}
 
 	public boolean toShowImage() {
 		return showImage;
@@ -95,9 +85,9 @@ public class SuggestionsAdapter extends ListViewItemAdapter<Searchable> /*ArrayA
 		hasToBeBestMatch = true;
 		keepOriginal = false;
 		setShowImage(true);
-		
-//		items = new ArrayList<Searchable>();
-		filter = new SuggestionFilter(); 
+
+		filter = new SuggestionFilter();
+		suggestionListener = null;
 		createMessageHandler();
 	}
 	
@@ -107,33 +97,17 @@ public class SuggestionsAdapter extends ListViewItemAdapter<Searchable> /*ArrayA
 			@SuppressLint("NewApi") 
 			@Override
 			public void handleMessage(Message msg) {
-				if (msg.obj != null) {
-					List<Searchable> list =  (List<Searchable>) msg.obj;
-					
-//					if (!keepOriginal) 
-//						clear();
-					
-//					if (list.size() > 0) {
-						if (keepOriginal) {
-							removeRedundantItem(items, currentSearch.toString());
-							removeRedundantItem(list, currentSearch.toString());
-						}
-						items = list;
-						
-//						if (AndroidUtils.getAndroidVersion() >= 11)
-//							addAll(items); 
-//						else {
-//							for (Searchable t : items)
-//								add(t);
-//						}
-//					}
-//					else {
-//						Log.d(LOG_TAG, "we do something here");
-//					}
-					
-					notifyDataSetChanged();
-				}
-				super.handleMessage(msg);
+			if (msg.obj != null) {
+				List<Searchable> list =  (List<Searchable>) msg.obj;
+					if (keepOriginal) {
+						removeRedundantItem(items, currentSearch.toString());
+						removeRedundantItem(list, currentSearch.toString());
+					}
+					items = list;
+
+				notifyDataSetChanged();
+			}
+			super.handleMessage(msg);
 			}
 			
 		};
@@ -145,39 +119,20 @@ public class SuggestionsAdapter extends ListViewItemAdapter<Searchable> /*ArrayA
 	}
 
 	public interface CompletionListener {
-        public void onSearch(String txt, int from);
-//        public void onSelect(String txt, int type, String extraData);
+        void onSearch(String txt, int from);
 	}
 	
 	public void addCompletionListener(CompletionListener listener) {
 		this.listener = listener;
 	}
 
-	/*
-	 * cannot remember why we need this
-	 * (non-Javadoc)
-	 * @see android.widget.ArrayAdapter#getFilter()
-	 */
-	public void onClick(View v) {
-//		if (v instanceof TextView) {
-//			String text = ((TextView)v).getText().toString();
-//			
-//		}
-	}
-
 	public Filter getFilter() {
 		return filter;
 	}
-	
+
 	public void createNewFilter() {
-		filter = new SuggestionFilter(); 
+		filter = new SuggestionFilter();
 	}
-	
-//	public void clear() {
-////        filteredResults = null;
-//        items = null;
-//        notifyDataSetInvalidated();
-//	}
 
     class SuggestionTask extends android.os.AsyncTask<CharSequence, Void, List<?>> {
     	
@@ -195,13 +150,22 @@ public class SuggestionsAdapter extends ListViewItemAdapter<Searchable> /*ArrayA
 		protected void onPreExecute() {
 			super.onPreExecute();
 			
-			Thread.currentThread().setName("SuggestionTask");
+			// Thread.currentThread().setName("SuggestionTask");
 		}
 
 		@Override
         protected List<?> doInBackground(CharSequence... params) {
         	String query = params[0].toString();
-        	List<?> results = controller.getSuggestions(query, hasToBeBestMatch); //new ArrayList<WikiSearch>();
+
+        	List<?> results = null;
+			if (null != suggestionListener)
+				results = suggestionListener.onRequestSuggestions(query, hasToBeBestMatch);
+			else
+				// otherwise we use the default suggestions
+				results = controller.getSuggestions(query, hasToBeBestMatch);
+
+			if (null == results)
+				results = new ArrayList<>();
         
             return results;
         }
@@ -239,12 +203,7 @@ public class SuggestionsAdapter extends ListViewItemAdapter<Searchable> /*ArrayA
 
     	@Override
     	protected void publishResults(CharSequence constraint, FilterResults results) {
-//            if (results != null && results.count > 0) {
-                notifyDataSetChanged();
-//            }
-//            else {
-//                notifyDataSetInvalidated();
-//            }   		
+			notifyDataSetChanged();
     	}
 
     }
@@ -286,49 +245,49 @@ public class SuggestionsAdapter extends ListViewItemAdapter<Searchable> /*ArrayA
 
 		Object obj = this.getItem(position);
 		if (!(obj instanceof Searchable))
-			throw new IllegalArgumentException("getSuggestions method need to implemented, the data type should be implemented with Searchable interface");
+			Log.w(LOG_TAG, "the data type of the suggestion item can be implemented with the \"Searchable\" interface to achieve better presentation");
 
-		final Searchable item = this.getItem(position);
-		
-		if (item.requiresFurtherProcess()) {
-			convertView.post(new Runnable() {
-	
-				@Override
-				public void run() {
-					DisplayItem displayItem = controller.getItemText(item);
-					String highlighted = controller.getTextForSearchResultItem(displayItem.getText());
-			        tvTitle.setText(Html.fromHtml(highlighted));
-			        
-					if (showImage) {
-	//					InputStream bytes = controller.getItemImage(item);
-						if (displayItem.getImgBytes() != null) {
-							Bitmap bm = BitmapUtils.bytesToBitmap(displayItem.getImgBytes());
-							iv.setImageBitmap(bm);
-						}
-						else {
-							String oneChar = String.valueOf(Character.toUpperCase(displayItem.getName().charAt(0)));
-							tvName.setText(oneChar);
-							tvName.setVisibility(View.VISIBLE);
-							iv.setVisibility(View.GONE);
-						}
-					}
-					else
-						iv.setVisibility(View.GONE);
-				}
-				
-			});
-		}
-		else {
-			tvTitle.setText(item.getTitle());
-			String idStr = item.getShort();
-			if (idStr != null && idStr.length() > 0) {
-				tvName.setText(idStr);
-				tvName.setVisibility(View.VISIBLE);
-			}
-			else
-				tvName.setVisibility(View.GONE);
-			iv.setImageDrawable(item.getDrawable());
-		}
+        final Object object = this.getItem(position);
+
+        if (object instanceof Searchable) {
+            final Searchable item = (Searchable) object;
+
+            if (item.requiresFurtherProcess()) {
+                convertView.post(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        DisplayItem displayItem = controller.getItemText(item);
+                        String highlighted = controller.getTextForSearchResultItem(displayItem.getText());
+                        tvTitle.setText(Html.fromHtml(highlighted));
+
+                        if (showImage) {
+                            if (displayItem.getImgBytes() != null) {
+                                Bitmap bm = BitmapUtils.bytesToBitmap(displayItem.getImgBytes());
+                                iv.setImageBitmap(bm);
+                                iv.setVisibility(View.VISIBLE);
+                            } else {
+                                String oneChar = String.valueOf(Character.toUpperCase(displayItem.getName().charAt(0)));
+                                tvName.setText(oneChar);
+                                tvName.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    }
+
+                });
+            } else {
+                tvTitle.setText(item.getTitle());
+                String idStr = item.getShort();
+                if (idStr != null && idStr.length() > 0) {
+                    tvName.setText(idStr);
+                    tvName.setVisibility(View.VISIBLE);
+                } else
+                    tvName.setVisibility(View.GONE);
+                iv.setImageDrawable(item.getDrawable());
+            }
+        }
+        else
+            tvTitle.setText(object.toString());
         
 		return convertView;
 	}

@@ -5,532 +5,109 @@
 
 package au.com.tyo.app.ui;
 
-import android.annotation.SuppressLint;
-import android.app.ActionBar;
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.res.Configuration;
-import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.LayoutInflater;
+import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
-import au.com.tyo.android.AndroidUtils;
+import au.com.tyo.app.CommonExtra;
+import au.com.tyo.app.Constants;
 import au.com.tyo.app.Controller;
 import au.com.tyo.app.R;
 
 public class UIBase implements UI {
-	
-	private static final String LOG_TAG = "GUI";
-
-	protected ViewContainerWithProgressBar mainViewContainer;
-
-    private Toolbar toolbar;
-
-	protected View mainView;
-
-	protected View pageView;
-
-	protected View pageProgressView;
-
-	protected ViewGroup footerView;
-	
-	protected ViewGroup headerView;
-	
-	protected AllAdView ad;
-	
-	private SuggestionView suggestionView;
-	
-	private SearchView searchView;
-	
-	private ViewGroup contentView;
-	
-	private BodyView bodyView;
-	
-	private boolean alwaysShowSearchView;
 
 	/**
 	 * It has to be a private member as the sub controller class won't be the same
 	 */
 	private Controller controller;
 
-	protected Context context;
-	
-	protected boolean hideActionBar = false;
+    private UIPage currentScreen;
 
-	protected boolean uiRecreationRequierd = false;
+    private View splashScreenOverlayView;
 
-	protected int mainUiResId = -1;
-
-	private View splashScreenOverlayView;
-
-	private InformationView informationView;
-
-	private ActionBarMenu actionBarMenu;
+    protected boolean uiRecreationRequierd = false;
 
 	public UIBase(Controller controller) {
 		this.controller = controller;
-		alwaysShowSearchView = true;
-
-        configActionBarMenu();
 	}
 
-    protected void configActionBarMenu() {
+    public UIPage getCurrentScreen() {
+        return currentScreen;
+    }
+
+    public void setCurrentScreen(UIPage currentScreen) {
+        this.currentScreen = currentScreen;
+    }
+
+    public View getSplashScreenOverlayView() {
+        return splashScreenOverlayView;
     }
 
     @Override
-    public Toolbar getToolbar() {
-        return toolbar;
-    }
-
-    public ActionBarMenu getActionBarMenu() {
-        return actionBarMenu;
-    }
-
-    public void setActionBarMenu(ActionBarMenu actionBarMenu) {
-        this.actionBarMenu = actionBarMenu;
-    }
-
-    public InformationView getInformationView() {
-		return informationView;
-	}
-
-	public void setInformationView(InformationView informationView) {
-		this.informationView = informationView;
-	}
-
-	public int getMainUiResId () {
-		return  mainUiResId;
-	}
-
-	@Override
-	public boolean recreationRequried() {
-		return uiRecreationRequierd;
-	}
-
-	@Override
-	public void setUiRecreationRequierd(boolean value) {
-		uiRecreationRequierd = value;
-	}
-
-	@Override
-	public void onPause(Context context) {
-		// should be overrode if needed
-	}
-
-	@Override
-	public void onResume(Context context) {
-		// should be overrode if needed
-	}
-
-	@Override
-	public void onStop(Context currentActivity) {
-		// should be overrode if needed
-	}
-
-	@Override
-	public void setSplashScreenOverlayView(View viewOverlay) {
-		this.splashScreenOverlayView = viewOverlay;
-	}
-
-	@Override
-	public void setupStartupAdView(View viewOverlay, Activity splashScreen) {
-
-	}
-
-	@Override
-	public void setMainView(View mainView) {
-		this.mainView = mainView;
-	}
-
-	/**
-	 * When the window is create, all layout / elements / components are inflated
-	 *
-	 */
-	@Override
-	public void onWidowReady() {
-		initialiseComponents();
-	}
-
-	@Override
-	public void initialiseComponents() {
-		if (null != bodyView) {
-            bodyView.detectScreenLocation();
-
-            DisplayMetrics dm = new DisplayMetrics();
-            controller.getCurrentActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
-            int offset = dm.heightPixels - bodyView.getMeasuredHeight();
-            bodyView.setScreenOffset(offset);
-        }
-	}
-
-	public View getSplashScreenOverlayView() {
-		return splashScreenOverlayView;
-	}
-
-	@Override
-	public void assignMainUiContainer(FrameLayout frameLayout) {
-		if (mainView.getParent() != null)
-			((ViewGroup) mainView.getParent()).removeView(mainView);
-		mainView.setVisibility(View.VISIBLE);
-        frameLayout.addView(mainView);
-	}
-	
-	public Controller getController() {
-		return controller;
-	}
-
-	public void setController(Controller controller) {
-		this.controller = controller;
-	}
-
-	@Override
-	public void initializeUi(View v) {
-		setMainView(v);
-		initializeUi(v.getContext());
-	}
-
-	@Override
-	public void initializeUi(Context context) {
-		setUiRecreationRequierd(false);
-		if (null == mainView) {
-			if (mainUiResId == -1) {
-				mainUiResId = R.layout.activity_common;
-			}
-			setMainView(LayoutInflater.from(context).inflate(mainUiResId, null));
-		}
-        this.context = context;
-
-		if (null != mainView.findViewById(R.id.activity_view_with_progressbar)) {
-			mainViewContainer = (ViewContainerWithProgressBar) mainView.findViewById(R.id.activity_view_with_progressbar);
-			mainViewContainer.addContentView(R.layout.page);
-			setMainView(mainViewContainer.getContentView());
-		}
-
-        setupComponents();
-
-        if (!alwaysShowSearchView)
-            hideSearchView();
-	}
-
-	private void hideSearchView() {
-		if (null != searchView)
-			searchView.setVisibility(View.GONE);
-	}
-
-	@Override
-	public SearchInputView getSearchInputView() {
-		return searchView.getSearchInputView();
-	}
-
-	@Override
-	public void setSuggestionViewVisibility(boolean b) {
-		if (b) {
-			ad.hide();
-			suggestionView.setVisibility(View.VISIBLE);
-			contentView.setVisibility(View.GONE);
-		}
-		else {
-			ad.show();
-			contentView.setVisibility(View.VISIBLE);
-			suggestionView.setVisibility(View.GONE);
-		}
-	}
-
-	@Override
-	public SuggestionView getSuggestionView() {
-		return suggestionView;
-	}
-
-	/**
-	 * do whatever it needs to be done, for example, when search input is focused
-	 * lock the drawer views
-	 */
-	@Override
-	public void onSearchInputFocusStatus(boolean focused) {
-		
-    }
-
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		if (null != ad)
-			ad.loadBannerAd();
-	}
-
-	@Override
-	public void setupComponents() {
-        /**
-         * Only if the default layout is used then we do the UI elements (search bar, footer, body, header, etc) setup
-         *
-         * for the extreme case we might need the sanity check
-         */
-            /**
-             * actionbar / toolbar
-             */
-            toolbar = (Toolbar) mainView.findViewById(R.id.tyodroid_toolbar);
-
-            /**
-             *
-             */
-            pageView = mainView.findViewById(R.id.tyodroid_page);
-			pageProgressView = mainView.findViewById(R.id.tyodroid_page_progress_bar);
-
-			/**
-			 * the root view of body.xml
-			 */
-            bodyView = (BodyView) mainView.findViewById(R.id.body_view);
-
-			/**
-			 * the root view of content.xml
-			 */
-			contentView = (ViewGroup) mainView.findViewById(R.id.content_view);
-
-            footerView = (ViewGroup) mainView.findViewById(R.id.footer_view);
-            headerView = (ViewGroup) mainView.findViewById(R.id.header_view);
-
-            if (hasSearchBar())
-                setupSearchView();
-
-            if (null != mainView) {
-                ad = (AllAdView) mainView.findViewById(R.id.all_ad_view);
-                if (null != ad) {
-                    addAdView();
-
-                    if (controller.getSettings().hasAd())
-                        ad.loadBannerAd();
-                }
-            }
-
-            if (!controller.getNetworkMonitor().hasInternet())
-                onNetworkDisonnected();
-
-        setupActionBarMenu();
-	}
-
-    protected void setupActionBarMenu() {
-    }
-
-    private boolean hasSearchBar() {
-		return null != mainView.findViewById(R.id.search_nav_bar);
-	}
-	
-	/* 
-	 * not all the need search function 
-	 * keep these line for future use
-	 */
-	public void setupSearchView() {
-		searchView = (SearchView) mainView.findViewById(R.id.search_nav_bar);
-	    searchView.setupComponents(controller);
-		
-		suggestionView = (SuggestionView) mainView.findViewById(R.id.suggestion_view);
-		suggestionView.setupComponents(controller);
-	}
-	
-	public void showFooterView() {
-		footerView.setVisibility(View.VISIBLE);
-	}
-	
-	public void hideFooterView() {
-		footerView.setVisibility(View.GONE);
-	}
-
-	public ViewGroup getFooterView() {
-		return footerView;
-	}
-	
-	public void showHeaderView() {
-		headerView.setVisibility(View.VISIBLE);
-	}
-	
-	public void hideHeaderView() {
-		headerView.setVisibility(View.GONE);
-	}
-
-	public ViewGroup getHeaderView() {
-		return headerView;
-	}
-
-	public SearchView getSearchView() {
-		return searchView;
-	}
-
-	public ViewGroup getContentView() {
-		return contentView;
-	}
-
-    public void setContentView(ViewGroup contentView) {
-        this.contentView = contentView;
+    public void setSplashScreenOverlayView(View viewOverlay) {
+        this.splashScreenOverlayView = viewOverlay;
     }
 
     @Override
-	public ViewGroup getBodyView() {
-		return bodyView;
-	}
-
-    public void setBodyView(BodyView bodyView) {
-        this.bodyView = bodyView;
+    public boolean recreationRequired() {
+        return uiRecreationRequierd;
     }
 
-    protected void addAdView() {
-		ad.initialize(controller, footerView);
-	}
+    @Override
+    public void onScreenAttached(UIPage screen) {
+        currentScreen = screen;
+    }
 
-	@Override
-	public void hideAd() {
-		ad.hide();
-	}
+    @Override
+    public void setUiRecreationRequierd(boolean value) {
+        uiRecreationRequierd = value;
+    }
 
-	@Override
-	public void showAd() {
-		ad.show();
-	}
-	
-	protected void showDialog(Dialog dialog) {
-		if(dialog != null && ! controller.getCurrentActivity().isFinishing())
-			dialog.show();
-	}
+    @Override
+    public void setupStartupAdView(View viewOverlay, Activity splashScreen) {
 
-	@Override
-	public View getMainView() {
-		return mainView;
-	}
+    }
 
-	/**
-	 *
-	 */
-	@Override
-	public void onNetworkDisonnected() {
-//		footerView.setVisibility(View.GONE);
-		hideAd();
-	}
+    /**
+     * When the window is create, all layout / elements / components are inflated
+     *
+     */
+    @Override
+    public void onWidowReady() {
+        getCurrentScreen().initialiseComponents();
+    }
 
-	/**
-	 *
-	 */
-	@Override
-	public void onNetworkConnected() {
-//		footerView.setVisibility(View.VISIBLE);
-		showAd();
-	}
+    public void initializeUi(Context context) {
+        setUiRecreationRequierd(false);
+        getCurrentScreen().initializeUi();
+    }
 
-	/**
-	 *
-	 */
-	@Override
-	public void onAdLoaded() {
-		Log.d(LOG_TAG, "Ad loaded");
-		showAd();
-	}
+    @Override
+    public void onPause(Context context) {
 
-	/**
-	 * normally we set the action bar like this
-	 */
-	@SuppressLint("NewApi")
-	@Override
-	public Object setupActionBar(Object barObj) {
-		
-		if (barObj != null) {
-			if (barObj instanceof android.app.ActionBar) {
-				android.app.ActionBar bar = (ActionBar) barObj;
-				if (hideActionBar) {
-					bar.hide();
-				}
-				else {
-					if (controller.getContext().getResources().getBoolean(R.bool.showIconOnActionBar)) {
-                        if (AndroidUtils.getAndroidVersion() >= 11)
-                            bar.setDisplayUseLogoEnabled(true);
+    }
 
-                        if (AndroidUtils.getAndroidVersion() >= 14)
-                            bar.setLogo(R.drawable.ic_logo);
-					}
-					else {
-                        bar.setHomeButtonEnabled(true);
-                        if (AndroidUtils.getAndroidVersion() >= 11) {
-                            bar.setDisplayShowHomeEnabled(true);
-                        }
+    @Override
+    public void onResume(Context context) {
 
-                        bar.setDisplayHomeAsUpEnabled(true);
-                    }
+    }
 
-				    bar.setDisplayShowTitleEnabled(controller.getContext().getResources().getBoolean(R.bool.showTitleOnActionBar));
-				}
-			}
-			else if (barObj instanceof android.support.v7.app.ActionBar) {
-				android.support.v7.app.ActionBar bar = (android.support.v7.app.ActionBar) barObj;
-				
-				if (hideActionBar) {
-					bar.hide();
-				}
-				else {
-                    if (controller.getContext().getResources().getBoolean(R.bool.showIconOnActionBar)){
-                        bar.setLogo(R.drawable.ic_logo);
-                        // bar.setIcon(R.drawable.ic_launcher);
-                        bar.setDisplayUseLogoEnabled(true);
-                    }
-                    bar.setHomeButtonEnabled(true);
-                    // bar.setDisplayHomeAsUpEnabled(true);
-			        bar.setDisplayShowCustomEnabled(true);
-			        bar.setDisplayShowHomeEnabled(true);
-			        bar.setDisplayShowTitleEnabled(controller.getContext().getResources().getBoolean(R.bool.showTitleOnActionBar));
-                    bar.setDisplayUseLogoEnabled(true);
-				}
-			}
-		}
-		else {
-            if (null != mainView) {
-                toolbar = (Toolbar) mainView.findViewById(R.id.tyodroid_toolbar);
-            }
-            return toolbar;
-        }
+    @Override
+    public boolean onBackPressed() {
+		return currentScreen.onBackPressed();
+    }
 
-        return barObj;
-	}
+    @Override
+    public void onStop(Context currentActivity) {
 
-	/**
-	 *
-	 */
-	@Override
-	public void hideProgressBar() {
-		if (null != pageView)
-			pageView.setVisibility(View.VISIBLE);
-		if (null != pageProgressView)
-			pageProgressView.setVisibility(View.GONE);
-	}
+    }
 
-	/**
-	 *
-	 */
-	@Override
-	public void hideSuggestionView() {
-		searchView.requestFocusForSearchButton();
-		setSuggestionViewVisibility(false);
-	}
-
-	/**
-	 *
-	 * @return
-	 */
-	@Override
-	public boolean onBackPressed() {
-		return false;
-	}
-
-	/**
-	 *
-	 */
-	@Override
-	public void showProgressBar() {
-		if (null != pageView)
-			pageView.setVisibility(View.GONE);
-		if (null != pageProgressView)
-			pageProgressView.setVisibility(View.VISIBLE);
-	}
-
-	/**
+    /**
 	 *
 	 */
 	@Override
@@ -552,4 +129,19 @@ public class UIBase implements UI {
 			activity.setTheme(R.style.AppTheme_Light_NoActionBar);
 		}
 	}
+
+    @Override
+    public void startActivity(Class aClass) {
+        getCurrentScreen().startActivity(aClass);
+    }
+
+    @Override
+    public void startActivity(CommonExtra extra) {
+        getCurrentScreen().startActivity(extra);
+    }
+
+    @Override
+    public void startActivity(Class cls, int flags, String key, Object data, View view, int requestCode) {
+        getCurrentScreen().startActivity(cls, flags, key, data, view, requestCode);
+    }
 }

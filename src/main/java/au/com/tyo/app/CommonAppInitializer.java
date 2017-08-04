@@ -34,6 +34,7 @@ public class CommonAppInitializer extends MultiDexApplication {
                 throw new IllegalStateException("Controller Impl class can't be detected");
 
             CommonApp.setInstance(controller);
+            controller.initializeOnce();
         }
 
         return  controller;
