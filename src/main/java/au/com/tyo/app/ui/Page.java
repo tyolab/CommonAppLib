@@ -208,6 +208,11 @@ public class Page implements UIPage, MenuItem.OnMenuItemClickListener {
         return toolbar;
     }
 
+    @Override
+    public void setToolbar(Toolbar toolbar) {
+        this.toolbar = toolbar;
+    }
+
     public ActionBarMenu getActionBarMenu() {
         return actionBarMenu;
     }

@@ -117,4 +117,6 @@ public interface UIPage {
     void setResult(Object data);
 
     void addFragmentToList(Fragment fragment);
+
+    void setToolbar(Toolbar toolbar);
 }

@@ -113,8 +113,10 @@ public class CommonActivityAgent {
     protected void setupActionbar() {
         Object toolbar = controller.getUi().getCurrentScreen().getToolbar();
 
-        if (null == toolbar)
+        if (null == toolbar) {
             toolbar = activity.findViewById(R.id.tyodroid_toolbar);
+            controller.getUi().getCurrentScreen().setToolbar((Toolbar) toolbar);
+        }
 
         if (toolbar != null) {
             try {
@@ -137,13 +139,15 @@ public class CommonActivityAgent {
     @SuppressLint("NewApi")
     protected Object setupActionBar(UI ui) {
         Object bar = null;
-        if (AndroidUtils.getAndroidVersion() >= 11)
+
+        if (activity instanceof AppCompatActivity)
+            bar = ((AppCompatActivity) activity).getSupportActionBar();
+        else if (AndroidUtils.getAndroidVersion() >= 11)
             bar = activity.getActionBar();
 
-        if (bar == null && activity instanceof AppCompatActivity)
-            bar = ((AppCompatActivity) activity).getSupportActionBar();
-
-        return ui.getCurrentScreen().setupActionBar(bar);
+        if (null != bar)
+            ui.getCurrentScreen().setupActionBar(bar);
+        return bar;
     }
 
     protected boolean checkExtras() {
@@ -228,6 +232,11 @@ public class CommonActivityAgent {
          */
 
         /**
+         * set up action bar as we use toolbar now it is part of content view
+         */
+        setupActionbar();
+
+        /**
          * Create contentView
          */
         initialiseUi();
@@ -237,11 +246,6 @@ public class CommonActivityAgent {
             if (null != parent) parent.removeView(contentView);
         }
         activity.setContentView(contentView);
-
-        /**
-         * set up action bar as we use toolbar now it is part of content view
-         */
-        setupActionbar();
 
 		/*
 		 * now show the overflow menu
