@@ -5,6 +5,7 @@
 package au.com.tyo.app.ui;
 
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 
 /**
@@ -14,9 +15,14 @@ import android.view.Menu;
 public class ActionBarMenu {
 
     /**
-     * System actionBar
+     * System ActionBar
      */
     private Object actionBar;
+
+    /**
+     * AppCompat Toolbar
+     */
+    private Toolbar toolbar;
 
     private boolean initialized;
 
@@ -50,7 +56,14 @@ public class ActionBarMenu {
 
     public void initializeMenuForActionBar(Object actionBar, Menu menu) {
         setActionBar(actionBar);
-
         setInitialized(true);
+    }
+
+    public Toolbar getToolbar() {
+        return toolbar;
+    }
+
+    public void setToolbar(Toolbar toolbar) {
+        this.toolbar = toolbar;
     }
 }

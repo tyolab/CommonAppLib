@@ -13,6 +13,7 @@ import android.os.Parcelable;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import au.com.tyo.android.AndroidUtils;
+import au.com.tyo.app.CommonAppLog;
 import au.com.tyo.app.CommonExtra;
 import au.com.tyo.app.Constants;
 import au.com.tyo.app.Controller;
@@ -58,8 +60,6 @@ public class Page implements UIPage, MenuItem.OnMenuItemClickListener {
      * Common Widgets
      */
     protected ViewContainerWithProgressBar mainViewContainer;
-
-    private Toolbar toolbar;
 
     protected View pageView;
 
@@ -188,6 +188,8 @@ public class Page implements UIPage, MenuItem.OnMenuItemClickListener {
      */
     protected void configActionBarMenu(Controller controller) {
         // do nothing yet
+        if (null == actionBarMenu)
+            actionBarMenu = new ActionBarMenu();
     }
 
     @Override
@@ -201,16 +203,6 @@ public class Page implements UIPage, MenuItem.OnMenuItemClickListener {
             ((ViewGroup) mainView.getParent()).removeView(mainView);
         mainView.setVisibility(View.VISIBLE);
         frameLayout.addView(mainView);
-    }
-
-    @Override
-    public Toolbar getToolbar() {
-        return toolbar;
-    }
-
-    @Override
-    public void setToolbar(Toolbar toolbar) {
-        this.toolbar = toolbar;
     }
 
     public ActionBarMenu getActionBarMenu() {
@@ -363,7 +355,7 @@ public class Page implements UIPage, MenuItem.OnMenuItemClickListener {
         /**
          * actionbar / toolbar
          */
-        toolbar = (Toolbar) mainView.findViewById(R.id.tyodroid_toolbar);
+        setupToolbar();
 
         /**
          *
@@ -401,6 +393,10 @@ public class Page implements UIPage, MenuItem.OnMenuItemClickListener {
             onNetworkDisonnected();
 
         setupActionBarMenu();
+    }
+
+    private void setupToolbar() {
+        actionBarMenu.setToolbar((Toolbar) mainView.findViewById(R.id.tyodroid_toolbar));
     }
 
     /**
@@ -555,9 +551,34 @@ public class Page implements UIPage, MenuItem.OnMenuItemClickListener {
      */
     @SuppressLint("NewApi")
     @Override
-    public Object setupActionBar(Object barObj) {
+    public Object setupActionBar() {
+        Object barObj = null;
+
+        if (activity instanceof AppCompatActivity) {
+            Toolbar toolbar = actionBarMenu.getToolbar();
+
+            if (null == toolbar) {
+                toolbar = (Toolbar) activity.findViewById(R.id.tyodroid_toolbar);
+                actionBarMenu.setToolbar(toolbar);
+            }
+
+            if (toolbar != null) {
+                try {
+                    ((AppCompatActivity) activity).setSupportActionBar((Toolbar) toolbar);
+
+                } catch (Exception ex) {
+                    CommonAppLog.error(LOG_TAG, ex);
+                }
+            }
+            barObj = ((AppCompatActivity) activity).getSupportActionBar();
+        }
+        else if (AndroidUtils.getAndroidVersion() >= 11)
+            barObj = activity.getActionBar();
 
         if (barObj != null) {
+
+            actionBarMenu.setActionBar(barObj);
+
             if (barObj instanceof android.app.ActionBar) {
                 android.app.ActionBar bar = (ActionBar) barObj;
                 if (hideActionBar) {
@@ -610,10 +631,10 @@ public class Page implements UIPage, MenuItem.OnMenuItemClickListener {
             }
         }
         else {
-            if (null != mainView) {
-                toolbar = (Toolbar) mainView.findViewById(R.id.tyodroid_toolbar);
-            }
-            return toolbar;
+            if (null != mainView && actionBarMenu.getToolbar() == null)
+                actionBarMenu.setToolbar((Toolbar) mainView.findViewById(R.id.tyodroid_toolbar));
+
+            return actionBarMenu.getToolbar();
         }
 
         return barObj;
@@ -876,8 +897,17 @@ public class Page implements UIPage, MenuItem.OnMenuItemClickListener {
         return fragments.get(index);
     }
 
+    public int getFragmentCount() {
+        return fragments.size();
+    }
+
     public void setTitle(String title) {
         if (null != actionBarMenu)
             actionBarMenu.getSupportActionBar().setTitle(title);
+    }
+
+    @Override
+    public void onActivityStart() {
+        // do nothing
     }
 }

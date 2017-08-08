@@ -476,7 +476,7 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 
 	@Override
 	public void onCurrentActivityStart() {
-        ui.onAppStart();
+
 	}
 
 	@Override

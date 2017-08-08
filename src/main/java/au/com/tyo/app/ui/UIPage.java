@@ -33,8 +33,6 @@ public interface UIPage {
 
     void assignMainUiContainer(FrameLayout frameLayout);
 
-    Toolbar getToolbar();
-
     void setContentViewResId(int contentViewResId);
 
     void onPause(Context context);
@@ -72,9 +70,6 @@ public interface UIPage {
     View getMainView();
 
     void onAdLoaded();
-
-    @SuppressLint("NewApi")
-    Object setupActionBar(Object barObj);
 
     void hideProgressBar();
 
@@ -118,5 +113,7 @@ public interface UIPage {
 
     void addFragmentToList(Fragment fragment);
 
-    void setToolbar(Toolbar toolbar);
+    void onActivityStart();
+
+    Object setupActionBar();
 }

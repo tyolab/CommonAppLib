@@ -27,7 +27,7 @@ public class PageCommonList extends Page implements AdapterView.OnItemClickListe
     public PageCommonList(Controller controller, Activity activity) {
         super(controller, activity);
 
-        setContentViewResId(R.layout.common_list);
+        setContentViewResId(R.layout.list_view);
 
         adapter = new ListViewItemAdapter();
     }

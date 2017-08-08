@@ -95,8 +95,17 @@ public class CommonActivityAgent {
     protected void onActivityStart() {
 		/*
          * after UI initialization, do whatever needs to be done, like setting tup the settings, etc.
+         *
+         * both page / controller need to be informed
+         *
          */
+
         controller.onCurrentActivityStart();
+
+        if (activity instanceof CommonAppCompatActivity)
+            ((CommonAppCompatActivity) activity).getPage().onActivityStart();
+        else if (activity instanceof CommonFragmentActivity)
+            ((CommonFragmentActivity) activity).getPage().onActivityStart();
     }
 
     protected void startDataHandlingActivity() {
@@ -111,21 +120,6 @@ public class CommonActivityAgent {
     }
 
     protected void setupActionbar() {
-        Object toolbar = controller.getUi().getCurrentScreen().getToolbar();
-
-        if (null == toolbar) {
-            toolbar = activity.findViewById(R.id.tyodroid_toolbar);
-            controller.getUi().getCurrentScreen().setToolbar((Toolbar) toolbar);
-        }
-
-        if (toolbar != null) {
-            try {
-                ((AppCompatActivity) activity).setSupportActionBar((Toolbar) toolbar);
-            }
-            catch (Exception ex) {
-                CommonAppLog.error(LOG_TAG, ex);
-            }
-        }
 
         if (AndroidUtils.getAndroidVersion() < 7)
             setupTitleBar1();
@@ -138,16 +132,7 @@ public class CommonActivityAgent {
 
     @SuppressLint("NewApi")
     protected Object setupActionBar(UI ui) {
-        Object bar = null;
-
-        if (activity instanceof AppCompatActivity)
-            bar = ((AppCompatActivity) activity).getSupportActionBar();
-        else if (AndroidUtils.getAndroidVersion() >= 11)
-            bar = activity.getActionBar();
-
-        if (null != bar)
-            ui.getCurrentScreen().setupActionBar(bar);
-        return bar;
+        return ui.getCurrentScreen().setupActionBar();
     }
 
     protected boolean checkExtras() {
@@ -232,11 +217,6 @@ public class CommonActivityAgent {
          */
 
         /**
-         * set up action bar as we use toolbar now it is part of content view
-         */
-        setupActionbar();
-
-        /**
          * Create contentView
          */
         initialiseUi();
@@ -246,6 +226,11 @@ public class CommonActivityAgent {
             if (null != parent) parent.removeView(contentView);
         }
         activity.setContentView(contentView);
+
+        /**
+         * set up action bar as we use toolbar now it is part of content view
+         */
+        setupActionbar();
 
 		/*
 		 * now show the overflow menu
