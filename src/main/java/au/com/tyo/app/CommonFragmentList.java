@@ -36,7 +36,7 @@ public class CommonFragmentList extends CommonFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        listView = (ListView) view.findViewById(R.id.list);
+        listView = (ListView) view.findViewById(R.id.list_view);
         extraViewBottomContainer = (ViewGroup) view.findViewById(R.id.list_extra_bottom);
         extraViewTopContainer = (ViewGroup) view.findViewById(R.id.list_extra_top);
     }
@@ -48,4 +48,13 @@ public class CommonFragmentList extends CommonFragment {
     public void addExtraBottomView(int resId) {
         extraViewBottomContainer.addView(LayoutInflater.from(getActivity()).inflate(resId, null));
     }
+
+    public View findViewFromBottomContainer(int resId) {
+        return extraViewBottomContainer.findViewById(resId);
+    }
+
+    public View findViewFromTopContainer(int resId) {
+        return extraViewTopContainer.findViewById(resId);
+    }
+
 }

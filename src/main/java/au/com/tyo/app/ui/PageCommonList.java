@@ -40,7 +40,7 @@ public class PageCommonList extends Page implements AdapterView.OnItemClickListe
     public void setupComponents() {
         super.setupComponents();
 
-        listView = (ListView) findViewById(R.id.common_list);
+        listView = (ListView) findViewById(R.id.list_view);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
 
