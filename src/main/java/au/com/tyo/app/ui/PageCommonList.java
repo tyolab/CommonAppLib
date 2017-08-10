@@ -41,10 +41,13 @@ public class PageCommonList extends Page implements AdapterView.OnItemClickListe
         super.setupComponents();
 
         listView = (ListView) findViewById(R.id.list_view);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(this);
 
-        //showSuggestionView();
+        if (null != listView) {
+            listView.setAdapter(adapter);
+            listView.setOnItemClickListener(this);
+
+            //showSuggestionView();
+        }
     }
 
     @Override

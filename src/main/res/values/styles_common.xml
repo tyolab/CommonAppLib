@@ -253,7 +253,7 @@
         <item name="fragmentTitleStyle">@style/CommonFragmentTitleStyleExtra.Dark</item>
     </style>
 
-    <style name="AppBaseTheme.Light" parent="CommonTheme.Light.Pale">
+    <style name="CommonAppBaseTheme.Light" parent="CommonTheme.Light.Pale">
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
@@ -267,7 +267,7 @@
 
     </style>
 
-    <style name="AppBaseTheme.Dark" parent="CommonTheme.Dark.Night">
+    <style name="CommonAppBaseTheme.Dark" parent="CommonTheme.Dark.Night">
 
         <!--
         @android:drawable/list_selector_background
@@ -276,11 +276,11 @@
     </style>
 
     <!-- Application theme. -->
-    <style name="AppTheme.Light" parent="AppBaseTheme.Light">
+    <style name="AppTheme.Light" parent="CommonAppBaseTheme.Light">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
-    <style name="AppTheme.Dark" parent="AppBaseTheme.Dark">
+    <style name="AppTheme.Dark" parent="CommonAppBaseTheme.Dark">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 

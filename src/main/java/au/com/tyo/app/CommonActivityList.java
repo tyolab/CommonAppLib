@@ -1,11 +1,11 @@
 package au.com.tyo.app;
 
 
-import android.os.Bundle;
+import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
 
 import au.com.tyo.app.ui.PageCommonList;
-import au.com.tyo.app.ui.UIList;
 
 /**
  * Created by Eric Tang (eric.tang@tyo.com.au) on 27/7/17.
@@ -14,9 +14,12 @@ import au.com.tyo.app.ui.UIList;
 
 public class CommonActivityList extends CommonActivity {
 
+    private PageCommonList listPage;
+
     @Override
     protected void createPage() {
-        setPage(new PageCommonList(getController(), this));
+        listPage = new PageCommonList(getController(), this);
+        setPage(listPage);
     }
 
     @Override
@@ -24,4 +27,13 @@ public class CommonActivityList extends CommonActivity {
         return true;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == Activity.RESULT_OK && null != data) {
+            Object obj = data.getParcelableExtra(Constants.RESULT);
+            listPage.getAdapter().add(obj);
+        }
+    }
 }
