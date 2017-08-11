@@ -7,5 +7,7 @@ import au.com.tyo.android.adapter.ListViewItemAdapter;
  */
 
 public interface UIList {
+
     ListViewItemAdapter getAdapter();
+
 }

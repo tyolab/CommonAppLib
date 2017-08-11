@@ -421,6 +421,7 @@ public class Page implements UIPage, MenuItem.OnMenuItemClickListener {
 
     protected void loadContentView() {
         if (contentViewResId > -1) {
+            contentView.removeAllViews();
             LayoutInflater inflater = LayoutInflater.from(activity);
             inflater.inflate(contentViewResId, contentView, true);
         }

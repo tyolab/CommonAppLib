@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.view.Menu;
 
 import au.com.tyo.app.ui.PageCommonList;
+import au.com.tyo.app.ui.UIList;
+import au.com.tyo.app.ui.UIPage;
 
 /**
  * Created by Eric Tang (eric.tang@tyo.com.au) on 27/7/17.
@@ -14,12 +16,12 @@ import au.com.tyo.app.ui.PageCommonList;
 
 public class CommonActivityList extends CommonActivity {
 
-    private PageCommonList listPage;
+    private UIList listPage;
 
     @Override
     protected void createPage() {
         listPage = new PageCommonList(getController(), this);
-        setPage(listPage);
+        setPage((UIPage) listPage);
     }
 
     @Override

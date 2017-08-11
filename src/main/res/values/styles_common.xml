@@ -294,6 +294,10 @@
         <item name = "android:windowNoTitle">true</item>
     </style>
 
+    <style name="AppTheme.Dark.NoActionBar.Splash">
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
     <style name="AutoCompleteTextViewLight" parent="@android:style/Widget.AutoCompleteTextView">
         <item name="android:textColor">@android:color/primary_text_light</item>
     </style>
