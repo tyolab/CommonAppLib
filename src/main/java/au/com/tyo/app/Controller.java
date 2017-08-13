@@ -140,4 +140,6 @@ public interface Controller extends CommonController {
     Object getParcel();
 
     void initializeOnce();
+
+    void openUrl(String url);
 }

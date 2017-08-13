@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -653,6 +654,17 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 
 	@Override
 	public void initializeOnce() {
+		// do nothing
+	}
 
+	@Override
+	public void openUrl(String url) {
+		Intent intent = new Intent();
+		if (url.startsWith("mailto"))
+			intent.setAction(Intent.ACTION_SENDTO);
+		else
+			intent.setAction(Intent.ACTION_VIEW);
+		intent.setData(Uri.parse(url));
+		getCurrentActivity().startActivity(intent);
 	}
 }
