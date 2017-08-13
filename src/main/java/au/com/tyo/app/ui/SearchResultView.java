@@ -7,7 +7,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import au.com.tyo.app.R;
-import au.com.tyo.common.ui.CommonListView;
+import au.com.tyo.android.widget.CommonListView;
 
 /**
  * @author Eric Tang <eric.tang@tyo.com.au>

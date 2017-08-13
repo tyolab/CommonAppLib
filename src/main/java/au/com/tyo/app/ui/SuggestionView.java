@@ -3,9 +3,6 @@ package au.com.tyo.app.ui;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -14,8 +11,7 @@ import java.util.ArrayList;
 import au.com.tyo.app.Controller;
 import au.com.tyo.app.R;
 import au.com.tyo.app.adapter.SuggestionsAdapter;
-import au.com.tyo.app.model.Searchable;
-import au.com.tyo.common.ui.CommonListView;
+import au.com.tyo.android.widget.CommonListView;
 
 /**
  * @author Eric Tang <eric.tang@tyo.com.au>

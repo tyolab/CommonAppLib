@@ -8,20 +8,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import au.com.tyo.android.widget.CommonListView;
+
 /**
  *
  */
 
 public class CommonFragmentList extends CommonFragment {
 
-    private ListView listView;
+    private CommonListView commonListView;
 
     private ViewGroup extraViewTopContainer;
 
     private ViewGroup extraViewBottomContainer;
 
     public ListView getListView() {
-        return listView;
+        return commonListView.getListView();
     }
 
     @Override
@@ -36,9 +38,10 @@ public class CommonFragmentList extends CommonFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        listView = (ListView) view.findViewById(R.id.list_view);
+        commonListView = (CommonListView) view.findViewById(R.id.common_list_view);
         extraViewBottomContainer = (ViewGroup) view.findViewById(R.id.list_extra_bottom);
         extraViewTopContainer = (ViewGroup) view.findViewById(R.id.list_extra_top);
+
     }
 
     public void addExtraTopView(int resId) {
