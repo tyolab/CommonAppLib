@@ -95,7 +95,8 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 
                 try {
                     String extName = this.getClass().getName().substring("Activity".length() - 1);
-                    pageClass = Class.forName(pagesPackage + ".Page" + extName);
+                    String pageClassName = pagesPackage + ".Page" + extName;
+                    pageClass = Class.forName(pageClassName);
                 }
                 catch (Exception ex) {
 

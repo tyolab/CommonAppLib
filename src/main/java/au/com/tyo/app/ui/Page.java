@@ -919,9 +919,12 @@ public class Page implements UIPage, MenuItem.OnMenuItemClickListener {
 
     @Override
     public boolean onActivityResult(int requestCode, int requestCode1, Intent data) {
-        for (Fragment fragment : fragments)
-            fragment.onActivityResult(requestCode, requestCode1, data);
+        if (null != fragments) {
+            for (Fragment fragment : fragments)
+                fragment.onActivityResult(requestCode, requestCode1, data);
 
-        return true; // by default page will handle the activity result
+            return true; // by default page will handle the activity result
+        }
+        return false;
     }
 }
