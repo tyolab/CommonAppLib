@@ -5,16 +5,22 @@
 package au.com.tyo.app;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 import au.com.tyo.app.ui.Page;
 import au.com.tyo.app.ui.UIPage;
+import au.com.tyo.utils.StringUtils;
 
 /**
  * 
@@ -23,11 +29,19 @@ import au.com.tyo.app.ui.UIPage;
  */
 public class CommonAppCompatActivity extends AppCompatActivity implements CommonActivityAgent.ActivityActionListener {
 
+	private static final String LOG_TAG = CommonAppCompatActivity.class.getSimpleName();
+
+	private Class pageClass = null;
+
     protected CommonActivityAgent agent;
 
 	private Controller controller;
 
 	protected UIPage page;
+
+	public void setPageClass(Class pageClass) {
+		this.pageClass = pageClass;
+	}
 
 	@SuppressLint("MissingSuperCall")
     @Override
@@ -40,6 +54,7 @@ public class CommonAppCompatActivity extends AppCompatActivity implements Common
 
         agent = new CommonActivityAgent(this);
 
+        loadPageClass();
 		createPage();
         onPageCreated();
 
@@ -51,14 +66,39 @@ public class CommonAppCompatActivity extends AppCompatActivity implements Common
 
 	}
 
-	/**
+    /**
+     * For overriding
+     */
+    protected void loadPageClass() {
+        // do nothing
+    }
+
+    /**
 	 * Create an assoicated page that contains all the widgets / controls
 	 *
 	 * if a custom page is needed just override this method to create a different page setting
 	 */
 	protected void createPage() {
-        if (null == page)
-		    page = new Page(controller, this);
+        if (null == page) {
+			if (pageClass != null) {
+				try {
+                    Constructor ctor = null;
+					ctor = pageClass.getConstructor(controller.getClass(), Activity.class);
+					page = (UIPage) ctor.newInstance(new Object[]{controller, this});
+				} catch (NoSuchMethodException e) {
+					Log.e(LOG_TAG, StringUtils.exceptionStackTraceToString(e));
+				} catch (IllegalAccessException e) {
+					Log.e(LOG_TAG, StringUtils.exceptionStackTraceToString(e));
+				} catch (InstantiationException e) {
+					Log.e(LOG_TAG, StringUtils.exceptionStackTraceToString(e));
+				} catch (InvocationTargetException e) {
+					Log.e(LOG_TAG, StringUtils.exceptionStackTraceToString(e));
+				}
+			}
+		}
+
+		if (null == page)
+			page = new Page(controller, this);
 	}
 
 	/**
