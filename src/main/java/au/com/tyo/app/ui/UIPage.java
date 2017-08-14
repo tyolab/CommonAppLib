@@ -116,4 +116,6 @@ public interface UIPage {
     void onActivityStart();
 
     Object setupActionBar();
+
+    boolean onActivityResult(int requestCode, int requestCode1, Intent data);
 }

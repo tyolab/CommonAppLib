@@ -18,7 +18,9 @@ import android.view.MenuItem;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
+import au.com.tyo.android.AndroidUtils;
 import au.com.tyo.app.ui.Page;
+import au.com.tyo.app.ui.UIActivity;
 import au.com.tyo.app.ui.UIPage;
 import au.com.tyo.utils.StringUtils;
 
@@ -27,9 +29,11 @@ import au.com.tyo.utils.StringUtils;
  * @author Eric Tang <eric.tang@tyo.com.au>
  * 
  */
-public class CommonAppCompatActivity extends AppCompatActivity implements CommonActivityAgent.ActivityActionListener {
+public class CommonAppCompatActivity extends AppCompatActivity implements UIActivity, CommonActivityAgent.ActivityActionListener {
 
 	private static final String LOG_TAG = CommonAppCompatActivity.class.getSimpleName();
+
+    private static String pagesPackage;
 
 	private Class pageClass = null;
 
@@ -39,7 +43,11 @@ public class CommonAppCompatActivity extends AppCompatActivity implements Common
 
 	protected UIPage page;
 
-	public void setPageClass(Class pageClass) {
+    public static void setPagesPackage(String pagesPackage) {
+        CommonAppCompatActivity.pagesPackage = pagesPackage;
+    }
+
+    public void setPageClass(Class pageClass) {
 		this.pageClass = pageClass;
 	}
 
@@ -80,6 +88,20 @@ public class CommonAppCompatActivity extends AppCompatActivity implements Common
 	 */
 	protected void createPage() {
         if (null == page) {
+
+            if (null == pageClass) {
+                if (pagesPackage == null)
+                    pagesPackage = AndroidUtils.getPackageName(this);
+
+                try {
+                    String extName = this.getClass().getName().substring("Activity".length() - 1);
+                    pageClass = Class.forName(pagesPackage + ".Page" + extName);
+                }
+                catch (Exception ex) {
+
+                }
+            }
+
 			if (pageClass != null) {
 				try {
                     Constructor ctor = null;
@@ -109,6 +131,7 @@ public class CommonAppCompatActivity extends AppCompatActivity implements Common
             page.setContentViewResId(R.layout.content);
     }
 
+    @Override
     public UIPage getPage() {
         return page;
     }
@@ -200,7 +223,8 @@ public class CommonAppCompatActivity extends AppCompatActivity implements Common
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		controller.onActivityResult(requestCode, resultCode, data);
+        if (!page.onActivityResult(requestCode, requestCode, data))
+		    controller.onActivityResult(requestCode, resultCode, data);
 	}
 	
 	@Override
@@ -250,4 +274,5 @@ public class CommonAppCompatActivity extends AppCompatActivity implements Common
 
 		super.finish();
 	}
+
 }

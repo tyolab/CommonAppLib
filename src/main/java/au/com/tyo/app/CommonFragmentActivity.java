@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import au.com.tyo.app.ui.Page;
+import au.com.tyo.app.ui.UIActivity;
 import au.com.tyo.app.ui.UIPage;
 
 /**
@@ -21,7 +22,7 @@ import au.com.tyo.app.ui.UIPage;
  * @author Eric Tang <eric.tang@tyo.com.au>
  * 
  */
-public class CommonFragmentActivity extends FragmentActivity implements CommonActivityAgent.ActivityActionListener {
+public class CommonFragmentActivity extends FragmentActivity implements UIActivity, CommonActivityAgent.ActivityActionListener {
 
     protected CommonActivityAgent agent;
 
@@ -29,6 +30,7 @@ public class CommonFragmentActivity extends FragmentActivity implements CommonAc
 
 	protected UIPage page;
 
+	@Override
 	public UIPage getPage() {
 		return page;
 	}

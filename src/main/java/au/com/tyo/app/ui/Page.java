@@ -13,6 +13,7 @@ import android.os.Parcelable;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
@@ -910,5 +911,17 @@ public class Page implements UIPage, MenuItem.OnMenuItemClickListener {
     @Override
     public void onActivityStart() {
         // do nothing
+    }
+
+    public FragmentManager getSupportFragmentManager() {
+        return ((AppCompatActivity) activity).getSupportFragmentManager();
+    }
+
+    @Override
+    public boolean onActivityResult(int requestCode, int requestCode1, Intent data) {
+        for (Fragment fragment : fragments)
+            fragment.onActivityResult(requestCode, requestCode1, data);
+
+        return true; // by default page will handle the activity result
     }
 }
