@@ -171,7 +171,7 @@ public class PageAgent {
                 try {
                     Constructor ctor = null;
                     ctor = pageClass.getConstructor(Controller.class, Activity.class);
-                    page = (UIPage) ctor.newInstance(new Object[]{controller, this});
+                    page = (UIPage) ctor.newInstance(new Object[]{controller, getActivity()});
                 } catch (NoSuchMethodException e) {
                     Log.e(LOG_TAG, StringUtils.exceptionStackTraceToString(e));
                 } catch (IllegalAccessException e) {

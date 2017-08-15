@@ -898,7 +898,7 @@ public class Page implements UIPage, MenuItem.OnMenuItemClickListener {
     }
 
     public int getFragmentCount() {
-        return fragments.size();
+        return null == fragments ? 0 : fragments.size();
     }
 
     public void setTitle(String title) {
