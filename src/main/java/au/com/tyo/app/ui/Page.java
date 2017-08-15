@@ -743,8 +743,6 @@ public class Page implements UIPage, MenuItem.OnMenuItemClickListener {
      * @param view
      * @param requestCode
      */
-
-
     public static void startActivity(Activity context, Class cls, int flags, String key, Object data, View view, int requestCode) {
         Intent intent = new Intent(context, cls);
         intent.addFlags(flags);

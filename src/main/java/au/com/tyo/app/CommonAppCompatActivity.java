@@ -29,27 +29,13 @@ import au.com.tyo.utils.StringUtils;
  * @author Eric Tang <eric.tang@tyo.com.au>
  * 
  */
-public class CommonAppCompatActivity extends AppCompatActivity implements UIActivity, CommonActivityAgent.ActivityActionListener {
+public class CommonAppCompatActivity extends AppCompatActivity implements UIActivity, PageAgent.ActivityActionListener {
 
 	private static final String LOG_TAG = CommonAppCompatActivity.class.getSimpleName();
 
-    private static String pagesPackage;
-
-	private Class pageClass = null;
-
-    protected CommonActivityAgent agent;
+    protected PageAgent agent;
 
 	private Controller controller;
-
-	protected UIPage page;
-
-    public static void setPagesPackage(String pagesPackage) {
-        CommonAppCompatActivity.pagesPackage = pagesPackage;
-    }
-
-    public void setPageClass(Class pageClass) {
-		this.pageClass = pageClass;
-	}
 
 	@SuppressLint("MissingSuperCall")
     @Override
@@ -60,13 +46,11 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 			CommonApp.setInstance(controller);
 		}
 
-        agent = new CommonActivityAgent(this);
+        agent = new PageAgent(this);
 
-        loadPageClass();
-		createPage();
-        onPageCreated();
+        onCreatePage();
 
-        agent.preInitialize(savedInstanceState, page);
+        agent.preInitialize(savedInstanceState, getPage());
 
         super.onCreate(savedInstanceState);
 
@@ -74,81 +58,59 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 
 	}
 
-    /**
-     * For overriding
-     */
-    protected void loadPageClass() {
-        // do nothing
+    public PageAgent getAgent() {
+        return agent;
     }
 
     /**
-	 * Create an assoicated page that contains all the widgets / controls
-	 *
-	 * if a custom page is needed just override this method to create a different page setting
-	 */
-	protected void createPage() {
-        if (null == page) {
+     * For overriding
+     */
+    protected void onCreatePage() {
+        loadPageClass();
+        createPage();
+        onPageCreated();
+    }
 
-            if (null == pageClass) {
-                if (pagesPackage == null)
-                    pagesPackage = AndroidUtils.getPackageName(this);
+    /**
+     * Create page
+     */
+    protected void createPage() {
+        agent.createPage();
+    }
 
-                try {
-                    String extName = this.getClass().getName().substring("Activity".length() - 1);
-                    String pageClassName = pagesPackage + ".Page" + extName;
-                    pageClass = Class.forName(pageClassName);
-                }
-                catch (Exception ex) {
-
-                }
-            }
-
-			if (pageClass != null) {
-				try {
-                    Constructor ctor = null;
-					ctor = pageClass.getConstructor(controller.getClass(), Activity.class);
-					page = (UIPage) ctor.newInstance(new Object[]{controller, this});
-				} catch (NoSuchMethodException e) {
-					Log.e(LOG_TAG, StringUtils.exceptionStackTraceToString(e));
-				} catch (IllegalAccessException e) {
-					Log.e(LOG_TAG, StringUtils.exceptionStackTraceToString(e));
-				} catch (InstantiationException e) {
-					Log.e(LOG_TAG, StringUtils.exceptionStackTraceToString(e));
-				} catch (InvocationTargetException e) {
-					Log.e(LOG_TAG, StringUtils.exceptionStackTraceToString(e));
-				}
-			}
-		}
-
-		if (null == page)
-			page = new Page(controller, this);
-	}
+    /**
+     *
+     */
+    protected void loadPageClass() {
+        // no ops
+    }
 
 	/**
 	 *
 	 */
     protected void onPageCreated() {
+        UIPage page = getPage();
         if (page.getContentViewResId() <= 0)
             page.setContentViewResId(R.layout.content);
     }
 
     @Override
     public UIPage getPage() {
-        return page;
+        return agent.getPage();
     }
 
     public void setPage(UIPage page) {
-        this.page = page;
+        agent.setPage(page);
     }
 
 	@Override
 	public void bindData() {
-		page.bindData();
+		getPage().bindData();
 	}
 
 	@Override
     public void bindData(Intent intent) {
-		page.bindData(intent);
+		getPage().bindData(intent);
     }
 
     @Override
@@ -178,7 +140,7 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if (!page.onOptionsItemSelected(item)) {
+		if (!getPage().onOptionsItemSelected(item)) {
 			return super.onOptionsItemSelected(item);
 		}
 		return true;
@@ -195,7 +157,7 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
   	protected void onResume() {
   		super.onResume();
   		
-		agent.onResume(page);
+		agent.onResume(getPage());
   	}
 
   	@Override
@@ -224,7 +186,7 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (!page.onActivityResult(requestCode, requestCode, data))
+        if (!getPage().onActivityResult(requestCode, requestCode, data))
 		    controller.onActivityResult(requestCode, resultCode, data);
 	}
 	
@@ -271,7 +233,7 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 
 	@Override
 	public void finish() {
-		page.onFinish();
+		getPage().onFinish();
 
 		super.finish();
 	}

@@ -19,7 +19,7 @@ import au.com.tyo.app.CommonExtra;
  * Created by Eric Tang (eric.tang@tyo.com.au) on 17/5/17.
  */
 
-public interface UIPage {
+public interface UIPage extends UIEntity {
 
     boolean isSubpage();
 
@@ -112,8 +112,6 @@ public interface UIPage {
     void setResult(Object data);
 
     void addFragmentToList(Fragment fragment);
-
-    void onActivityStart();
 
     Object setupActionBar();
 

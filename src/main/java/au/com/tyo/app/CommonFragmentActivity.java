@@ -22,9 +22,9 @@ import au.com.tyo.app.ui.UIPage;
  * @author Eric Tang <eric.tang@tyo.com.au>
  * 
  */
-public class CommonFragmentActivity extends FragmentActivity implements UIActivity, CommonActivityAgent.ActivityActionListener {
+public class CommonFragmentActivity extends FragmentActivity implements UIActivity, PageAgent.ActivityActionListener {
 
-    protected CommonActivityAgent agent;
+    protected PageAgent agent;
 
 	protected Controller controller;
 
@@ -44,7 +44,7 @@ public class CommonFragmentActivity extends FragmentActivity implements UIActivi
 			CommonApp.setInstance(controller);
 		}
 
-		agent = new CommonActivityAgent(this);
+		agent = new PageAgent(this);
 
 		createPage();
 		onPageCreated();

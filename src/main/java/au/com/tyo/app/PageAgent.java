@@ -3,36 +3,48 @@ package au.com.tyo.app;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 
 import au.com.tyo.android.AndroidUtils;
 import au.com.tyo.android.CommonInitializer;
+import au.com.tyo.app.ui.Page;
 import au.com.tyo.app.ui.UI;
+import au.com.tyo.app.ui.UIEntity;
 import au.com.tyo.app.ui.UIPage;
+import au.com.tyo.utils.StringUtils;
 
 /**
  * Created by Eric Tang (eric.tang@tyo.com.au) on 23/5/17.
  */
 
-public class CommonActivityAgent {
+public class PageAgent {
 
-    public static final String LOG_TAG = CommonActivityAgent.class.getSimpleName();
+    public static final String LOG_TAG = PageAgent.class.getSimpleName();
 
+    /**
+     *
+     */
+    private static String pagesPackage;
+
+    /**
+     *
+     */
     protected Controller controller;
 
     /**
-     * the main activity
+     * the main activity / fragment
      */
-    protected Activity activity;
+    protected Object uiObject;
 
     /**
      * TODO
@@ -41,8 +53,27 @@ public class CommonActivityAgent {
      */
 
     protected View contentView;
-    
+
+    /**
+     *
+     */
     private ActivityActionListener actionListener;
+
+    /**
+     *
+     */
+    private Class pageClass = null;
+
+    /**
+     * Could be a nested page
+     *
+     */
+    protected UIEntity page;
+
+    /**
+     *
+     */
+    private Context context;
     
     public interface ActivityActionListener {
 
@@ -54,21 +85,107 @@ public class CommonActivityAgent {
     }
 
 
-    public CommonActivityAgent(Activity activity) {
-        this.activity = activity;
+    public PageAgent(Object uiObject) {
+        this.uiObject = uiObject;
 
-        if (activity instanceof ActivityActionListener)
-            actionListener = (ActivityActionListener) activity;
+        if (isActivity()) {
+            context = getActivity();
+        }
+        else if (isFragment()) {
+            context = getFragment().getContext();
+        }
+        else
+            throw new IllegalStateException("uiObject must be an instance of Activity or Fragment");
+
+        if (uiObject instanceof ActivityActionListener)
+            actionListener = (ActivityActionListener) uiObject;
 
         init();
+    }
+
+    public void setPageClass(Class pageClass) {
+        this.pageClass = pageClass;
+    }
+
+    public static void setPagesPackage(String packageName) {
+        pagesPackage = packageName;
+    }
+
+    public UIPage getPage() {
+        return (UIPage) page;
+    }
+
+    public void setPage(UIPage page) {
+        this.page = page;
+    }
+
+    private boolean isActivity() {
+        return (uiObject instanceof Activity);
+    }
+
+    private boolean isFragment() {
+        return (uiObject instanceof android.support.v4.app.Fragment);
+    }
+
+    public Activity getActivity() {
+        return (Activity) uiObject;
+    }
+
+    public android.support.v4.app.Fragment getFragment() {
+        return (android.support.v4.app.Fragment) uiObject;
     }
 
     private void init() {
         if (controller == null) {
             if (CommonApp.getInstance() == null)
-                CommonApp.setInstance(CommonInitializer.initializeInstance(CommonApp.class, activity));
+                CommonApp.setInstance(CommonInitializer.initializeInstance(CommonApp.class, context));
             controller = (Controller) CommonApp.getInstance();
         }
+    }
+
+    /**
+     * Create an assoicated page that contains all the widgets / controls
+     *
+     * if a custom page is needed just override this method to create a different page setting
+     */
+    protected void createPage() {
+        if (!isActivity())
+            return;
+
+        if (null == page) {
+            if (null == pageClass) {
+                if (pagesPackage == null)
+                    pagesPackage = AndroidUtils.getPackageName(context);
+
+                try {
+                    String extName = getActivity().getClass().getName().substring("Activity".length() - 1);
+                    String pageClassName = pagesPackage + ".Page" + extName;
+                    pageClass = Class.forName(pageClassName);
+                }
+                catch (Exception ex) {
+
+                }
+            }
+
+            if (pageClass != null) {
+                try {
+                    Constructor ctor = null;
+                    ctor = pageClass.getConstructor(Controller.class, Activity.class);
+                    page = (UIPage) ctor.newInstance(new Object[]{controller, this});
+                } catch (NoSuchMethodException e) {
+                    Log.e(LOG_TAG, StringUtils.exceptionStackTraceToString(e));
+                } catch (IllegalAccessException e) {
+                    Log.e(LOG_TAG, StringUtils.exceptionStackTraceToString(e));
+                } catch (InstantiationException e) {
+                    Log.e(LOG_TAG, StringUtils.exceptionStackTraceToString(e));
+                } catch (InvocationTargetException e) {
+                    Log.e(LOG_TAG, StringUtils.exceptionStackTraceToString(e));
+                }
+            }
+        }
+
+        if (null == page)
+            page = new Page(controller, getActivity());
     }
 
     public ActivityActionListener getActionListener() {
@@ -80,9 +197,7 @@ public class CommonActivityAgent {
     }
 
     public void onCreate(Bundle savedInstanceState) {
-
-        controller.setCurrentActivity(activity);
-        controller.setContext(activity);
+        setControllerContext();
 
         initialise(savedInstanceState);
 
@@ -102,10 +217,7 @@ public class CommonActivityAgent {
 
         controller.onCurrentActivityStart();
 
-        if (activity instanceof CommonAppCompatActivity)
-            ((CommonAppCompatActivity) activity).getPage().onActivityStart();
-        else if (activity instanceof CommonFragmentActivity)
-            ((CommonFragmentActivity) activity).getPage().onActivityStart();
+        page.onActivityStart();
     }
 
     protected void startDataHandlingActivity() {
@@ -115,8 +227,11 @@ public class CommonActivityAgent {
     protected void createUI(UIPage screen) {
         if (controller.getUi() == null || controller.getUi().recreationRequired())
             controller.createUi();
-        controller.getUi().setCurrentScreen(screen);
-        controller.getUi().onScreenAttached(screen);
+
+        if (isActivity()) {
+            controller.getUi().setCurrentScreen(screen);
+            controller.getUi().onScreenAttached(screen);
+        }
     }
 
     protected void setupActionbar() {
@@ -135,7 +250,15 @@ public class CommonActivityAgent {
         return ui.getCurrentScreen().setupActionBar();
     }
 
+    private Activity getActivitySelf() {
+        if (isActivity())
+            return getActivity();
+        return getFragment().getActivity();
+    }
+
     protected boolean checkExtras() {
+        Activity activity= getActivitySelf();
+
         String action = activity.getIntent().getAction();
         if ((action != null &&
                 action.equalsIgnoreCase("android.intent.action.ASSIST")) ||
@@ -147,6 +270,7 @@ public class CommonActivityAgent {
     }
 
     protected void processExtras(Bundle savedInstanceState) {
+        Activity activity = getActivitySelf();
         if (savedInstanceState == null) {
             Intent intent = activity.getIntent();
             if (null != intent && (null != intent.getData() || null != intent.getExtras())) {
@@ -192,9 +316,11 @@ public class CommonActivityAgent {
         if (savedInstanceState != null)
             controller.onRestoreInstanceState(savedInstanceState);
 
-        createUI(screen);
+        if (isActivity()) {
+            createUI(screen);
 
-        controller.getUi().setupTheme(activity);
+            controller.getUi().setupTheme(getActivity());
+        }
     }
 
     /**
@@ -225,7 +351,9 @@ public class CommonActivityAgent {
             ViewGroup parent = (ViewGroup) contentView.getParent();
             if (null != parent) parent.removeView(contentView);
         }
-        activity.setContentView(contentView);
+
+        if (isActivity())
+            getActivity().setContentView(contentView);
 
         /**
          * set up action bar as we use toolbar now it is part of content view
@@ -246,7 +374,7 @@ public class CommonActivityAgent {
      * Call activity's onUICreated after UI gets initialised
      */
     protected void initialiseUi() {
-        controller.getUi().initializeUi(activity);
+        controller.getUi().initializeUi(context);
         contentView = controller.getUi().getCurrentScreen().getMainView();
     }
 
@@ -263,7 +391,7 @@ public class CommonActivityAgent {
      */
     private void showOverflowMenu() {
         try {
-            ViewConfiguration config = ViewConfiguration.get(activity);
+            ViewConfiguration config = ViewConfiguration.get(context);
             Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
             if(menuKeyField != null) {
                 menuKeyField.setAccessible(true);
@@ -281,8 +409,7 @@ public class CommonActivityAgent {
     public void onResume(UIPage page) {
         controller.getUi().setCurrentScreen(page);
 
-        controller.setCurrentActivity(activity);
-        controller.setContext(activity);
+        setControllerContext();
 
         /**
          * Can't remember why we need to deal with extra onResume
@@ -291,6 +418,14 @@ public class CommonActivityAgent {
         // processExtras();
 
         controller.onResume();
+    }
+
+    private void setControllerContext() {
+
+        if (isActivity()) {
+            controller.setCurrentActivity(getActivity());
+            controller.setContext(getActivity());
+        }
     }
 
     public void handleIntent(Intent intent) {
