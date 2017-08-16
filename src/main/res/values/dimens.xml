@@ -53,4 +53,8 @@
     <dimen name="common_fragment_title_padding_left">6dp</dimen>
     <dimen name="common_fragment_title_padding_top">3dp</dimen>
     <dimen name="common_fragment_title_padding_bottom">3dp</dimen>
+    <dimen name="frame_list_bottom_pading_top">0dp</dimen>
+    <dimen name="frame_list_bottom_pading_bottom">0dp</dimen>
+    <dimen name="frame_list_top_pading_top">0dp</dimen>
+    <dimen name="frame_list_top_pading_bottom">8dp</dimen>
 </resources>
