@@ -10,6 +10,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.View;
 
 import java.util.List;
 
@@ -142,4 +143,5 @@ public interface Controller extends CommonController {
     void initializeOnce();
 
     void openUrl(String url);
+
 }
