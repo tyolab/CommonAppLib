@@ -134,11 +134,6 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 	}
 	
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		return controller.onCreateOptionsMenu(menu);
-	}
-	
-	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (!getPage().onOptionsItemSelected(item)) {
 			return super.onOptionsItemSelected(item);
@@ -236,6 +231,11 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 		getPage().onFinish();
 
 		super.finish();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		return getPage().onCreateOptionsMenu(getMenuInflater(), menu);
 	}
 
 }

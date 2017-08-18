@@ -98,15 +98,12 @@ public class CommonFragmentActivity extends FragmentActivity implements UIActivi
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		return controller.onCreateOptionsMenu(menu);
+		return getPage().onCreateOptionsMenu(getMenuInflater(), menu);
 	}
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if (!controller.onOptionsItemSelected(this, item)) {
-			return super.onOptionsItemSelected(item);
-		}
-		return true;
+		return getPage().onOptionsItemSelected(item) || controller.onOptionsItemSelected(this, item) || super.onOptionsItemSelected(item);
 	}
 	
 	@Override

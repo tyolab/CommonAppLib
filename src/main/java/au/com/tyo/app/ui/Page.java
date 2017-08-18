@@ -19,6 +19,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -924,5 +926,11 @@ public class Page implements UIPage, MenuItem.OnMenuItemClickListener {
             return true; // by default page will handle the activity result
         }
         return false;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(MenuInflater menuInflater, Menu menu) {
+        menuInflater.inflate(au.com.tyo.android.R.menu.common_menu, menu);
+        return true;
     }
 }
