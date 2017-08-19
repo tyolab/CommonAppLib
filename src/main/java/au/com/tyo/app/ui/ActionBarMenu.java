@@ -54,9 +54,10 @@ public class ActionBarMenu {
         return null;
     }
 
-    public void initializeMenuForActionBar(Object actionBar, Menu menu) {
+    public boolean initializeMenuForActionBar(Object actionBar, Menu menu) {
         setActionBar(actionBar);
         setInitialized(true);
+        return true;
     }
 
     public Toolbar getToolbar() {

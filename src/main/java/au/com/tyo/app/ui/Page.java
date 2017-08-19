@@ -933,4 +933,19 @@ public class Page implements UIPage, MenuItem.OnMenuItemClickListener {
         menuInflater.inflate(au.com.tyo.android.R.menu.common_menu, menu);
         return true;
     }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Object actionBar, Menu menu) {
+        getActionBarMenu().initializeMenuForActionBar(actionBar, menu);
+        setupMenu();
+        return hasMoreMenu();
+    }
+
+    protected void setupMenu() {
+        // no ops
+    }
+
+    protected boolean hasMoreMenu() {
+        return false;
+    }
 }

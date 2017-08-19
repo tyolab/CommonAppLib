@@ -124,8 +124,6 @@ public interface Controller extends CommonController {
 
 	void onPause();
 
-	void onPrepareOptionsMenu(Object actionBar, Menu menu);
-
 	boolean onKeyLongPress(int keyCode, KeyEvent event);
 
 	void onStop();

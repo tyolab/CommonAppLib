@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -120,4 +121,6 @@ public interface UIPage extends UIEntity {
     boolean onActivityResult(int requestCode, int requestCode1, Intent data);
 
     boolean onCreateOptionsMenu(MenuInflater menuInflater, Menu menu);
+
+    boolean onPrepareOptionsMenu(Object actionBar, Menu menu);
 }

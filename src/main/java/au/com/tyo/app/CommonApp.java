@@ -481,12 +481,6 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 	}
 
 	@Override
-	public void onPrepareOptionsMenu(Object actionBar, Menu menu) {
-		if (null != ui.getCurrentScreen().getActionBarMenu())
-			ui.getCurrentScreen().getActionBarMenu().initializeMenuForActionBar(actionBar, menu);
-	}
-
-	@Override
 	public boolean onKeyLongPress(int keyCode, KeyEvent event) {
 		return false;
 	}

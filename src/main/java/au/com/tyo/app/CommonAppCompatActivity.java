@@ -132,14 +132,11 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
   		setIntent(intent); 
   		agent.handleIntent(intent);
 	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		if (!getPage().onOptionsItemSelected(item)) {
-			return super.onOptionsItemSelected(item);
-		}
-		return true;
-	}
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return getPage().onOptionsItemSelected(item) || controller.onOptionsItemSelected(this, item) || super.onOptionsItemSelected(item);
+    }
 	
 	@Override
 	protected void onPause() {
@@ -174,9 +171,8 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 	}
 	
 	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {	   
-		controller.onPrepareOptionsMenu(getSupportActionBar(), menu);
-		return super.onPrepareOptionsMenu(menu);
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		return getPage().onPrepareOptionsMenu(getSupportActionBar(), menu) || super.onPrepareOptionsMenu(menu);
 	}
 	
 	@Override
@@ -187,7 +183,7 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 	
 	@Override
 	public boolean onKeyLongPress(int keyCode, KeyEvent event) {
-		return controller.onKeyLongPress(keyCode, event)  || super.onKeyLongPress(keyCode, event);
+		return controller.onKeyLongPress(keyCode, event) || super.onKeyLongPress(keyCode, event);
 	}
 	
 	@Override

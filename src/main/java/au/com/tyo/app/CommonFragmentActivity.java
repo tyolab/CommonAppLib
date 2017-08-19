@@ -139,9 +139,8 @@ public class CommonFragmentActivity extends FragmentActivity implements UIActivi
 	}
 	
 	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {	   
-		controller.onPrepareOptionsMenu(getActionBar(), menu);
-		return super.onPrepareOptionsMenu(menu);
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		return getPage().onPrepareOptionsMenu(getActionBar(), menu) || super.onPrepareOptionsMenu(menu);
 	}
 	
 	@Override
