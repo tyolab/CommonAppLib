@@ -56,5 +56,5 @@
     <dimen name="frame_list_bottom_pading_top">0dp</dimen>
     <dimen name="frame_list_bottom_pading_bottom">0dp</dimen>
     <dimen name="frame_list_top_pading_top">0dp</dimen>
-    <dimen name="frame_list_top_pading_bottom">8dp</dimen>
+    <dimen name="frame_list_top_padding_bottom">0dp</dimen>
 </resources>

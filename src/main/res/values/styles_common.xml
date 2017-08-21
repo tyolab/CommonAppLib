@@ -42,7 +42,7 @@
         <item name="colorPrimary">@color/theme_light_text_color</item>
         <item name="colorPrimaryDark">@color/theme_dark_text_color</item>
 
-        <item name="android:windowBackground">@color/theme_light_background_color</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:colorBackground">@android:color/transparent</item>
 
         <item name="android:textColor">@color/theme_light_text_color</item>
@@ -61,7 +61,7 @@
         <item name="colorPrimaryDark">@color/theme_dark_text_color</item>
 
         <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:colorBackground">@color/dialog_background_color_dark</item>
+        <item name="android:colorBackground">@android:color/transparent</item>
 
         <item name="android:textColor">@color/theme_dark_text_color</item>
         <item name="android:checkboxStyle">@style/CommonCheckBox.Dark</item>
@@ -77,6 +77,19 @@
 
         <item name="android:textAppearanceListItem">@style/CommonTextAppearance.Dark</item>
         <item name="android:textAppearance">@style/CommonTextAppearance.Dark</item>
+    </style>
+
+
+    <style name="CommonDialog">
+
+    </style>
+
+    <style name="CommonDialog.Light">
+        <item name="android:background">@color/theme_light_background_color</item>
+    </style>
+
+    <style name="CommonDialog.Dark">
+        <item name="android:background">@color/dialog_background_color_dark</item>
     </style>
 
     <style name="CommonCheckBox"></style>
@@ -186,6 +199,8 @@
         <item name="progressBarStyle">@style/TyoDroid.Widget.ProgressBar.Inverse</item>
 
         <item name="fragmentTitleStyle">@style/CommonFragmentTitleStyleExtra.Light</item>
+
+        <item name="dialogStyle">@style/CommonDialog.Light</item>
     </style>
 
     <style name="CommonTheme.Dark" parent="Theme.AppCompat.NoActionBar" />
@@ -251,6 +266,7 @@
         <item name="progressBarStyle">@style/TyoDroid.Widget.ProgressBar</item>
 
         <item name="fragmentTitleStyle">@style/CommonFragmentTitleStyleExtra.Dark</item>
+        <item name="dialogStyle">@style/CommonDialog.Dark</item>
     </style>
 
     <style name="CommonAppBaseTheme.Light" parent="CommonTheme.Light.Pale">

@@ -158,7 +158,12 @@ public class PageAgent {
                     pagesPackage = AndroidUtils.getPackageName(context);
 
                 try {
-                    String extName = getActivity().getClass().getName().substring("Activity".length() - 1);
+                    String pageActivityClassName = getActivity().getClass().getName();
+                    String extName;
+                    if (pageActivityClassName.indexOf('.') > -1)
+                        extName = pageActivityClassName.substring(pageActivityClassName.lastIndexOf('.') + "Activity".length() + 1);
+                    else
+                        extName = pageActivityClassName.substring("Activity".length());
                     String pageClassName = pagesPackage + ".Page" + extName;
                     pageClass = Class.forName(pageClassName);
                 }
