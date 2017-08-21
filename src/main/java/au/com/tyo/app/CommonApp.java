@@ -19,7 +19,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.KeyEvent;
-import android.view.Menu;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -381,12 +380,12 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 		 * this can be called even the UI is not created yet
 		 */
 		if (ui != null)
-			ui.getCurrentScreen().onConfigurationChanged(newConfig);
+			ui.getCurrentPage().onConfigurationChanged(newConfig);
 	}
 
 	@Override
 	public void onUiReady() {
-		ui.getCurrentScreen().hideProgressBar();
+		ui.getCurrentPage().hideProgressBar();
 	}
 
 	@Override
@@ -433,10 +432,10 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 
 	@Override
 	public void onSearchInputFocused() {
-		getUi().getCurrentScreen().setSuggestionViewVisibility(true);
+		getUi().getCurrentPage().setSuggestionViewVisibility(true);
 		
 		getCurrentActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-		getUi().getCurrentScreen().hideAd();
+		getUi().getCurrentPage().hideAd();
 	}
 
 	@Override
@@ -446,7 +445,7 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
     	 */
 //    	getUI().setSuggestionViewVisibility(false);
     	getCurrentActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-    	getUi().getCurrentScreen().showAd();
+    	getUi().getCurrentPage().showAd();
 	}
 
 	@Override

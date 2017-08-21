@@ -7,15 +7,9 @@ package au.com.tyo.app.ui;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.view.View;
 
 import au.com.tyo.app.CommonExtra;
-import au.com.tyo.app.Constants;
 import au.com.tyo.app.Controller;
 import au.com.tyo.app.R;
 
@@ -36,7 +30,7 @@ public class UIBase implements UI {
 		this.controller = controller;
 	}
 
-    public UIPage getCurrentScreen() {
+    public UIPage getCurrentPage() {
         return currentScreen;
     }
 
@@ -79,12 +73,12 @@ public class UIBase implements UI {
      */
     @Override
     public void onWidowReady() {
-        getCurrentScreen().initialiseComponents();
+        getCurrentPage().initialiseComponents();
     }
 
     public void initializeUi(Context context) {
         setUiRecreationRequierd(false);
-        getCurrentScreen().initializeUi();
+        getCurrentPage().initializeUi();
     }
 
     @Override
@@ -132,16 +126,16 @@ public class UIBase implements UI {
 
     @Override
     public void startActivity(Class aClass) {
-        getCurrentScreen().startActivity(aClass);
+        getCurrentPage().startActivity(aClass);
     }
 
     @Override
     public void startActivity(CommonExtra extra) {
-        getCurrentScreen().startActivity(extra);
+        getCurrentPage().startActivity(extra);
     }
 
     @Override
     public void startActivity(Class cls, int flags, String key, Object data, View view, int requestCode) {
-        getCurrentScreen().startActivity(cls, flags, key, data, view, requestCode);
+        getCurrentPage().startActivity(cls, flags, key, data, view, requestCode);
     }
 }

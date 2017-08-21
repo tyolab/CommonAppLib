@@ -220,7 +220,7 @@ public class SearchView extends LinearLayout implements
 		
 		requestFocusForSearchButton();
 		
-		controller.getUi().getCurrentScreen().setSuggestionViewVisibility(false);
+		controller.getUi().getCurrentPage().setSuggestionViewVisibility(false);
 		
 		controller.search(text);
 	}

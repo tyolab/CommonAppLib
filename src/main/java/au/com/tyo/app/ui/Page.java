@@ -462,7 +462,7 @@ public class Page implements UIPage, MenuItem.OnMenuItemClickListener {
                     activity.finish();
                 }
                 else {
-                    controller.getUi().getCurrentScreen().hideSuggestionView();
+                    controller.getUi().getCurrentPage().hideSuggestionView();
                     controller.onOpenSearchItemClicked(item);
                 }
             }

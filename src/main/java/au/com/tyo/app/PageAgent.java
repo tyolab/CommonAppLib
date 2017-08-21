@@ -252,7 +252,7 @@ public class PageAgent {
 
     @SuppressLint("NewApi")
     protected Object setupActionBar(UI ui) {
-        return ui.getCurrentScreen().setupActionBar();
+        return ui.getCurrentPage().setupActionBar();
     }
 
     private Activity getActivitySelf() {
@@ -380,7 +380,7 @@ public class PageAgent {
      */
     protected void initialiseUi() {
         controller.getUi().initializeUi(context);
-        contentView = controller.getUi().getCurrentScreen().getMainView();
+        contentView = controller.getUi().getCurrentPage().getMainView();
     }
 
     private void setupTitleBar1() {

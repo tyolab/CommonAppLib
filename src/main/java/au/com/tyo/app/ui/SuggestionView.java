@@ -59,7 +59,7 @@ public class SuggestionView extends CommonListView {
 		list.setAdapter(adapter);
 
 		if (controller.getUi() != null) {
-			SearchInputView inputView = controller.getUi().getCurrentScreen().getSearchInputView();
+			SearchInputView inputView = controller.getUi().getCurrentPage().getSearchInputView();
 			inputView.setAdapter(adapter);
 		}
 

@@ -47,7 +47,7 @@ public interface UI {
 
 	void startActivity(Class cls, int flags, String key, Object data, View view, int requestCode);
 
-    UIPage getCurrentScreen();
+    UIPage getCurrentPage();
 
     void setCurrentScreen(UIPage screen);
 

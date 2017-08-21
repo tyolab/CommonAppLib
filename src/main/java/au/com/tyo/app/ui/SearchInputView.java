@@ -180,7 +180,7 @@ public class SearchInputView extends AppCompatEditText /*AutoCompleteTextView*/ 
         	controller.onSearchInputFocusEscaped();
         	
         	if (!this.keepShowingSuggestionView)
-        		ui.getCurrentScreen().setSuggestionViewVisibility(false);
+        		ui.getCurrentPage().setSuggestionViewVisibility(false);
 //            // reset the selection state
 //            state = SearchStateListener.SEARCH_NORMAL;
 //        	if (getText().toString().length() > 0) {
@@ -197,7 +197,7 @@ public class SearchInputView extends AppCompatEditText /*AutoCompleteTextView*/ 
             	/*
             	 * change the drawer icon to < 
             	 */
-            	ui.getCurrentScreen().onSearchInputFocusStatus(focused);
+            	ui.getCurrentPage().onSearchInputFocusStatus(focused);
             		
                 changeState(s);
             }
@@ -247,8 +247,8 @@ public class SearchInputView extends AppCompatEditText /*AutoCompleteTextView*/ 
 		String text = getText().toString().trim();
 		if (text.length() > 0 && (null == lastInput || !lastInput.equals(text))) {
 			lastInput = text;
-			if (controller != null &&  controller.getUi() != null && controller.getUi().getCurrentScreen().getMainView() != null)
-				controller.getUi().getCurrentScreen().getSuggestionView().restoreAdapter();
+			if (controller != null &&  controller.getUi() != null && controller.getUi().getCurrentPage().getMainView() != null)
+				controller.getUi().getCurrentPage().getSuggestionView().restoreAdapter();
 			if (filter != null) filter.filter(text, this);
 		}
 	}
@@ -314,7 +314,7 @@ public class SearchInputView extends AppCompatEditText /*AutoCompleteTextView*/ 
                 if (event.isTracking() && !event.isCanceled()) {
                 	parent.requestFocusForSearchButton();
 //                	controller.getUi().onSearchInputFocusStatus(false);
-                	controller.getUi().getCurrentScreen().setSuggestionViewVisibility(false);
+                	controller.getUi().getCurrentPage().setSuggestionViewVisibility(false);
                     return true;
                 }
             }
