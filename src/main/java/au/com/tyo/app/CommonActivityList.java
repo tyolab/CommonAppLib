@@ -16,12 +16,13 @@ import au.com.tyo.app.ui.UIPage;
 
 public class CommonActivityList extends CommonActivity {
 
-    private UIList listPage;
-
     @Override
     protected void createPage() {
-        listPage = new PageCommonList(getController(), this);
-        setPage((UIPage) listPage);
+        setPage(new PageCommonList(getController(), this));
+    }
+
+    public UIList getListPage() {
+        return (UIList) getPage();
     }
 
     @Override
@@ -35,7 +36,8 @@ public class CommonActivityList extends CommonActivity {
 
         if (resultCode == Activity.RESULT_OK && null != data) {
             Object obj = data.getParcelableExtra(Constants.RESULT);
-            listPage.getAdapter().add(obj);
+            getListPage().getAdapter().add(obj);
+            getListPage().getAdapter().notifyDataSetChanged();
         }
     }
 }
