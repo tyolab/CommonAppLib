@@ -65,12 +65,10 @@ public class CommonExtra {
     }
 
     public void setParcel(Object parcel) {
-        if (null != intent) {
-            this.parcel = parcel;
-        }
-        else {
+        this.parcel = parcel;
+
+        if (null != intent)
             setParcelExtra();
-        }
     }
 
     private void setParcelExtra() {
