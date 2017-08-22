@@ -749,53 +749,25 @@ public class Page implements UIPage, MenuItem.OnMenuItemClickListener {
         Intent intent = new Intent(context, cls);
         intent.addFlags(flags);
 
-        Bundle options = null;
+        CommonExtra.putExtra(intent, key, data);
 
-        if (data != null) {
-            if (data instanceof String) {
-                String value = (String) data;
-                intent.putExtra(key, value);
-            }
-            else if (data instanceof Boolean) {
-                Boolean value = (Boolean) data;
-                intent.putExtra(key, value);
-            }
-            else if (data instanceof Integer) {
-                Integer value = (Integer) data;
-                intent.putExtra(key, value);
-            }
-            else if (data instanceof Long) {
-                Long value = (Long) data;
-                intent.putExtra(key, value);
-            }
-            else if (data instanceof Parcelable){
-                Parcelable value = (Parcelable) data;
-                intent.putExtra(key, value);
-            }
-            else if (data instanceof Bundle) {
-                Bundle bundle = (Bundle) data;
-                intent.putExtra(key, bundle);
-            }
-            else if (data instanceof Object[]) {
-                Object[] array = (Object[]) data; // ((List) data).toArray();
-                intent.putExtra(key, array);
-            }
-            else if (data instanceof ArrayList) {
-                ArrayList list = (ArrayList) data;
-                intent.putExtra(key, list);
-            }
-            else {
-                // noting
-                throw new IllegalArgumentException("Unsupported data type: " + data.getClass().getSimpleName());
-            }
-        }
+        startActivity(context, intent, view, requestCode);
+    }
+
+    /**
+     *
+     * @param intent
+     * @param view
+     * @param requestCode
+     */
+    public static void startActivity(Activity context, Intent intent, View view, int requestCode) {
+        Bundle options = null;
 
         if (null != view)
             options = ActivityOptionsCompat.makeSceneTransitionAnimation(
                     context,
                     view,
                     Constants.BUNDLE).toBundle();
-
 
         if (null != options && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             if (requestCode > -1)

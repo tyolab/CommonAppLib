@@ -1,7 +1,12 @@
 package au.com.tyo.app;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
+
+import java.util.ArrayList;
 
 /**
  * Created by Eric Tang (eric.tang@tyo.com.au) on 17/7/17.
@@ -24,6 +29,8 @@ public class CommonExtra {
     private int flags;
 
     private View fromView;
+
+    private Intent intent;
 
     public CommonExtra(Class activityClass) {
         this(activityClass, Constants.DATA, null);
@@ -58,7 +65,27 @@ public class CommonExtra {
     }
 
     public void setParcel(Object parcel) {
-        this.parcel = parcel;
+        if (null != intent) {
+            this.parcel = parcel;
+        }
+        else {
+            setParcelExtra();
+        }
+    }
+
+    private void setParcelExtra() {
+        putExtra(intent, Constants.DATA, parcel);
+        this.parcel = null;
+    }
+
+    public void setExtra(Context context, String key, Object extra) {
+        if (intent == null) {
+            if (activityClass != null)
+                intent = new Intent(context, activityClass);
+            else
+                throw new IllegalArgumentException("Activity class must be set before setting an extra");
+        }
+        putExtra(intent, key, extra);
     }
 
     public int getRequestCode() {
@@ -95,5 +122,46 @@ public class CommonExtra {
 
     public void setRequestResultWithDefaultCode() {
         this.requestCode = DEFAULT_REQUEST_CODE;
+    }
+
+    public static void putExtra(Intent intent, String key, Object data) {
+        if (data != null) {
+            if (data instanceof String) {
+                String value = (String) data;
+                intent.putExtra(key, value);
+            }
+            else if (data instanceof Boolean) {
+                Boolean value = (Boolean) data;
+                intent.putExtra(key, value);
+            }
+            else if (data instanceof Integer) {
+                Integer value = (Integer) data;
+                intent.putExtra(key, value);
+            }
+            else if (data instanceof Long) {
+                Long value = (Long) data;
+                intent.putExtra(key, value);
+            }
+            else if (data instanceof Parcelable){
+                Parcelable value = (Parcelable) data;
+                intent.putExtra(key, value);
+            }
+            else if (data instanceof Bundle) {
+                Bundle bundle = (Bundle) data;
+                intent.putExtra(key, bundle);
+            }
+            else if (data instanceof Object[]) {
+                Object[] array = (Object[]) data; // ((List) data).toArray();
+                intent.putExtra(key, array);
+            }
+            else if (data instanceof ArrayList) {
+                ArrayList list = (ArrayList) data;
+                intent.putExtra(key, list);
+            }
+            else {
+                // noting
+                throw new IllegalArgumentException("Unsupported data type: " + data.getClass().getSimpleName());
+            }
+        }
     }
 }
