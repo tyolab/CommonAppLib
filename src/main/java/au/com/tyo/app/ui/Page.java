@@ -39,6 +39,9 @@ import au.com.tyo.app.Controller;
 import au.com.tyo.app.R;
 import au.com.tyo.app.model.Searchable;
 
+import static android.R.attr.data;
+import static android.R.attr.key;
+
 /**
  * Created by Eric Tang (eric.tang@tyo.com.au) on 18/7/17.
  *
@@ -729,7 +732,17 @@ public class Page implements UIPage, MenuItem.OnMenuItemClickListener {
      */
     @Override
     public void startActivity(CommonExtra extra) {
-        startActivity(extra.getActivityClass(), extra.getFlags(), extra.getKey(), extra.getParcel(), extra.getFromView(), extra.getRequestCode());
+        Class cls = extra.getActivityClass();
+        int flags = extra.getFlags();
+        String key = extra.getKey();
+        Object data = extra.getParcel();
+        View view= extra.getFromView();
+        int requestCode= extra.getRequestCode();
+        Intent intent = extra.getIntent();
+        if (null == intent)
+            startActivity(cls, flags, key, data, view, requestCode);
+        else
+            startActivity(activity, intent, view, requestCode);
     }
 
     @Override
@@ -891,10 +904,10 @@ public class Page implements UIPage, MenuItem.OnMenuItemClickListener {
     }
 
     @Override
-    public boolean onActivityResult(int requestCode, int requestCode1, Intent data) {
+    public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
         if (null != fragments) {
             for (Fragment fragment : fragments)
-                fragment.onActivityResult(requestCode, requestCode1, data);
+                fragment.onActivityResult(requestCode, resultCode, data);
 
             return true; // by default page will handle the activity result
         }

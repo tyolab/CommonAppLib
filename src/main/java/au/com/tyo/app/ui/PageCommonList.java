@@ -95,4 +95,5 @@ public class PageCommonList extends Page implements AdapterView.OnItemClickListe
         // we finish the parcel
         getController().setParcel(null);
     }
+
 }

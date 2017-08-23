@@ -127,39 +127,35 @@ public class CommonExtra {
             if (data instanceof String) {
                 String value = (String) data;
                 intent.putExtra(key, value);
-            }
-            else if (data instanceof Boolean) {
+            } else if (data instanceof Boolean) {
                 Boolean value = (Boolean) data;
                 intent.putExtra(key, value);
-            }
-            else if (data instanceof Integer) {
+            } else if (data instanceof Integer) {
                 Integer value = (Integer) data;
                 intent.putExtra(key, value);
-            }
-            else if (data instanceof Long) {
+            } else if (data instanceof Long) {
                 Long value = (Long) data;
                 intent.putExtra(key, value);
-            }
-            else if (data instanceof Parcelable){
+            } else if (data instanceof Parcelable) {
                 Parcelable value = (Parcelable) data;
                 intent.putExtra(key, value);
-            }
-            else if (data instanceof Bundle) {
+            } else if (data instanceof Bundle) {
                 Bundle bundle = (Bundle) data;
                 intent.putExtra(key, bundle);
-            }
-            else if (data instanceof Object[]) {
+            } else if (data instanceof Object[]) {
                 Object[] array = (Object[]) data; // ((List) data).toArray();
                 intent.putExtra(key, array);
-            }
-            else if (data instanceof ArrayList) {
+            } else if (data instanceof ArrayList) {
                 ArrayList list = (ArrayList) data;
                 intent.putExtra(key, list);
-            }
-            else {
+            } else {
                 // noting
                 throw new IllegalArgumentException("Unsupported data type: " + data.getClass().getSimpleName());
             }
         }
+    }
+
+    public Intent getIntent() {
+        return intent;
     }
 }
