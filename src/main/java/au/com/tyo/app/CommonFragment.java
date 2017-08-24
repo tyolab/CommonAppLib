@@ -93,6 +93,10 @@ public abstract class CommonFragment extends Fragment {
         this.contentViewResId = contentViewResId;
     }
 
+    public int getContentViewResId() {
+        return contentViewResId;
+    }
+
     public void checkLocationOnScreen() {
         fragmentView.checkLocationOnScreen();
     }
