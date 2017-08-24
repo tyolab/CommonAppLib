@@ -30,18 +30,24 @@ public class CommonFragmentList extends CommonFragment {
     protected void onFragmentAttach(Context context) {
         super.onFragmentAttach(context);
 
+        setupContentViewResource();
+    }
+
+    protected void setupContentViewResource() {
         setContentViewResId(R.layout.frame_list);
-        // setPage(new PageCommonList((Controller) CommonApp.getInstance(), getActivity()));
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        setupListView(view);
+    }
+
+    private void setupListView(View view) {
         commonListView = (CommonListView) view.findViewById(R.id.common_list_view);
         extraViewBottomContainer = (ViewGroup) view.findViewById(R.id.list_extra_bottom);
         extraViewTopContainer = (ViewGroup) view.findViewById(R.id.list_extra_top);
-
     }
 
     public void addExtraTopView(int resId) {

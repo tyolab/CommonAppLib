@@ -51,7 +51,7 @@ import static android.R.attr.key;
  *
  *  <Body>
  *
- *   Content
+ *   Content (a PageFragment)
  *
  *   </Body>
  *
@@ -59,7 +59,7 @@ import static android.R.attr.key;
  *
  */
 
-public class Page implements UIPage, MenuItem.OnMenuItemClickListener {
+public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemClickListener {
 
     private static final String LOG_TAG = "Screen";
 
@@ -81,8 +81,6 @@ public class Page implements UIPage, MenuItem.OnMenuItemClickListener {
     private SuggestionView suggestionView;
 
     private SearchView searchView;
-
-    private ViewGroup contentView;
 
     private BodyView bodyView;
 
@@ -112,12 +110,7 @@ public class Page implements UIPage, MenuItem.OnMenuItemClickListener {
     private Activity activity;
 
     /**
-     * The default content view layout resource id
-     */
-    private int contentViewResId = -1;
-
-    /**
-     * The indicator for whether the page is child page
+     * The indicator for whether the page is a child page
      */
     private boolean isSubpage = false;
 
@@ -228,15 +221,6 @@ public class Page implements UIPage, MenuItem.OnMenuItemClickListener {
         this.informationView = informationView;
     }
 
-    public int getContentViewResId() {
-        return contentViewResId;
-    }
-
-    @Override
-    public void setContentViewResId(int contentViewResId) {
-        this.contentViewResId = contentViewResId;
-    }
-
     public int getMainUiResId () {
         return  mainUiResId;
     }
@@ -323,11 +307,11 @@ public class Page implements UIPage, MenuItem.OnMenuItemClickListener {
         if (b) {
             ad.hide();
             suggestionView.setVisibility(View.VISIBLE);
-            contentView.setVisibility(View.GONE);
+            super.hideContentView();
         }
         else {
             ad.show();
-            contentView.setVisibility(View.VISIBLE);
+            super.showContentView();
             suggestionView.setVisibility(View.GONE);
         }
     }
@@ -378,7 +362,7 @@ public class Page implements UIPage, MenuItem.OnMenuItemClickListener {
         /**
          * the root view of content.xml
          */
-        contentView = (ViewGroup) mainView.findViewById(R.id.content_view);
+        setContentView((ViewGroup) mainView.findViewById(R.id.content_view));
         loadContentView();
 
         footerView = (ViewGroup) mainView.findViewById(R.id.footer_view);
@@ -402,6 +386,10 @@ public class Page implements UIPage, MenuItem.OnMenuItemClickListener {
         setupActionBarMenu();
     }
 
+    protected void loadContentView() {
+        loadContentView(activity);
+    }
+
     private void setupToolbar() {
         actionBarMenu.setToolbar((Toolbar) mainView.findViewById(R.id.tyodroid_toolbar));
     }
@@ -423,14 +411,6 @@ public class Page implements UIPage, MenuItem.OnMenuItemClickListener {
             // the search view is in the header
             // hideSearchBar();
             hideHeader();
-        }
-    }
-
-    protected void loadContentView() {
-        if (contentViewResId > -1) {
-            contentView.removeAllViews();
-            LayoutInflater inflater = LayoutInflater.from(activity);
-            inflater.inflate(contentViewResId, contentView, true);
         }
     }
 
@@ -502,14 +482,6 @@ public class Page implements UIPage, MenuItem.OnMenuItemClickListener {
 
     public SearchView getSearchView() {
         return searchView;
-    }
-
-    public ViewGroup getContentView() {
-        return contentView;
-    }
-
-    public void setContentView(ViewGroup contentView) {
-        this.contentView = contentView;
     }
 
     @Override
@@ -815,9 +787,14 @@ public class Page implements UIPage, MenuItem.OnMenuItemClickListener {
         // do nothing
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     public View findViewById(int id) {
-        if (contentView != null)
-            return contentView.findViewById(id);
+        if (getContentView() != null)
+            return getContentView().findViewById(id);
         return null;
     }
 
@@ -852,7 +829,7 @@ public class Page implements UIPage, MenuItem.OnMenuItemClickListener {
     }
 
     public void replaceFragment(Fragment fragment) {
-        replaceFragment(contentViewResId, fragment);
+        replaceFragment(getContentViewResId(), fragment);
     }
 
     public void replaceFragment(int fragmentContainerResId, Fragment fragment) {
@@ -861,7 +838,7 @@ public class Page implements UIPage, MenuItem.OnMenuItemClickListener {
     }
 
     public void addFragmentToContainer(Fragment fragment) {
-        addFragmentToContainer(contentViewResId, fragment);
+        addFragmentToContainer(getContentViewResId(), fragment);
     }
 
     public void addFragmentToContainer(int fragmentContainerResId, Fragment fragment) {

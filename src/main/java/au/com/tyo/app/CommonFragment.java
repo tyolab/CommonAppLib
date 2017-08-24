@@ -160,14 +160,22 @@ public abstract class CommonFragment extends Fragment {
         contentContainer = (ViewGroup) fragmentView.findViewById(R.id.frame_fragment_content);
         tvTitle = (TextView) fragmentView.findViewById(R.id.frame_fragment_title);
 
-        if (contentViewResId > -1) {
-            contentView = inflater.inflate(contentViewResId,
-                    contentContainer, true);
-        }
+        loadContentView(inflater);
 
         initialiseTitle();
 
         return fragmentView;
+    }
+
+    protected void loadContentView() {
+        loadContentView(LayoutInflater.from(getActivity()));
+    }
+
+    protected void loadContentView(LayoutInflater inflater) {
+        if (contentViewResId > -1) {
+            contentView = inflater.inflate(contentViewResId,
+                    contentContainer, true);
+        }
     }
 
     public boolean shallDisplay() {
