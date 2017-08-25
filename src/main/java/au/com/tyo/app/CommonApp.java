@@ -563,17 +563,17 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 	protected void setThemeUsage(int themeId) {
 		settings.updateThemePreference(themeId);
 
-		settings.setLightThemeUsed(themeId == R.style.AppTheme_Light);
+		settings.setLightThemeUsed(themeId == R.style.CommonAppTheme_Light);
 	}
 
 	protected void setThemeByIndex(int index) {
 
-			int themeId = R.style.AppTheme_Light;
+			int themeId = R.style.CommonAppTheme_Light;
 
 			if (index == 0)
-				themeId = R.style.AppTheme_Light;
+				themeId = R.style.CommonAppTheme_Light;
 			else if (index == 1)
-				themeId = R.style.AppTheme_Dark;
+				themeId = R.style.CommonAppTheme_Dark;
 
 			setThemeUsage(themeId);
 

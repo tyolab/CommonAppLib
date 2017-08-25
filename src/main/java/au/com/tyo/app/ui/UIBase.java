@@ -119,8 +119,8 @@ public class UIBase implements UI {
 			activity.setTheme(themeId);
 		else {
 			// we use light theme by default
-			controller.getSettings().setThemeId(R.style.AppTheme_Light_NoActionBar);
-			activity.setTheme(R.style.AppTheme_Light_NoActionBar);
+			controller.getSettings().setThemeId(R.style.CommonAppTheme_Light_NoActionBar);
+			activity.setTheme(R.style.CommonAppTheme_Light_NoActionBar);
 		}
 	}
 

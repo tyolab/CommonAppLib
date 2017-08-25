@@ -921,4 +921,12 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
         }
         return actionBarHeight;
     }
+
+    /**
+     * Event for notifying UI instance is created
+     */
+    @Override
+    public void onUiCreated() {
+        // no ops
+    }
 }

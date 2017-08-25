@@ -292,25 +292,25 @@
     </style>
 
     <!-- Application theme. -->
-    <style name="AppTheme.Light" parent="CommonAppBaseTheme.Light">
+    <style name="CommonAppTheme.Light" parent="CommonAppBaseTheme.Light">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
-    <style name="AppTheme.Dark" parent="CommonAppBaseTheme.Dark">
+    <style name="CommonAppTheme.Dark" parent="CommonAppBaseTheme.Dark">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
-    <style name="AppTheme.Light.NoActionBar">
+    <style name="CommonAppTheme.Light.NoActionBar">
         <item name = "android:windowActionBar">false</item>
         <item name = "android:windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.Dark.NoActionBar">
+    <style name="CommonAppTheme.Dark.NoActionBar">
         <item name = "android:windowActionBar">false</item>
         <item name = "android:windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.Dark.NoActionBar.Splash">
+    <style name="CommonAppTheme.Dark.NoActionBar.Splash">
         <item name="android:windowFullscreen">true</item>
     </style>
 
@@ -330,7 +330,7 @@
         <item name="android:textColor">@android:color/primary_text_dark</item>
     </style>
 
-    <style name="NoTitleTheme" parent="AppTheme.Dark">
+    <style name="NoTitleTheme" parent="CommonAppTheme.Dark">
         <item name="android:windowNoTitle">true</item>
     </style>
 

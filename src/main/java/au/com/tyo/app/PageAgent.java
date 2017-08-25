@@ -237,6 +237,8 @@ public class PageAgent {
             controller.getUi().setCurrentScreen(screen);
             controller.getUi().onScreenAttached(screen);
         }
+
+        screen.onUiCreated();
     }
 
     protected void setupActionbar() {
