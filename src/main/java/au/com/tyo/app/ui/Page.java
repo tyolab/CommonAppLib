@@ -47,7 +47,7 @@ import static android.R.attr.key;
  *
  * A screen has
  *
- * === HEADER ===
+ * === SECTION_HEADER ===
  *
  *  <Body>
  *
