@@ -369,14 +369,14 @@ public class History extends ResourceFetcher<String, ImagedSearchableItem>
 //		if (tokens.length == 3) {
 //			page.setThumbnailLink(imageDownloader.getCacheDirectoryFromLocation().toString() + File.separator + tokens[0]);
 //			page.setLangCode(tokens[1]);
-//			page.setTitle(tokens[2].replace('_', ' '));
+//			page.setPageTitleOnToolbar(tokens[2].replace('_', ' '));
 //		}
 //		else if (tokens.length == 2){
 //			page.setLangCode(tokens[0]);
-//			page.setTitle(tokens[1].replace('_', ' '));
+//			page.setPageTitleOnToolbar(tokens[1].replace('_', ' '));
 //		}
 //		else
-//			page.setTitle(name.replace('_', ' '));
+//			page.setPageTitleOnToolbar(name.replace('_', ' '));
 		
 		return page;
 	}

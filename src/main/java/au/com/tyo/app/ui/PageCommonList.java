@@ -9,6 +9,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import au.com.tyo.android.adapter.ListViewItemAdapter;
 import au.com.tyo.app.Constants;
@@ -69,7 +70,18 @@ public class PageCommonList extends Page implements AdapterView.OnItemClickListe
         // when the parcel / parcel list is too big just don't do it
         if (null != getController().getParcel()) {
             Object object = getController().getParcel();
-            if (object instanceof List)
+            Object data;
+            if (object instanceof Map) {
+                Map map = (Map) object;
+                data = (map).get(Constants.DATA);
+                String title = (String) map.get(Constants.PAGE_TITLE);
+                if (null != title)
+                    setTitle(title);
+            }
+            else
+                data = object;
+
+            if (data instanceof List)
                 adapter.setItems((List) object);
             else
                 adapter.add(object);
@@ -96,4 +108,10 @@ public class PageCommonList extends Page implements AdapterView.OnItemClickListe
         getController().setParcel(null);
     }
 
+    @Override
+    public void onFinish() {
+        super.onFinish();
+        if (null != getController().getParcel())
+            getController().setParcel(null);
+    }
 }

@@ -30,6 +30,7 @@ import android.widget.FrameLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import au.com.tyo.android.AndroidUtils;
 import au.com.tyo.app.CommonAppLog;
@@ -38,9 +39,6 @@ import au.com.tyo.app.Constants;
 import au.com.tyo.app.Controller;
 import au.com.tyo.app.R;
 import au.com.tyo.app.model.Searchable;
-
-import static android.R.attr.data;
-import static android.R.attr.key;
 
 /**
  * Created by Eric Tang (eric.tang@tyo.com.au) on 18/7/17.
@@ -130,6 +128,14 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
     private List<Fragment> fragments;
 
     /**
+     * Page title for showing on the action bar (tool bar)
+     */
+    private String title;
+
+    protected int statusBarColor = -1;
+    protected int toolbarColor = -1;
+
+    /**
      *
      * @param controller
      * @param activity
@@ -140,6 +146,14 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
         toShowSearchView = false;
 
         configActionBarMenu(controller);
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Activity getActivity() {
@@ -784,7 +798,13 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
      */
     @Override
     public void bindData() {
-        // do nothing
+        if (getController().getParcel() instanceof Map) {
+            Map map = (Map) getController().getParcel();
+            if (map.containsKey(Constants.PAGE_TOOLBAR_COLOR))
+                toolbarColor = (int) map.get(Constants.PAGE_TOOLBAR_COLOR);
+            if (map.containsKey(Constants.PAGE_STATUSBAR_COLOR))
+                statusBarColor = (int) map.get(Constants.PAGE_STATUSBAR_COLOR);
+        }
     }
 
     /**
@@ -866,7 +886,7 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
         return null == fragments ? 0 : fragments.size();
     }
 
-    public void setTitle(String title) {
+    public void setPageTitleOnToolbar(String title) {
         if (null != actionBarMenu)
             actionBarMenu.getSupportActionBar().setTitle(title);
     }
@@ -874,6 +894,8 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
     @Override
     public void onActivityStart() {
         // do nothing
+        if (null != title)
+            setPageTitleOnToolbar(title);
     }
 
     public FragmentManager getSupportFragmentManager() {
@@ -929,4 +951,13 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
     public void onUiCreated() {
         // no ops
     }
+
+    public void setToolbarColor(int color) {
+        getActionBarMenu().getToolbar().setBackgroundColor(color);
+    }
+
+    public void setStatusBarColor(int color) {
+        AndroidUtils.setStatusBarColorWithResourceId(activity, color);
+    }
+
 }
