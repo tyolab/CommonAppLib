@@ -957,7 +957,7 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
     }
 
     public void setStatusBarColor(int color) {
-        AndroidUtils.setStatusBarColorWithResourceId(activity, color);
+        AndroidUtils.setStatusBarColor(activity, color);
     }
 
 }

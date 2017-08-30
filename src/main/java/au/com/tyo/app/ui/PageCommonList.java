@@ -59,6 +59,14 @@ public class PageCommonList extends Page implements AdapterView.OnItemClickListe
         }
     }
 
+    public boolean isListAdapter() {
+        return adapter instanceof ListViewItemAdapter;
+    }
+
+    public boolean isArrayAdapter() {
+        return adapter instanceof ArrayAdapter;
+    }
+
     protected ListViewItemAdapter getListAdapter() {
         return (ListViewItemAdapter) adapter;
     }
@@ -90,6 +98,7 @@ public class PageCommonList extends Page implements AdapterView.OnItemClickListe
         }
         else
             throw new IllegalStateException("Unknown adapter type");
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -115,6 +124,20 @@ public class PageCommonList extends Page implements AdapterView.OnItemClickListe
             else
                 addList(Arrays.asList(object));
         }
+    }
+
+    public void addItem(Object obj) {
+        if (adapter instanceof ListViewItemAdapter) {
+            ListViewItemAdapter listAdapter = (ListViewItemAdapter) adapter;
+            listAdapter.add(obj);
+        }
+        else if (adapter instanceof ArrayAdapter) {
+            ArrayAdapter arrayAdapter = getArrayAdapter();
+            arrayAdapter.add(obj);
+        }
+        else
+            throw new IllegalStateException("Unknown adapter type");
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -146,5 +169,18 @@ public class PageCommonList extends Page implements AdapterView.OnItemClickListe
         super.onFinish();
         if (null != getController().getParcel())
             getController().setParcel(null);
+    }
+
+    @Override
+    public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == Activity.RESULT_OK && null != data && null != adapter) {
+            Object obj = data.getParcelableExtra(Constants.RESULT);
+
+            if (obj != null) addItem(obj);
+            return true;
+        }
+        return false;
     }
 }
