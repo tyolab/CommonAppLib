@@ -1,6 +1,6 @@
 package au.com.tyo.app.ui;
 
-import au.com.tyo.android.adapter.ListViewItemAdapter;
+import android.widget.BaseAdapter;
 
 /**
  * Created by Eric Tang (eric.tang@tyo.com.au) on 31/7/17.
@@ -8,6 +8,6 @@ import au.com.tyo.android.adapter.ListViewItemAdapter;
 
 public interface UIList {
 
-    ListViewItemAdapter getAdapter();
+    BaseAdapter getAdapter();
 
 }

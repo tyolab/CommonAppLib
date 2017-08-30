@@ -56,4 +56,5 @@ public interface Constants extends au.com.tyo.android.Constants {
     String PAGE_TITLE = "TYODROID_PAGE_TITLE";
 	String PAGE_TOOLBAR_COLOR = "TYODROID_PAGE_TOOLBAR_COLOR";
 	String PAGE_STATUSBAR_COLOR = "TYODROID_PAGE_STATUSBAR_COLOR";
+    Object DATA_LIST = "TYODROID_DATA_LIST";
 }

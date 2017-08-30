@@ -5,13 +5,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import au.com.tyo.android.adapter.ListViewItemAdapter;
+import au.com.tyo.android.adapter.ListWithHeadersAdapter;
 import au.com.tyo.app.Constants;
 import au.com.tyo.app.Controller;
 import au.com.tyo.app.R;
@@ -23,13 +27,17 @@ import au.com.tyo.app.R;
 public class PageCommonList extends Page implements AdapterView.OnItemClickListener, UIList {
 
     private ListView listView;
-    private ListViewItemAdapter adapter;
+    private BaseAdapter adapter;
 
     public PageCommonList(Controller controller, Activity activity) {
         super(controller, activity);
 
         setContentViewResId(R.layout.list_view);
 
+        createAdapter();
+    }
+
+    protected void createAdapter() {
         adapter = new ListViewItemAdapter();
     }
 
@@ -51,16 +59,37 @@ public class PageCommonList extends Page implements AdapterView.OnItemClickListe
         }
     }
 
+    protected ListViewItemAdapter getListAdapter() {
+        return (ListViewItemAdapter) adapter;
+    }
+
+    protected ArrayAdapter getArrayAdapter() {
+        return (ArrayAdapter) adapter;
+    }
+
     @Override
     public void bindData(Intent intent) {
         super.bindData(intent);
 
         List list = intent.getParcelableArrayListExtra(Constants.DATA);
-        if (null != list)
-            adapter.setItems(list);
-        else
-            adapter.setItems(new ArrayList());
 
+        addList(list);
+    }
+
+    private void addList(List list) {
+        if (adapter instanceof ListViewItemAdapter) {
+            ListViewItemAdapter listAdapter = (ListViewItemAdapter) adapter;
+            if (null != list)
+                listAdapter.setItems(list);
+            else
+                listAdapter.setItems(new ArrayList());
+        }
+        else if (adapter instanceof ArrayAdapter) {
+            ArrayAdapter arrayAdapter = getArrayAdapter();
+            arrayAdapter.addAll(list);
+        }
+        else
+            throw new IllegalStateException("Unknown adapter type");
     }
 
     @Override
@@ -73,7 +102,7 @@ public class PageCommonList extends Page implements AdapterView.OnItemClickListe
             Object data;
             if (object instanceof Map) {
                 Map map = (Map) object;
-                data = (map).get(Constants.DATA);
+                data = (map).get(Constants.DATA_LIST);
                 String title = (String) map.get(Constants.PAGE_TITLE);
                 if (null != title)
                     setTitle(title);
@@ -82,21 +111,25 @@ public class PageCommonList extends Page implements AdapterView.OnItemClickListe
                 data = object;
 
             if (data instanceof List)
-                adapter.setItems((List) object);
+                addList((List) object);
             else
-                adapter.add(object);
+                addList(Arrays.asList(object));
         }
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Object item = adapter.get(position);
+        Object item = adapter.getItem(position);
         setResult(item);
         getActivity().finish();
     }
 
+    public void setAdapter(ListWithHeadersAdapter adapter) {
+        this.adapter = adapter;
+    }
+
     @Override
-    public ListViewItemAdapter getAdapter() {
+    public BaseAdapter getAdapter() {
         return adapter;
     }
 
