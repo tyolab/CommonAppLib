@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <attr name="HeaderStyle" format="reference" />
+    <attr name="headerStyle" format="reference" />
 
     <attr name="progressBarStyle" format="reference" />
 
     <attr name="fragmentTitleStyle" format="reference" />
+
+    <attr name="bodyStyle" format="reference" />
 </resources>

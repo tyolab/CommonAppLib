@@ -132,8 +132,13 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
      */
     private String title;
 
-    protected int statusBarColor = -1;
-    protected int toolbarColor = -1;
+    /**
+     * Colors for the page elements
+     */
+    protected Integer statusBarColor = null;
+    protected Integer toolbarColor = null;
+    protected Integer bodyViewColor = null;
+    protected Integer titleTextColor = null;
 
     /**
      *
@@ -896,6 +901,18 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
         // do nothing
         if (null != title)
             setPageTitleOnToolbar(title);
+
+        if (statusBarColor != null)
+            setStatusBarColor(statusBarColor);
+
+        if (toolbarColor != null)
+            setToolbarColor(toolbarColor);
+
+        if (bodyViewColor != null)
+            bodyView.setBackgroundColor(bodyViewColor);
+
+        if (titleTextColor != null)
+            setToolbarTitleColor(titleTextColor);
     }
 
     public FragmentManager getSupportFragmentManager() {
@@ -960,4 +977,7 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
         AndroidUtils.setStatusBarColor(activity, color);
     }
 
+    public void setToolbarTitleColor(int color) {
+        getActionBarMenu().getToolbar().setTitleTextColor(color);
+    }
 }

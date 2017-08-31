@@ -1,12 +1,8 @@
 package au.com.tyo.app;
 
 
-import android.app.Activity;
-import android.content.Intent;
 import android.view.Menu;
-import android.widget.BaseAdapter;
 
-import au.com.tyo.android.adapter.ListViewItemAdapter;
 import au.com.tyo.app.ui.PageCommonList;
 import au.com.tyo.app.ui.UIList;
 
@@ -19,7 +15,10 @@ public class CommonActivityList extends CommonActivity {
 
     @Override
     protected void createPage() {
-        setPage(new PageCommonList(getController(), this));
+        super.createPage();
+
+        if (null == getPage())
+            setPage(new PageCommonList(getController(), this));
     }
 
     public UIList getListPage() {

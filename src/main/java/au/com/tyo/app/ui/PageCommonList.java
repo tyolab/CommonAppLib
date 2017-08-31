@@ -120,9 +120,10 @@ public class PageCommonList extends Page implements AdapterView.OnItemClickListe
                 data = object;
 
             if (data instanceof List)
-                addList((List) object);
+                addList((List) data);
             else
-                addList(Arrays.asList(object));
+                addList(Arrays.asList(data));
+
         }
     }
 

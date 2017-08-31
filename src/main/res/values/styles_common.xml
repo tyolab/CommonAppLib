@@ -201,6 +201,8 @@
         <item name="fragmentTitleStyle">@style/CommonFragmentTitleStyleExtra.Light</item>
 
         <item name="dialogStyle">@style/CommonDialog.Light</item>
+
+        <item name="bodyStyle">@style/BodyStyle</item>
     </style>
 
     <style name="CommonTheme.Dark" parent="Theme.AppCompat.NoActionBar" />
@@ -267,6 +269,8 @@
 
         <item name="fragmentTitleStyle">@style/CommonFragmentTitleStyleExtra.Dark</item>
         <item name="dialogStyle">@style/CommonDialog.Dark</item>
+
+        <item name="bodyStyle">@style/BodyStyle</item>
     </style>
 
     <style name="CommonAppBaseTheme.Light" parent="CommonTheme.Light.Pale">
