@@ -41,6 +41,7 @@ public class PageCommonList extends Page implements AdapterView.OnItemClickListe
         adapter = new ListViewItemAdapter();
     }
 
+    @Override
     public ListView getListView() {
         return listView;
     }
