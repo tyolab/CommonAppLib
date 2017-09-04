@@ -932,8 +932,11 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
 
     @Override
     public boolean onCreateOptionsMenu(MenuInflater menuInflater, Menu menu) {
-        menuInflater.inflate(au.com.tyo.android.R.menu.common_menu, menu);
         return true;
+    }
+
+    protected void createMenuItemAbout(MenuInflater menuInflater, Menu men) {
+        menuInflater.inflate(au.com.tyo.android.R.menu.common_menu, menu);
     }
 
     @Override
@@ -979,5 +982,11 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
 
     public void setToolbarTitleColor(int color) {
         getActionBarMenu().getToolbar().setTitleTextColor(color);
+    }
+
+    @Override
+    public void onPostCreate() {
+        if (getContentViewResId() <= 0)
+            setContentViewResId(R.layout.content);
     }
 }

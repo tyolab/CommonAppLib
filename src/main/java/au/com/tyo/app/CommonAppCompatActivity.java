@@ -89,9 +89,13 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 	 *
 	 */
     protected void onPageCreated() {
-        UIPage page = getPage();
-        if (page.getContentViewResId() <= 0)
-            page.setContentViewResId(R.layout.content);
+
+		UIPage page = getPage();
+
+		if (null == page)
+			throw new IllegalStateException("The page instance is not initialised, please make sure you have set up the page class or assign on properly");
+
+		page.onPostCreate();
     }
 
     @Override
@@ -201,7 +205,7 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
     }
     
     @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
+    protected void onSaveInstanceState(Bundle savedInstanceState) {
 
     	controller.onSaveInstanceState(savedInstanceState);
         

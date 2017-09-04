@@ -188,9 +188,6 @@ public class PageAgent {
                 }
             }
         }
-
-//        if (null == page)
-//            page = new Page(controller, getActivity());
     }
 
     public ActivityActionListener getActionListener() {

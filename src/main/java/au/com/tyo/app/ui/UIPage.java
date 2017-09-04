@@ -125,4 +125,6 @@ public interface UIPage extends UIEntity {
     boolean onPrepareOptionsMenu(Object actionBar, Menu menu);
 
     void onUiCreated();
+
+    void onPostCreate();
 }
