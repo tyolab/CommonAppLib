@@ -1,8 +1,6 @@
 package au.com.tyo.app;
 
 
-import android.view.Menu;
-
 import au.com.tyo.app.ui.PageCommonList;
 import au.com.tyo.app.ui.UIList;
 
@@ -23,11 +21,6 @@ public class CommonActivityList extends CommonActivity {
 
     public UIList getListPage() {
         return (UIList) getPage();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return true;
     }
 
 }
