@@ -1,13 +1,9 @@
 package au.com.tyo.app.ui;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import au.com.tyo.app.CommonAppCompatActivity;
 import au.com.tyo.app.CommonExtra;
 
 /**
@@ -127,4 +122,6 @@ public interface UIPage extends UIEntity {
     void onUiCreated();
 
     void onPostCreate();
+
+    String getString(int goto_login_activity);
 }

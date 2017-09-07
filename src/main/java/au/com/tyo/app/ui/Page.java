@@ -7,6 +7,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -14,6 +16,7 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
@@ -988,5 +991,29 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
     public void onPostCreate() {
         if (getContentViewResId() <= 0)
             setContentViewResId(R.layout.content);
+    }
+
+    public String getString(int resId) {
+        return activity.getResources().getString(resId);
+    }
+
+    public Drawable getDrawable(int resId) {
+        return ContextCompat.getDrawable(activity, resId);
+    }
+
+    public int getColor(int resId) {
+        return ContextCompat.getColor(activity, resId);
+    }
+
+    public int getInteger(int resId) {
+        return activity.getResources().getInteger(resId);
+    }
+
+    public Resources getResources() {
+        return activity.getResources();
+    }
+
+    public void finish() {
+        activity.finish();
     }
 }
