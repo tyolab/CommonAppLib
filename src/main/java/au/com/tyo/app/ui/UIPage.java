@@ -127,4 +127,6 @@ public interface UIPage extends UIEntity {
     void onUiCreated();
 
     void onPostCreate();
+
+    View findViewById(int id);
 }

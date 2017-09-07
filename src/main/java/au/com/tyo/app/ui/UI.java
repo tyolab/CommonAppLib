@@ -21,7 +21,7 @@ public interface UI {
 
 	void initializeUi(Context context);
 
-	void setUiRecreationRequierd(boolean value);
+	void setUiRecreationRequired(boolean value);
 
 	void onPause(Context context);
 
