@@ -550,7 +550,7 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
          *
          * it seems the above will affect the onPause call
 		 */
-		ui.setUiRecreationRequierd(true);
+		ui.setUiRecreationRequired(true);
 
 		super.quitOrRestart(restart);
 	}
@@ -597,7 +597,7 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 			if (oldId != themeId) {
 				application.setTheme(themeId); // set the application wise theme
 
-				ui.setUiRecreationRequierd(true);
+				ui.setUiRecreationRequired(true);
 
 				this.quitOrRestart(true);
 			}

@@ -24,7 +24,7 @@ public class UIBase implements UI {
 
     private View splashScreenOverlayView;
 
-    protected boolean uiRecreationRequierd = false;
+    protected boolean uiRecreationRequired = false;
 
 	public UIBase(Controller controller) {
 		this.controller = controller;
@@ -49,7 +49,7 @@ public class UIBase implements UI {
 
     @Override
     public boolean recreationRequired() {
-        return uiRecreationRequierd;
+        return uiRecreationRequired;
     }
 
     @Override
@@ -57,9 +57,8 @@ public class UIBase implements UI {
         currentScreen = screen;
     }
 
-    @Override
-    public void setUiRecreationRequierd(boolean value) {
-        uiRecreationRequierd = value;
+    public void setUiRecreationRequired(boolean value) {
+        uiRecreationRequired = value;
     }
 
     @Override
@@ -77,8 +76,13 @@ public class UIBase implements UI {
     }
 
     public void initializeUi(Context context) {
-        setUiRecreationRequierd(false);
+        setUiRecreationRequired(false);
         getCurrentPage().initializeUi();
+        onPageInitialized();
+    }
+
+    protected void onPageInitialized() {
+        // do nothing
     }
 
     @Override

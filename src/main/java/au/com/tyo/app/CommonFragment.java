@@ -27,6 +27,7 @@ public abstract class CommonFragment extends Fragment {
     UIPage page;
 
     private int parentContainerHeight = -1;
+    private int parentContainerWidth = -1;
 
     /**
      * UI widgets
@@ -71,6 +72,14 @@ public abstract class CommonFragment extends Fragment {
 
     public void setParentContainerHeight(int parentContainerHeight) {
         this.parentContainerHeight = parentContainerHeight;
+    }
+
+    public int getParentContainerWidth() {
+        return parentContainerWidth;
+    }
+
+    public void setParentContainerWidth(int parentContainerWidth) {
+        this.parentContainerWidth = parentContainerWidth;
     }
 
     public ViewGroup getContentContainer() {
