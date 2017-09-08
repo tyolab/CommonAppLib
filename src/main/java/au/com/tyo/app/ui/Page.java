@@ -1016,4 +1016,9 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
     public void finish() {
         activity.finish();
     }
+
+    @Override
+    public void onStart() {
+        //
+    }
 }

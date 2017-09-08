@@ -142,4 +142,6 @@ public class UIBase implements UI {
     public void startActivity(Class cls, int flags, String key, Object data, View view, int requestCode) {
         getCurrentPage().startActivity(cls, flags, key, data, view, requestCode);
     }
+
+
 }

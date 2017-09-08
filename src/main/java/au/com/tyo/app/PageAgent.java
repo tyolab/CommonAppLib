@@ -17,8 +17,8 @@ import java.lang.reflect.InvocationTargetException;
 
 import au.com.tyo.android.AndroidUtils;
 import au.com.tyo.android.CommonInitializer;
-import au.com.tyo.app.ui.Page;
 import au.com.tyo.app.ui.UI;
+import au.com.tyo.app.ui.UIActivity;
 import au.com.tyo.app.ui.UIEntity;
 import au.com.tyo.app.ui.UIPage;
 import au.com.tyo.utils.StringUtils;
@@ -260,6 +260,12 @@ public class PageAgent {
         return getFragment().getActivity();
     }
 
+    private UIActivity getUIActivity() {
+        if (isActivity() && getActivity() instanceof UIActivity)
+            return (UIActivity) getActivity();
+        return null;
+    }
+
     protected boolean checkExtras() {
         Activity activity= getActivitySelf();
 
@@ -333,6 +339,7 @@ public class PageAgent {
      * @param savedInstanceState
      */
     protected void initialise(Bundle savedInstanceState) {
+        UIActivity uiActivity = getUIActivity();
 
         /**
          * do it in a different way
@@ -350,6 +357,8 @@ public class PageAgent {
          * Create contentView
          */
         initialiseUi();
+        if (null != uiActivity)
+            uiActivity.onUiCreated();
 
         if (contentView.getParent() != null && contentView instanceof ViewGroup) {
             ViewGroup parent = (ViewGroup) contentView.getParent();
@@ -371,7 +380,8 @@ public class PageAgent {
 
         processExtras(savedInstanceState);
 
-        controller.onUiReady();
+        if (null != uiActivity)
+            uiActivity.onUiReady();
     }
 
     /**

@@ -5,5 +5,10 @@ package au.com.tyo.app.ui;
  */
 
 public interface UIActivity {
+
     UIPage getPage();
+
+    void onUiCreated();
+
+    void onUiReady();
 }

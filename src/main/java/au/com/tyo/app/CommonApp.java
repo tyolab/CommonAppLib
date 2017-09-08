@@ -389,6 +389,11 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 	}
 
 	@Override
+	public void onUiCreated() {
+
+	}
+
+	@Override
 	public ImageDownloader getImageDownloader() {
 		return null;
 	}

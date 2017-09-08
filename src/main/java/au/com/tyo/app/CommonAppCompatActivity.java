@@ -5,24 +5,16 @@
 package au.com.tyo.app;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-
-import au.com.tyo.android.AndroidUtils;
-import au.com.tyo.app.ui.Page;
 import au.com.tyo.app.ui.UIActivity;
 import au.com.tyo.app.ui.UIPage;
-import au.com.tyo.utils.StringUtils;
 
 /**
  * 
@@ -37,14 +29,26 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 
 	private Controller controller;
 
-	@SuppressLint("MissingSuperCall")
-    @Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void createController() {
 		controller = (Controller) CommonApp.getInstance();
 		if (null == controller) {
 			controller = CommonAppInitializer.getController(this);
 			CommonApp.setInstance(controller);
 		}
+		onControllerCreated(controller);
+	}
+
+	protected void onControllerCreated(Controller controller) {
+		// do nothing
+	}
+
+	@SuppressLint("MissingSuperCall")
+    @Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// controller has to be created first
+		createController();
+
+		beforeCreateCheck();
 
         agent = new PageAgent(this);
 
@@ -58,7 +62,11 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 
 	}
 
-    public PageAgent getAgent() {
+	protected void beforeCreateCheck() {
+		// do nothing
+	}
+
+	public PageAgent getAgent() {
         return agent;
     }
 
@@ -238,4 +246,20 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 		return getPage().onCreateOptionsMenu(getMenuInflater(), menu);
 	}
 
+	@Override
+	protected void onStart() {
+		super.onStart();
+
+		getPage().onStart();
+	}
+
+    @Override
+    public void onUiCreated() {
+        controller.onUiCreated();
+    }
+
+    @Override
+    public void onUiReady() {
+        controller.onUiReady();
+    }
 }

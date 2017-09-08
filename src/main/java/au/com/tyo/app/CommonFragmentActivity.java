@@ -190,4 +190,14 @@ public class CommonFragmentActivity extends FragmentActivity implements UIActivi
 
 		super.finish();
 	}
+
+	@Override
+	public void onUiCreated() {
+
+	}
+
+	@Override
+	public void onUiReady() {
+
+	}
 }

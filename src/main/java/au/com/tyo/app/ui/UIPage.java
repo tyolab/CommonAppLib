@@ -123,7 +123,9 @@ public interface UIPage extends UIEntity {
 
     void onPostCreate();
 
-    String getString(int goto_login_activity);
+    String getString(int strResId);
 
     View findViewById(int id);
+
+    void onStart();
 }

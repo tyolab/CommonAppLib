@@ -31,6 +31,6 @@ dependencies {
     compile project(':CommonAndroid')
     compile project(':CommonUiLib')
 
-    compile 'com.google.android.gms:play-services-ads:11.2.0'
+    compile 'com.google.android.gms:play-services-ads:11.2.2'
 
 }
