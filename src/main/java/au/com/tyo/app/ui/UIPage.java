@@ -1,5 +1,6 @@
 package au.com.tyo.app.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -128,4 +129,6 @@ public interface UIPage extends UIEntity {
     View findViewById(int id);
 
     void onStart();
+
+    Activity getActivity();
 }

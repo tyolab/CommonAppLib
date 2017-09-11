@@ -7,6 +7,7 @@ package au.com.tyo.app.ui;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.View;
 
 import au.com.tyo.app.CommonExtra;
@@ -52,4 +53,6 @@ public interface UI {
     void setCurrentScreen(UIPage screen);
 
     void onScreenAttached(UIPage screen);
+
+    void showDialog(int messageArrayResId, int themeId, DialogInterface.OnClickListener okListener, DialogInterface.OnClickListener cancelListener);
 }

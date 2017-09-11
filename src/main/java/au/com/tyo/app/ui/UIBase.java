@@ -6,12 +6,16 @@
 package au.com.tyo.app.ui;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.view.View;
 
+import au.com.tyo.android.AndroidUtils;
+import au.com.tyo.android.DialogFactory;
 import au.com.tyo.app.CommonExtra;
 import au.com.tyo.app.Controller;
-import au.com.tyo.app.R;
 
 public class UIBase implements UI {
 
@@ -123,9 +127,16 @@ public class UIBase implements UI {
 			activity.setTheme(themeId);
 		else {
 			// we use light theme by default
-			controller.getSettings().setThemeId(R.style.CommonAppTheme_Light_NoActionBar);
-			activity.setTheme(R.style.CommonAppTheme_Light_NoActionBar);
-		}
+//			controller.getSettings().setThemeId(R.style.CommonAppTheme_Light_NoActionBar);
+//			activity.setTheme(R.style.CommonAppTheme_Light_NoActionBar);
+            try {
+                themeId = AndroidUtils.getPredefinedApplicationThemeId(activity);
+            } catch (PackageManager.NameNotFoundException e) {
+
+            }
+            if (themeId > 0)
+                controller.getSettings().setThemeId(themeId);
+        }
 	}
 
     @Override
@@ -143,5 +154,9 @@ public class UIBase implements UI {
         getCurrentPage().startActivity(cls, flags, key, data, view, requestCode);
     }
 
-
+    @Override
+    public void showDialog(int messageArrayResId, int themeId, DialogInterface.OnClickListener okListener, DialogInterface.OnClickListener cancelListener) {
+        Dialog dialog = DialogFactory.createDialog(getCurrentPage().getActivity(), themeId, messageArrayResId, okListener, cancelListener);
+        dialog.show();
+    }
 }
