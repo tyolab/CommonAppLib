@@ -946,14 +946,14 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
     public boolean onPrepareOptionsMenu(Object actionBar, Menu menu) {
         getActionBarMenu().initializeMenuForActionBar(actionBar, menu);
         setupMenu();
-        return hasMoreMenu();
+        return onMenuCreated();
     }
 
     protected void setupMenu() {
         // no ops
     }
 
-    protected boolean hasMoreMenu() {
+    protected boolean onMenuCreated() {
         return false;
     }
 
