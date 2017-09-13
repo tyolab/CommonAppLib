@@ -156,6 +156,16 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
         configActionBarMenu(controller);
     }
 
+    @Override
+    public void setStatusBarColor(Integer statusBarColor) {
+        this.statusBarColor = statusBarColor;
+    }
+
+    @Override
+    public void setToolbarColor(Integer toolbarColor) {
+        this.toolbarColor = toolbarColor;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -798,7 +808,18 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
      */
     @Override
     public void bindData(Intent intent) {
-        // do nothing yet, as we don't know what data we need to process
+        if (intent.hasExtra(Constants.PAGE_TOOLBAR_COLOR)) {
+            int value = intent.getIntExtra(Constants.PAGE_TOOLBAR_COLOR, -1);
+            if (value != -1)
+                toolbarColor = value;
+        }
+        if (intent.hasExtra(Constants.PAGE_STATUSBAR_COLOR)) {
+            int value = intent.getIntExtra(Constants.PAGE_STATUSBAR_COLOR, -1);
+            if (value != -1)
+                statusBarColor = value;
+        }
+        if (intent.hasExtra(Constants.PAGE_TITLE))
+            setTitle(intent.getStringExtra(Constants.PAGE_TITLE));
     }
 
     /**
@@ -812,6 +833,8 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
                 toolbarColor = (int) map.get(Constants.PAGE_TOOLBAR_COLOR);
             if (map.containsKey(Constants.PAGE_STATUSBAR_COLOR))
                 statusBarColor = (int) map.get(Constants.PAGE_STATUSBAR_COLOR);
+            if (map.containsKey(Constants.PAGE_TITLE))
+                setTitle((String) map.get(Constants.PAGE_TITLE));
         }
     }
 
@@ -894,6 +917,7 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
         return null == fragments ? 0 : fragments.size();
     }
 
+    @Override
     public void setPageTitleOnToolbar(String title) {
         if (null != actionBarMenu)
             actionBarMenu.getSupportActionBar().setTitle(title);
@@ -935,7 +959,7 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
 
     @Override
     public boolean onCreateOptionsMenu(MenuInflater menuInflater, Menu menu) {
-        return true;
+        return onMenuCreated(menu);
     }
 
     protected void createMenuItemAbout(MenuInflater menuInflater, Menu menu) {
@@ -945,16 +969,21 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
     @Override
     public boolean onPrepareOptionsMenu(Object actionBar, Menu menu) {
         getActionBarMenu().initializeMenuForActionBar(actionBar, menu);
-        setupMenu();
-        return onMenuCreated();
+        prepareMenu();
+        return false;
     }
 
-    protected void setupMenu() {
+    /**
+     *
+     */
+    protected void prepareMenu() {
         // no ops
     }
 
-    protected boolean onMenuCreated() {
-        return false;
+    protected boolean onMenuCreated(Menu menu) {
+        // by default no menu created
+        getActionBarMenu().setupMenu(menu);
+        return true;
     }
 
     public int getActionBarHeight() {

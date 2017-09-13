@@ -296,11 +296,13 @@ public class PageAgent {
                         consumeInterActivityData(intent);
                 }
             }
-            else {
+
+            // allow binding data those weren't from the intent
+            // else {
                 // in case we need to bind other data that is not passed through intent
                 if (getActionListener() != null)
                     getActionListener().bindData();
-            }
+            // }
         }
         else if (getActionListener() != null)
             getActionListener().onSaveData(savedInstanceState);

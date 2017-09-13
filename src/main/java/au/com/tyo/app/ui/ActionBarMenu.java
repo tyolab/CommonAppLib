@@ -6,7 +6,6 @@ package au.com.tyo.app.ui;
 
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.util.TypedValue;
 import android.view.Menu;
 
 /**
@@ -69,4 +68,7 @@ public class ActionBarMenu {
         this.toolbar = toolbar;
     }
 
+    public void setupMenu(Menu menu) {
+        // no ops
+    }
 }

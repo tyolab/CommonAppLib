@@ -114,6 +114,8 @@ public interface UIPage extends UIEntity {
 
     Object setupActionBar();
 
+    void setPageTitleOnToolbar(String title);
+
     boolean onActivityResult(int requestCode, int requestCode1, Intent data);
 
     boolean onCreateOptionsMenu(MenuInflater menuInflater, Menu menu);
@@ -129,6 +131,10 @@ public interface UIPage extends UIEntity {
     View findViewById(int id);
 
     void onStart();
+
+    void setStatusBarColor(Integer statusBarColor);
+
+    void setToolbarColor(Integer toolbarColor);
 
     Activity getActivity();
 }
