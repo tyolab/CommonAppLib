@@ -42,7 +42,7 @@
         <item name="colorPrimary">@color/theme_light_text_color</item>
         <item name="colorPrimaryDark">@color/theme_dark_text_color</item>
 
-        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowBackground">@color/dialog_background_color_light</item>
         <item name="android:colorBackground">@android:color/transparent</item>
 
         <item name="android:textColor">@color/theme_light_text_color</item>
@@ -60,7 +60,7 @@
         <item name="colorPrimary">@color/theme_dark_text_color</item>
         <item name="colorPrimaryDark">@color/theme_dark_text_color</item>
 
-        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowBackground">@color/dialog_background_color_dark</item>
         <item name="android:colorBackground">@android:color/transparent</item>
 
         <item name="android:textColor">@color/theme_dark_text_color</item>

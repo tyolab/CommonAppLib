@@ -17,9 +17,12 @@
         android:layout_height="match_parent">
 
 
-        <FrameLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <include layout="@layout/page"
+                />
 
             <FrameLayout
                 android:id="@+id/tyodroid_page_progress_bar"
@@ -27,23 +30,33 @@
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"
                 android:visibility="visible"
-                android:background="@android:color/transparent"
+                android:background="@color/pageProgressPageBackground"
                 >
 
-                <ProgressBar
-                    style="?android:progressBarStyleSmall"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|center_horizontal"
-                    android:indeterminateBehavior="repeat"
-                    android:id="@+id/tyodroid_progress_bar"
-                    />
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    >
+                    <ProgressBar
+                        style="?android:progressBarStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:indeterminateBehavior="repeat"
+                        android:id="@+id/tyodroid_progress_bar"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tv_progress_info"
+                        android:text="running"
+                        android:layout_marginTop="@dimen/progress_info_margin_top"
+                        />
+                </LinearLayout>
 
             </FrameLayout>
-
-
-            <include layout="@layout/page"
-                />
 
             <!-- Alternatively -->
             <!--
@@ -52,7 +65,7 @@
                 />
                 -->
 
-        </FrameLayout>
+        </RelativeLayout>
 
 
         <FrameLayout

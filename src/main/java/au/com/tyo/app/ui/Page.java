@@ -30,6 +30,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,6 +73,7 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
     protected View pageView;
 
     protected View pageProgressView;
+    protected TextView textViewProgressInfo;
 
     protected ViewGroup footerView;
 
@@ -385,6 +387,7 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
          */
         pageView = mainView.findViewById(R.id.tyodroid_page);
         pageProgressView = mainView.findViewById(R.id.tyodroid_page_progress_bar);
+        textViewProgressInfo = mainView.findViewById(R.id.tv_progress_info);
 
         /**
          * the root view of body.xml
@@ -697,8 +700,8 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
      */
     @Override
     public void showProgressBar() {
-        if (null != pageView)
-            pageView.setVisibility(View.GONE);
+//        if (null != pageView)
+//            pageView.setVisibility(View.GONE);
         if (null != pageProgressView)
             pageProgressView.setVisibility(View.VISIBLE);
     }

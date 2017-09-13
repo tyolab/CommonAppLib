@@ -23,5 +23,6 @@
     <color name="term_highlight_6">#ff953a</color>
     <color name="term_highlight_7">#d69902</color>
     <color name="term_highlight_8">#6c3e82</color>
-    
+    <color name="pageProgressPageBackground">#80000000</color>
+
 </resources>
