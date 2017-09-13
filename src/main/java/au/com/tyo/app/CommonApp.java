@@ -372,6 +372,9 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 	@Override
 	public void initializeInBackgroundThread(Context context) {
 		super.initializeInBackgroundThread(context);
+
+        if (null != settings)
+            settings.loadPreferences();
 	}
 
 	@Override

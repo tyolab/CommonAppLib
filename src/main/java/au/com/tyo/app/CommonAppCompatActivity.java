@@ -108,7 +108,7 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 
     @Override
     public UIPage getPage() {
-        return agent.getPage();
+        return agent != null ? agent.getPage() : null;
     }
 
     public void setPage(UIPage page) {
@@ -236,7 +236,8 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 
 	@Override
 	public void finish() {
-		getPage().onFinish();
+        if (null != getPage())
+		    getPage().onFinish();
 
 		super.finish();
 	}

@@ -930,16 +930,16 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
             setPageTitleOnToolbar(title);
 
         if (statusBarColor != null)
-            setStatusBarColor(statusBarColor);
+            setPageStatusBarColor(statusBarColor);
 
         if (toolbarColor != null)
-            setToolbarColor(toolbarColor);
+            setPageToolbarColor(toolbarColor);
 
         if (bodyViewColor != null)
             bodyView.setBackgroundColor(bodyViewColor);
 
         if (titleTextColor != null)
-            setToolbarTitleColor(titleTextColor);
+            setPageToolbarTitleColor(titleTextColor);
     }
 
     public FragmentManager getSupportFragmentManager() {
@@ -1004,15 +1004,15 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
         // no ops
     }
 
-    public void setToolbarColor(int color) {
+    public void setPageToolbarColor(int color) {
         getActionBarMenu().getToolbar().setBackgroundColor(color);
     }
 
-    public void setStatusBarColor(int color) {
+    public void setPageStatusBarColor(int color) {
         AndroidUtils.setStatusBarColor(activity, color);
     }
 
-    public void setToolbarTitleColor(int color) {
+    public void setPageToolbarTitleColor(int color) {
         getActionBarMenu().getToolbar().setTitleTextColor(color);
     }
 
