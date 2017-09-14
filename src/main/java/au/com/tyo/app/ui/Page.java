@@ -700,10 +700,16 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
      */
     @Override
     public void showProgressBar() {
+        showProgressBar("");
+    }
+
+    public void showProgressBar(String info) {
 //        if (null != pageView)
 //            pageView.setVisibility(View.GONE);
-        if (null != pageProgressView)
+        if (null != pageProgressView && pageProgressView.getVisibility() != View.VISIBLE)
             pageProgressView.setVisibility(View.VISIBLE);
+        if (null != textViewProgressInfo)
+            textViewProgressInfo.setText(info);
     }
 
     /**
