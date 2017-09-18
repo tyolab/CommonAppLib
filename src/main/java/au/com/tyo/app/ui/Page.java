@@ -749,13 +749,16 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
         int flags = extra.getFlags();
         String key = extra.getKey();
         Object data = extra.getParcel();
-        View view= extra.getFromView();
+        View view = extra.getFromView();
         int requestCode= extra.getRequestCode();
         Intent intent = extra.getIntent();
         if (null == intent)
             startActivity(cls, flags, key, data, view, requestCode);
-        else
+        else {
+            if (null != data)
+                intent.putExtra(Constants.DATA, (Parcelable) data);
             startActivity(activity, intent, view, requestCode);
+        }
     }
 
     @Override
