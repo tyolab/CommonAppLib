@@ -37,7 +37,7 @@ public abstract class CommonFragment extends Fragment {
     protected int contentViewResId = -1;
     protected boolean ready;
 
-    protected TextView tvTitle = null;
+    private TextView tvTitle = null;
 
     private CommonFragmentView fragmentView;
     private ViewGroup contentContainer;
@@ -64,6 +64,10 @@ public abstract class CommonFragment extends Fragment {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public TextView getTitleView() {
+        return tvTitle;
     }
 
     public int getParentContainerHeight() {

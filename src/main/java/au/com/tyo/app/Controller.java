@@ -24,8 +24,11 @@ import au.com.tyo.app.ui.UI;
  * @author Eric Tang <eric.tang@tyo.com.au>
  */
 
-
-public interface Controller extends CommonController {
+/**
+ *
+ * @param <T> UI Class
+ */
+public interface Controller<T extends UI> extends CommonController {
 
 	void setParcel(Object parcel);
 
@@ -41,31 +44,31 @@ public interface Controller extends CommonController {
 
 	void onMessageBackgroundTaskStageSix();
 
-	void onMessageCustomeTwo();
+	void onMessageCustomTwo();
 
-	void onMessageCustomeOne();
+	void onMessageCustomOne();
 
-	void onMessageCustomeFour();
+	void onMessageCustomFour();
 
-	void onMessageCustomeFive();
+	void onMessageCustomFive();
 
-	void onMessageCustomeSix();
+	void onMessageCustomSix();
 
-	void onMessageCustomeSeven();
+	void onMessageCustomSeven();
 
-	void onMessageCustomeEight();
+	void onMessageCustomEight();
 
-	void onMessageCustomeNine();
+	void onMessageCustomNine();
 
-	void onMessageCustomeTen();
+	void onMessageCustomTen();
 
 	void onMessageBackgroundTaskStageOne();
 
-	void onMessageBackgroundTaskEndded();
+	void onMessageBackgroundTaskEnded();
 
 	void onMessageBackgroundTaskStarted();
 
-	UI getUi();
+	T getUi();
 
 	void createUi();
 
@@ -126,7 +129,7 @@ public interface Controller extends CommonController {
 
 	void onStop();
 
-	boolean onBackgroundTaskEndded(Activity activity);
+	boolean onBackgroundTaskEnded(Activity activity);
 
 	void onBackgroundTaskStarted(Activity activity);
 

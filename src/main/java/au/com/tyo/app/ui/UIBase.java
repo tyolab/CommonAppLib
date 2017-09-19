@@ -159,4 +159,9 @@ public class UIBase implements UI {
         Dialog dialog = DialogFactory.createDialog(getCurrentPage().getActivity(), themeId, messageArrayResId, okListener, cancelListener);
         dialog.show();
     }
+
+    @Override
+    public Context getContext() {
+        return getCurrentPage().getActivity();
+    }
 }

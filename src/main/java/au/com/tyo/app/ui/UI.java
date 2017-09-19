@@ -55,4 +55,6 @@ public interface UI {
     void onScreenAttached(UIPage screen);
 
     void showDialog(int messageArrayResId, int themeId, DialogInterface.OnClickListener okListener, DialogInterface.OnClickListener cancelListener);
+
+    Context getContext();
 }

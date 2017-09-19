@@ -237,7 +237,7 @@ public class SplashScreen extends Activity implements SplashScreenMessageListene
 			/**
 			 * if it returns false, it means the function will take care the main activity startup
 			 */
-			if (!controller.onBackgroundTaskEndded(SplashScreen.this)) {
+			if (!controller.onBackgroundTaskEnded(SplashScreen.this)) {
 				controller.startMainActivity();
 
 				// close this activity

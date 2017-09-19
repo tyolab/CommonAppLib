@@ -45,11 +45,13 @@ import au.com.tyo.app.ui.UIBase;
  * @author Eric Tang <eric.tang@tyo.com.au>
  */
 
-public class CommonApp extends CommonApplicationImpl implements Controller {
+public class CommonApp<UIType extends UI, ControllerType extends Controller>
+        extends CommonApplicationImpl<ControllerType>
+        implements Controller<UIType> {
 	
 	/* Common App MVC, Settings */
 	
-	private UI ui;
+	private UIType ui;
 	
 	private CommonAppSettings settings;
 
@@ -125,7 +127,7 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 					onMessageBackgroundTaskStarted();
 					break;
 				case Constants.MESSAGE_BACKGROUND_TASK_ENDDED:
-					onMessageBackgroundTaskEndded();
+					onMessageBackgroundTaskEnded();
 					break;
 				case Constants.MESSAGE_BACKGROUND_TASK_STAGE_ONE:
 					onMessageBackgroundTaskStageOne();
@@ -146,34 +148,34 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 					onMessageBackgroundTaskStageSix();
 					break;
 				case Constants.MESSAGE_CUSTOM_ONE:
-					onMessageCustomeOne();
+					onMessageCustomOne();
 					break;
                 case Constants.MESSAGE_CUSTOM_TWO:
-                    onMessageCustomeTwo();
+                    onMessageCustomTwo();
                     break;
                 case Constants.MESSAGE_CUSTOM_THREE:
-                    onMessageCustomeOne();
+                    onMessageCustomOne();
                     break;
                 case Constants.MESSAGE_CUSTOM_FOUR:
-                    onMessageCustomeFour();
+                    onMessageCustomFour();
                     break;
                 case Constants.MESSAGE_CUSTOM_FIVE:
-                    onMessageCustomeFive();
+                    onMessageCustomFive();
                     break;
                 case Constants.MESSAGE_CUSTOM_SIX:
-                    onMessageCustomeSix();
+                    onMessageCustomSix();
                     break;
                 case Constants.MESSAGE_CUSTOM_SEVEN:
-                    onMessageCustomeSeven();
+                    onMessageCustomSeven();
                     break;
                 case Constants.MESSAGE_CUSTOM_EIGHT:
-                    onMessageCustomeEight();
+                    onMessageCustomEight();
                     break;
                 case Constants.MESSAGE_CUSTOM_NINE:
-                    onMessageCustomeNine();
+                    onMessageCustomNine();
                     break;
                 case Constants.MESSAGE_CUSTOM_TEN:
-                    onMessageCustomeTen();
+                    onMessageCustomTen();
                     break;
 			}
 		}
@@ -212,47 +214,47 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
     }
 
     @Override
-    public void onMessageCustomeTwo() {
+    public void onMessageCustomTwo() {
 
     }
 
     @Override
-    public void onMessageCustomeOne() {
+    public void onMessageCustomOne() {
 
     }
 
     @Override
-    public void onMessageCustomeFour() {
+    public void onMessageCustomFour() {
 
     }
 
     @Override
-    public void onMessageCustomeFive() {
+    public void onMessageCustomFive() {
 
     }
 
     @Override
-    public void onMessageCustomeSix() {
+    public void onMessageCustomSix() {
 
     }
 
     @Override
-    public void onMessageCustomeSeven() {
+    public void onMessageCustomSeven() {
 
     }
 
     @Override
-    public void onMessageCustomeEight() {
+    public void onMessageCustomEight() {
 
     }
 
     @Override
-    public void onMessageCustomeNine() {
+    public void onMessageCustomNine() {
 
     }
 
     @Override
-    public void onMessageCustomeTen() {
+    public void onMessageCustomTen() {
 
     }
 
@@ -261,7 +263,7 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
     }
 
     @Override
-    public void onMessageBackgroundTaskEndded() {
+    public void onMessageBackgroundTaskEnded() {
     }
 
     @Override
@@ -269,13 +271,13 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
     }
 
     @Override
-	public UI getUi() {
+	public UIType getUi() {
 		return ui;
 	}
 	
 	@Override
 	public void setUi(UI ui) {
-		this.ui = ui;
+		this.ui = (UIType) ui;
 	}
 
 	@Override
@@ -313,7 +315,7 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 			
 			try {
 				Constructor ctor = clsUI.getConstructor(clsController/*Classes.clsController*/);
-				ui = (UI) ctor.newInstance(new Object[] { clsController.cast(instance) });
+				ui = (UIType) ctor.newInstance(new Object[] { clsController.cast(instance) });
 	//			cls.newInstance();
 			} catch (InstantiationException e) {
 				gotIt = false;
@@ -328,7 +330,7 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 			}
 			
 			if (null == ui)
-				ui = new UIBase(this);
+				ui = (UIType) new UIBase(this);
 		}
 	}
 	
@@ -522,7 +524,7 @@ public class CommonApp extends CommonApplicationImpl implements Controller {
 	}
 
 	@Override
-	public boolean onBackgroundTaskEndded(Activity activity) {
+	public boolean onBackgroundTaskEnded(Activity activity) {
 		return false;
 	}
 
