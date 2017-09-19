@@ -975,7 +975,7 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
     }
 
     protected void createMenuItemAbout(MenuInflater menuInflater, Menu menu) {
-        menuInflater.inflate(au.com.tyo.android.R.menu.common_menu, menu);
+        menuInflater.inflate(R.menu.common_menu, menu);
     }
 
     @Override
