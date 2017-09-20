@@ -779,7 +779,8 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
         Intent intent = new Intent(context, cls);
         intent.addFlags(flags);
 
-        CommonExtra.putExtra(intent, key, data);
+        if (null != data)
+            CommonExtra.putExtra(intent, key, data);
 
         startActivity(context, intent, view, requestCode);
     }
@@ -829,6 +830,11 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
             int value = intent.getIntExtra(Constants.PAGE_STATUSBAR_COLOR, -1);
             if (value != -1)
                 statusBarColor = value;
+        }
+        if (intent.hasExtra(Constants.PAGE_TITLE_FOREGROUND_COLOR)) {
+            int value = intent.getIntExtra(au.com.tyo.app.Constants.PAGE_TITLE_FOREGROUND_COLOR, -1);
+            if (value != -1)
+                titleTextColor = value;
         }
         if (intent.hasExtra(Constants.PAGE_TITLE))
             setTitle(intent.getStringExtra(Constants.PAGE_TITLE));
