@@ -71,4 +71,18 @@ public class ActionBarMenu {
     public void setupMenu(Menu menu) {
         // no ops
     }
+
+    public void hide() {
+        if (null != getSupportActionBar())
+            getSupportActionBar().hide();
+        else if (null != getActionBar())
+            getActionBar().hide();
+    }
+
+    public void show() {
+        if (null != getSupportActionBar())
+            getSupportActionBar().show();
+        else if (null != getActionBar())
+            getActionBar().show();
+    }
 }

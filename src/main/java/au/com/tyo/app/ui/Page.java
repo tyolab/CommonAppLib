@@ -429,6 +429,14 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
         actionBarMenu.setToolbar((Toolbar) mainView.findViewById(R.id.tyodroid_toolbar));
     }
 
+    public void hideToolbar() {
+        actionBarMenu.hide();
+    }
+
+    public void showToolbar() {
+        actionBarMenu.show();
+    }
+
     /**
      *
      */
