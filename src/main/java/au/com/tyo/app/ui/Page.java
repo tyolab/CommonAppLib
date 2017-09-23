@@ -795,6 +795,15 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
 
     /**
      *
+     * @param context
+     * @param intent
+     */
+    public static void startActivity(Activity context, Intent intent) {
+        startActivity(context, intent, null, -1);
+    }
+
+    /**
+     * @param context
      * @param intent
      * @param view
      * @param requestCode
@@ -952,7 +961,7 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
     @Override
     public void onActivityStart() {
         // do nothing
-        if (null != title)
+        if (null != title && title.length() > 0)
             setPageTitleOnToolbar(title);
 
         if (statusBarColor != null)
@@ -1074,6 +1083,11 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
 
     @Override
     public void onStart() {
-        //
+        // check the permissions required for the app since Android 6
+        if (Build.VERSION.SDK_INT >= 23)
+            checkPermissions();
+    }
+
+    protected void checkPermissions() {
     }
 }
