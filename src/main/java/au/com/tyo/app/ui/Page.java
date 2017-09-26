@@ -1089,5 +1089,6 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
     }
 
     protected void checkPermissions() {
+        // ops
     }
 }
