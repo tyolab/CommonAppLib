@@ -17,7 +17,7 @@
         style="?fragmentTitleStyle"
         />
 
-    <FrameLayout
+    <RelativeLayout
         android:id="@+id/frame_fragment_content"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
@@ -29,6 +29,6 @@
         android:layout_marginEnd="@dimen/fragment_content_margin_right"
         >
 
-    </FrameLayout>
+    </RelativeLayout>
 
 </au.com.tyo.app.ui.CommonFragmentView>

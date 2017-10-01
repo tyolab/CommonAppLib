@@ -185,14 +185,53 @@ public abstract class CommonFragment extends Fragment {
     }
 
     protected void loadContentView() {
-        loadContentView(LayoutInflater.from(getActivity()));
+        loadContentView();
     }
 
     protected void loadContentView(LayoutInflater inflater) {
         if (contentViewResId > -1) {
+            // contentContainer.removeAllViews();
             contentView = inflater.inflate(contentViewResId,
-                    contentContainer, true);
+                    contentContainer, false);
+            contentContainer.addView(contentView);
         }
+    }
+
+    protected void loadContentView(int contentViewResId) {
+        removeContentView();
+        this.contentViewResId = contentViewResId;
+
+        if (contentViewResId > -1) {
+            // contentContainer.removeAllViews();
+            LayoutInflater inflater = LayoutInflater.from(getActivity());
+
+            contentView = inflater.inflate(contentViewResId,
+                    null);
+            contentContainer.addView(contentView);
+        }
+    }
+
+    protected void removeContentView() {
+        if (null != contentView) {
+//            ViewGroup parent = (ViewGroup) contentView.getParent();
+//
+//            if (null != parent)
+//                parent.removeView(contentView);
+            contentContainer.removeView(contentView);
+        }
+    }
+
+    protected void hideContentView() {
+        if (null != contentView) {
+            contentView.setVisibility(View.GONE);
+        }
+    }
+
+    public void addContentView(View contentView) {
+        if (null != this.contentView)
+            contentContainer.removeView(this.contentView);
+        this.contentView = contentView;
+        this.contentContainer.addView(contentView);
     }
 
     public boolean shallDisplay() {

@@ -387,7 +387,7 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
          */
         pageView = mainView.findViewById(R.id.tyodroid_page);
         pageProgressView = mainView.findViewById(R.id.tyodroid_page_progress_bar);
-        textViewProgressInfo = mainView.findViewById(R.id.tv_progress_info);
+        textViewProgressInfo = (TextView) mainView.findViewById(R.id.tv_progress_info);
 
         /**
          * the root view of body.xml
