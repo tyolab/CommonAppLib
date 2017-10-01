@@ -108,7 +108,7 @@ public interface UIPage extends UIEntity {
 
     boolean onOptionsItemSelected(MenuItem item);
 
-    void setResult(Object data);
+    void setResult(Object result, int i);
 
     void addFragmentToList(Fragment fragment);
 

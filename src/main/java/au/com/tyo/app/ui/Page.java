@@ -128,6 +128,11 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
     private Object result;
 
     /**
+     * The result code
+     */
+    private int resultCode;
+
+    /**
      * The fragments assicated with the pages
      */
     private List<Fragment> fragments;
@@ -144,6 +149,7 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
     protected Integer toolbarColor = null;
     protected Integer bodyViewColor = null;
     protected Integer titleTextColor = null;
+
 
     /**
      *
@@ -185,7 +191,12 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
     }
 
     public void setResult(Object result) {
+        setResult(result, -1);
+    }
+
+    public void setResult(Object result, int i) {
         this.result = result;
+        this.resultCode = i;
     }
 
     public int getRequestCode() {
