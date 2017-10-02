@@ -175,7 +175,7 @@ public class History extends ResourceFetcher<String, ImagedSearchableItem>
 		protected void onPreExecute() {
 			super.onPreExecute();
 			
-			Thread.currentThread().setName("HistoryLoadingTask");
+			// Thread.currentThread().setName("HistoryLoadingTask");
 		}
         
 		/*

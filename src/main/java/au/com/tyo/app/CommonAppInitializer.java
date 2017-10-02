@@ -4,6 +4,7 @@ package au.com.tyo.app;
  * Created by Eric Tang on 12/1/17.
  */
 
+import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDexApplication;
 
@@ -17,9 +18,7 @@ public class CommonAppInitializer extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
 
-        Context context = this.getApplicationContext();
-
-        getController(context);
+        initialize(this);
     }
 
     public static Controller getController() {
@@ -40,4 +39,15 @@ public class CommonAppInitializer extends MultiDexApplication {
         return  controller;
     }
 
+    public static void initialize(Application application) {
+        Context context = application.getApplicationContext();
+        getController(context);
+    }
+
+    public static Controller getController(Application application) {
+        if (null == controller) {
+            initialize(application);
+        }
+        return getController();
+    }
 }

@@ -11,6 +11,7 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
@@ -31,6 +32,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -150,6 +152,11 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
     protected Integer bodyViewColor = null;
     protected Integer titleTextColor = null;
 
+    /**
+     * Back to exit method
+     */
+    private boolean doubleBackToExit;
+    private int backKeyCount;
 
     /**
      *
@@ -160,6 +167,7 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
         this.activity = activity;
         this.controller = controller;
         toShowSearchView = false;
+        doubleBackToExit = true;
 
         configActionBarMenu(controller);
     }
@@ -711,6 +719,27 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
                 activity.finish();
             return true;
         }
+        else {
+            if (doubleBackToExit) {
+
+                if (backKeyCount > 0) {
+                    finish();
+                    return true;
+                }
+
+                ++backKeyCount;
+                Toast.makeText(getActivity(), "Press BACK again to exit", Toast.LENGTH_SHORT).show();
+
+                new Handler().postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        backKeyCount = 0;
+                    }
+                }, 3000);
+                return true;
+            }
+        }
         return false;
     }
 
@@ -1101,5 +1130,21 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
 
     protected void checkPermissions() {
         // ops
+    }
+
+    public boolean isDoubleBackToExit() {
+        return doubleBackToExit;
+    }
+
+    public void setDoubleBackToExit(boolean doubleBackToExit) {
+        this.doubleBackToExit = doubleBackToExit;
+    }
+
+    public int getBackKeyCount() {
+        return backKeyCount;
+    }
+
+    public void setBackKeyCount(int backKeyCount) {
+        this.backKeyCount = backKeyCount;
     }
 }
