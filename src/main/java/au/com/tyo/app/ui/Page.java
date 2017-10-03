@@ -947,6 +947,10 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
         return false;
     }
 
+    public void removeFragments() {
+        fragments = new ArrayList<>();
+    }
+
     @Override
     public void addFragmentToList(Fragment fragment) {
         if (fragments == null)
@@ -959,8 +963,12 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
     }
 
     public void replaceFragment(int fragmentContainerResId, Fragment fragment) {
+        replaceFragment(fragmentContainerResId, fragment, null);
+    }
+
+    public void replaceFragment(int fragmentContainerResId, Fragment fragment, String tag) {
         ((FragmentActivity) activity).getSupportFragmentManager().beginTransaction()
-                .replace(fragmentContainerResId, fragment).commit();
+                .replace(fragmentContainerResId, fragment, tag).commit();
     }
 
     public void addFragmentToContainer(Fragment fragment) {
@@ -968,8 +976,12 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
     }
 
     public void addFragmentToContainer(int fragmentContainerResId, Fragment fragment) {
+        addFragmentToContainer(fragmentContainerResId, fragment, null);
+    }
+
+    public void addFragmentToContainer(int fragmentContainerResId, Fragment fragment, String tag) {
         ((FragmentActivity) activity).getSupportFragmentManager().beginTransaction()
-                .add(fragmentContainerResId, fragment).commit();
+                .add(fragmentContainerResId, fragment, tag).commit();
     }
 
     public void showFragment(Fragment fragment) {
