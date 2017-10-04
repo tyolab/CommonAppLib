@@ -80,7 +80,7 @@ public class PageCommonList extends Page implements AdapterView.OnItemClickListe
     public void bindData(Intent intent) {
         super.bindData(intent);
 
-        List list = intent.getParcelableArrayListExtra(Constants.DATA);
+        List list = intent.getParcelableArrayListExtra(Constants.DATA_LIST);
 
         addList(list);
     }
