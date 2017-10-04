@@ -928,7 +928,14 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
     public void onFinish() {
         if (null != result) {
             Intent resultIntent = new Intent();
-            resultIntent.putExtra(Constants.RESULT, (Parcelable) result);
+            if (result instanceof Parcelable)
+                resultIntent.putExtra(Constants.RESULT, (Parcelable) result);
+            if (result instanceof Parcelable[])
+                resultIntent.putExtra(Constants.RESULT, (Parcelable[]) result);
+            else if (result instanceof String)
+                resultIntent.putExtra(Constants.RESULT, (String) result);
+            else
+                controller.setParcel(result);
             activity.setResult(Activity.RESULT_OK, resultIntent);
         }
     }
