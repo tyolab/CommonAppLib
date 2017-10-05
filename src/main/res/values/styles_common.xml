@@ -37,13 +37,13 @@
         <item name="colorAccent">@color/green</item>
         for the checkbox color
     -->
-    <style name="CommonAlertDialog.Light" parent="Theme.AppCompat.Light.Dialog" >
+    <style name="Base.CommonAlertDialog.Light" parent="Theme.AppCompat.Light.Dialog" >
+    </style>
+
+    <style name="CommonAlertDialog.Light" parent="Base.CommonAlertDialog.Light" >
 
         <item name="colorPrimary">@color/theme_light_text_color</item>
         <item name="colorPrimaryDark">@color/theme_dark_text_color</item>
-
-        <item name="android:windowBackground">@color/dialog_background_color_light</item>
-        <item name="android:colorBackground">@android:color/transparent</item>
 
         <item name="android:textColor">@color/theme_light_text_color</item>
         <item name="android:checkboxStyle">@style/CommonCheckBox.Light</item>
@@ -56,12 +56,12 @@
         <item name="android:textAppearanceListItem">@style/CommonTextAppearance.Light</item>
     </style>
 
-    <style name="CommonAlertDialog.Dark" parent="Theme.AppCompat.DayNight.Dialog">
+    <style name="Base.CommonAlertDialog.Dark" parent="Theme.AppCompat.DayNight.Dialog" >
+    </style>
+
+    <style name="CommonAlertDialog.Dark" parent="Base.CommonAlertDialog.Dark">
         <item name="colorPrimary">@color/theme_dark_text_color</item>
         <item name="colorPrimaryDark">@color/theme_dark_text_color</item>
-
-        <item name="android:windowBackground">@color/dialog_background_color_dark</item>
-        <item name="android:colorBackground">@android:color/transparent</item>
 
         <item name="android:textColor">@color/theme_dark_text_color</item>
         <item name="android:checkboxStyle">@style/CommonCheckBox.Dark</item>
