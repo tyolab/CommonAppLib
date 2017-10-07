@@ -858,13 +858,13 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
                     Constants.BUNDLE).toBundle();
 
         if (null != options && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            if (requestCode > -1)
+            if (requestCode > Constants.REQUEST_NONE)
                 context.startActivityForResult(intent, requestCode, options);
             else
                 context.startActivity(intent, options);
         }
         else {
-            if (requestCode > -1)
+            if (requestCode > Constants.REQUEST_NONE)
                 context.startActivityForResult(intent, requestCode);
             else
                 context.startActivity(intent);
