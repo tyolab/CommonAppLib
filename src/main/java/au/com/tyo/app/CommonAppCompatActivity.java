@@ -167,8 +167,8 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
   	@Override
   	protected void onDestroy() {
   		super.onDestroy();
-  		
-  		if (isFinishing())
+
+  		if (!getPage().onDestroy() && isFinishing() && !getPage().isSubpage())
   			controller.onDestroy();
   	}
 	
@@ -263,4 +263,11 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
     public void onUiReady() {
         controller.onUiReady();
     }
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+
+		getPage().onStop();
+	}
 }

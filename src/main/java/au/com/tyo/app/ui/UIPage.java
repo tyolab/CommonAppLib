@@ -38,7 +38,7 @@ public interface UIPage extends UIEntity {
 
     void onResume(Context context);
 
-    void onStop(Context currentActivity);
+    void onStop();
 
     void initializeUi(View v);
 
@@ -137,4 +137,6 @@ public interface UIPage extends UIEntity {
     void setToolbarColor(Integer toolbarColor);
 
     Activity getActivity();
+
+    boolean onDestroy();
 }

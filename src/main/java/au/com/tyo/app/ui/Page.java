@@ -289,7 +289,7 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
     }
 
     @Override
-    public void onStop(Context currentActivity) {
+    public void onStop() {
         // should be overrode if needed
     }
 
@@ -1165,5 +1165,10 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
 
     public void setBackKeyCount(int backKeyCount) {
         this.backKeyCount = backKeyCount;
+    }
+
+    @Override
+    public boolean onDestroy() {
+        return false;
     }
 }

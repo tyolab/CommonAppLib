@@ -1,7 +1,6 @@
 package au.com.tyo.app.ui;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -169,8 +168,8 @@ public class PageCommonList extends Page implements AdapterView.OnItemClickListe
     }
 
     @Override
-    public void onStop(Context currentActivity) {
-        super.onStop(currentActivity);
+    public void onStop() {
+        super.onStop();
 
         // we finish the parcel
         getController().setParcel(null);
