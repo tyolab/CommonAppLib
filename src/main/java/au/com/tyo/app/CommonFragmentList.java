@@ -22,6 +22,14 @@ public class CommonFragmentList extends CommonFragment {
 
     private ViewGroup extraViewBottomContainer;
 
+    public CommonListView getCommonListView() {
+        return commonListView;
+    }
+
+    public void setCommonListView(CommonListView commonListView) {
+        this.commonListView = commonListView;
+    }
+
     public ListView getListView() {
         return commonListView.getListView();
     }

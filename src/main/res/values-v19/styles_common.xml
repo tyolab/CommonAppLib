@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Base.CommonAlertDialog.Light" parent="Theme.AppCompat.Light.Dialog" >
+        <item name="android:windowBackground">@color/dialog_background_color_light</item>
+        <item name="android:colorBackground">@android:color/transparent</item>
+    </style>
+    <style name="Base.CommonAlertDialog.Dark" parent="Theme.AppCompat.DayNight.Dialog" >
+        <item name="android:windowBackground">@color/dialog_background_color_dark</item>
+        <item name="android:colorBackground">@android:color/transparent</item>
+    </style>
+</resources>
