@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Base.CommonAlertDialog.Light" parent="Theme.AppCompat.Light.Dialog" >
+    <style name="Base.CommonAlertDialog.Light" parent="AlertDialog.AppCompat.Light" >
     </style>
-    <style name="Base.CommonAlertDialog.Dark" parent="Theme.AppCompat.DayNight.Dialog" >
+    <style name="Base.CommonAlertDialog.Dark" parent="AlertDialog.AppCompat" >
     </style>
 </resources>
