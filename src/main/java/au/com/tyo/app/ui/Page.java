@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.Map;
 
 import au.com.tyo.android.AndroidUtils;
+import au.com.tyo.app.CommonApp;
 import au.com.tyo.app.CommonAppLog;
 import au.com.tyo.app.CommonExtra;
 import au.com.tyo.app.Constants;
@@ -1170,5 +1171,44 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
     @Override
     public boolean onDestroy() {
         return false;
+    }
+
+    public static Object getActivityResult(Intent data) {
+        Object result = null;
+        if (data.hasExtra(Constants.RESULT)) {
+            try {
+                result = data.getParcelableExtra(Constants.RESULT);
+            }
+            catch (Exception ex) {}
+            if (result == null)
+                try {
+                    result = data.getStringExtra(Constants.RESULT);
+                }
+                catch (Exception ex) {}
+            if (result == null)
+                try {
+                    result = data.getStringArrayExtra(Constants.RESULT);
+                }
+                catch (Exception ex) {}
+            if (result == null)
+                try {
+                    result = data.getStringArrayListExtra(Constants.RESULT);
+                }
+                catch (Exception ex) {}
+            if (result == null)
+                try {
+                    result = data.getParcelableArrayExtra(Constants.RESULT);
+                }
+                catch (Exception ex) {}
+            if (result == null)
+                try {
+                    result = data.getParcelableArrayListExtra(Constants.RESULT);
+                }
+                catch (Exception ex) {}
+        }
+
+        if (null == result && null != CommonApp.getInstance())
+            result = ((Controller) CommonApp.getInstance()).getParcel();
+        return result;
     }
 }

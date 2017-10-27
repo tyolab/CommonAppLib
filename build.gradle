@@ -33,4 +33,7 @@ dependencies {
 
     compile 'com.google.android.gms:play-services-ads:11.2.2'
 
+    // Calligraphy
+    compile 'uk.co.chrisjenx:calligraphy:2.3.0'
+
 }

@@ -670,4 +670,14 @@ public class CommonApp<UIType extends UI, ControllerType extends Controller>
 		intent.setData(Uri.parse(url));
 		getCurrentActivity().startActivity(intent);
 	}
+
+	@Override
+	public void onDeleteFromList(Object data) {
+		// to be implemented if a simple list is used
+	}
+
+	@Override
+	public void onListItemClick(Object obj) {
+		// to be implemented if a simple list is used
+	}
 }
