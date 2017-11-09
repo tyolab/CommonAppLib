@@ -13,7 +13,6 @@ import au.com.tyo.android.widget.CommonListView;
  * @author Eric Tang <eric.tang@tyo.com.au>
  */
 
-
 public class SearchResultView extends CommonListView {
 	
 	private TextView headerTextForSearchResults;

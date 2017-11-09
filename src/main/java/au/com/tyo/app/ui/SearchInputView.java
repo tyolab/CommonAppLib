@@ -41,7 +41,7 @@ public class SearchInputView extends AppCompatEditText /*AutoCompleteTextView*/ 
 	
 	private int state;
 	
-	private boolean softInputHided;
+	private boolean softInputHidden;
 	
 	private Controller controller;
 	
@@ -119,7 +119,7 @@ public class SearchInputView extends AppCompatEditText /*AutoCompleteTextView*/ 
         setOnEditorActionListener(this);
 
         state = SearchStateListener.SEARCH_NORMAL;
-        softInputHided = true;
+        softInputHidden = true;
         filter = null;
         lastInput = "";
         adapter = null;
@@ -147,8 +147,7 @@ public class SearchInputView extends AppCompatEditText /*AutoCompleteTextView*/ 
 		
         if (focused) { 	    	
         	controller.onSearchInputFocused();
-        	
-        	imManager.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT);
+
         	showSoftInput();
         	
         	if (lastInput == null || lastInput.length() == 0)
@@ -156,40 +155,25 @@ public class SearchInputView extends AppCompatEditText /*AutoCompleteTextView*/ 
         	
         	if (lastInput != null && lastInput.length() > 0) {
         		setText(lastInput);
-//        		selectAll();
         	}
-    		
-//        	if (getText().toString().length() > 0) {
-//        		selectAll();
-////        		showDropDown();
-////        		performFiltering(getText(), 0);
-//        	}
+
             if (hasSelection()) {
                 state = SearchStateListener.SEARCH_HIGHLIGHTED;
             } 
             else {
-//            	if (getText().toString().length() > 0)
-//            		state = SearchStateListener.SEARCH_EDITED;
-//            	else
+
             		state = SearchStateListener.SEARCH_NORMAL;
             }
-//            if (softInputHided)
-//            	showSoftInput();
         } 
-        else {   	
+        else {
+            hideSoftInput();
+
         	controller.onSearchInputFocusEscaped();
         	
         	if (!this.keepShowingSuggestionView)
         		ui.getCurrentPage().setSuggestionViewVisibility(false);
-//            // reset the selection state
-//            state = SearchStateListener.SEARCH_NORMAL;
-//        	if (getText().toString().length() > 0) {
-//        		selectAll();
-////        		setSelection(0);
-//        	}
-//            if (!softInputHided)
+
         	setText("");
-            hideSoftInput();
         }
         final int s = state;
         post(new Runnable() {
@@ -205,22 +189,28 @@ public class SearchInputView extends AppCompatEditText /*AutoCompleteTextView*/ 
 	}
 	
 	public void showSoftInput() {
-//		inputManager.focusIn(this);
-//		inputManager.showSoftInput(this, InputMethodManager.SHOW_FORCED);
-        Log.i("isAcceptingText","..."+imManager.isAcceptingText());
-        Log.i("isActive","..."+ imManager.isActive()); 
-        Log.i("isActive(this)","..."+ imManager.isActive(this)); 
-        Log.i("isWatchingCursor(this)","..."+ imManager.isWatchingCursor(this)); 
-		imManager.toggleSoftInput(0, 0);
-		softInputHided = false;
+		/**
+		 * other options: InputMethodManager.SHOW_IMPLICIT, InputMethodManager.SHOW_FORCED
+		 */
+
+        Log.d("isAcceptingText", "..." + imManager.isAcceptingText());
+        Log.d("isActive", "..." + imManager.isActive());
+        Log.d("isActive(this)", "..." + imManager.isActive(this));
+        Log.d("isWatchingCursor(this)", "..." + imManager.isWatchingCursor(this));
+
+		// imManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_NOT_ALWAYS);
+		imManager.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT);
+		softInputHidden = false;
 	}
 	
 	public void hideSoftInput() {
-		/*
+		/**
 		 * Hide the keyboard after losing focus
+		 *
+		 * other options:  InputMethodManager.HIDE_NOT_ALWAYS, InputMethodManager.HIDE_IMPLICIT_ONLY
 		 */
-		imManager.hideSoftInputFromWindow(getWindowToken(), 0/*InputMethodManager.HIDE_IMPLICIT_ONLY*/); 
-		softInputHided = true;
+		imManager.hideSoftInputFromWindow(getWindowToken(), 0);
+		softInputHidden = true;
 	}
 
 	protected void changeState(int s) {
@@ -235,12 +225,6 @@ public class SearchInputView extends AppCompatEditText /*AutoCompleteTextView*/ 
         if (SearchStateListener.SEARCH_HIGHLIGHTED == state || SearchStateListener.SEARCH_NORMAL == state) {
             changeState(SearchStateListener.SEARCH_EDITED);
         }
-/*        CharSequence oldChar = text.subSequence(start, lengthBefore);
-        CharSequence newChar = text.subSequence(lengthBefore, lengthAfter);
-        if (newChar.length() > 0) {
-        	String newStr = 
-        	this.setText(text);
-        }*/
 	}
 
 	public void afterTextChanged(Editable arg0) {
