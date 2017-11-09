@@ -108,6 +108,7 @@ public class PageCommonList extends Page implements AdapterView.OnItemClickListe
     private void addList(List list) {
         if (adapter instanceof ListViewItemAdapter) {
             ListViewItemAdapter listAdapter = (ListViewItemAdapter) adapter;
+            listAdapter.clear();
             if (null != list)
                 listAdapter.setItems(list);
             else
@@ -115,6 +116,7 @@ public class PageCommonList extends Page implements AdapterView.OnItemClickListe
         }
         else if (adapter instanceof ArrayAdapter) {
             ArrayAdapter arrayAdapter = getArrayAdapter();
+            arrayAdapter.clear();
             arrayAdapter.addAll(list);
         }
         else
@@ -166,7 +168,7 @@ public class PageCommonList extends Page implements AdapterView.OnItemClickListe
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Object item = adapter.getItem(position);
         setResult(item);
-        getActivity().finish();
+        finish();
     }
 
     public void setAdapter(ListWithHeadersAdapter adapter) {
