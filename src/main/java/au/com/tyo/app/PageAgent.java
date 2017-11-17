@@ -282,6 +282,11 @@ public class PageAgent {
     protected void processExtras(Bundle savedInstanceState) {
         Activity activity = getActivitySelf();
         if (savedInstanceState == null) {
+            // allow binding data those weren't from the intent
+            // in case we need to bind other data that is not passed through intent
+            if (getActionListener() != null)
+                getActionListener().bindData();
+
             Intent intent = activity.getIntent();
             if (null != intent && (null != intent.getData() || null != intent.getExtras())) {
                 String action = intent.getAction();
@@ -296,13 +301,6 @@ public class PageAgent {
                         consumeInterActivityData(intent);
                 }
             }
-
-            // allow binding data those weren't from the intent
-            // else {
-                // in case we need to bind other data that is not passed through intent
-                if (getActionListener() != null)
-                    getActionListener().bindData();
-            // }
         }
         else if (getActionListener() != null)
             getActionListener().onSaveData(savedInstanceState);
