@@ -1,4 +1,4 @@
-package au.com.tyo.app.ui;
+package au.com.tyo.app.ui.view;
 
 import android.content.Context;
 import android.os.AsyncTask;

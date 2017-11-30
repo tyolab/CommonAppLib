@@ -1,4 +1,4 @@
-package au.com.tyo.app.ui;
+package au.com.tyo.app.ui.page;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
@@ -46,6 +46,15 @@ import au.com.tyo.app.Constants;
 import au.com.tyo.app.Controller;
 import au.com.tyo.app.R;
 import au.com.tyo.app.model.Searchable;
+import au.com.tyo.app.ui.ActionBarMenu;
+import au.com.tyo.app.ui.view.AllAdView;
+import au.com.tyo.app.ui.view.BodyView;
+import au.com.tyo.app.ui.view.InformationView;
+import au.com.tyo.app.ui.view.SearchInputView;
+import au.com.tyo.app.ui.view.SearchView;
+import au.com.tyo.app.ui.view.SuggestionView;
+import au.com.tyo.app.ui.UIPage;
+import au.com.tyo.app.ui.view.ViewContainerWithProgressBar;
 
 /**
  * Created by Eric Tang (eric.tang@tyo.com.au) on 18/7/17.

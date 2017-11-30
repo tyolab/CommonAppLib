@@ -4,7 +4,7 @@
  */
 package au.com.tyo.app;
 
-import au.com.tyo.app.ui.PageSplashScreen;
+import au.com.tyo.app.ui.page.PageSplashScreen;
 
 /**
  * @author Eric Tang <eric.tang@tyo.com.au>

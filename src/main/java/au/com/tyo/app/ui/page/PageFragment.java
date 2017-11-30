@@ -1,9 +1,11 @@
-package au.com.tyo.app.ui;
+package au.com.tyo.app.ui.page;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import au.com.tyo.app.ui.UIEntity;
 
 /**
  * Created by Eric Tang (eric.tang@tyo.com.au) on 15/8/17.

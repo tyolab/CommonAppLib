@@ -6,5 +6,6 @@
     <string name="congrats">Congrats</string>
 
     <string name="title_activity_launcher">CommonAppLib - Launcher</string>
+    <string name="app_page_package" />
 
 </resources>

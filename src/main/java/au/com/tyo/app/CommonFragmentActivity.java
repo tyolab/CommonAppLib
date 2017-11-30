@@ -13,7 +13,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import au.com.tyo.app.ui.Page;
+import au.com.tyo.app.ui.page.Page;
 import au.com.tyo.app.ui.UIActivity;
 import au.com.tyo.app.ui.UIPage;
 

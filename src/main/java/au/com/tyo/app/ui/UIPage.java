@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import au.com.tyo.app.CommonExtra;
+import au.com.tyo.app.ui.view.SearchInputView;
+import au.com.tyo.app.ui.view.SuggestionView;
 
 /**
  * Created by Eric Tang (eric.tang@tyo.com.au) on 17/5/17.

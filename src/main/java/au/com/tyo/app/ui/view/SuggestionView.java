@@ -1,4 +1,4 @@
-package au.com.tyo.app.ui;
+package au.com.tyo.app.ui.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

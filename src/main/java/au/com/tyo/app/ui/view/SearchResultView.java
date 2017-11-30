@@ -1,4 +1,4 @@
-package au.com.tyo.app.ui;
+package au.com.tyo.app.ui.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import au.com.tyo.app.R;
 import au.com.tyo.android.widget.CommonListView;
+import au.com.tyo.app.ui.view.ViewContainerWithProgressBar;
 
 /**
  * @author Eric Tang <eric.tang@tyo.com.au>

@@ -1,7 +1,7 @@
 package au.com.tyo.app;
 
 
-import au.com.tyo.app.ui.PageCommonList;
+import au.com.tyo.app.ui.page.PageCommonList;
 import au.com.tyo.app.ui.UIList;
 
 /**

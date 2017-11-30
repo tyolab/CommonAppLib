@@ -1,4 +1,4 @@
-package au.com.tyo.app.ui;
+package au.com.tyo.app.ui.page;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -18,6 +18,7 @@ import au.com.tyo.android.adapter.ListWithHeadersAdapter;
 import au.com.tyo.app.Constants;
 import au.com.tyo.app.Controller;
 import au.com.tyo.app.R;
+import au.com.tyo.app.ui.UIList;
 
 /**
  * Created by Eric Tang (eric.tang@tyo.com.au) on 27/7/17.
