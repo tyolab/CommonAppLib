@@ -195,7 +195,7 @@ public class PageAgent {
                         pageClass = null;
                     }
 
-                    if (pageClass != null) {
+                    if (pageClass != null && null == pagesPackage) {
                         pagesPackage = targetPackage;
                         break;
                     }

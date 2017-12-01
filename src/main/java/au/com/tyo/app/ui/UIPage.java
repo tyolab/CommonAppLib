@@ -141,4 +141,8 @@ public interface UIPage extends UIEntity {
     Activity getActivity();
 
     boolean onDestroy();
+
+    void onRequestedPermissionsGranted(String permission);
+
+    void onRequestedPermissionsDenied(String permission);
 }

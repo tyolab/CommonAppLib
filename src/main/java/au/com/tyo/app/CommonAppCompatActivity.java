@@ -6,6 +6,7 @@ package au.com.tyo.app;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -269,5 +270,17 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 		super.onStop();
 
 		getPage().onStop();
+	}
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        for (int i = 0; i < permissions.length; ++i) {
+            if (grantResults[i] == PackageManager.PERMISSION_GRANTED)
+                getPage().onRequestedPermissionsGranted(permissions[i]);
+            else
+                getPage().onRequestedPermissionsDenied(permissions[i]);
+        }
 	}
 }

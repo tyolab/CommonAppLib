@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.Map;
 
 import au.com.tyo.android.AndroidUtils;
+import au.com.tyo.android.CommonPermission;
 import au.com.tyo.app.CommonApp;
 import au.com.tyo.app.CommonAppLog;
 import au.com.tyo.app.CommonExtra;
@@ -169,6 +170,11 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
     private int backKeyCount;
 
     /**
+     * Required Permissions
+     */
+    private String[] requiredPermissions;
+
+    /**
      *
      * @param controller
      * @param activity
@@ -180,6 +186,14 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
         doubleBackToExit = true;
 
         configActionBarMenu(controller);
+    }
+
+    public String[] getRequiredPermissions() {
+        return requiredPermissions;
+    }
+
+    public void setRequiredPermissions(String[] requiredPermissions) {
+        this.requiredPermissions = requiredPermissions;
     }
 
     @Override
@@ -1153,12 +1167,33 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
     @Override
     public void onStart() {
         // check the permissions required for the app since Android 6
-        if (Build.VERSION.SDK_INT >= 23)
-            checkPermissions();
     }
 
-    protected void checkPermissions() {
-        // ops
+    protected boolean checkPermissions() {
+        if (null != getRequiredPermissions()) {
+            for (String permission : getRequiredPermissions()) {
+                if (Build.VERSION.SDK_INT >= 23) {
+                    ArrayList<String> list = new ArrayList();
+                    if (!CommonPermission.checkPermission(getActivity(), permission))
+                        list.add(permission);
+                    else
+                        onRequestedPermissionsGranted(permission);
+
+                    if (list.size() > 0) {
+                        String[] permissions = new String[list.size()];
+                        for (int i = 0; i < list.size(); ++i)
+                            permissions[i] = list.get(i);
+
+                         CommonPermission.requestPermissions(getActivity(), permissions);
+                    }
+                } else
+                    onRequestedPermissionsGranted(permission);
+            }
+        }
+    }
+
+    protected void requestPermissions() {
+        // no ops
     }
 
     public boolean isDoubleBackToExit() {
@@ -1219,5 +1254,15 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
         if (null == result && null != CommonApp.getInstance())
             result = ((Controller) CommonApp.getInstance()).getParcel();
         return result;
+    }
+
+    @Override
+    public void onRequestedPermissionsGranted(String permission) {
+        // no ops
+    }
+
+    @Override
+    public void onRequestedPermissionsDenied(String permission) {
+        // no ops
     }
 }
