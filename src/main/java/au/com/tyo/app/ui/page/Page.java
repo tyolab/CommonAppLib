@@ -1167,9 +1167,10 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
     @Override
     public void onStart() {
         // check the permissions required for the app since Android 6
+        checkPermissions();
     }
 
-    protected boolean checkPermissions() {
+    protected void checkPermissions() {
         if (null != getRequiredPermissions()) {
             for (String permission : getRequiredPermissions()) {
                 if (Build.VERSION.SDK_INT >= 23) {
