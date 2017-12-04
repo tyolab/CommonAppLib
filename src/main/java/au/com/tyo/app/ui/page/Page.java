@@ -48,13 +48,13 @@ import au.com.tyo.app.Controller;
 import au.com.tyo.app.R;
 import au.com.tyo.app.model.Searchable;
 import au.com.tyo.app.ui.ActionBarMenu;
+import au.com.tyo.app.ui.UIPage;
 import au.com.tyo.app.ui.view.AllAdView;
 import au.com.tyo.app.ui.view.BodyView;
 import au.com.tyo.app.ui.view.InformationView;
 import au.com.tyo.app.ui.view.SearchInputView;
 import au.com.tyo.app.ui.view.SearchView;
 import au.com.tyo.app.ui.view.SuggestionView;
-import au.com.tyo.app.ui.UIPage;
 import au.com.tyo.app.ui.view.ViewContainerWithProgressBar;
 
 /**
@@ -1172,23 +1172,25 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
 
     protected void checkPermissions() {
         if (null != getRequiredPermissions()) {
+            ArrayList<String> list = new ArrayList();
+
             for (String permission : getRequiredPermissions()) {
                 if (Build.VERSION.SDK_INT >= 23) {
-                    ArrayList<String> list = new ArrayList();
                     if (!CommonPermission.checkPermission(getActivity(), permission))
                         list.add(permission);
                     else
                         onRequestedPermissionsGranted(permission);
-
-                    if (list.size() > 0) {
-                        String[] permissions = new String[list.size()];
-                        for (int i = 0; i < list.size(); ++i)
-                            permissions[i] = list.get(i);
-
-                         CommonPermission.requestPermissions(getActivity(), permissions);
-                    }
-                } else
+                }
+                else
                     onRequestedPermissionsGranted(permission);
+            }
+
+            if (list.size() > 0) {
+                String[] permissions = new String[list.size()];
+                for (int i = 0; i < list.size(); ++i)
+                    permissions[i] = list.get(i);
+
+                CommonPermission.requestPermissions(getActivity(), permissions);
             }
         }
     }
@@ -1259,11 +1261,12 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
 
     @Override
     public void onRequestedPermissionsGranted(String permission) {
-        // no ops
+        controller.grantPermission(permission);
     }
 
     @Override
     public void onRequestedPermissionsDenied(String permission) {
         // no ops
     }
+
 }
