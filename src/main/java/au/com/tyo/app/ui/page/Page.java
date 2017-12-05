@@ -13,11 +13,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
@@ -896,6 +898,33 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
     }
 
     /**
+     *
+     * @param intent
+     * @param key
+     * @return
+     */
+    private Integer getColorFromIntent(Intent intent, String key) {
+        if (intent.hasExtra(key)) {
+            int value = intent.getIntExtra(key, -1);
+            return (value != -1) ? value : null;
+        }
+        return null;
+    }
+
+    /**
+     * TODO
+     *
+     * @param map
+     * @param key
+     * @return
+     */
+    private Integer getColorFromMap(Map map, String key) {
+        if (map.containsKey(key))
+            return (Integer) map.get(key);
+        return null;
+    }
+
+    /**
      * Bind data from intent
      *
      * @param intent
@@ -913,10 +942,13 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
                 statusBarColor = value;
         }
         if (intent.hasExtra(Constants.PAGE_TITLE_FOREGROUND_COLOR)) {
-            int value = intent.getIntExtra(au.com.tyo.app.Constants.PAGE_TITLE_FOREGROUND_COLOR, -1);
+            int value = intent.getIntExtra(Constants.PAGE_TITLE_FOREGROUND_COLOR, -1);
             if (value != -1)
                 titleTextColor = value;
         }
+        bodyViewColor = getColorFromIntent(intent, Constants.PAGE_BACKGROUND_COLOR);
+        titleTextColor = getColorFromIntent(intent, Constants.PAGE_TITLE_FOREGROUND_COLOR);
+
         if (intent.hasExtra(Constants.PAGE_TITLE))
             setTitle(intent.getStringExtra(Constants.PAGE_TITLE));
     }
@@ -934,6 +966,10 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
                 statusBarColor = (int) map.get(Constants.PAGE_STATUSBAR_COLOR);
             if (map.containsKey(Constants.PAGE_TITLE))
                 setTitle((String) map.get(Constants.PAGE_TITLE));
+            if (map.containsKey(Constants.PAGE_BACKGROUND_COLOR))
+                bodyViewColor = (Integer) map.get(Constants.PAGE_STATUSBAR_COLOR);
+            if (map.containsKey(Constants.PAGE_TITLE_FOREGROUND_COLOR))
+                titleTextColor = (Integer) map.get(Constants.PAGE_TITLE_FOREGROUND_COLOR);
         }
     }
 
@@ -1056,8 +1092,16 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
         if (bodyViewColor != null)
             bodyView.setBackgroundColor(bodyViewColor);
 
-        if (titleTextColor != null)
+        if (titleTextColor != null) {
             setPageToolbarTitleColor(titleTextColor);
+
+            final Drawable upArrow = VectorDrawableCompat.create(getActivity().getResources(), R.drawable.ic_arrow_back_black_24dp, null);
+
+            Drawable drawable = DrawableCompat.wrap(upArrow);
+            DrawableCompat.setTint(drawable.mutate(), titleTextColor);
+            // drawable.setColorFilter(getActivity().getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
+            getActionBarMenu().getSupportActionBar().setHomeAsUpIndicator(drawable);
+        }
     }
 
     public FragmentManager getSupportFragmentManager() {
