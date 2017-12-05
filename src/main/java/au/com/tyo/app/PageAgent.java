@@ -83,6 +83,8 @@ public class PageAgent {
         void onSaveData(Bundle savedInstanceState);
 
         void bindData();
+
+        void onDataBoundFinished();
     }
 
 
@@ -331,6 +333,8 @@ public class PageAgent {
                         consumeInterActivityData(intent);
                 }
             }
+
+            getActionListener().onDataBoundFinished();
         }
         else if (getActionListener() != null)
             getActionListener().onSaveData(savedInstanceState);

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -145,4 +146,8 @@ public interface UIPage extends UIEntity {
     void onRequestedPermissionsGranted(String permission);
 
     void onRequestedPermissionsDenied(String permission);
+
+    void saveState(Bundle savedInstanceState);
+
+    void onDataBound();
 }

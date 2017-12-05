@@ -69,11 +69,11 @@ public class CommonFragmentActivity extends FragmentActivity implements UIActivi
 	}
 
 	/**
-	 *
+	 * What to do after page is created
 	 */
 	protected void onPageCreated() {
+        // no ops
 	}
-
 
 	@Override
 	public void bindData(Intent intent) {
@@ -87,10 +87,15 @@ public class CommonFragmentActivity extends FragmentActivity implements UIActivi
 
     @Override
 	public void onSaveData(Bundle savedInstanceState) {
-
+		page.saveState(savedInstanceState);
 	}
 
-  	@Override
+	@Override
+	public void onDataBoundFinished() {
+		page.onDataBound();
+	}
+
+	@Override
 	protected void onNewIntent(Intent intent) {
   		setIntent(intent);
   		agent.handleIntent(intent);

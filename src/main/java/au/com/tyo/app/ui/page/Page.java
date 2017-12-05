@@ -1269,4 +1269,13 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
         // no ops
     }
 
+    @Override
+    public void saveState(Bundle savedInstanceState) {
+        // no ops yet
+    }
+
+    @Override
+    public void onDataBound() {
+        // no ops yet
+    }
 }

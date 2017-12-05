@@ -128,10 +128,15 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 
     @Override
     public void onSaveData(Bundle savedInstanceState) {
-
+		getPage().saveState(savedInstanceState);
     }
 
-    /**
+	@Override
+	public void onDataBoundFinished() {
+		getPage().onDataBound();
+	}
+
+	/**
 	 * Get the controller instance
 	 *
 	 * @return
