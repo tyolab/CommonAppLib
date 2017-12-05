@@ -905,8 +905,11 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
      */
     private Integer getColorFromIntent(Intent intent, String key) {
         if (intent.hasExtra(key)) {
-            int value = intent.getIntExtra(key, -1);
-            return (value != -1) ? value : null;
+            try {
+                int value = Integer.parseInt(intent.getStringExtra(key));
+                return value;
+            }
+            catch (Exception exception) {}
         }
         return null;
     }
@@ -931,22 +934,15 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
      */
     @Override
     public void bindData(Intent intent) {
-        if (intent.hasExtra(Constants.PAGE_TOOLBAR_COLOR)) {
-            int value = intent.getIntExtra(Constants.PAGE_TOOLBAR_COLOR, -1);
-            if (value != -1)
-                toolbarColor = value;
-        }
-        if (intent.hasExtra(Constants.PAGE_STATUSBAR_COLOR)) {
-            int value = intent.getIntExtra(Constants.PAGE_STATUSBAR_COLOR, -1);
-            if (value != -1)
-                statusBarColor = value;
-        }
-        if (intent.hasExtra(Constants.PAGE_TITLE_FOREGROUND_COLOR)) {
-            int value = intent.getIntExtra(Constants.PAGE_TITLE_FOREGROUND_COLOR, -1);
-            if (value != -1)
-                titleTextColor = value;
-        }
+
+        toolbarColor = getColorFromIntent(intent, Constants.PAGE_TOOLBAR_COLOR);
+
+        statusBarColor = getColorFromIntent(intent, Constants.PAGE_STATUSBAR_COLOR);
+
+        titleTextColor = getColorFromIntent(intent, Constants.PAGE_TITLE_FOREGROUND_COLOR);
+
         bodyViewColor = getColorFromIntent(intent, Constants.PAGE_BACKGROUND_COLOR);
+
         titleTextColor = getColorFromIntent(intent, Constants.PAGE_TITLE_FOREGROUND_COLOR);
 
         if (intent.hasExtra(Constants.PAGE_TITLE))
