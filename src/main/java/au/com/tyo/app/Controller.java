@@ -146,4 +146,6 @@ public interface Controller<T extends UI> extends CommonController {
     void onUiCreated();
 
     void grantPermission(String permission);
+
+    void setResult(Object result);
 }

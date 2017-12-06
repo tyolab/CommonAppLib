@@ -51,13 +51,23 @@ public class PageCommonList extends Page implements AdapterView.OnItemClickListe
         super.setupComponents();
 
         listView = (ListView) findViewById(R.id.list_view);
+    }
+
+    @Override
+    public void onDataBound() {
+        super.onDataBound();
 
         if (null != listView) {
             listView.setAdapter(adapter);
-            listView.setOnItemClickListener(this);
+            listView.setOnItemClickListener(getOnItemClickListener());
 
-            //showSuggestionView();
+            // not yet
+            // showSuggestionView();
         }
+    }
+
+    public AdapterView.OnItemClickListener getOnItemClickListener() {
+        return this;
     }
 
     public boolean isListAdapter() {
@@ -185,7 +195,7 @@ public class PageCommonList extends Page implements AdapterView.OnItemClickListe
     public void onStop() {
         super.onStop();
 
-        // we finish the parcel
+        // we finish using the parcel
         getController().setParcel(null);
     }
 

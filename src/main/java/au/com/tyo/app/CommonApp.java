@@ -69,6 +69,8 @@ public class CommonApp<UIType extends UI, ControllerType extends Controller>
 
 	private Object parcel;
 
+	private Object result;
+
 	private Set<String> permitted;
 	
 	public CommonApp(Context context) {
@@ -103,6 +105,14 @@ public class CommonApp<UIType extends UI, ControllerType extends Controller>
 	@Override
 	public void setParcel(Object parcel) {
 		this.parcel = parcel;
+	}
+
+	public Object getResult() {
+		return result;
+	}
+
+	public void setResult(Object result) {
+		this.result = result;
 	}
 
 	@Override
