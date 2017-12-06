@@ -59,6 +59,8 @@ import au.com.tyo.app.ui.view.SearchView;
 import au.com.tyo.app.ui.view.SuggestionView;
 import au.com.tyo.app.ui.view.ViewContainerWithProgressBar;
 
+import static au.com.tyo.app.Constants.REQUEST_NONE;
+
 /**
  * Created by Eric Tang (eric.tang@tyo.com.au) on 18/7/17.
  *
@@ -739,7 +741,7 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
     @Override
     public boolean onBackPressed() {
         if (isSubpage) {
-            if (requestCode > -1)
+            if (requestCode > -1 && null != result)
                 activity.finishActivity(requestCode);
             else
                 activity.finish();
@@ -883,14 +885,16 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
                     view,
                     Constants.BUNDLE).toBundle();
 
+        intent.putExtra(Constants.PAGE_REQUEST_CODE, requestCode);
+
         if (null != options && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            if (requestCode > Constants.REQUEST_NONE)
+            if (requestCode > REQUEST_NONE)
                 context.startActivityForResult(intent, requestCode, options);
             else
                 context.startActivity(intent, options);
         }
         else {
-            if (requestCode > Constants.REQUEST_NONE)
+            if (requestCode > REQUEST_NONE)
                 context.startActivityForResult(intent, requestCode);
             else
                 context.startActivity(intent);
@@ -935,18 +939,26 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
     @Override
     public void bindData(Intent intent) {
 
-        toolbarColor = getColorFromIntent(intent, Constants.PAGE_TOOLBAR_COLOR);
+        if (intent.hasExtra(Constants.PAGE_TOOLBAR_COLOR))
+            toolbarColor = getColorFromIntent(intent, Constants.PAGE_TOOLBAR_COLOR);
 
-        statusBarColor = getColorFromIntent(intent, Constants.PAGE_STATUSBAR_COLOR);
+        if (intent.hasExtra(Constants.PAGE_STATUSBAR_COLOR))
+            statusBarColor = getColorFromIntent(intent, Constants.PAGE_STATUSBAR_COLOR);
 
-        titleTextColor = getColorFromIntent(intent, Constants.PAGE_TITLE_FOREGROUND_COLOR);
+        if (intent.hasExtra(Constants.PAGE_TITLE_FOREGROUND_COLOR))
+            titleTextColor = getColorFromIntent(intent, Constants.PAGE_TITLE_FOREGROUND_COLOR);
 
-        bodyViewColor = getColorFromIntent(intent, Constants.PAGE_BACKGROUND_COLOR);
+        if (intent.hasExtra(Constants.PAGE_BACKGROUND_COLOR))
+            bodyViewColor = getColorFromIntent(intent, Constants.PAGE_BACKGROUND_COLOR);
 
-        titleTextColor = getColorFromIntent(intent, Constants.PAGE_TITLE_FOREGROUND_COLOR);
+        if (intent.hasExtra(Constants.PAGE_TITLE_FOREGROUND_COLOR))
+            titleTextColor = getColorFromIntent(intent, Constants.PAGE_TITLE_FOREGROUND_COLOR);
 
         if (intent.hasExtra(Constants.PAGE_TITLE))
             setTitle(intent.getStringExtra(Constants.PAGE_TITLE));
+
+        if (intent.hasExtra(Constants.PAGE_REQUEST_CODE))
+            setRequestCode(intent.getIntExtra(Constants.PAGE_REQUEST_CODE, REQUEST_NONE));
     }
 
     /**
@@ -963,9 +975,11 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
             if (map.containsKey(Constants.PAGE_TITLE))
                 setTitle((String) map.get(Constants.PAGE_TITLE));
             if (map.containsKey(Constants.PAGE_BACKGROUND_COLOR))
-                bodyViewColor = (Integer) map.get(Constants.PAGE_STATUSBAR_COLOR);
+                bodyViewColor = (Integer) map.get(Constants.PAGE_BACKGROUND_COLOR);
             if (map.containsKey(Constants.PAGE_TITLE_FOREGROUND_COLOR))
                 titleTextColor = (Integer) map.get(Constants.PAGE_TITLE_FOREGROUND_COLOR);
+
+            setRequestCode(map.containsKey(Constants.PAGE_REQUEST_CODE) ? (Integer) map.get(Constants.PAGE_REQUEST_CODE) : REQUEST_NONE);
         }
     }
 
@@ -984,12 +998,17 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
     public void onFinish() {
         if (null != result) {
             Intent resultIntent = new Intent();
-            if (result instanceof Parcelable)
-                resultIntent.putExtra(Constants.RESULT, (Parcelable) result);
-            if (result instanceof Parcelable[])
-                resultIntent.putExtra(Constants.RESULT, (Parcelable[]) result);
-            else if (result instanceof String)
-                resultIntent.putExtra(Constants.RESULT, (String) result);
+
+            if (requestCode < 5000) {
+                if (result instanceof Parcelable)
+                    resultIntent.putExtra(Constants.RESULT, (Parcelable) result);
+                if (result instanceof Parcelable[])
+                    resultIntent.putExtra(Constants.RESULT, (Parcelable[]) result);
+                else if (result instanceof String)
+                    resultIntent.putExtra(Constants.RESULT, (String) result);
+                else
+                    controller.setParcel(result);
+            }
             else
                 controller.setParcel(result);
             activity.setResult(Activity.RESULT_OK, resultIntent);
@@ -1317,5 +1336,12 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
     @Override
     public void onDataBound() {
         // no ops yet
+    }
+
+    public void setPageInFullScreenMode() {
+        View decorView = getActivity().getWindow().getDecorView();
+        // Hide the status bar.
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
     }
 }

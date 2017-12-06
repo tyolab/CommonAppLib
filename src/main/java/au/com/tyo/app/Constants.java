@@ -55,6 +55,8 @@ public interface Constants extends au.com.tyo.android.Constants {
 	String RESULT = "TYODROID_RESULT";
 
     String PAGE_TITLE = "TYODROID_PAGE_TITLE";
+	String PAGE_REQUEST_CODE = "TYODROID_PAGE_REQUEST_CODE";
+
 	String PAGE_TOOLBAR_COLOR = "TYODROID_PAGE_TOOLBAR_COLOR";
 	String PAGE_STATUSBAR_COLOR = "TYODROID_PAGE_STATUSBAR_COLOR";
 	String PAGE_BACKGROUND_COLOR = "TYODROID_PAGE_BACKGROUND_COLOR";
@@ -70,4 +72,5 @@ public interface Constants extends au.com.tyo.android.Constants {
 
     int MESSAGE_SERVICE_REGISTER_CLIENT = 1234;
 	int MESSAGE_SERVICE_UNREGISTER_CLIENT = 4321;
+
 }
