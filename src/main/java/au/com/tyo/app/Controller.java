@@ -148,4 +148,6 @@ public interface Controller<T extends UI> extends CommonController {
     void grantPermission(String permission);
 
     void setResult(Object result);
+
+	Object getResult();
 }
