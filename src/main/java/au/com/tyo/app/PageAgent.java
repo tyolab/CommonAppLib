@@ -2,7 +2,6 @@ package au.com.tyo.app;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -476,10 +475,11 @@ public class PageAgent {
         }
     }
 
+    /**
+     *
+     * @param intent
+     */
     public void handleIntent(Intent intent) {
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-//	         controller.search(query);
-        }
+        page.handleIntent(intent);
     }
 }

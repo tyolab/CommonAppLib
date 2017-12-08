@@ -75,4 +75,5 @@ public interface Constants extends au.com.tyo.android.Constants {
     int MESSAGE_SERVICE_REGISTER_CLIENT = 1234;
 	int MESSAGE_SERVICE_UNREGISTER_CLIENT = 4321;
 
+    String EXIT_APP = "TYODROID_EXIT_APP";
 }

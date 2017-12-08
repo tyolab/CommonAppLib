@@ -1,6 +1,7 @@
 package au.com.tyo.app.ui.page;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,5 +70,10 @@ public class PageFragment implements UIEntity {
                 inflater.inflate(contentViewResId, contentView, true);
             }
         }
+    }
+
+    @Override
+    public void handleIntent(Intent intent) {
+        // no ops
     }
 }

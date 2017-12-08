@@ -145,6 +145,11 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 		return controller;
 	}
 
+    /**
+     * if the activity already created, but we would like to pass on more data
+     *er
+     * @param intent
+     */
 	@Override
 	protected void onNewIntent(Intent intent) {
   		setIntent(intent); 
@@ -288,4 +293,5 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
                 getPage().onRequestedPermissionsDenied(permissions[i]);
         }
 	}
+
 }
