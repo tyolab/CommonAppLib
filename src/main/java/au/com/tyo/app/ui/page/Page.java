@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -25,6 +24,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -308,12 +308,12 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
     }
 
     @Override
-    public void onPause(Context context) {
+    public void onPause() {
         // should be overrode if needed
     }
 
     @Override
-    public void onResume(Context context) {
+    public void onResume() {
         // should be overrode if needed
     }
 
@@ -1419,5 +1419,15 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
     @Override
     public void onPreCreateCheckFailed() {
         // nothing
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        return false;
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        return false;
     }
 }

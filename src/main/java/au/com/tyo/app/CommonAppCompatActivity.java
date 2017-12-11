@@ -167,7 +167,7 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 	protected void onPause() {
 		super.onPause();
 		
-		controller.onPause();
+		agent.onPause();
 	}
     
   	@Override
@@ -187,12 +187,12 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		return controller.onKeyDown(keyCode, event) || super.onKeyDown(keyCode, event);
+		return getPage().onKeyDown(keyCode, event) || controller.onKeyDown(keyCode, event) || super.onKeyDown(keyCode, event);
 	}
 
 	@Override
 	public boolean onKeyUp(int keyCode, KeyEvent event) {
-		return controller.onKeyUp(keyCode, event) || super.onKeyUp(keyCode, event);
+		return getPage().onKeyUp(keyCode, event) || controller.onKeyUp(keyCode, event) || super.onKeyUp(keyCode, event);
 	}
 	
 	@Override

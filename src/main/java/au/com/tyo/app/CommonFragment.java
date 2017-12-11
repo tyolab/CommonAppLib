@@ -190,7 +190,8 @@ public abstract class CommonFragment extends Fragment {
 
     protected void loadContentView(LayoutInflater inflater) {
         if (contentViewResId > -1) {
-            // contentContainer.removeAllViews();
+            contentContainer.removeAllViews();
+
             contentView = inflater.inflate(contentViewResId,
                     contentContainer, false);
             contentContainer.addView(contentView);

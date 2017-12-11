@@ -52,7 +52,7 @@ public class CommonFragmentList extends CommonFragment {
         setupListView(view);
     }
 
-    private void setupListView(View view) {
+    protected void setupListView(View view) {
         commonListView = (CommonListView) view.findViewById(R.id.common_list_view);
         extraViewBottomContainer = (ViewGroup) view.findViewById(R.id.list_extra_bottom);
         extraViewTopContainer = (ViewGroup) view.findViewById(R.id.list_extra_top);

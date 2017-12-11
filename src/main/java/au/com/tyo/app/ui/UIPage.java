@@ -1,11 +1,11 @@
 package au.com.tyo.app.ui;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -37,9 +37,9 @@ public interface UIPage extends UIEntity {
 
     void setContentViewResId(int contentViewResId);
 
-    void onPause(Context context);
+    void onPause();
 
-    void onResume(Context context);
+    void onResume();
 
     void onStop();
 
@@ -154,4 +154,8 @@ public interface UIPage extends UIEntity {
     void onDataBound();
 
     void onPreCreateCheckFailed();
+
+    boolean onKeyDown(int keyCode, KeyEvent event);
+
+    boolean onKeyUp(int keyCode, KeyEvent event);
 }

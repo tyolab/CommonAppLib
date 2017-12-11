@@ -467,7 +467,14 @@ public class PageAgent {
          */
         // processExtras();
 
-        controller.onResume();
+        page.onResume();
+    }
+
+    /**
+     *
+     */
+    public void onPause() {
+        getPage().onPause();
     }
 
     private void setControllerContext() {
