@@ -773,6 +773,10 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
     }
 
     public void finish() {
+        activity.finish();
+    }
+
+    public void finishCompletely() {
         AndroidUtils.finishActivity(getActivity());
     }
 
@@ -784,11 +788,11 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
             getActivity().startActivity(intent);
         }
 
-        finish();
+        finishCompletely();
     }
 
     public void exitApp() {
-        finish();
+        finishCompletely();
     }
 
     public void sendReloadCommand() {
@@ -1020,7 +1024,7 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
     }
 
     protected void reload() {
-
+        // nothing yet
     }
 
     /**
@@ -1064,7 +1068,7 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
             if (requestCode < 5000) {
                 if (result instanceof Parcelable)
                     resultIntent.putExtra(Constants.RESULT, (Parcelable) result);
-                if (result instanceof Parcelable[])
+                else if (result instanceof Parcelable[])
                     resultIntent.putExtra(Constants.RESULT, (Parcelable[]) result);
                 else if (result instanceof String)
                     resultIntent.putExtra(Constants.RESULT, (String) result);
