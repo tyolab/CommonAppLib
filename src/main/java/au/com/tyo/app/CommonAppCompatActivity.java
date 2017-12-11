@@ -49,22 +49,24 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 		// controller has to be created first
 		createController();
 
-		beforeCreateCheck();
+		boolean ret = (beforeCreateCheck());
 
         agent = new PageAgent(this);
 
         onCreatePage();
+        if (!ret)
+            getPage().onPreCreateCheckFailed();
 
         agent.preInitialize(savedInstanceState, getPage());
 
         super.onCreate(savedInstanceState);
 
         agent.onCreate(savedInstanceState);
-
 	}
 
-	protected void beforeCreateCheck() {
-		// do nothing
+	protected boolean beforeCreateCheck() {
+		// check command
+		return true;
 	}
 
 	public PageAgent getAgent() {

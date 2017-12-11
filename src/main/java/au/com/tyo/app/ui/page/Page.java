@@ -464,7 +464,7 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
         }
 
         if (!controller.getNetworkMonitor().hasInternet())
-            onNetworkDisonnected();
+            onNetworkDisconnected();
 
         setupActionBarMenu();
     }
@@ -772,8 +772,32 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
         return false;
     }
 
-    protected void exitApp() {
+    public void finish() {
         AndroidUtils.finishActivity(getActivity());
+    }
+
+    public void sendExitAppCommand() {
+        if (null != CommonInitializer.mainActivityClass) {
+            Intent intent = new Intent(getActivity(), CommonInitializer.mainActivityClass);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra(Constants.EXIT_APP, true);
+            getActivity().startActivity(intent);
+        }
+
+        finish();
+    }
+
+    public void exitApp() {
+        finish();
+    }
+
+    public void sendReloadCommand() {
+        if (null != CommonInitializer.mainActivityClass) {
+            Intent intent = new Intent(getActivity(), CommonInitializer.mainActivityClass);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            intent.putExtra(Constants.RELOAD, true);
+            getActivity().startActivity(intent);
+        }
     }
 
     /**
@@ -797,7 +821,7 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
      *
      */
     @Override
-    public void onNetworkDisonnected() {
+    public void onNetworkDisconnected() {
 //		footerView.setVisibility(View.GONE);
         hideAd();
     }
@@ -974,15 +998,29 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
      * @param intent
      * @return boolean, stop execute the rest of the code if true
      */
+    @Override
     public boolean checkAppCommands(Intent intent) {
-        if (intent.hasExtra(Constants.EXIT_APP) &&
-                intent.getBooleanExtra(Constants.EXIT_APP, true) &&
-                (CommonInitializer.mainActivityClass == null ||
-                        getActivity().getClass().getName().equals(CommonInitializer.mainActivityClass.getName()))) {
-            exitApp();
-            return true;
+        if (null != intent) {
+            if (intent.hasExtra(Constants.EXIT_APP) &&
+                    intent.getBooleanExtra(Constants.EXIT_APP, true) &&
+                    (CommonInitializer.mainActivityClass == null ||
+                            getActivity().getClass().getName().equals(CommonInitializer.mainActivityClass.getName()))) {
+                exitApp();
+                return true;
+            }
+            if (intent.hasExtra(Constants.RELOAD) &&
+                    intent.getBooleanExtra(Constants.RELOAD, true) && null != controller.getUi()) {
+                controller.getUi().setUiRecreationRequired(true);
+                reload();
+                return true;
+            }
         }
+
         return false;
+    }
+
+    protected void reload() {
+
     }
 
     /**
@@ -1247,10 +1285,6 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
         return activity.getResources();
     }
 
-    public void finish() {
-        activity.finish();
-    }
-
     @Override
     public void onStart() {
         // check the permissions required for the app since Android 6
@@ -1373,19 +1407,13 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
         decorView.setSystemUiVisibility(uiOptions);
     }
 
-    public void closeAllActivitiesAndExitApp() {
-        if (null != CommonInitializer.mainActivityClass) {
-            Intent intent = new Intent(getActivity(), CommonInitializer.mainActivityClass);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.putExtra(Constants.EXIT_APP, true);
-            getActivity().startActivity(intent);
-        }
-
-        AndroidUtils.finishActivity(getActivity());
-    }
-
     @Override
     public void handleIntent(Intent intent) {
         checkAppCommands(intent);
+    }
+
+    @Override
+    public void onPreCreateCheckFailed() {
+        // nothing
     }
 }

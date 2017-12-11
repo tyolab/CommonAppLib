@@ -360,9 +360,12 @@ public class PageAgent {
             controller.onRestoreInstanceState(savedInstanceState);
 
         if (isActivity()) {
-            createUI(screen);
+            if (!screen.checkAppCommands(getActivity().getIntent())) {
 
-            controller.getUi().setupTheme(getActivity());
+                createUI(screen);
+
+                controller.getUi().setupTheme(getActivity());
+            }
         }
     }
 

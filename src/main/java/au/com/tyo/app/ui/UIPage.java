@@ -83,7 +83,7 @@ public interface UIPage extends UIEntity {
 
     void initialiseComponents();
 
-    void onNetworkDisonnected();
+    void onNetworkDisconnected();
 
     void onNetworkConnected();
 
@@ -106,6 +106,8 @@ public interface UIPage extends UIEntity {
     void bindData(Intent intent);
 
     void onFinish();
+
+    boolean checkAppCommands(Intent intent);
 
     void bindData();
 
@@ -150,4 +152,6 @@ public interface UIPage extends UIEntity {
     void saveState(Bundle savedInstanceState);
 
     void onDataBound();
+
+    void onPreCreateCheckFailed();
 }
