@@ -8,4 +8,9 @@
     <string name="title_activity_launcher">CommonAppLib - Launcher</string>
     <string name="app_page_package" />
 
+    <!-- Common API -->
+    <string name="common_api_protocol" />
+    <string name="common_api_host" />
+    <string name="common_api_path" />
+
 </resources>
