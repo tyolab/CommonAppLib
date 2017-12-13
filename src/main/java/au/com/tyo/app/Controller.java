@@ -86,7 +86,7 @@ public interface Controller<T extends UI> extends CommonController {
 
 	NetworkMonitor getNetworkMonitor();
 	
-	void setUi(UI ui);
+	void setUi(T ui);
 
 	void onCurrentActivityStart();
 
