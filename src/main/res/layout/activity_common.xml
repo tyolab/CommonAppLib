@@ -17,7 +17,7 @@
         android:layout_height="match_parent">
 
 
-        <include layout="common_page" />
+        <include layout="@layout/common_page" />
 
         <FrameLayout
             android:id="@+id/left_drawer_view"
