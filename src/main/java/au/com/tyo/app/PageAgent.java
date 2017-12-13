@@ -2,10 +2,10 @@ package au.com.tyo.app;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -82,6 +82,8 @@ public class PageAgent {
         void onSaveData(Bundle savedInstanceState);
 
         void bindData();
+
+        void onDataBoundFinished();
     }
 
 
@@ -147,6 +149,8 @@ public class PageAgent {
      * Create an assoicated page that contains all the widgets / controls
      *
      * if a custom page is needed just override this method to create a different page setting
+     *
+     * possible locations for pages: application package (i.e. com.example.app), or com.example.app.ui.page, com.example.app.ui, or
      */
     protected void createPage() {
         if (!isActivity())
@@ -154,21 +158,48 @@ public class PageAgent {
 
         if (null == page) {
             if (null == pageClass) {
-                if (pagesPackage == null)
-                    pagesPackage = AndroidUtils.getPackageName(context);
+                String pageActivityClassName = getActivity().getClass().getName();
+                String extName;
 
-                try {
-                    String pageActivityClassName = getActivity().getClass().getName();
-                    String extName;
-                    if (pageActivityClassName.indexOf('.') > -1)
-                        extName = pageActivityClassName.substring(pageActivityClassName.lastIndexOf('.') + "Activity".length() + 1);
+                if (pageActivityClassName.indexOf('.') > -1)
+                    extName = pageActivityClassName.substring(pageActivityClassName.lastIndexOf('.') + "Activity".length() + 1);
+                else
+                    extName = pageActivityClassName.substring("Activity".length());
+
+                String[] packages = new String[] {null, null, null};
+
+                if (pagesPackage == null) {
+                    pagesPackage = context.getResources().getString(R.string.app_page_package);
+
+                    if (TextUtils.isEmpty(pagesPackage)) {
+                        String basePackage = AndroidUtils.getPackageName(context);
+                        packages[0] = basePackage + ".ui.page";
+                        packages[1] = basePackage + ".ui";
+                        packages[2] = basePackage;
+                    }
                     else
-                        extName = pageActivityClassName.substring("Activity".length());
-                    String pageClassName = pagesPackage + ".Page" + extName;
-                    pageClass = Class.forName(pageClassName);
+                        packages[0] = pagesPackage;
                 }
-                catch (Exception ex) {
+                else
+                    packages[0] = pagesPackage;
 
+                for (int i = 0; null != packages && i < packages.length; ++i) {
+                    String targetPackage = packages[i];
+
+                    if (null == targetPackage)
+                        continue;
+
+                    try {
+                        String pageClassName = pagesPackage + ".Page" + extName;
+                        pageClass = Class.forName(pageClassName);
+                    } catch (Exception ex) {
+                        pageClass = null;
+                    }
+
+                    if (pageClass != null && null == pagesPackage) {
+                        pagesPackage = targetPackage;
+                        break;
+                    }
                 }
             }
 
@@ -301,6 +332,8 @@ public class PageAgent {
                         consumeInterActivityData(intent);
                 }
             }
+
+            getActionListener().onDataBoundFinished();
         }
         else if (getActionListener() != null)
             getActionListener().onSaveData(savedInstanceState);
@@ -327,9 +360,12 @@ public class PageAgent {
             controller.onRestoreInstanceState(savedInstanceState);
 
         if (isActivity()) {
-            createUI(screen);
+            if (!screen.checkAppCommands(getActivity().getIntent())) {
 
-            controller.getUi().setupTheme(getActivity());
+                createUI(screen);
+
+                controller.getUi().setupTheme(getActivity());
+            }
         }
     }
 
@@ -431,7 +467,14 @@ public class PageAgent {
          */
         // processExtras();
 
-        controller.onResume();
+        page.onResume();
+    }
+
+    /**
+     *
+     */
+    public void onPause() {
+        getPage().onPause();
     }
 
     private void setControllerContext() {
@@ -442,10 +485,11 @@ public class PageAgent {
         }
     }
 
+    /**
+     *
+     * @param intent
+     */
     public void handleIntent(Intent intent) {
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-//	         controller.search(query);
-        }
+        page.handleIntent(intent);
     }
 }

@@ -8,7 +8,7 @@ The background that can be set to:     android:background="@drawable/bg_searchba
             android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true"
  -->
-<au.com.tyo.app.ui.SearchView xmlns:android="http://schemas.android.com/apk/res/android"
+<au.com.tyo.app.ui.view.SearchView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingRight="3dip"
@@ -91,4 +91,4 @@ The background that can be set to:     android:background="@drawable/bg_searchba
         android:visibility="gone"
     />
 
-</au.com.tyo.app.ui.SearchView>
+</au.com.tyo.app.ui.view.SearchView>

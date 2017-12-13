@@ -1,4 +1,4 @@
-package au.com.tyo.app.ui;
+package au.com.tyo.app.ui.page;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -18,6 +18,7 @@ import au.com.tyo.android.adapter.ListWithHeadersAdapter;
 import au.com.tyo.app.Constants;
 import au.com.tyo.app.Controller;
 import au.com.tyo.app.R;
+import au.com.tyo.app.ui.UIList;
 
 /**
  * Created by Eric Tang (eric.tang@tyo.com.au) on 27/7/17.
@@ -50,13 +51,23 @@ public class PageCommonList extends Page implements AdapterView.OnItemClickListe
         super.setupComponents();
 
         listView = (ListView) findViewById(R.id.list_view);
+    }
+
+    @Override
+    public void onDataBound() {
+        super.onDataBound();
 
         if (null != listView) {
             listView.setAdapter(adapter);
-            listView.setOnItemClickListener(this);
+            listView.setOnItemClickListener(getOnItemClickListener());
 
-            //showSuggestionView();
+            // not yet
+            // showSuggestionView();
         }
+    }
+
+    public AdapterView.OnItemClickListener getOnItemClickListener() {
+        return this;
     }
 
     public boolean isListAdapter() {
@@ -184,7 +195,7 @@ public class PageCommonList extends Page implements AdapterView.OnItemClickListe
     public void onStop() {
         super.onStop();
 
-        // we finish the parcel
+        // we finish using the parcel
         getController().setParcel(null);
     }
 

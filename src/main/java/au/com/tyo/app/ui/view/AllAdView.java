@@ -3,9 +3,10 @@
  *
  */
 
-package au.com.tyo.app.ui;
+package au.com.tyo.app.ui.view;
 
 import com.amazon.device.ads.*;
+import com.amazon.device.ads.Ad;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
@@ -21,6 +22,7 @@ import android.widget.FrameLayout;
 import au.com.tyo.android.AndroidMarket;
 import au.com.tyo.app.Controller;
 import au.com.tyo.app.R;
+import au.com.tyo.app.ui.*;
 
 /**
  * @author Eric Tang <eric.tang@tyo.com.au>
@@ -158,7 +160,7 @@ public class AllAdView extends FrameLayout {
 		/**
          * This event is called once an ad loads successfully.
          */
-        public void onAdLoaded(final Ad ad, final AdProperties adProperties) {
+        public void onAdLoaded(final au.com.tyo.app.ui.Ad ad, final AdProperties adProperties) {
             Log.i(LOG_TAG, adProperties.getAdType().toString() + " ad loaded successfully.");
             controller.getUi().getCurrentPage().onAdLoaded();
         }
@@ -166,14 +168,14 @@ public class AllAdView extends FrameLayout {
         /**
          * This event is called if an ad fails to load.
          */
-        public void onAdFailedToLoad(final Ad ad, final AdError error) {
+        public void onAdFailedToLoad(final au.com.tyo.app.ui.Ad ad, final AdError error) {
             Log.w(LOG_TAG, "Ad failed to load. Code: " + error.getCode() + ", Message: " + error.getMessage());
         }
     
         /**
          * This event is called after a rich media ad expands.
          */
-        public void onAdExpanded(final Ad ad) {
+        public void onAdExpanded(final au.com.tyo.app.ui.Ad ad) {
             Log.i(LOG_TAG, "Ad expanded.");
             // You may want to pause your activity here.
         }
@@ -181,7 +183,7 @@ public class AllAdView extends FrameLayout {
         /**
          * This event is called after a rich media ad has collapsed from an expanded state.
          */
-        public void onAdCollapsed(final Ad ad) {
+        public void onAdCollapsed(final au.com.tyo.app.ui.Ad ad) {
             Log.i(LOG_TAG, "Ad collapsed.");
             // Resume your activity here, if it was paused in onAdExpanded.
         }

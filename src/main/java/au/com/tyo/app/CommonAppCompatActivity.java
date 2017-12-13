@@ -6,6 +6,7 @@ package au.com.tyo.app;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -48,22 +49,24 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 		// controller has to be created first
 		createController();
 
-		beforeCreateCheck();
+		boolean ret = (beforeCreateCheck());
 
         agent = new PageAgent(this);
 
         onCreatePage();
+        if (!ret)
+            getPage().onPreCreateCheckFailed();
 
         agent.preInitialize(savedInstanceState, getPage());
 
         super.onCreate(savedInstanceState);
 
         agent.onCreate(savedInstanceState);
-
 	}
 
-	protected void beforeCreateCheck() {
-		// do nothing
+	protected boolean beforeCreateCheck() {
+		// check command
+		return true;
 	}
 
 	public PageAgent getAgent() {
@@ -127,10 +130,15 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 
     @Override
     public void onSaveData(Bundle savedInstanceState) {
-
+		getPage().saveState(savedInstanceState);
     }
 
-    /**
+	@Override
+	public void onDataBoundFinished() {
+		getPage().onDataBound();
+	}
+
+	/**
 	 * Get the controller instance
 	 *
 	 * @return
@@ -139,6 +147,11 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 		return controller;
 	}
 
+    /**
+     * if the activity already created, but we would like to pass on more data
+     *er
+     * @param intent
+     */
 	@Override
 	protected void onNewIntent(Intent intent) {
   		setIntent(intent); 
@@ -154,7 +167,7 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 	protected void onPause() {
 		super.onPause();
 		
-		controller.onPause();
+		agent.onPause();
 	}
     
   	@Override
@@ -174,12 +187,12 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		return controller.onKeyDown(keyCode, event) || super.onKeyDown(keyCode, event);
+		return getPage().onKeyDown(keyCode, event) || controller.onKeyDown(keyCode, event) || super.onKeyDown(keyCode, event);
 	}
 
 	@Override
 	public boolean onKeyUp(int keyCode, KeyEvent event) {
-		return controller.onKeyUp(keyCode, event) || super.onKeyUp(keyCode, event);
+		return getPage().onKeyUp(keyCode, event) || controller.onKeyUp(keyCode, event) || super.onKeyUp(keyCode, event);
 	}
 	
 	@Override
@@ -270,4 +283,17 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 
 		getPage().onStop();
 	}
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        for (int i = 0; i < permissions.length; ++i) {
+            if (grantResults[i] == PackageManager.PERMISSION_GRANTED)
+                getPage().onRequestedPermissionsGranted(permissions[i]);
+            else
+                getPage().onRequestedPermissionsDenied(permissions[i]);
+        }
+	}
+
 }

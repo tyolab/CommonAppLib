@@ -1,4 +1,4 @@
-package au.com.tyo.app.ui;
+package au.com.tyo.app.ui.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -12,7 +12,6 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import au.com.tyo.app.Controller;
 import au.com.tyo.app.Request;
-import au.com.tyo.app.ui.SearchInputView.SearchStateListener;
 import au.com.tyo.app.R;
 
 /**
@@ -169,7 +168,7 @@ public class SearchView extends LinearLayout implements
 
 	public void onStateChanged(int state) {
         switch(state) {
-        case SearchStateListener.SEARCH_NORMAL:
+        case SearchInputView.SearchStateListener.SEARCH_NORMAL:
         	if (getText().length() > 0)
         		this.showClearSearchButton(true);
         	else
@@ -178,13 +177,13 @@ public class SearchView extends LinearLayout implements
 //        	ibBookmarks.setVisibility(View.GONE);
 //        	ibVoiceSearch.setVisibility(View.VISIBLE);
             break;
-        case SearchStateListener.SEARCH_HIGHLIGHTED:
+        case SearchInputView.SearchStateListener.SEARCH_HIGHLIGHTED:
 //        	ibSearch.setVisibility(View.GONE);
         	this.showClearSearchButton(true);
 //        	ibBookmarks.setVisibility(View.GONE);
 //        	ibVoiceSearch.setVisibility(View.VISIBLE);
             break;
-        case SearchStateListener.SEARCH_EDITED:
+        case SearchInputView.SearchStateListener.SEARCH_EDITED:
 //        	ibSearch.setVisibility(View.VISIBLE);
         	this.showClearSearchButton(false);
 //        	ibBookmarks.setVisibility(View.GONE);

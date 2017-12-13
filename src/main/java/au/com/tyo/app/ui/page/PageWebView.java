@@ -1,4 +1,4 @@
-package au.com.tyo.app.ui;
+package au.com.tyo.app.ui.page;
 
 import android.app.Activity;
 import android.content.Intent;

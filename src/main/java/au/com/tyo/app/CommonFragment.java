@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import au.com.tyo.app.ui.CommonFragmentView;
+import au.com.tyo.app.ui.view.CommonFragmentView;
 import au.com.tyo.app.ui.UIPage;
 
 /**
@@ -190,7 +190,8 @@ public abstract class CommonFragment extends Fragment {
 
     protected void loadContentView(LayoutInflater inflater) {
         if (contentViewResId > -1) {
-            // contentContainer.removeAllViews();
+            contentContainer.removeAllViews();
+
             contentView = inflater.inflate(contentViewResId,
                     contentContainer, false);
             contentContainer.addView(contentView);

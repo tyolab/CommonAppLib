@@ -144,4 +144,10 @@ public interface Controller<T extends UI> extends CommonController {
     void openUrl(String url);
 
     void onUiCreated();
+
+    void grantPermission(String permission);
+
+    void setResult(Object result);
+
+	Object getResult();
 }

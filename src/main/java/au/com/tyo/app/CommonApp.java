@@ -26,8 +26,10 @@ import android.widget.TextView;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Observable;
+import java.util.Set;
 
 import au.com.tyo.android.AndroidUtils;
 import au.com.tyo.android.CommonApplicationImpl;
@@ -66,6 +68,10 @@ public class CommonApp<UIType extends UI, ControllerType extends Controller>
 	private boolean appQuit;
 
 	private Object parcel;
+
+	private Object result;
+
+	private Set<String> permitted;
 	
 	public CommonApp(Context context) {
 		super(context);
@@ -99,6 +105,14 @@ public class CommonApp<UIType extends UI, ControllerType extends Controller>
 	@Override
 	public void setParcel(Object parcel) {
 		this.parcel = parcel;
+	}
+
+	public Object getResult() {
+		return result;
+	}
+
+	public void setResult(Object result) {
+		this.result = result;
 	}
 
 	@Override
@@ -680,4 +694,15 @@ public class CommonApp<UIType extends UI, ControllerType extends Controller>
 	public void onListItemClick(Object obj) {
 		// to be implemented if a simple list is used
 	}
+
+    public boolean hasPermission(String permission) {
+        return null != permitted && permitted.contains(permission);
+    }
+
+    @Override
+    public void grantPermission(String permission) {
+        if (permitted == null)
+            permitted = new HashSet();
+        permitted.add(permission);
+    }
 }

@@ -1,4 +1,4 @@
-package au.com.tyo.app.ui;
+package au.com.tyo.app.ui.view;
 
 import android.content.Context;
 import android.graphics.Rect;
@@ -20,6 +20,7 @@ import au.com.tyo.app.Controller;
 import au.com.tyo.app.Request;
 import au.com.tyo.app.adapter.SuggestionsAdapter;
 import au.com.tyo.app.adapter.SuggestionsAdapter.CompletionListener;
+import au.com.tyo.app.ui.UI;
 
 /**
  * @author Eric Tang <eric.tang@tyo.com.au>

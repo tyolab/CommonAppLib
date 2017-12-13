@@ -2,7 +2,7 @@
  * Copyright (C) 2017 TYONLINE TECHNOLOGY PTY. LTD. (TYO Lab)
  */
 
-package au.com.tyo.app.ui;
+package au.com.tyo.app.ui.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;

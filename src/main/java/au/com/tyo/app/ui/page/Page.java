@@ -1,10 +1,9 @@
-package au.com.tyo.app.ui;
+package au.com.tyo.app.ui.page;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -13,16 +12,19 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -39,6 +41,8 @@ import java.util.List;
 import java.util.Map;
 
 import au.com.tyo.android.AndroidUtils;
+import au.com.tyo.android.CommonInitializer;
+import au.com.tyo.android.CommonPermission;
 import au.com.tyo.app.CommonApp;
 import au.com.tyo.app.CommonAppLog;
 import au.com.tyo.app.CommonExtra;
@@ -46,6 +50,17 @@ import au.com.tyo.app.Constants;
 import au.com.tyo.app.Controller;
 import au.com.tyo.app.R;
 import au.com.tyo.app.model.Searchable;
+import au.com.tyo.app.ui.ActionBarMenu;
+import au.com.tyo.app.ui.UIPage;
+import au.com.tyo.app.ui.view.AllAdView;
+import au.com.tyo.app.ui.view.BodyView;
+import au.com.tyo.app.ui.view.InformationView;
+import au.com.tyo.app.ui.view.SearchInputView;
+import au.com.tyo.app.ui.view.SearchView;
+import au.com.tyo.app.ui.view.SuggestionView;
+import au.com.tyo.app.ui.view.ViewContainerWithProgressBar;
+
+import static au.com.tyo.app.Constants.REQUEST_NONE;
 
 /**
  * Created by Eric Tang (eric.tang@tyo.com.au) on 18/7/17.
@@ -160,6 +175,11 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
     private int backKeyCount;
 
     /**
+     * Required Permissions
+     */
+    private String[] requiredPermissions;
+
+    /**
      *
      * @param controller
      * @param activity
@@ -171,6 +191,14 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
         doubleBackToExit = true;
 
         configActionBarMenu(controller);
+    }
+
+    public String[] getRequiredPermissions() {
+        return requiredPermissions;
+    }
+
+    public void setRequiredPermissions(String[] requiredPermissions) {
+        this.requiredPermissions = requiredPermissions;
     }
 
     @Override
@@ -280,12 +308,12 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
     }
 
     @Override
-    public void onPause(Context context) {
+    public void onPause() {
         // should be overrode if needed
     }
 
     @Override
-    public void onResume(Context context) {
+    public void onResume() {
         // should be overrode if needed
     }
 
@@ -436,7 +464,7 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
         }
 
         if (!controller.getNetworkMonitor().hasInternet())
-            onNetworkDisonnected();
+            onNetworkDisconnected();
 
         setupActionBarMenu();
     }
@@ -668,7 +696,7 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
                     bar.setDisplayShowTitleEnabled(showTitle);
                     bar.setDisplayUseLogoEnabled(true);
 
-                    if (isSubpage)
+                    if (isSubpage())
                         bar.setDisplayHomeAsUpEnabled(true);
                 }
             }
@@ -713,8 +741,8 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
      */
     @Override
     public boolean onBackPressed() {
-        if (isSubpage) {
-            if (requestCode > -1)
+        if (isSubpage()) {
+            if (requestCode > -1 && null != result)
                 activity.finishActivity(requestCode);
             else
                 activity.finish();
@@ -724,7 +752,7 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
             if (doubleBackToExit) {
 
                 if (backKeyCount > 0) {
-                    finish();
+                    exitApp();
                     return true;
                 }
 
@@ -742,6 +770,38 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
             }
         }
         return false;
+    }
+
+    public void finish() {
+        activity.finish();
+    }
+
+    public void finishCompletely() {
+        AndroidUtils.finishActivity(getActivity());
+    }
+
+    public void sendExitAppCommand() {
+        if (null != CommonInitializer.mainActivityClass) {
+            Intent intent = new Intent(getActivity(), CommonInitializer.mainActivityClass);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra(Constants.EXIT_APP, true);
+            getActivity().startActivity(intent);
+        }
+
+        finishCompletely();
+    }
+
+    public void exitApp() {
+        finishCompletely();
+    }
+
+    public void sendReloadCommand() {
+        if (null != CommonInitializer.mainActivityClass) {
+            Intent intent = new Intent(getActivity(), CommonInitializer.mainActivityClass);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            intent.putExtra(Constants.RELOAD, true);
+            getActivity().startActivity(intent);
+        }
     }
 
     /**
@@ -765,7 +825,7 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
      *
      */
     @Override
-    public void onNetworkDisonnected() {
+    public void onNetworkDisconnected() {
 //		footerView.setVisibility(View.GONE);
         hideAd();
     }
@@ -858,18 +918,50 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
                     view,
                     Constants.BUNDLE).toBundle();
 
+        intent.putExtra(Constants.PAGE_REQUEST_CODE, requestCode);
+
         if (null != options && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            if (requestCode > Constants.REQUEST_NONE)
+            if (requestCode > REQUEST_NONE)
                 context.startActivityForResult(intent, requestCode, options);
             else
                 context.startActivity(intent, options);
         }
         else {
-            if (requestCode > Constants.REQUEST_NONE)
+            if (requestCode > REQUEST_NONE)
                 context.startActivityForResult(intent, requestCode);
             else
                 context.startActivity(intent);
         }
+    }
+
+    /**
+     *
+     * @param intent
+     * @param key
+     * @return
+     */
+    private Integer getColorFromIntent(Intent intent, String key) {
+        if (intent.hasExtra(key)) {
+            try {
+                int value = Integer.parseInt(intent.getStringExtra(key));
+                return value;
+            }
+            catch (Exception exception) {}
+        }
+        return null;
+    }
+
+    /**
+     * TODO
+     *
+     * @param map
+     * @param key
+     * @return
+     */
+    private Integer getColorFromMap(Map map, String key) {
+        if (map.containsKey(key))
+            return (Integer) map.get(key);
+        return null;
     }
 
     /**
@@ -879,23 +971,60 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
      */
     @Override
     public void bindData(Intent intent) {
-        if (intent.hasExtra(Constants.PAGE_TOOLBAR_COLOR)) {
-            int value = intent.getIntExtra(Constants.PAGE_TOOLBAR_COLOR, -1);
-            if (value != -1)
-                toolbarColor = value;
-        }
-        if (intent.hasExtra(Constants.PAGE_STATUSBAR_COLOR)) {
-            int value = intent.getIntExtra(Constants.PAGE_STATUSBAR_COLOR, -1);
-            if (value != -1)
-                statusBarColor = value;
-        }
-        if (intent.hasExtra(Constants.PAGE_TITLE_FOREGROUND_COLOR)) {
-            int value = intent.getIntExtra(au.com.tyo.app.Constants.PAGE_TITLE_FOREGROUND_COLOR, -1);
-            if (value != -1)
-                titleTextColor = value;
-        }
+        if (checkAppCommands(intent))
+            return;
+
+        if (intent.hasExtra(Constants.PAGE_TOOLBAR_COLOR))
+            toolbarColor = getColorFromIntent(intent, Constants.PAGE_TOOLBAR_COLOR);
+
+        if (intent.hasExtra(Constants.PAGE_STATUSBAR_COLOR))
+            statusBarColor = getColorFromIntent(intent, Constants.PAGE_STATUSBAR_COLOR);
+
+        if (intent.hasExtra(Constants.PAGE_TITLE_FOREGROUND_COLOR))
+            titleTextColor = getColorFromIntent(intent, Constants.PAGE_TITLE_FOREGROUND_COLOR);
+
+        if (intent.hasExtra(Constants.PAGE_BACKGROUND_COLOR))
+            bodyViewColor = getColorFromIntent(intent, Constants.PAGE_BACKGROUND_COLOR);
+
+        if (intent.hasExtra(Constants.PAGE_TITLE_FOREGROUND_COLOR))
+            titleTextColor = getColorFromIntent(intent, Constants.PAGE_TITLE_FOREGROUND_COLOR);
+
         if (intent.hasExtra(Constants.PAGE_TITLE))
             setTitle(intent.getStringExtra(Constants.PAGE_TITLE));
+
+        if (intent.hasExtra(Constants.PAGE_REQUEST_CODE))
+            setRequestCode(intent.getIntExtra(Constants.PAGE_REQUEST_CODE, REQUEST_NONE));
+    }
+
+    /**
+     *
+     *
+     * @param intent
+     * @return boolean, stop execute the rest of the code if true
+     */
+    @Override
+    public boolean checkAppCommands(Intent intent) {
+        if (null != intent) {
+            if (intent.hasExtra(Constants.EXIT_APP) &&
+                    intent.getBooleanExtra(Constants.EXIT_APP, true) &&
+                    (CommonInitializer.mainActivityClass == null ||
+                            getActivity().getClass().getName().equals(CommonInitializer.mainActivityClass.getName()))) {
+                exitApp();
+                return true;
+            }
+            if (intent.hasExtra(Constants.RELOAD) &&
+                    intent.getBooleanExtra(Constants.RELOAD, true) && null != controller.getUi()) {
+                controller.getUi().setUiRecreationRequired(true);
+                reload();
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    protected void reload() {
+        // nothing yet
     }
 
     /**
@@ -911,6 +1040,12 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
                 statusBarColor = (int) map.get(Constants.PAGE_STATUSBAR_COLOR);
             if (map.containsKey(Constants.PAGE_TITLE))
                 setTitle((String) map.get(Constants.PAGE_TITLE));
+            if (map.containsKey(Constants.PAGE_BACKGROUND_COLOR))
+                bodyViewColor = (Integer) map.get(Constants.PAGE_BACKGROUND_COLOR);
+            if (map.containsKey(Constants.PAGE_TITLE_FOREGROUND_COLOR))
+                titleTextColor = (Integer) map.get(Constants.PAGE_TITLE_FOREGROUND_COLOR);
+
+            setRequestCode(map.containsKey(Constants.PAGE_REQUEST_CODE) ? (Integer) map.get(Constants.PAGE_REQUEST_CODE) : REQUEST_NONE);
         }
     }
 
@@ -929,14 +1064,23 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
     public void onFinish() {
         if (null != result) {
             Intent resultIntent = new Intent();
-            if (result instanceof Parcelable)
-                resultIntent.putExtra(Constants.RESULT, (Parcelable) result);
-            if (result instanceof Parcelable[])
-                resultIntent.putExtra(Constants.RESULT, (Parcelable[]) result);
-            else if (result instanceof String)
-                resultIntent.putExtra(Constants.RESULT, (String) result);
-            else
-                controller.setParcel(result);
+
+            if (requestCode < 5000) {
+                if (result instanceof Parcelable)
+                    resultIntent.putExtra(Constants.RESULT, (Parcelable) result);
+                else if (result instanceof Parcelable[])
+                    resultIntent.putExtra(Constants.RESULT, (Parcelable[]) result);
+                else if (result instanceof String)
+                    resultIntent.putExtra(Constants.RESULT, (String) result);
+                else {
+                    resultIntent.putExtra(Constants.RESULT_LOCATION, Constants.RESULT_LOCATION_CONTROLLER);
+                    controller.setResult(result);
+                }
+            }
+            else {
+                resultIntent.putExtra(Constants.RESULT_LOCATION, Constants.RESULT_LOCATION_CONTROLLER);
+                controller.setResult(result);
+            }
             activity.setResult(Activity.RESULT_OK, resultIntent);
         }
     }
@@ -1033,8 +1177,16 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
         if (bodyViewColor != null)
             bodyView.setBackgroundColor(bodyViewColor);
 
-        if (titleTextColor != null)
+        if (titleTextColor != null) {
             setPageToolbarTitleColor(titleTextColor);
+
+            final Drawable upArrow = VectorDrawableCompat.create(getActivity().getResources(), R.drawable.ic_arrow_back_black_24dp, null);
+
+            Drawable drawable = DrawableCompat.wrap(upArrow);
+            DrawableCompat.setTint(drawable.mutate(), titleTextColor);
+            // drawable.setColorFilter(getActivity().getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
+            getActionBarMenu().getSupportActionBar().setHomeAsUpIndicator(drawable);
+        }
     }
 
     public FragmentManager getSupportFragmentManager() {
@@ -1137,19 +1289,39 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
         return activity.getResources();
     }
 
-    public void finish() {
-        activity.finish();
-    }
-
     @Override
     public void onStart() {
         // check the permissions required for the app since Android 6
-        if (Build.VERSION.SDK_INT >= 23)
-            checkPermissions();
+        checkPermissions();
     }
 
     protected void checkPermissions() {
-        // ops
+        if (null != getRequiredPermissions()) {
+            ArrayList<String> list = new ArrayList();
+
+            for (String permission : getRequiredPermissions()) {
+                if (Build.VERSION.SDK_INT >= 23) {
+                    if (!CommonPermission.checkPermission(getActivity(), permission))
+                        list.add(permission);
+                    else
+                        onRequestedPermissionsGranted(permission);
+                }
+                else
+                    onRequestedPermissionsGranted(permission);
+            }
+
+            if (list.size() > 0) {
+                String[] permissions = new String[list.size()];
+                for (int i = 0; i < list.size(); ++i)
+                    permissions[i] = list.get(i);
+
+                CommonPermission.requestPermissions(getActivity(), permissions);
+            }
+        }
+    }
+
+    protected void requestPermissions() {
+        // no ops
     }
 
     public boolean isDoubleBackToExit() {
@@ -1210,5 +1382,52 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
         if (null == result && null != CommonApp.getInstance())
             result = ((Controller) CommonApp.getInstance()).getParcel();
         return result;
+    }
+
+    @Override
+    public void onRequestedPermissionsGranted(String permission) {
+        controller.grantPermission(permission);
+    }
+
+    @Override
+    public void onRequestedPermissionsDenied(String permission) {
+        // no ops
+    }
+
+    @Override
+    public void saveState(Bundle savedInstanceState) {
+        // no ops yet
+    }
+
+    @Override
+    public void onDataBound() {
+        // no ops yet
+    }
+
+    public void setPageInFullScreenMode() {
+        View decorView = getActivity().getWindow().getDecorView();
+        // Hide the status bar.
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
+    }
+
+    @Override
+    public void handleIntent(Intent intent) {
+        checkAppCommands(intent);
+    }
+
+    @Override
+    public void onPreCreateCheckFailed() {
+        // nothing
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        return false;
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        return false;
     }
 }
