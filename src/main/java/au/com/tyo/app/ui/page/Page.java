@@ -79,7 +79,7 @@ import static au.com.tyo.app.Constants.REQUEST_NONE;
  *
  */
 
-public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemClickListener {
+public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemClickListener, Runnable {
 
     private static final String LOG_TAG = "Screen";
 
@@ -1429,5 +1429,58 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         return false;
+    }
+
+    //////////////////////////////////////////////////////////////////////
+    //
+    // Anythings related to the background async / runnable tasks
+    // while user is waiting for the result
+    //
+    //////////////////////////////////////////////////////////////////////
+    /**
+     *
+     */
+    public void startBackgroundTask() {
+        if (null != mainViewContainer)
+            mainViewContainer.startTask(this);
+        else
+            new ProgressTask(this).execute();
+    }
+
+    /**
+     * Runnable implementation
+     */
+    @Override
+    public void run() {
+        // nothing yet
+        // pass the result with controller if any
+    }
+
+    public class ProgressTask extends ViewContainerWithProgressBar.BackgroundTask implements ViewContainerWithProgressBar.Caller {
+
+        public ProgressTask(Runnable job) {
+            super(job);
+            setCaller(this);
+        }
+
+        @Override
+        public void onPreExecute() {
+            showProgressBar();
+            
+            onPrePageBackgroundTaskExecute();
+        }
+
+        @Override
+        public void onPostExecute(Object o) {
+            hideProgressBar();
+            
+            onPageBackgroundTaskFinished();
+        }
+    }
+
+    protected void onPageBackgroundTaskFinished() {
+    }
+
+    protected void onPrePageBackgroundTaskExecute() {
     }
 }

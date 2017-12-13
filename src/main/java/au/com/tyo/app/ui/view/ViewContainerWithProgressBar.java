@@ -173,7 +173,7 @@ public class ViewContainerWithProgressBar extends FrameLayout {
 	}
 
 	public void startTask(Runnable job) {
-		new BackgroundTask(job).execute();
+		new ProgressTask(job).execute();
 	}
 
 	public View getContentView() {
@@ -189,7 +189,7 @@ public class ViewContainerWithProgressBar extends FrameLayout {
 		void onPostExecute(Object o);
 	}
 
-	public class BackgroundTask extends AsyncTask<Void, Integer, Object> {
+	public static class BackgroundTask extends AsyncTask<Void, Integer, Object> {
 
 		private Caller caller;
 		private Runnable job;
@@ -203,7 +203,11 @@ public class ViewContainerWithProgressBar extends FrameLayout {
 			this.job = job;
 		}
 
-		@Override
+        public void setCaller(Caller caller) {
+            this.caller = caller;
+        }
+
+        @Override
 		protected void onPreExecute() {
 			super.onPreExecute();
 			if (null != caller) caller.onPreExecute();
@@ -212,10 +216,6 @@ public class ViewContainerWithProgressBar extends FrameLayout {
 		@Override
 		protected void onPostExecute(Object result) {
 			super.onPostExecute(result);
-
-			addContentView(contentViewResourceId);
-
-			hideProgressBar();
 
 			if (null != caller) caller.onPostExecute(result);
 		}
@@ -226,6 +226,26 @@ public class ViewContainerWithProgressBar extends FrameLayout {
 
 			if (job instanceof Worker) return ((Worker) job).getResult();
             return null;
+		}
+	}
+
+	public class ProgressTask extends BackgroundTask implements Caller {
+
+		public ProgressTask(Runnable job) {
+			super(job);
+            setCaller(this);
+		}
+
+		@Override
+		public void onPreExecute() {
+            showProgressBar();
+		}
+
+		@Override
+		public void onPostExecute(Object o) {
+			// addContentView(contentViewResourceId);
+
+			hideProgressBar();
 		}
 	}
 }

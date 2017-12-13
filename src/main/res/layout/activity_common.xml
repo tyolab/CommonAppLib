@@ -17,56 +17,7 @@
         android:layout_height="match_parent">
 
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <include layout="@layout/page"
-                />
-
-            <FrameLayout
-                android:id="@+id/tyodroid_page_progress_bar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:visibility="visible"
-                android:background="@color/pageProgressPageBackground"
-                >
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_gravity="center"
-                    >
-                    <ProgressBar
-                        style="?android:progressBarStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical|center_horizontal"
-                        android:indeterminateBehavior="repeat"
-                        android:id="@+id/tyodroid_progress_bar"
-                        />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/tv_progress_info"
-                        android:text="running"
-                        android:layout_marginTop="@dimen/progress_info_margin_top"
-                        />
-                </LinearLayout>
-
-            </FrameLayout>
-
-            <!-- Alternatively -->
-            <!--
-            <include layout="@layout/page_with_progressbar"
-                android:id="@+id/activity_page_view"
-                />
-                -->
-
-        </RelativeLayout>
-
+        <include layout="common_page" />
 
         <FrameLayout
             android:id="@+id/left_drawer_view"
