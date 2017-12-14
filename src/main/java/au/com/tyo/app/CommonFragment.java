@@ -203,7 +203,7 @@ public abstract class CommonFragment extends Fragment {
         this.contentViewResId = contentViewResId;
 
         if (contentViewResId > -1) {
-            // contentContainer.removeAllViews();
+            contentContainer.removeAllViews();
             LayoutInflater inflater = LayoutInflater.from(getActivity());
 
             contentView = inflater.inflate(contentViewResId,
