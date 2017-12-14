@@ -164,4 +164,8 @@ public class UIBase implements UI {
     public Context getContext() {
         return getCurrentPage().getActivity();
     }
+
+    public void gotoPage(Class cls) {
+        startActivity(cls);
+    }
 }
