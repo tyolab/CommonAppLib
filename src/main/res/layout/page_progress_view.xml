@@ -13,6 +13,11 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_gravity="center"
+        android:paddingTop="@dimen/progress_view_padding"
+        android:paddingBottom="@dimen/progress_view_padding"
+        android:paddingLeft="@dimen/progress_view_padding_left"
+        android:paddingRight="@dimen/progress_view_padding_right"
+        android:background="@drawable/progress_bg_light"
         >
         <ProgressBar
             style="?android:progressBarStyle"
