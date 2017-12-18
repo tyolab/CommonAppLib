@@ -810,7 +810,7 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
      */
     @Override
     public void showProgressBar() {
-        showProgressBar("");
+        showProgressBar("Verifying licence...");
     }
 
     public void showProgressBar(String info) {
