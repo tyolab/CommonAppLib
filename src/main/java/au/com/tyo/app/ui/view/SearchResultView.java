@@ -76,7 +76,7 @@ public class SearchResultView extends CommonListView {
 //		 */
 //		final List<WikiSearch> results = request.getResults(); //new ArrayList<WikiSearch>(request.getResults());
 //		
-//		ListViewItemAdapter<?> oldAdapter = (ListViewItemAdapter<?>) list.getAdapter();
+//		ListViewItemAdapter<?> oldAdapter = (ListViewItemAdapter<?>) list.getBaseAdapter();
 //		if (oldAdapter != null ) oldAdapter.clear();
 //		
 //		if (results.size() > 0) {

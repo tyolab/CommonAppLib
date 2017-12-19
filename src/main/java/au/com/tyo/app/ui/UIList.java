@@ -11,6 +11,6 @@ public interface UIList {
 
     ListView getListView();
 
-    BaseAdapter getAdapter();
+    BaseAdapter getBaseAdapter();
 
 }
