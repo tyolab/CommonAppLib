@@ -24,12 +24,12 @@ import au.com.tyo.app.ui.UIList;
  * Created by Eric Tang (eric.tang@tyo.com.au) on 27/7/17.
  */
 
-public class PageCommonList extends Page implements AdapterView.OnItemClickListener, UIList {
+public class PageCommonList<T extends Controller> extends Page<T> implements AdapterView.OnItemClickListener, UIList {
 
     private ListView listView;
     private BaseAdapter adapter;
 
-    public PageCommonList(Controller controller, Activity activity) {
+    public PageCommonList(T controller, Activity activity) {
         super(controller, activity);
 
         setContentViewResId(R.layout.list_view);

@@ -79,7 +79,7 @@ import static au.com.tyo.app.Constants.REQUEST_NONE;
  *
  */
 
-public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemClickListener, Runnable {
+public class Page<T extends Controller> extends PageFragment implements UIPage, MenuItem.OnMenuItemClickListener, Runnable {
 
     private static final String LOG_TAG = "Screen";
 
@@ -123,7 +123,7 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
     /**
      * Controller
      */
-    private Controller controller;
+    private T controller;
 
     /**
      * The associated activity
@@ -180,17 +180,26 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
     private String[] requiredPermissions;
 
     /**
+     * Page Initializer for pages that share the same attributes
+     */
+    private PageInitializer pageInitializer;
+
+    /**
      *
      * @param controller
      * @param activity
      */
-    public Page(Controller controller, Activity activity) {
+    public Page(T controller, Activity activity) {
         this.activity = activity;
         this.controller = controller;
         toShowSearchView = false;
         doubleBackToExit = true;
 
         configActionBarMenu(controller);
+        pageInitializer = PageInitializer.getInstance();
+
+        if (pageInitializer != null)
+            pageInitializer.initializePageOnConstruct(this);
     }
 
     public String[] getRequiredPermissions() {
@@ -209,6 +218,10 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
     @Override
     public void setToolbarColor(Integer toolbarColor) {
         this.toolbarColor = toolbarColor;
+    }
+
+    public void setTitleTextColor(Integer titleTextColor) {
+        this.titleTextColor = titleTextColor;
     }
 
     public String getTitle() {
@@ -334,12 +347,12 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
         }
     }
 
-    public Controller getController() {
+    public T getController() {
         return controller;
     }
 
     public void setController(Controller controller) {
-        this.controller = controller;
+        this.controller = (T) controller;
     }
 
     @Override
@@ -1164,6 +1177,9 @@ public class Page extends PageFragment implements UIPage, MenuItem.OnMenuItemCli
 
     @Override
     public void onActivityStart() {
+        if (null != pageInitializer)
+            pageInitializer.initializePageOnActivityStart(this);
+
         // do nothing
         if (null != title && title.length() > 0)
             setPageTitleOnToolbar(title);
