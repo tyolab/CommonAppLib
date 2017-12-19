@@ -60,4 +60,7 @@
 
     <dimen name="activity_padding_top">0dp</dimen>
     <dimen name="progress_info_margin_top">12dp</dimen>
+    <dimen name="progress_view_padding">12dp</dimen>
+    <dimen name="progress_view_padding_left">36dp</dimen>
+    <dimen name="progress_view_padding_right">36dp</dimen>
 </resources>

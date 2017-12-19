@@ -333,6 +333,7 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
     @Override
     public void onStop() {
         // should be overrode if needed
+        task = null;
     }
 
     @Override
@@ -822,7 +823,7 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
      */
     @Override
     public void showProgressBar() {
-        showProgressBar("");
+        showProgressBar("Verifying licence...");
     }
 
     public void showProgressBar(String info) {
@@ -1453,14 +1454,20 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
     // while user is waiting for the result
     //
     //////////////////////////////////////////////////////////////////////
+    private ProgressTask task = null;
+
     /**
      *
      */
     public void startBackgroundTask() {
         if (null != mainViewContainer)
             mainViewContainer.startTask(this);
-        else
-            new ProgressTask(this).execute();
+        else {
+            if (task == null) {
+                task = new ProgressTask(this);
+                task.execute();
+            }
+        }
     }
 
     /**
@@ -1482,15 +1489,20 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
         @Override
         public void onPreExecute() {
             showProgressBar();
-            
+
             onPrePageBackgroundTaskExecute();
         }
 
         @Override
         public void onPostExecute(Object o) {
+            if (task == null)
+                return;
+
             hideProgressBar();
-            
+
             onPageBackgroundTaskFinished();
+
+            task = null;
         }
     }
 
