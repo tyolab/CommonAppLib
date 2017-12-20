@@ -59,6 +59,10 @@ public class CommonAppData extends Observable {
         return context;
     }
 
+    public CommonCache getCacheManager() {
+        return cacheManager;
+    }
+
     private Object loadObject(String fileName, String jsonFile, Type listType) {
         InputStream is = null;
         Object object = null;
@@ -123,6 +127,10 @@ public class CommonAppData extends Observable {
             deleteCacheFile(fileName);
         }
         return object;
+    }
+
+    public boolean existsCacheFile(String filename) {
+        return cacheManager.exists(filename);
     }
 
     public void notifyDataCacheObservers() {
