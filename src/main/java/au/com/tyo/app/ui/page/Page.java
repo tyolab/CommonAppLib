@@ -823,7 +823,7 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
      */
     @Override
     public void showProgressBar() {
-        showProgressBar("Verifying licence...");
+        showProgressBar("");
     }
 
     public void showProgressBar(String info) {

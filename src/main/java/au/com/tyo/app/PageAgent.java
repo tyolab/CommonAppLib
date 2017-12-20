@@ -206,15 +206,32 @@ public class PageAgent {
             if (pageClass != null) {
                 try {
                     Constructor ctor = null;
-                    ctor = pageClass.getConstructor(Controller.class, Activity.class);
+                    ctor = pageClass.getConstructor(CommonInitializer.clsControllerInterface, Activity.class);
                     page = (UIPage) ctor.newInstance(new Object[]{controller, getActivity()});
-                } catch (NoSuchMethodException e) {
+                }
+                catch (NoSuchMethodException e) {
+                    // OK, the page may be implemented with the CommonApp Controller class like splashscreen page
+                    try {
+                        Constructor ctor = null;
+                        ctor = pageClass.getConstructor(Controller.class, Activity.class);
+                        page = (UIPage) ctor.newInstance(new Object[]{controller, getActivity()});
+                    } catch (NoSuchMethodException e1) {
+                        Log.e(LOG_TAG, StringUtils.exceptionStackTraceToString(e1));
+                    } catch (IllegalAccessException e1) {
+                        Log.e(LOG_TAG, StringUtils.exceptionStackTraceToString(e1));
+                    } catch (InstantiationException e1) {
+                        Log.e(LOG_TAG, StringUtils.exceptionStackTraceToString(e1));
+                    } catch (InvocationTargetException e1) {
+                        Log.e(LOG_TAG, StringUtils.exceptionStackTraceToString(e1));
+                    }
+                }
+                catch (IllegalAccessException e) {
                     Log.e(LOG_TAG, StringUtils.exceptionStackTraceToString(e));
-                } catch (IllegalAccessException e) {
+                }
+                catch (InstantiationException e) {
                     Log.e(LOG_TAG, StringUtils.exceptionStackTraceToString(e));
-                } catch (InstantiationException e) {
-                    Log.e(LOG_TAG, StringUtils.exceptionStackTraceToString(e));
-                } catch (InvocationTargetException e) {
+                }
+                catch (InvocationTargetException e) {
                     Log.e(LOG_TAG, StringUtils.exceptionStackTraceToString(e));
                 }
             }
