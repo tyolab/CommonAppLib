@@ -55,6 +55,8 @@ public interface UI {
 
     void onScreenAttached(UIPage screen);
 
+    void viewHtmlPageFromAsset(String assetFile, String title, Integer statusBarColor, PageWebView.WebPageListener webPageListener);
+
     void showDialog(int messageArrayResId, int themeId, DialogInterface.OnClickListener okListener, DialogInterface.OnClickListener cancelListener);
 
     Context getContext();

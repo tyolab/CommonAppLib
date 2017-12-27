@@ -33,6 +33,8 @@ public class UIBase implements UI {
 
     protected boolean uiRecreationRequired = false;
 
+    private PageWebView.WebPageListener webPageListener;
+
 	public UIBase(Controller controller) {
 		this.controller = controller;
 	}
@@ -157,7 +159,10 @@ public class UIBase implements UI {
         getCurrentPage().startActivity(cls, flags, key, data, view, requestCode);
     }
 
-    public void viewHtmlPageFromAsset(String assetFile, String title, Integer statusBarColor, ) {
+    @Override
+    public void viewHtmlPageFromAsset(String assetFile, String title, Integer statusBarColor, PageWebView.WebPageListener webPageListener) {
+	    setWebPageListener(webPageListener);
+
         CommonExtra extra = new CommonExtra(CommonActivityWebView.class);
 
         if (null != statusBarColor)
@@ -185,8 +190,10 @@ public class UIBase implements UI {
 
     @Override
     public PageWebView.WebPageListener getWebPageListener() {
-        if (getCurrentPage() instanceof PageWebView.WebPageListener)
-            return (PageWebView.WebPageListener) getCurrentPage();
-        return null;
+        return webPageListener;
+    }
+
+    public void setWebPageListener(PageWebView.WebPageListener webPageListener) {
+        this.webPageListener = webPageListener;
     }
 }
