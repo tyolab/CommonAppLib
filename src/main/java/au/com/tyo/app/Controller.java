@@ -150,4 +150,5 @@ public interface Controller<T extends UI> extends CommonController {
     void setResult(Object result);
 
 	Object getResult();
+
 }

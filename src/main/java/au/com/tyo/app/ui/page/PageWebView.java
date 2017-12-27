@@ -3,11 +3,13 @@ package au.com.tyo.app.ui.page;
 import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
+import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import java.io.IOException;
+import java.util.List;
 
 import au.com.tyo.app.Constants;
 import au.com.tyo.app.Controller;
@@ -19,7 +21,7 @@ import au.com.tyo.utils.StringUtils;
  * Created by Eric Tang (eric.tang@tyo.com.au) on 11/9/17.
  */
 
-public class PageWebView extends Page {
+public class PageWebView extends Page implements ValueCallback<String> {
 
     private static final String TAG = "PageWebView";
 
@@ -29,6 +31,12 @@ public class PageWebView extends Page {
 
     protected WebChromeClient wikiWebChromeClient;
 
+    public interface WebPageListener extends ValueCallback<String> {
+        void onPageFinishedLoading(WebView webView);
+    }
+
+    private WebPageListener webPageListener;
+
     /**
      * @param controller
      * @param activity
@@ -36,6 +44,8 @@ public class PageWebView extends Page {
     public PageWebView(Controller controller, Activity activity) {
         super(controller, activity);
         setContentViewResId(R.layout.webview);
+
+        webPageListener = controller.getUi().getWebPageListener();
     }
 
     @Override
@@ -44,7 +54,15 @@ public class PageWebView extends Page {
         webView = (WebView) findViewById(R.id.webview);
 
         webView.setWebChromeClient(new WebChromeClient());
-        webView.setWebViewClient(new WebViewClient());
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+
+                if (null != webPageListener)
+                    webPageListener.onPageFinishedLoading(webView);
+            }
+        });
     }
 
     @Override
@@ -73,5 +91,36 @@ public class PageWebView extends Page {
 
     public void loadHtml(String baseUrl, String html, String url) {
         webView.loadDataWithBaseURL(baseUrl, html, "text/html", "UTF-8", url);
+    }
+
+    public void call(String functionName, List params) {
+        call(webView, functionName, params, this);
+    }
+
+    public static void call(WebView webView, String functionName, List params, ValueCallback<String> callback) {
+        StringBuffer callString = new StringBuffer();
+
+        for (Object obj : params) {
+            if (callString.length() > 0)
+                callString.append(", ");
+
+            if (obj instanceof String)
+                callString.append("'" + ((String) obj).toString() + "'");
+            else
+                callString.append(String.valueOf(obj));
+        }
+
+        String full = functionName + "(" + callString.toString() + ")";
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+            webView.evaluateJavascript(full, callback);
+        } else {
+            webView.loadUrl("javascript:" + full + ";");
+        }
+    }
+
+    @Override
+    public void onReceiveValue(String value) {
+        // no ops
     }
 }

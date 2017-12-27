@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.view.View;
 
 import au.com.tyo.app.CommonExtra;
+import au.com.tyo.app.ui.page.PageWebView;
 
 /**
  * @author Eric Tang <eric.tang@tyo.com.au>
@@ -57,4 +58,6 @@ public interface UI {
     void showDialog(int messageArrayResId, int themeId, DialogInterface.OnClickListener okListener, DialogInterface.OnClickListener cancelListener);
 
     Context getContext();
+
+    PageWebView.WebPageListener getWebPageListener();
 }

@@ -705,4 +705,5 @@ public class CommonApp<UIType extends UI, ControllerType extends Controller>
             permitted = new HashSet();
         permitted.add(permission);
     }
+
 }

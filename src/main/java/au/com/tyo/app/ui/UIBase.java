@@ -14,8 +14,11 @@ import android.view.View;
 
 import au.com.tyo.android.AndroidUtils;
 import au.com.tyo.android.DialogFactory;
+import au.com.tyo.app.CommonActivityWebView;
 import au.com.tyo.app.CommonExtra;
+import au.com.tyo.app.Constants;
 import au.com.tyo.app.Controller;
+import au.com.tyo.app.ui.page.PageWebView;
 
 public class UIBase implements UI {
 
@@ -154,6 +157,17 @@ public class UIBase implements UI {
         getCurrentPage().startActivity(cls, flags, key, data, view, requestCode);
     }
 
+    public void viewHtmlPageFromAsset(String assetFile, String title, Integer statusBarColor, ) {
+        CommonExtra extra = new CommonExtra(CommonActivityWebView.class);
+
+        if (null != statusBarColor)
+            extra.setExtra(getCurrentPage().getActivity(), Constants.PAGE_STATUSBAR_COLOR, String.valueOf(statusBarColor));
+        extra.setExtra(getCurrentPage().getActivity(), Constants.PAGE_TITLE, title);
+        extra.setExtra(getCurrentPage().getActivity(), Constants.DATA_ASSETS_PATH, assetFile);
+
+        startActivity(extra);
+    }
+
     @Override
     public void showDialog(int messageArrayResId, int themeId, DialogInterface.OnClickListener okListener, DialogInterface.OnClickListener cancelListener) {
         Dialog dialog = DialogFactory.createDialog(getCurrentPage().getActivity(), themeId, messageArrayResId, okListener, cancelListener);
@@ -167,5 +181,12 @@ public class UIBase implements UI {
 
     public void gotoPage(Class cls) {
         startActivity(cls);
+    }
+
+    @Override
+    public PageWebView.WebPageListener getWebPageListener() {
+        if (getCurrentPage() instanceof PageWebView.WebPageListener)
+            return (PageWebView.WebPageListener) getCurrentPage();
+        return null;
     }
 }
