@@ -24,6 +24,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -49,10 +50,18 @@ public class CommonAppData extends Observable {
 
     private CommonCache cacheManager;
 
+    private static CommonAppData instance;
+
+    public static CommonAppData getInstance() {
+        return instance;
+    }
+
     public CommonAppData(Context context) {
         this.context = context;
 
         cacheManager = new CommonCache(context);
+
+        instance = this;
     }
 
     public Context getContext() {
@@ -62,15 +71,45 @@ public class CommonAppData extends Observable {
     public CommonCache getCacheManager() {
         return cacheManager;
     }
+    
+    public InputStream assetToInputStream(String fileName) {
+        InputStream is = null;
+        try {
+            is = context.getAssets().open(fileName);
+        }
+        catch (Exception e) {
+            Log.e(TAG, StringUtils.exceptionStackTraceToString(e));
+        }
+        return is;
+    }
+    
+    public String assetToString(String fileName) {
+        String str = null;
+        InputStream is = null;
+        try {
+            is = assetToInputStream(fileName);
+            if (is != null)
+                str = new String(IO.inputStreamToBytes(is));
+        } catch (IOException e) {
+            Log.e(TAG, StringUtils.exceptionStackTraceToString(e));
+        }
+        finally {
+            if (is != null)
+                try {
+                    is.close();
+                } catch (IOException e) { }
+        }
+        return str;
+    }
 
     private Object loadObject(String fileName, String jsonFile, Type listType) {
         InputStream is = null;
         Object object = null;
+
+        is = assetToInputStream(fileName);
         try {
-            is = context.getAssets().open(fileName);
             object = IO.readObject(is);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             Log.e(TAG, StringUtils.exceptionStackTraceToString(e));
         }
 
