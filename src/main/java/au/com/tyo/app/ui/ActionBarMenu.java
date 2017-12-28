@@ -7,6 +7,7 @@ package au.com.tyo.app.ui;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuItem;
 
 /**
  * Created by Eric Tang (eric.tang@tyo.com.au) on 17/7/17.
@@ -25,6 +26,8 @@ public class ActionBarMenu {
     private Toolbar toolbar;
 
     private boolean initialized;
+
+    private Menu menu;
 
     public ActionBarMenu() {
         setInitialized(false);
@@ -68,8 +71,13 @@ public class ActionBarMenu {
         this.toolbar = toolbar;
     }
 
-    public void setupMenu(Menu menu) {
-        // no ops
+    public void setupMenu(Menu menu, MenuItem.OnMenuItemClickListener onMenuItemClickListener) {
+        this.menu = menu;
+
+        for (int i = 0; i < menu.size(); ++i) {
+            MenuItem menuItem = menu.getItem(i);
+            menuItem.setOnMenuItemClickListener(onMenuItemClickListener);
+        }
     }
 
     public void hide() {

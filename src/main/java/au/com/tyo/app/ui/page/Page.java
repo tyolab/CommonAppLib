@@ -1223,7 +1223,12 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
 
     @Override
     public boolean onCreateOptionsMenu(MenuInflater menuInflater, Menu menu) {
+        createMenu(menuInflater, menu);
         return onMenuCreated(menu);
+    }
+
+    protected void createMenu(MenuInflater menuInflater, Menu menu) {
+        // override this method and put the menu creation code in
     }
 
     protected void createMenuItemAbout(MenuInflater menuInflater, Menu menu) {
@@ -1246,7 +1251,7 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
 
     protected boolean onMenuCreated(Menu menu) {
         // by default no menu created
-        getActionBarMenu().setupMenu(menu);
+        getActionBarMenu().setupMenu(menu, this);
         return true;
     }
 

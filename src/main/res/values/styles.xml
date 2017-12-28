@@ -34,4 +34,16 @@
     <style name="TyoDroid.Widget.ProgressBar" parent="@android:style/Widget.ProgressBar">
     </style>
 
+    <style name="AppMenuStyle" parent="@style/Widget.AppCompat.ActionButton.Overflow" >
+
+    </style>
+
+    <style name="AppMenuStyle.Light">
+
+    </style>
+
+    <style name="AppMenuStyle.Dark">
+
+    </style>
+
 </resources>
