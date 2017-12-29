@@ -1160,7 +1160,7 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
     }
 
     public void addFragmentToContainer(Fragment fragment) {
-        addFragmentToContainer(getContentViewResId(), fragment);
+        addFragmentToContainer(R.id.content_view, fragment);
     }
 
     public void addFragmentToContainer(int fragmentContainerResId, Fragment fragment) {
@@ -1487,6 +1487,8 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
      *
      */
     public void startBackgroundTask() {
+        setResult(null);
+
         if (null != mainViewContainer)
             mainViewContainer.startTask(this);
         else {
