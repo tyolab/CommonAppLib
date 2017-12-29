@@ -1029,7 +1029,7 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
         if (intent.hasExtra(Constants.PAGE_REQUEST_CODE))
             setRequestCode(intent.getIntExtra(Constants.PAGE_REQUEST_CODE, REQUEST_NONE));
 
-        setSubpage(intent.getBooleanExtra(Constants.PAGE_IS_MAIN, false));
+        setSubpage(!intent.getBooleanExtra(Constants.PAGE_IS_MAIN, false));
     }
 
     /**

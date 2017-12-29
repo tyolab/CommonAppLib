@@ -26,9 +26,9 @@ public class PageWebView extends Page implements ValueCallback<String> {
 
     private WebView webView;
 
-    protected WebViewClient wikiWebViewClient;
+    protected WebViewClient webViewClient;
 
-    protected WebChromeClient wikiWebChromeClient;
+    protected WebChromeClient webChromeClient;
 
     public interface WebPageListener extends ValueCallback<String> {
         void onPageFinishedLoading(WebView webView);
@@ -47,13 +47,21 @@ public class PageWebView extends Page implements ValueCallback<String> {
         webPageListener = controller.getUi().getWebPageListener();
     }
 
+    public void setWebViewClient(WebViewClient webViewClient) {
+        this.webViewClient = webViewClient;
+    }
+
+    public void setWebChromeClient(WebChromeClient webChromeClient) {
+        this.webChromeClient = webChromeClient;
+    }
+
     @Override
     public void setupComponents() {
         super.setupComponents();
         webView = (WebView) findViewById(R.id.webview);
 
-        webView.setWebChromeClient(new WebChromeClient());
-        webView.setWebViewClient(new WebViewClient() {
+        webView.setWebChromeClient(webChromeClient == null ? (webChromeClient = new WebChromeClient()) : webChromeClient);
+        webView.setWebViewClient(webViewClient == null ? (webViewClient = new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
@@ -61,7 +69,12 @@ public class PageWebView extends Page implements ValueCallback<String> {
                 if (null != webPageListener)
                     webPageListener.onPageFinishedLoading(webView);
             }
-        });
+        }) : webViewClient);
+
+        webView.clearCache(true);
+        webView.clearHistory();
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
     }
 
     @Override

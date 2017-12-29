@@ -1,5 +1,8 @@
 package au.com.tyo.app.api;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import au.com.tyo.services.HttpConnection;
 import au.com.tyo.services.HttpPool;
 
@@ -61,12 +64,32 @@ public class CommonApi {
      */
     protected String loadUrl(String url) {
         try {
-            HttpConnection http = HttpPool.getInstance().getConnection();
+            HttpConnection http = HttpPool.getConnection();
             return http.get(url);
         }
         catch (Exception ex) {
             return "";
         }
+    }
+
+    protected String post(String url, String json) {
+        InputStream inputStream = null;
+        String result = null;
+        try {
+            HttpConnection http = HttpPool.getConnection();
+            inputStream = http.postJSON(url, json);
+            result = HttpConnection.httpInputStreamToText(inputStream);
+        }
+        catch (Exception ex) {
+            return "";
+        }
+        finally {
+            if (null != inputStream)
+                try {
+                    inputStream.close();
+                } catch (IOException e) { }
+        }
+        return result;
     }
 
 }

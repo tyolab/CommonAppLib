@@ -17,14 +17,19 @@ import au.com.tyo.app.ui.UIPage;
  * Created by Eric Tang (eric.tang@tyo.com.au) on 25/6/17.
  */
 
-public abstract class CommonFragment extends Fragment {
+public abstract class CommonFragment<T extends Controller> extends Fragment {
 
-    private static final String TAG = "FragmentShared";
+    private static final String TAG = "CommonFragment";
+
+    /**
+     * Controller
+     */
+    private T controller;
 
     /**
      * UI Page
      */
-    UIPage page;
+    private UIPage page;
 
     private int parentContainerHeight = -1;
     private int parentContainerWidth = -1;
@@ -49,6 +54,10 @@ public abstract class CommonFragment extends Fragment {
 
     private String title = null;
     private boolean toShow = true;
+
+    public T getController() {
+        return controller;
+    }
 
     public boolean isToShow() {
         return toShow;
@@ -145,6 +154,7 @@ public abstract class CommonFragment extends Fragment {
 
     protected void onFragmentAttach(Context context) {
         // do nothing
+        controller = CommonApp.getInstance();
     }
 
     @Override

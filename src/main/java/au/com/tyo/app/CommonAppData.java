@@ -59,8 +59,6 @@ public class CommonAppData extends Observable {
     public CommonAppData(Context context) {
         this.context = context;
 
-        cacheManager = new CommonCache(context);
-
         instance = this;
     }
 
@@ -69,9 +67,15 @@ public class CommonAppData extends Observable {
     }
 
     public CommonCache getCacheManager() {
+        if (null == cacheManager)
+            cacheManager = new CommonCache(context);
         return cacheManager;
     }
-    
+
+    public void setCacheManager(CommonCache cacheManager) {
+        this.cacheManager = cacheManager;
+    }
+
     public InputStream assetToInputStream(String fileName) {
         InputStream is = null;
         try {
