@@ -47,7 +47,9 @@ public interface UI {
 
 	void startActivity(CommonExtra extra);
 
-	void startActivity(Class cls, int flags, String key, Object data, View view, int requestCode);
+    void startActivity(Class cls, int flags, String key, Object data, View view, int requestCode);
+
+	void startActivity(Class cls, int flags, String key, Object data, View view, int requestCode, boolean isMainActivity);
 
     UIPage getCurrentPage();
 

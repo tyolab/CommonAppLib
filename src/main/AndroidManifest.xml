@@ -48,6 +48,10 @@
             android:name="au.com.tyo.app.SettingsActivity"
             android:label="@string/title_activity_settings" >
         </activity>
+
+        <activity
+            android:name="au.com.tyo.app.CommonActivityWebView"
+            />
     </application>
     -->
 </manifest>

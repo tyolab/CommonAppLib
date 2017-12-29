@@ -43,6 +43,8 @@ import au.com.tyo.app.model.Searchable;
 import au.com.tyo.app.ui.UI;
 import au.com.tyo.app.ui.UIBase;
 
+import static au.com.tyo.app.Constants.REQUEST_NONE;
+
 /**
  * @author Eric Tang <eric.tang@tyo.com.au>
  */
@@ -706,4 +708,7 @@ public class CommonApp<UIType extends UI, ControllerType extends Controller>
         permitted.add(permission);
     }
 
+	public void startActivity(Class cls, boolean mainActivity) {
+		getUi().startActivity(cls, -1, null, null, null, REQUEST_NONE, mainActivity);
+	}
 }

@@ -26,9 +26,15 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 
 	private static final String LOG_TAG = CommonAppCompatActivity.class.getSimpleName();
 
+	private static Class pageClass;
+
     protected PageAgent agent;
 
 	private Controller controller;
+
+	public static void setPageClass(Class pageClass) {
+		CommonAppCompatActivity.pageClass = pageClass;
+	}
 
 	protected void createController() {
 		controller = (Controller) CommonApp.getInstance();
@@ -93,7 +99,8 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
      *
      */
     protected void loadPageClass() {
-        // no ops
+        if (null != pageClass)
+        	agent.setPageClass(pageClass);
     }
 
 	/**

@@ -16,9 +16,10 @@ import au.com.tyo.android.AndroidUtils;
 import au.com.tyo.android.DialogFactory;
 import au.com.tyo.app.CommonActivityWebView;
 import au.com.tyo.app.CommonExtra;
-import au.com.tyo.app.Constants;
 import au.com.tyo.app.Controller;
 import au.com.tyo.app.ui.page.PageWebView;
+
+import static au.com.tyo.app.Constants.REQUEST_NONE;
 
 public class UIBase implements UI {
 
@@ -146,7 +147,7 @@ public class UIBase implements UI {
 
     @Override
     public void startActivity(Class aClass) {
-        getCurrentPage().startActivity(aClass);
+        startActivity(aClass, -1, null, null, null, REQUEST_NONE);
     }
 
     @Override
@@ -156,21 +157,19 @@ public class UIBase implements UI {
 
     @Override
     public void startActivity(Class cls, int flags, String key, Object data, View view, int requestCode) {
-        getCurrentPage().startActivity(cls, flags, key, data, view, requestCode);
+        startActivity(cls, flags, key, data, view, requestCode, false);
+    }
+
+    @Override
+    public void startActivity(Class cls, int flags, String key, Object data, View view, int requestCode, boolean isMainActivity) {
+        getCurrentPage().startActivity(cls, flags, key, data, view, requestCode, isMainActivity);
     }
 
     @Override
     public void viewHtmlPageFromAsset(String assetFile, String title, Integer statusBarColor, PageWebView.WebPageListener webPageListener) {
 	    setWebPageListener(webPageListener);
 
-        CommonExtra extra = new CommonExtra(CommonActivityWebView.class);
-
-        if (null != statusBarColor)
-            extra.setExtra(getCurrentPage().getActivity(), Constants.PAGE_STATUSBAR_COLOR, String.valueOf(statusBarColor));
-        extra.setExtra(getCurrentPage().getActivity(), Constants.PAGE_TITLE, title);
-        extra.setExtra(getCurrentPage().getActivity(), Constants.DATA_ASSETS_PATH, assetFile);
-
-        startActivity(extra);
+        getCurrentPage().viewHtmlPageFromAsset(CommonActivityWebView.class, assetFile, title, statusBarColor);
     }
 
     @Override

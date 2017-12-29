@@ -133,7 +133,7 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
     /**
      * The indicator for whether the page is a child page
      */
-    private boolean isSubpage = false;
+    private boolean isSubpage;
 
     /**
      * The request code
@@ -858,8 +858,8 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
      * @param cls
      */
     @Override
-    public void startActivity(Class cls) {
-        startActivity(cls, Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP, Constants.DATA, null, null, -1);
+    public void startActivity(Class cls, boolean isMainPage) {
+        startActivity(cls, Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP, Constants.DATA, null, null, -1, isMainPage);
     }
 
     /**
@@ -886,7 +886,12 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
 
     @Override
     public void startActivity(Class cls, int flags, String key, Object data, View view, int requestCode) {
-        startActivity(activity, cls, flags, key, data, view, requestCode);
+        startActivity(activity, cls, flags, key, data, view, requestCode, false);
+    }
+
+    @Override
+    public void startActivity(Class cls, int flags, String key, Object data, View view, int requestCode, boolean isMainActivity) {
+        startActivity(activity, cls, flags, key, data, view, requestCode, isMainActivity);
     }
 
     /**
@@ -898,12 +903,15 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
      * @param view
      * @param requestCode
      */
-    public static void startActivity(Activity context, Class cls, int flags, String key, Object data, View view, int requestCode) {
+    public static void startActivity(Activity context, Class cls, int flags, String key, Object data, View view, int requestCode, boolean isMainPage) {
         Intent intent = new Intent(context, cls);
         intent.addFlags(flags);
 
         if (null != data)
             CommonExtra.putExtra(intent, key, data);
+
+        if (isMainPage)
+            CommonExtra.putExtra(intent, Constants.PAGE_IS_MAIN, true);
 
         startActivity(context, intent, view, requestCode);
     }
@@ -946,6 +954,18 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
             else
                 context.startActivity(intent);
         }
+    }
+
+    @Override
+    public void viewHtmlPageFromAsset(Class activityClass, String assetFile, String title, Integer statusBarColor) {
+        CommonExtra extra = new CommonExtra(activityClass);
+
+        if (null != statusBarColor)
+            extra.setExtra(getActivity(), Constants.PAGE_STATUSBAR_COLOR, String.valueOf(statusBarColor));
+        extra.setExtra(getActivity(), Constants.PAGE_TITLE, title);
+        extra.setExtra(getActivity(), Constants.DATA_ASSETS_PATH, assetFile);
+
+        startActivity(extra);
     }
 
     /**
@@ -1008,6 +1028,8 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
 
         if (intent.hasExtra(Constants.PAGE_REQUEST_CODE))
             setRequestCode(intent.getIntExtra(Constants.PAGE_REQUEST_CODE, REQUEST_NONE));
+
+        setSubpage(intent.getBooleanExtra(Constants.PAGE_IS_MAIN, false));
     }
 
     /**

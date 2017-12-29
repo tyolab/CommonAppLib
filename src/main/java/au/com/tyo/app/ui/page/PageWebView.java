@@ -9,7 +9,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import java.io.IOException;
-import java.util.List;
 
 import au.com.tyo.app.Constants;
 import au.com.tyo.app.Controller;
@@ -93,11 +92,11 @@ public class PageWebView extends Page implements ValueCallback<String> {
         webView.loadDataWithBaseURL(baseUrl, html, "text/html", "UTF-8", url);
     }
 
-    public void call(String functionName, List params) {
+    public void call(String functionName, Object[] params) {
         call(webView, functionName, params, this);
     }
 
-    public static void call(WebView webView, String functionName, List params, ValueCallback<String> callback) {
+    public static void call(WebView webView, String functionName, Object[] params, ValueCallback<String> callback) {
         StringBuffer callString = new StringBuffer();
 
         for (Object obj : params) {

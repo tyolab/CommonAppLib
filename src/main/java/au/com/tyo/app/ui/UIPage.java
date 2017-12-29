@@ -95,13 +95,17 @@ public interface UIPage extends UIEntity {
 
     View getContentView();
 
-    void startActivity(Class cls);
+    void startActivity(Class cls, boolean isMainPage);
+
+    void startActivity(Class cls, int flags, String key, Object data, View view, int requestCode, boolean isMainActivity);
 
     void startActivity(CommonExtra extra);
 
     void startActivity(Class cls, int flags, String key, Object data, View view, int requestCode);
 
     int getContentViewResId();
+
+    void viewHtmlPageFromAsset(Class activityClass, String assetFile, String title, Integer statusBarColor);
 
     void bindData(Intent intent);
 
