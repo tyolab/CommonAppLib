@@ -711,4 +711,17 @@ public class CommonApp<UIType extends UI, ControllerType extends Controller>
 	public void startActivity(Class cls, boolean mainActivity) {
 		getUi().startActivity(cls, -1, null, null, null, REQUEST_NONE, mainActivity);
 	}
+
+	@Override
+	public void startSplashScreenActivity(Context context) {
+		getUi().startActivity(context, getSplashScreenClass(), false);
+	}
+
+	@Override
+	public void startMainActivity() {
+		Activity activity = getCurrentActivity();
+		startActivity(getMainActivityClass(), true);
+		if (activity != null)
+			activity.finish();
+	}
 }

@@ -206,6 +206,7 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
         this.controller = controller;
         toShowSearchView = false;
         doubleBackToExit = true;
+        setSubpage(true);
 
         configActionBarMenu(controller);
         pageInitializer = PageInitializer.getInstance();
@@ -583,7 +584,7 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
                 if (item instanceof Parcelable) {
                     // just pass the item to the previous activity
                     result = item;
-                    activity.finish();
+                    finish();
                 }
                 else {
                     controller.getUi().getCurrentPage().hideSuggestionView();
@@ -795,10 +796,11 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
             return true;
         }
         else if (isSubpage()) {
-            if (requestCode > -1 && null != result)
-                activity.finishActivity(requestCode);
-            else
-                activity.finish();
+            finish();
+
+            if (controller.getUi().getMainPage() == null)
+                controller.startMainActivity();
+
             return true;
         }
         else {
@@ -826,7 +828,10 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
     }
 
     public void finish() {
-        activity.finish();
+        if (requestCode > -1 && null != result)
+            activity.finishActivity(requestCode);
+        else
+            activity.finish();
     }
 
     public void finishCompletely() {
@@ -1068,7 +1073,8 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
         if (intent.hasExtra(Constants.PAGE_REQUEST_CODE))
             setRequestCode(intent.getIntExtra(Constants.PAGE_REQUEST_CODE, REQUEST_NONE));
 
-        setSubpage(!intent.getBooleanExtra(Constants.PAGE_IS_MAIN, false));
+        if (intent.hasExtra(Constants.PAGE_IS_MAIN))
+            setSubpage(!intent.getBooleanExtra(Constants.PAGE_IS_MAIN, false));
     }
 
     /**
@@ -1119,7 +1125,8 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
                 bodyViewColor = (Integer) map.get(Constants.PAGE_BACKGROUND_COLOR);
             if (map.containsKey(Constants.PAGE_TITLE_FOREGROUND_COLOR))
                 titleTextColor = (Integer) map.get(Constants.PAGE_TITLE_FOREGROUND_COLOR);
-
+            if (map.containsKey(Constants.PAGE_IS_MAIN))
+                setSubpage(!(boolean) map.get(Constants.PAGE_IS_MAIN));
             setRequestCode(map.containsKey(Constants.PAGE_REQUEST_CODE) ? (Integer) map.get(Constants.PAGE_REQUEST_CODE) : REQUEST_NONE);
         }
     }
@@ -1425,6 +1432,8 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
 
     @Override
     public boolean onDestroy() {
+        if (!isSubpage())
+            getController().getUi().setMainPage(null);
         return false;
     }
 
@@ -1484,7 +1493,8 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
 
     @Override
     public void onDataBound() {
-        // no ops yet
+        if (!isSubpage())
+            getController().getUi().setMainPage(this);
     }
 
     public void setPageInFullScreenMode() {

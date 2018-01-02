@@ -51,6 +51,10 @@ public interface UI {
 
 	void startActivity(Class cls, int flags, String key, Object data, View view, int requestCode, boolean isMainActivity);
 
+    UIPage getMainPage();
+
+    void setMainPage(UIPage mainPage);
+
     UIPage getCurrentPage();
 
     void setCurrentScreen(UIPage screen);
@@ -64,4 +68,6 @@ public interface UI {
     Context getContext();
 
     PageWebView.WebPageListener getWebPageListener();
+
+    void startActivity(Context context, Class cls, boolean isMainActivity);
 }

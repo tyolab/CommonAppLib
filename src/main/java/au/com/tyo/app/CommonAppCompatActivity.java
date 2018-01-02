@@ -256,6 +256,9 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 
 	@Override
 	public void finish() {
+		if (controller.getCurrentActivity() == this)
+			controller.setCurrentActivity(null);
+		
         if (null != getPage())
 		    getPage().onFinish();
 

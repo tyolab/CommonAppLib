@@ -9,10 +9,12 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.view.View;
 
 import au.com.tyo.android.AndroidUtils;
+import au.com.tyo.android.CommonUIBase;
 import au.com.tyo.android.DialogFactory;
 import au.com.tyo.app.CommonActivityWebView;
 import au.com.tyo.app.CommonExtra;
@@ -22,7 +24,7 @@ import au.com.tyo.app.ui.page.PageWebView;
 
 import static au.com.tyo.app.Constants.REQUEST_NONE;
 
-public class UIBase implements UI {
+public class UIBase extends CommonUIBase implements UI {
 
 	/**
 	 * It has to be a private member as the sub controller class won't be the same
@@ -37,9 +39,21 @@ public class UIBase implements UI {
 
     private PageWebView.WebPageListener webPageListener;
 
+    private UIPage mainPage;
+
 	public UIBase(Controller controller) {
 		this.controller = controller;
 	}
+
+	@Override
+    public UIPage getMainPage() {
+        return mainPage;
+    }
+
+    @Override
+    public void setMainPage(UIPage mainPage) {
+        this.mainPage = mainPage;
+    }
 
     public UIPage getCurrentPage() {
         return currentScreen;
@@ -148,7 +162,7 @@ public class UIBase implements UI {
 
     @Override
     public void startActivity(Class aClass) {
-        startActivity(aClass, -1, null, null, null, REQUEST_NONE);
+        startActivity(aClass, Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK, null, null, null, REQUEST_NONE);
     }
 
     @Override
@@ -156,7 +170,6 @@ public class UIBase implements UI {
         getCurrentPage().startActivity(extra);
     }
 
-    @Override
     public void startActivity(Class cls, int flags, String key, Object data, View view, int requestCode) {
         startActivity(cls, flags, key, data, view, requestCode, false);
     }
