@@ -111,7 +111,7 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 		UIPage page = getPage();
 
 		if (null == page)
-			throw new IllegalStateException("The page instance is not initialised, please make sure you have set up the page class or assign on properly");
+			throw new IllegalStateException("The page instance is not initialised, please make sure that you have set up the page class or assign on properly");
 
 		page.onPostCreate();
     }
