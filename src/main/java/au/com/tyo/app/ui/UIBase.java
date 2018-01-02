@@ -16,6 +16,7 @@ import au.com.tyo.android.AndroidUtils;
 import au.com.tyo.android.DialogFactory;
 import au.com.tyo.app.CommonActivityWebView;
 import au.com.tyo.app.CommonExtra;
+import au.com.tyo.app.Constants;
 import au.com.tyo.app.Controller;
 import au.com.tyo.app.ui.page.PageWebView;
 
@@ -185,6 +186,27 @@ public class UIBase implements UI {
 
     public void gotoPage(Class cls) {
         startActivity(cls);
+    }
+
+    protected void gotoPageWithData(Class cls, Object data) {
+	    gotoPageWithData(cls, data, true, REQUEST_NONE, null);
+    }
+
+    protected void gotoPageWithData(Class cls, Object data, boolean throughController, int requestCode, String title) {
+        controller.setParcel(null);
+        Context context = getCurrentPage().getActivity();
+
+        CommonExtra extra = new CommonExtra(cls);
+        extra.setRequestCode(requestCode);
+
+        if (null != title)
+            extra.setExtra(context, Constants.PAGE_TITLE, title);
+
+        if (throughController)
+            controller.setParcel(data);
+        else
+            extra.setParcel(data);
+        startActivity(extra);
     }
 
     @Override

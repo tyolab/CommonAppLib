@@ -88,11 +88,23 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
      */
     protected ViewContainerWithProgressBar mainViewContainer;
 
+    /**
+     * Page View
+     */
     protected View pageView;
 
+    /**
+     * Page Progress View
+     */
     protected View pageProgressView;
     protected TextView textViewProgressInfo;
 
+    /**
+     * Page Overlay
+     */
+    private View pageOverlay;
+
+    //############  WITHIN PAGE  ##############
     protected ViewGroup footerView;
 
     protected ViewGroup headerView;
@@ -445,11 +457,12 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
         setupToolbar();
 
         /**
-         *
+         * Page related
          */
         pageView = mainView.findViewById(R.id.tyodroid_page);
         pageProgressView = mainView.findViewById(R.id.tyodroid_page_progress_bar);
         textViewProgressInfo = (TextView) mainView.findViewById(R.id.tv_progress_info);
+        pageOverlay = mainView.findViewById(R.id.tyodroid_page_overlay);
 
         /**
          * the root view of body.xml
@@ -481,6 +494,28 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
             onNetworkDisconnected();
 
         setupActionBarMenu();
+
+        setupPageOverlay(pageOverlay);
+    }
+
+    protected void setupPageOverlay(View pageOverlay) {
+        // no ops
+    }
+
+    protected void hidePageOverlay() {
+        if (null != pageOverlay)
+            pageOverlay.setVisibility(View.GONE);
+    }
+
+    protected void showPageOverlay() {
+        if (null != pageOverlay)
+            pageOverlay.setVisibility(View.VISIBLE);
+    }
+
+    protected boolean isPageOverlayVisible() {
+        if (null != pageOverlay)
+            return pageOverlay.getVisibility() == (View.VISIBLE);
+        return false;
     }
 
     protected void loadContentView() {
@@ -755,7 +790,11 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
      */
     @Override
     public boolean onBackPressed() {
-        if (isSubpage()) {
+        if (isPageOverlayVisible()) {
+            hidePageOverlay();
+            return true;
+        }
+        else if (isSubpage()) {
             if (requestCode > -1 && null != result)
                 activity.finishActivity(requestCode);
             else
