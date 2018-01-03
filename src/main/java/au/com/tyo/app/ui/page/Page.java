@@ -903,7 +903,7 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
      */
     @Override
     public void startActivity(Class cls, boolean isMainPage) {
-        startActivity(cls, Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP, Constants.DATA, null, null, -1, isMainPage);
+        startActivity(cls, -1, Constants.DATA, null, null, -1, isMainPage);
     }
 
     /**
@@ -949,7 +949,9 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
      */
     public static void startActivity(Activity context, Class cls, int flags, String key, Object data, View view, int requestCode, boolean isMainPage) {
         Intent intent = new Intent(context, cls);
-        intent.addFlags(flags);
+
+        if (flags > -1)
+            intent.addFlags(flags);
 
         if (null != data)
             CommonExtra.putExtra(intent, key, data);
@@ -984,7 +986,8 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
                     view,
                     Constants.BUNDLE).toBundle();
 
-        intent.putExtra(Constants.PAGE_REQUEST_CODE, requestCode);
+        if (requestCode != REQUEST_NONE)
+            intent.putExtra(Constants.PAGE_REQUEST_CODE, requestCode);
 
         if (null != options && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             if (requestCode > REQUEST_NONE)

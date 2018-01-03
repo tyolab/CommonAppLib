@@ -9,7 +9,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.view.View;
 
@@ -162,7 +161,7 @@ public class UIBase extends CommonUIBase implements UI {
 
     @Override
     public void startActivity(Class aClass) {
-        startActivity(aClass, Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK, null, null, null, REQUEST_NONE);
+        startActivity(aClass, -1/*Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK*/, null, null, null, REQUEST_NONE);
     }
 
     @Override
