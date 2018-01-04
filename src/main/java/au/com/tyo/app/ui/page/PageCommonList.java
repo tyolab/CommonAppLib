@@ -208,14 +208,6 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-
-        // we finish using the parcel
-        getController().setParcel(null);
-    }
-
-    @Override
     public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 

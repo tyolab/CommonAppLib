@@ -1508,6 +1508,9 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
     public void onDataBound() {
         if (!isSubpage())
             getController().getUi().setMainPage(this);
+
+        // we finish using the parcel if there is one
+        controller.setParcel(null);
     }
 
     public void setPageInFullScreenMode() {
