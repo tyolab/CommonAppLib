@@ -216,13 +216,6 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
     }
 
     @Override
-    public void onFinish() {
-        super.onFinish();
-        if (null != getController().getParcel())
-            getController().setParcel(null);
-    }
-
-    @Override
     public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -233,5 +226,12 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
             return true;
         }
         return false;
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        // clear result
+        setResult(null);
+        return super.onBackPressed();
     }
 }

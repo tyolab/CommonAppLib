@@ -207,6 +207,7 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
         toShowSearchView = false;
         doubleBackToExit = true;
         setSubpage(true);
+        setResult(null);
 
         configActionBarMenu(controller);
         pageInitializer = PageInitializer.getInstance();
@@ -355,7 +356,7 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
             bodyView.detectScreenLocation();
 
             DisplayMetrics dm = new DisplayMetrics();
-            controller.getCurrentActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
+            getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
             int offset = dm.heightPixels - bodyView.getMeasuredHeight();
             bodyView.setScreenOffset(offset);
         }
@@ -828,10 +829,36 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
     }
 
     public void finish() {
-        if (requestCode > -1 && null != result)
-            activity.finishActivity(requestCode);
-        else
-            activity.finish();
+        checkIfFinishWithResult();
+
+//        if (requestCode > -1 && null != result)
+//            activity.finishActivity(requestCode);
+//        else
+        activity.finish();
+    }
+
+    private void checkIfFinishWithResult() {
+        if (null != result) {
+            Intent resultIntent = new Intent();
+
+            if (requestCode < 5000) {
+                if (result instanceof Parcelable)
+                    resultIntent.putExtra(Constants.RESULT, (Parcelable) result);
+                else if (result instanceof Parcelable[])
+                    resultIntent.putExtra(Constants.RESULT, (Parcelable[]) result);
+                else if (result instanceof String)
+                    resultIntent.putExtra(Constants.RESULT, (String) result);
+                else {
+                    resultIntent.putExtra(Constants.RESULT_LOCATION, Constants.RESULT_LOCATION_CONTROLLER);
+                    controller.setResult(result);
+                }
+            }
+            else {
+                resultIntent.putExtra(Constants.RESULT_LOCATION, Constants.RESULT_LOCATION_CONTROLLER);
+                controller.setResult(result);
+            }
+            activity.setResult(Activity.RESULT_OK, resultIntent);
+        }
     }
 
     public void finishCompletely() {
@@ -1145,29 +1172,12 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
         return null;
     }
 
+    /**
+     * This function will be called when the activity finish function is called
+     */
     @Override
     public void onFinish() {
-        if (null != result) {
-            Intent resultIntent = new Intent();
-
-            if (requestCode < 5000) {
-                if (result instanceof Parcelable)
-                    resultIntent.putExtra(Constants.RESULT, (Parcelable) result);
-                else if (result instanceof Parcelable[])
-                    resultIntent.putExtra(Constants.RESULT, (Parcelable[]) result);
-                else if (result instanceof String)
-                    resultIntent.putExtra(Constants.RESULT, (String) result);
-                else {
-                    resultIntent.putExtra(Constants.RESULT_LOCATION, Constants.RESULT_LOCATION_CONTROLLER);
-                    controller.setResult(result);
-                }
-            }
-            else {
-                resultIntent.putExtra(Constants.RESULT_LOCATION, Constants.RESULT_LOCATION_CONTROLLER);
-                controller.setResult(result);
-            }
-            activity.setResult(Activity.RESULT_OK, resultIntent);
-        }
+        // no ops
     }
 
     @Override

@@ -31,7 +31,7 @@ dependencies {
     compile project(':CommonAndroid')
     compile project(':CommonUiLib')
 
-    compile 'com.google.android.gms:play-services-ads:11.8.0'
+    compile 'com.google.android.gms:play-services-ads:11.2.2'
 
     // Calligraphy
     compile 'uk.co.chrisjenx:calligraphy:2.3.0'
