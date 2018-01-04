@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         minSdkVersion 14
@@ -31,7 +31,7 @@ dependencies {
     compile project(':CommonAndroid')
     compile project(':CommonUiLib')
 
-    compile 'com.google.android.gms:play-services-ads:11.2.2'
+    compile 'com.google.android.gms:play-services-ads:11.8.0'
 
     // Calligraphy
     compile 'uk.co.chrisjenx:calligraphy:2.3.0'
