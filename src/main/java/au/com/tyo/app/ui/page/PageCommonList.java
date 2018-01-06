@@ -40,7 +40,7 @@ import au.com.tyo.app.ui.UIList;
  * Created by Eric Tang (eric.tang@tyo.com.au) on 27/7/17.
  */
 
-public class PageCommonList<T extends Controller> extends Page<T> implements AdapterView.OnItemClickListener, UIList {
+public class PageCommonList<T extends Controller> extends Page<T> implements UIList {
 
     private ListView listView;
     private BaseAdapter adapter;
@@ -83,7 +83,14 @@ public class PageCommonList<T extends Controller> extends Page<T> implements Ada
     }
 
     public AdapterView.OnItemClickListener getOnItemClickListener() {
-        return this;
+        return new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Object item = adapter.getItem(position);
+                setResult(item);
+                finish();
+            }
+        };
     }
 
     public boolean isListAdapter() {
@@ -191,13 +198,6 @@ public class PageCommonList<T extends Controller> extends Page<T> implements Ada
         adapter.notifyDataSetChanged();
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Object item = adapter.getItem(position);
-        setResult(item);
-        finish();
-    }
-
     public void setAdapter(ListWithHeadersAdapter adapter) {
         this.adapter = adapter;
     }
@@ -205,21 +205,6 @@ public class PageCommonList<T extends Controller> extends Page<T> implements Ada
     @Override
     public BaseAdapter getBaseAdapter() {
         return adapter;
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        // we finish using the parcel
-        getController().setParcel(null);
-    }
-
-    @Override
-    public void onFinish() {
-        super.onFinish();
-        if (null != getController().getParcel())
-            getController().setParcel(null);
     }
 
     @Override
@@ -233,5 +218,12 @@ public class PageCommonList<T extends Controller> extends Page<T> implements Ada
             return true;
         }
         return false;
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        // clear result
+        setResult(null);
+        return super.onBackPressed();
     }
 }
