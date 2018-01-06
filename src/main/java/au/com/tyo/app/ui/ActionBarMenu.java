@@ -6,8 +6,16 @@ package au.com.tyo.app.ui;
 
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by Eric Tang (eric.tang@tyo.com.au) on 17/7/17.
@@ -28,6 +36,10 @@ public class ActionBarMenu {
     private boolean initialized;
 
     private Menu menu;
+
+    private Map<Integer, MenuItem> menuItemMap;
+
+    private Integer textColor = null;
 
     public ActionBarMenu() {
         setInitialized(false);
@@ -74,8 +86,12 @@ public class ActionBarMenu {
     public void setupMenu(Menu menu, MenuItem.OnMenuItemClickListener onMenuItemClickListener) {
         this.menu = menu;
 
+        this.menuItemMap = new HashMap();
         for (int i = 0; i < menu.size(); ++i) {
             MenuItem menuItem = menu.getItem(i);
+
+            menuItemMap.put(menuItem.getItemId(), menuItem);
+
             menuItem.setOnMenuItemClickListener(onMenuItemClickListener);
         }
     }
@@ -92,5 +108,46 @@ public class ActionBarMenu {
             getSupportActionBar().show();
         else if (null != getActionBar())
             getActionBar().show();
+    }
+
+    public void setMenuTitle(int id, String title) {
+        MenuItem menuITem = menuItemMap.get(id);
+        if (null != menuITem) {
+            setMenuItemTitle(menuITem, title);
+        }
+        else
+            Log.e(TAG, "Menu item with id " + id + " can't not be found");
+    }
+
+    /**
+     * or you can change the menu item text color in the theme
+     * <item name="android:actionMenuTextColor">@color/menuTextColor</item>
+     *
+     * @param menuTextColor
+     */
+    public void setMenuTextColor(Integer menuTextColor) {
+        if (null == menuTextColor || null == menu)
+            return;
+
+        textColor = menuTextColor;
+        for (int i = 0; i < menu.size(); ++i) {
+            MenuItem menuItem = menu.getItem(i);
+            String title = menuItem.getTitle().toString();
+
+            setMenuItemTitle(menuItem, title);
+        }
+    }
+
+    public void setMenuItemTitle(MenuItem menuItem, String title) {
+        if (title.length() == 0)
+            return;
+
+        if (null == textColor)
+            menuItem.setTitle(title);
+        else {
+            SpannableString spanString = new SpannableString(title);
+            spanString.setSpan(new ForegroundColorSpan(textColor), 0, spanString.length(), 0); //fix the color to white
+            menuItem.setTitle(spanString);
+        }
     }
 }

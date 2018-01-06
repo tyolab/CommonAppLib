@@ -368,4 +368,12 @@
         <item name="android:textColor">@color/grey</item>
     </style>
 
+    <style name="CommonPopupTheme.Light" parent="ThemeOverlay.AppCompat.Light">
+
+    </style>
+
+    <style name="CommonPopupTheme.Dark" parent="ThemeOverlay.AppCompat.Dark">
+
+    </style>
+
 </resources>
