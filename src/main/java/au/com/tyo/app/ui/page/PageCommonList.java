@@ -44,6 +44,7 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
 
     private ListView listView;
     private BaseAdapter adapter;
+    private AdapterView.OnItemClickListener onItemClickListener;
 
     public PageCommonList(T controller, Activity activity) {
         super(controller, activity);
@@ -55,6 +56,10 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
 
     protected void createAdapter() {
         adapter = new ListViewItemAdapter();
+    }
+
+    public void setOnItemClickListener(AdapterView.OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
 
     @Override
@@ -70,8 +75,8 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
     }
 
     @Override
-    public void onDataBound() {
-        super.onDataBound();
+    public void onActivityStart() {
+        super.onActivityStart();
 
         if (null != listView) {
             listView.setAdapter(adapter);
@@ -83,14 +88,16 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
     }
 
     public AdapterView.OnItemClickListener getOnItemClickListener() {
-        return new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Object item = adapter.getItem(position);
-                setResult(item);
-                finish();
-            }
-        };
+        if (null == onItemClickListener)
+            return new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Object item = adapter.getItem(position);
+                    setResult(item);
+                    finish();
+                }
+            };
+        return onItemClickListener;
     }
 
     public boolean isListAdapter() {
