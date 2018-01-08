@@ -129,6 +129,9 @@ public class ActionBarMenu {
         if (null == menuTextColor || null == menu)
             return;
 
+        if (null != toolbar)
+            toolbar.setTitleTextColor(menuTextColor);
+
         textColor = menuTextColor;
         for (int i = 0; i < menu.size(); ++i) {
             MenuItem menuItem = menu.getItem(i);
