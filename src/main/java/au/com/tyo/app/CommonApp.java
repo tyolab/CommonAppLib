@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -36,12 +37,15 @@ import au.com.tyo.android.CommonApplicationImpl;
 import au.com.tyo.android.CommonInitializer;
 import au.com.tyo.android.DialogFactory;
 import au.com.tyo.android.NetworkMonitor;
+import au.com.tyo.android.services.HttpAndroid;
 import au.com.tyo.android.services.ImageDownloader;
 import au.com.tyo.app.model.DisplayItem;
 import au.com.tyo.app.model.ImagedSearchableItem;
 import au.com.tyo.app.model.Searchable;
 import au.com.tyo.app.ui.UI;
 import au.com.tyo.app.ui.UIBase;
+import au.com.tyo.services.HttpPool;
+import au.com.tyo.utils.StringUtils;
 
 import static au.com.tyo.app.Constants.REQUEST_NONE;
 
@@ -52,6 +56,8 @@ import static au.com.tyo.app.Constants.REQUEST_NONE;
 public class CommonApp<UIType extends UI, ControllerType extends Controller>
         extends CommonApplicationImpl<ControllerType>
         implements Controller<UIType> {
+
+	private static final String TAG = "CommonApp";
 	
 	/* Common App MVC, Settings */
 	
@@ -673,7 +679,19 @@ public class CommonApp<UIType extends UI, ControllerType extends Controller>
 
 	@Override
 	public void initializeOnce() {
-		// do nothing
+		initializeHttpConnectionPool();
+	}
+
+	protected void initializeHttpConnectionPool() {
+        if (!HttpPool.hasSetHttpConnectionClass())
+            HttpPool.setHttpConnectionClass(HttpAndroid.class);
+        try {
+            HttpPool.initialize();
+        } catch (IllegalAccessException e) {
+            Log.e(TAG, StringUtils.exceptionStackTraceToString(e));
+        } catch (InstantiationException e) {
+            Log.e(TAG, StringUtils.exceptionStackTraceToString(e));
+        }
 	}
 
 	@Override

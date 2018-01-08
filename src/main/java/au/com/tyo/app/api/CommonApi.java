@@ -1,16 +1,21 @@
 package au.com.tyo.app.api;
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.io.InputStream;
 
 import au.com.tyo.services.HttpConnection;
 import au.com.tyo.services.HttpPool;
+import au.com.tyo.utils.StringUtils;
 
 /**
  * Created by Eric Tang (eric.tang@tyo.com.au) on 13/12/17.
  */
 
 public class CommonApi {
+
+    private static final String TAG = "CommonApi";
 
     protected String host;
 
@@ -77,10 +82,12 @@ public class CommonApi {
         String result = null;
         try {
             HttpConnection http = HttpPool.getConnection();
-            inputStream = http.postJSON(url, json);
-            result = HttpConnection.httpInputStreamToText(inputStream);
+            result = http.postJSONForResult(url, json);
+            // inputStream = http.postJSON(url, json);
+            //result = HttpConnection.httpInputStreamToText(inputStream);
         }
         catch (Exception ex) {
+            Log.e(TAG, StringUtils.exceptionStackTraceToString(ex));
             return "";
         }
         finally {
