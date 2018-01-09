@@ -31,10 +31,8 @@ public class PageWebView extends Page implements ValueCallback<String> {
     protected WebChromeClient webChromeClient;
 
     public interface WebPageListener extends ValueCallback<String> {
-        void onPageFinishedLoading(WebView webView);
+        void onPageFinishedLoading(WebView webView, String url);
     }
-
-    private WebPageListener webPageListener;
 
     /**
      * @param controller
@@ -43,8 +41,10 @@ public class PageWebView extends Page implements ValueCallback<String> {
     public PageWebView(Controller controller, Activity activity) {
         super(controller, activity);
         setContentViewResId(R.layout.webview);
+    }
 
-        webPageListener = controller.getUi().getWebPageListener();
+    public WebView getWebView() {
+        return webView;
     }
 
     public void setWebViewClient(WebViewClient webViewClient) {
@@ -60,19 +60,11 @@ public class PageWebView extends Page implements ValueCallback<String> {
         super.setupComponents();
         webView = (WebView) findViewById(R.id.webview);
 
-        webView.setWebChromeClient(webChromeClient == null ? (webChromeClient = new WebChromeClient()) : webChromeClient);
-        webView.setWebViewClient(webViewClient == null ? (webViewClient = new WebViewClient() {
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                super.onPageFinished(view, url);
+        webView.setWebChromeClient(webChromeClient == null ? (webChromeClient = new CommonWebChromeClient()) : webChromeClient);
+        webView.setWebViewClient(webViewClient == null ? (webViewClient = new CommonWebViewClient(getController().getUi().getWebPageListener())) : webViewClient);
 
-                if (null != webPageListener)
-                    webPageListener.onPageFinishedLoading(webView);
-            }
-        }) : webViewClient);
-
-        webView.clearCache(true);
-        webView.clearHistory();
+        // webView.clearCache(true);
+        // webView.clearHistory();
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
     }
@@ -109,6 +101,10 @@ public class PageWebView extends Page implements ValueCallback<String> {
         call(webView, functionName, params, this);
     }
 
+    public void call(String what) {
+        call(webView, what);
+    }
+
     public static void call(WebView webView, String functionName, Object[] params, ValueCallback<String> callback) {
         StringBuffer callString = new StringBuffer();
 
@@ -124,15 +120,43 @@ public class PageWebView extends Page implements ValueCallback<String> {
 
         String full = functionName + "(" + callString.toString() + ")";
 
+        call(webView, full, callback);
+    }
+    public static void call(WebView webView, String full) {
+        call(webView, full, null);
+    }
+
+    public static void call(WebView webView, String full, ValueCallback<String> callback) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
             webView.evaluateJavascript(full, callback);
         } else {
-            webView.loadUrl("javascript:" + full + ";");
+            webView.loadUrl("javascript:" + full + "");
         }
     }
 
     @Override
     public void onReceiveValue(String value) {
         // no ops
+    }
+
+    public static class CommonWebViewClient extends WebViewClient {
+
+        private WebPageListener webPageListener;
+
+        public CommonWebViewClient(WebPageListener webPageListener) {
+            this.webPageListener = webPageListener;
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+
+            if (null != webPageListener)
+                webPageListener.onPageFinishedLoading(view, url);
+        }
+    }
+
+    public static class CommonWebChromeClient extends WebChromeClient {
+
     }
 }

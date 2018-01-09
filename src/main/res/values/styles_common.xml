@@ -204,7 +204,7 @@
 
         <item name="bodyStyle">@style/BodyStyle</item>
 
-        <item name="actionOverflowButtonStyle">@style/AppMenuStyle.Light</item>
+        <item name="actionOverflowButtonStyle">@style/AppStyle.Menu.Light</item>
     </style>
 
     <style name="CommonTheme.Dark" parent="Theme.AppCompat.NoActionBar" />
@@ -274,7 +274,7 @@
 
         <item name="bodyStyle">@style/BodyStyle</item>
 
-        <item name="actionOverflowButtonStyle">@style/AppMenuStyle.Dark</item>
+        <item name="actionOverflowButtonStyle">@style/AppStyle.Menu.Dark</item>
     </style>
 
     <style name="CommonAppBaseTheme.Light" parent="CommonTheme.Light.Pale">

@@ -12,9 +12,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import static android.content.ContentValues.TAG;
 
 /**
@@ -36,8 +33,6 @@ public class ActionBarMenu {
     private boolean initialized;
 
     private Menu menu;
-
-    private Map<Integer, MenuItem> menuItemMap;
 
     private Integer textColor = null;
 
@@ -86,12 +81,8 @@ public class ActionBarMenu {
     public void setupMenu(Menu menu, MenuItem.OnMenuItemClickListener onMenuItemClickListener) {
         this.menu = menu;
 
-        this.menuItemMap = new HashMap();
         for (int i = 0; i < menu.size(); ++i) {
             MenuItem menuItem = menu.getItem(i);
-
-            menuItemMap.put(menuItem.getItemId(), menuItem);
-
             menuItem.setOnMenuItemClickListener(onMenuItemClickListener);
         }
     }
@@ -111,7 +102,7 @@ public class ActionBarMenu {
     }
 
     public void setMenuTitle(int id, String title) {
-        MenuItem menuITem = menuItemMap.get(id);
+        MenuItem menuITem = menu.findItem(id);
         if (null != menuITem) {
             setMenuItemTitle(menuITem, title);
         }
@@ -152,5 +143,10 @@ public class ActionBarMenu {
             spanString.setSpan(new ForegroundColorSpan(textColor), 0, spanString.length(), 0); //fix the color to white
             menuItem.setTitle(spanString);
         }
+    }
+
+    public void setMenuItemVisible(int itemId, boolean visible) {
+        MenuItem item = this.menu.findItem(itemId);
+        item.setVisible(visible);
     }
 }
