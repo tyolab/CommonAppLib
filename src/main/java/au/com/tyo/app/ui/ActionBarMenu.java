@@ -5,12 +5,15 @@
 package au.com.tyo.app.ui;
 
 import android.support.v7.app.ActionBar;
+import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import java.lang.reflect.Method;
 
 import static android.content.ContentValues.TAG;
 
@@ -120,8 +123,8 @@ public class ActionBarMenu {
         if (null == menuTextColor || null == menu)
             return;
 
-        if (null != toolbar)
-            toolbar.setTitleTextColor(menuTextColor);
+//        if (null != toolbar)
+//            toolbar.setTitleTextColor(menuTextColor);
 
         textColor = menuTextColor;
         for (int i = 0; i < menu.size(); ++i) {
@@ -147,6 +150,25 @@ public class ActionBarMenu {
 
     public void setMenuItemVisible(int itemId, boolean visible) {
         MenuItem item = this.menu.findItem(itemId);
-        item.setVisible(visible);
+        if (null != item)
+            item.setVisible(visible);
+    }
+
+    public void showOptionMenuIcon() {
+        if(menu instanceof MenuBuilder){
+            MenuBuilder menuBuilder = (MenuBuilder) menu;
+            try{
+                Method m = menu.getClass().getDeclaredMethod(
+                        "setOptionalIconsVisible", Boolean.TYPE);
+                m.setAccessible(true);
+                m.invoke(menu, true);
+            }
+            catch(NoSuchMethodException e){
+                Log.e(TAG, "showOptionMenuIcon", e);
+            }
+            catch(Exception e){
+                throw new RuntimeException(e);
+            }
+        }
     }
 }

@@ -267,7 +267,8 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		return getPage().onCreateOptionsMenu(getMenuInflater(), menu);
+		getPage().onCreateOptionsMenu(getMenuInflater(), menu);
+		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
