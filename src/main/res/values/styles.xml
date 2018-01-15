@@ -46,6 +46,14 @@
 
     </style>
 
+    <style name="AppStyle.Menu">
+
+    </style>
+
+    <style name="AppStyle">
+
+    </style>
+
     <style name="ToolbarStyle">
 
     </style>
