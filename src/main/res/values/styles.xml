@@ -1,6 +1,9 @@
 <resources>
-    
-    <style name="HeaderStyle">
+    <style name="AppStyle">
+
+    </style>
+
+    <style name="AppStyle.Header">
         <!--
         <item name="android:windowBackground">@color/header_background_color</item>
     	<item name="android:colorBackground">@color/header_background_color</item>
@@ -8,7 +11,7 @@
     	<item name="android:background">@color/header_background_color</item>
     </style>
     
-    <style name="BodyStyle">
+    <style name="AppStyle.Body">
         <!--
         <item name="android:windowBackground">@color/body_background_color</item>
     	<item name="android:colorBackground">@color/body_background_color</item>
@@ -16,25 +19,29 @@
     	<item name="android:background">@color/body_background_color</item>
     </style> 
     
-    <style name="FooterStyle">
+    <style name="AppStyle.Footer">
         <!--
         <item name="android:windowBackground">@color/footer_background_color</item>
     	<item name="android:colorBackground">@color/footer_background_color</item>
     	-->
     	<item name="android:background">@color/footer_background_color</item>
-    </style>    
-    
-    <style name="SuggestionTextStyle">
+    </style>
+
+    <style name="AppStyle.Suggestion">
+
+    </style>
+
+    <style name="AppStyle.Suggestion.Text">
         <item name="android:textAppearance">?android:attr/textAppearanceMediumInverse</item>
     </style>
 
-    <style name="TyoDroid.Widget.ProgressBar.Inverse" parent="@android:style/Widget.ProgressBar.Inverse">
+    <style name="AppStyle.Widget.ProgressBar.Inverse" parent="@android:style/Widget.ProgressBar.Inverse">
     </style>
 
-    <style name="TyoDroid.Widget.ProgressBar" parent="@android:style/Widget.ProgressBar">
+    <style name="AppStyle.Widget.ProgressBar" parent="@android:style/Widget.ProgressBar">
     </style>
 
-    <style name="AppMenuStyle" parent="@style/Widget.AppCompat.ActionButton.Overflow" >
+    <style name="AppStyle.Menu" parent="@style/Widget.AppCompat.ActionButton.Overflow" >
 
     </style>
 
@@ -43,14 +50,6 @@
     </style>
 
     <style name="AppStyle.Menu.Dark">
-
-    </style>
-
-    <style name="AppStyle.Menu">
-
-    </style>
-
-    <style name="AppStyle">
 
     </style>
 

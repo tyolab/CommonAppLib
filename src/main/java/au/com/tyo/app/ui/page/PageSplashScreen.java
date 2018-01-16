@@ -239,8 +239,8 @@ public class PageSplashScreen extends Page implements SplashScreenMessageListene
             if (!controller.onBackgroundTaskEnded(PageSplashScreen.this.getActivity())) {
                 controller.startMainActivity();
 
-                // close this activity
-                finish();
+                // close this activity, called in the above method
+                // finish();
             }
         }
     }
