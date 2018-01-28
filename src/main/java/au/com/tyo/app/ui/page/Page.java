@@ -830,10 +830,6 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
 
     public void finish() {
         checkIfFinishWithResult();
-
-//        if (requestCode > -1 && null != result)
-//            activity.finishActivity(requestCode);
-//        else
         activity.finish();
     }
 
@@ -898,8 +894,6 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
     }
 
     public void showProgressBar(String info) {
-//        if (null != pageView)
-//            pageView.setVisibility(View.GONE);
         if (null != pageProgressView && pageProgressView.getVisibility() != View.VISIBLE)
             pageProgressView.setVisibility(View.VISIBLE);
         if (null != textViewProgressInfo)
@@ -911,7 +905,6 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
      */
     @Override
     public void onNetworkDisconnected() {
-//		footerView.setVisibility(View.GONE);
         hideAd();
     }
 
@@ -920,7 +913,6 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
      */
     @Override
     public void onNetworkConnected() {
-//		footerView.setVisibility(View.VISIBLE);
         showAd();
     }
 

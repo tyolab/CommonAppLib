@@ -7,7 +7,7 @@
 	android:paddingBottom="@dimen/header_padding_bottom"
  -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/HeaderStyle"
+    style="@style/AppStyle.Header"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:minHeight="@dimen/header_height_minimum"

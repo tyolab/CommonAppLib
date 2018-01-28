@@ -196,13 +196,13 @@
 
         <item name="searchBarBackground">@drawable/searchbar_bg_light</item>
 
-        <item name="progressBarStyle">@style/TyoDroid.Widget.ProgressBar.Inverse</item>
+        <item name="progressBarStyle">@style/AppStyle.Widget.ProgressBar.Inverse</item>
 
         <item name="fragmentTitleStyle">@style/CommonFragmentTitleStyleExtra.Light</item>
 
         <item name="dialogStyle">@style/CommonDialog.Light</item>
 
-        <item name="bodyStyle">@style/BodyStyle</item>
+        <item name="bodyStyle">@style/AppStyle.Body</item>
 
         <item name="actionOverflowButtonStyle">@style/AppStyle.Menu.Light</item>
     </style>
@@ -267,12 +267,12 @@
 
         <item name="searchBarBackground">@drawable/searchbar_bg_dark</item>
 
-        <item name="progressBarStyle">@style/TyoDroid.Widget.ProgressBar</item>
+        <item name="progressBarStyle">@style/AppStyle.Widget.ProgressBar</item>
 
         <item name="fragmentTitleStyle">@style/CommonFragmentTitleStyleExtra.Dark</item>
         <item name="dialogStyle">@style/CommonDialog.Dark</item>
 
-        <item name="bodyStyle">@style/BodyStyle</item>
+        <item name="bodyStyle">@style/AppStyle.Body</item>
 
         <item name="actionOverflowButtonStyle">@style/AppStyle.Menu.Dark</item>
     </style>
