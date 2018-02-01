@@ -1324,8 +1324,8 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
 
     protected boolean onMenuCreated(Menu menu) {
         // by default no menu created
-//        getActionBarMenu().setupMenu(menu, this);
-//        getActionBarMenu().setMenuTextColor(titleTextColor);
+        getActionBarMenu().setupMenu(menu, this);
+        getActionBarMenu().setMenuTextColor(titleTextColor);
         return true;
     }
 
