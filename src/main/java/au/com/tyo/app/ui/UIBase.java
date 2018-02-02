@@ -161,7 +161,12 @@ public class UIBase extends CommonUIBase implements UI {
 
     @Override
     public void startActivity(Class aClass) {
-        startActivity(aClass, -1/*Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK*/, null, null, null, REQUEST_NONE);
+        startActivity(aClass, null);
+    }
+
+    @Override
+    public void startActivity(Class aClass, Object data) {
+        startActivity(aClass, -1/*Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK*/, null, data, null, REQUEST_NONE);
     }
 
     @Override
@@ -198,6 +203,10 @@ public class UIBase extends CommonUIBase implements UI {
 
     public void gotoPage(Class cls) {
         startActivity(cls);
+    }
+
+    public void gotoPage(Class cls, Object data) {
+        startActivity(cls, data);
     }
 
     protected void gotoPageWithData(Class cls, Object data) {

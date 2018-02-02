@@ -426,11 +426,6 @@ public class PageAgent {
          */
         setupActionbar();
 
-		/*
-		 * now show the overflow menu
-		 */
-        showOverflowMenu();
-
         processExtras(savedInstanceState);
 
         if (null != uiActivity)

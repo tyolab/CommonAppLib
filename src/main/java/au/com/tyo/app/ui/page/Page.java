@@ -973,7 +973,7 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
             intent.addFlags(flags);
 
         if (null != data)
-            CommonExtra.putExtra(intent, key, data);
+            CommonExtra.putExtra(intent, key != null ? key : Constants.DATA, data);
 
         if (isMainPage)
             CommonExtra.putExtra(intent, Constants.PAGE_IS_MAIN, true);

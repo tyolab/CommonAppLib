@@ -45,7 +45,9 @@ public interface UI {
 
     void startActivity(Class activityTripClass);
 
-	void startActivity(CommonExtra extra);
+    void startActivity(Class aClass, Object data);
+
+    void startActivity(CommonExtra extra);
 
     void startActivity(Class cls, int flags, String key, Object data, View view, int requestCode);
 
