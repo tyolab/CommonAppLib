@@ -1541,17 +1541,21 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
     //////////////////////////////////////////////////////////////////////
     private ProgressTask task = null;
 
+    public void startBackgroundTask() {
+        startBackgroundTask(this);
+    }
+
     /**
      *
      */
-    public void startBackgroundTask() {
+    public void startBackgroundTask(Runnable runnable) {
         setResult(null);
 
         if (null != mainViewContainer)
-            mainViewContainer.startTask(this);
+            mainViewContainer.startTask(runnable);
         else {
             if (task == null) {
-                task = new ProgressTask(this);
+                task = new ProgressTask(runnable);
                 task.execute();
             }
         }
