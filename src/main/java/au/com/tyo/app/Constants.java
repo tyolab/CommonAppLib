@@ -72,6 +72,7 @@ public interface Constants extends au.com.tyo.android.Constants {
 
 	int REQUEST_CODE = 999;
     int REQUEST_NONE = -1;
+	int REQUEST_PICK = 1;
 
     int MESSAGE_SERVICE_REGISTER_CLIENT = 1234;
 	int MESSAGE_SERVICE_UNREGISTER_CLIENT = 4321;
