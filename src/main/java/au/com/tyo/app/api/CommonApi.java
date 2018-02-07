@@ -99,4 +99,7 @@ public class CommonApi {
         return result;
     }
 
+    public String get(String url) {
+        return loadUrl(url);
+    }
 }
