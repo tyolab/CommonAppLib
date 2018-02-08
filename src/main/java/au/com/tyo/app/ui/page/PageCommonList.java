@@ -30,7 +30,6 @@ import java.util.List;
 import java.util.Map;
 
 import au.com.tyo.android.adapter.ListViewItemAdapter;
-import au.com.tyo.android.adapter.ListWithHeadersAdapter;
 import au.com.tyo.app.Constants;
 import au.com.tyo.app.Controller;
 import au.com.tyo.app.R;
@@ -56,6 +55,15 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
 
     protected void createAdapter() {
         adapter = new ListViewItemAdapter();
+    }
+
+    @Override
+    public BaseAdapter getBaseAdapter() {
+        return adapter;
+    }
+
+    public void setBaseAdapter(BaseAdapter adapter) {
+        this.adapter = adapter;
     }
 
     public void setOnItemClickListener(AdapterView.OnItemClickListener onItemClickListener) {
@@ -203,15 +211,6 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
         else
             throw new IllegalStateException("Unknown adapter type");
         adapter.notifyDataSetChanged();
-    }
-
-    public void setAdapter(ListWithHeadersAdapter adapter) {
-        this.adapter = adapter;
-    }
-
-    @Override
-    public BaseAdapter getBaseAdapter() {
-        return adapter;
     }
 
     @Override
