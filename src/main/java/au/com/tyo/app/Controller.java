@@ -44,7 +44,9 @@ public interface Controller<T extends UI> extends CommonController {
 
 	void onMessageBackgroundTaskStageSix();
 
-	void onMessageCustomTwo();
+    void onMessageCustomThree();
+
+    void onMessageCustomTwo();
 
 	void onMessageCustomOne();
 

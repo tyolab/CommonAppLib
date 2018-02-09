@@ -176,7 +176,7 @@ public class CommonApp<UIType extends UI, ControllerType extends Controller>
                     onMessageCustomTwo();
                     break;
                 case Constants.MESSAGE_CUSTOM_THREE:
-                    onMessageCustomOne();
+                    onMessageCustomThree();
                     break;
                 case Constants.MESSAGE_CUSTOM_FOUR:
                     onMessageCustomFour();
@@ -234,6 +234,11 @@ public class CommonApp<UIType extends UI, ControllerType extends Controller>
     public void onMessageBackgroundTaskStageSix() {
 
     }
+
+	@Override
+	public void onMessageCustomThree() {
+
+	}
 
     @Override
     public void onMessageCustomTwo() {
