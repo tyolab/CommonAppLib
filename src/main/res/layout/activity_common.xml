@@ -11,39 +11,6 @@
         android:id="@+id/tyodroid_toolbar"
         />
 
-    <android.support.v4.widget.DrawerLayout
-        android:id="@+id/tyodroid_drawers"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <include layout="@layout/common_drawers" />
 
-
-        <include layout="@layout/common_page" />
-
-        <FrameLayout
-            android:id="@+id/left_drawer_view"
-            android:layout_width="@dimen/drawer_left_width"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_gravity="start"
-            >
-
-            <!--
-            <include layout="@layout/left_drawer_view" />
-             -->
-        </FrameLayout>
-
-        <FrameLayout
-            android:id="@+id/right_drawer_view"
-            android:layout_width="@dimen/drawer_right_width"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_gravity="end"
-            >
-
-            <!--
-            <include layout="@layout/right_drawer_view" />
-              -->
-        </FrameLayout>
-
-    </android.support.v4.widget.DrawerLayout>
 </LinearLayout>

@@ -10,11 +10,13 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.view.View;
 
 import au.com.tyo.android.AndroidUtils;
 import au.com.tyo.android.CommonUIBase;
 import au.com.tyo.android.DialogFactory;
+import au.com.tyo.app.CommonActivityList;
 import au.com.tyo.app.CommonActivityWebView;
 import au.com.tyo.app.CommonExtra;
 import au.com.tyo.app.Constants;
@@ -214,20 +216,36 @@ public class UIBase extends CommonUIBase implements UI {
     }
 
     protected void gotoPageWithData(Class cls, Object data, boolean throughController, int requestCode, String title) {
+	    gotoPageWithData(cls, Constants.DATA, data, throughController, requestCode, title);
+    }
+
+    protected void gotoPageWithData(Class cls, String key, Object data, boolean throughController, int requestCode, String title) {
         controller.setParcel(null);
         Context context = getCurrentPage().getActivity();
 
         CommonExtra extra = new CommonExtra(cls);
+        extra.createIntent(context);
+
         extra.setRequestCode(requestCode);
 
         if (null != title)
-            extra.setExtra(context, Constants.PAGE_TITLE, title);
+            extra.setExtra(Constants.PAGE_TITLE, title);
 
         if (throughController)
             controller.setParcel(data);
-        else
-            extra.setParcel(data);
+        else {
+            if (data instanceof Uri)
+                extra.getIntent().setData((Uri) data);
+            else
+                extra.setParcelExtra(key, data);
+        }
+
         startActivity(extra);
+    }
+
+    @Override
+    public void pickFromList(Object list, String title) {
+        gotoPageWithData(CommonActivityList.class, Constants.DATA_LIST, list, true, Constants.REQUEST_PICK, title);
     }
 
     @Override

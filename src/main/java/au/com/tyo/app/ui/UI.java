@@ -72,4 +72,6 @@ public interface UI {
     PageWebView.WebPageListener getWebPageListener();
 
     void startActivity(Context context, Class cls, boolean isMainActivity);
+
+    void pickFromList(Object list, String title);
 }

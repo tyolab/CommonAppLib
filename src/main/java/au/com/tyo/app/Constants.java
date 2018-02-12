@@ -72,6 +72,7 @@ public interface Constants extends au.com.tyo.android.Constants {
 
 	int REQUEST_CODE = 999;
     int REQUEST_NONE = -1;
+	int REQUEST_PICK = 1;
 
     String EXIT_APP = "TYODROID_EXIT_APP";
     String RELOAD = "TYODROID_RESTART";

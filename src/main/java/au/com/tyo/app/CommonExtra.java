@@ -72,16 +72,29 @@ public class CommonExtra {
     }
 
     private void setParcelExtra() {
-        putExtra(intent, Constants.DATA, parcel);
+        setParcelExtra(Constants.DATA, parcel);
         this.parcel = null;
+    }
+
+    public void setParcelExtra(String key, Object parcel) {
+        putExtra(intent, key, parcel);
+        this.parcel = null;
+    }
+
+    public void createIntent(Context context) {
+        if (activityClass != null)
+            intent = new Intent(context, activityClass);
+        else
+            throw new IllegalArgumentException("Activity class must be set before setting an extra");
+    }
+
+    public void setExtra(String key, Object extra) {
+        putExtra(intent, key, extra);
     }
 
     public void setExtra(Context context, String key, Object extra) {
         if (intent == null) {
-            if (activityClass != null)
-                intent = new Intent(context, activityClass);
-            else
-                throw new IllegalArgumentException("Activity class must be set before setting an extra");
+            createIntent(context);
         }
         putExtra(intent, key, extra);
     }
