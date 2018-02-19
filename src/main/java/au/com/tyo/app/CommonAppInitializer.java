@@ -7,10 +7,13 @@ package au.com.tyo.app;
 import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDexApplication;
+import android.util.Log;
 
 import au.com.tyo.android.CommonInitializer;
 
 public class CommonAppInitializer extends MultiDexApplication {
+
+    private static final String TAG = "CommonAppInitializer";
 
     private static Controller controller;
 
@@ -57,6 +60,8 @@ public class CommonAppInitializer extends MultiDexApplication {
 
         if (null != controller)
             controller.onTerminate();
+
+        Log.d(TAG, "App terminated");
     }
 
 
