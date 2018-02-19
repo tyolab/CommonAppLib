@@ -36,7 +36,7 @@ public class CommonAppInitializer extends MultiDexApplication {
             controller.initializeOnce();
         }
 
-        return  controller;
+        return controller;
     }
 
     public static void initialize(Application application) {
@@ -50,4 +50,14 @@ public class CommonAppInitializer extends MultiDexApplication {
         }
         return getController();
     }
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+
+        if (null != controller)
+            controller.onTerminate();
+    }
+
+
 }

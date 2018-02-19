@@ -153,4 +153,5 @@ public interface Controller<T extends UI> extends CommonController {
 
 	Object getResult();
 
+    void onTerminate();
 }

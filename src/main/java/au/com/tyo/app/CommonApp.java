@@ -747,4 +747,9 @@ public class CommonApp<UIType extends UI, ControllerType extends Controller>
 		if (activity != null)
 			activity.finish();
 	}
+
+	@Override
+	public void onTerminate() {
+
+	}
 }
