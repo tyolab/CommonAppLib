@@ -389,6 +389,7 @@ public class CommonApp<UIType extends UI, ControllerType extends Controller>
 
         settings = (CommonAppSettings) CommonInitializer.newSettings(context);
 
+        /** maybe if the previous failed we are not creating the default one */
 		if (settings == null)
 			settings = new CommonAppSettings(context);
 		
