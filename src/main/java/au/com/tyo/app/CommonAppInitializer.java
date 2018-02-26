@@ -22,6 +22,8 @@ public class CommonAppInitializer extends MultiDexApplication {
         super.onCreate();
 
         initialize(this);
+
+        controller.setApplication(this);
     }
 
     public static Controller getController() {

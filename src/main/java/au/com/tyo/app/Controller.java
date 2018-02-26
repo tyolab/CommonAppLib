@@ -6,6 +6,7 @@
 package au.com.tyo.app;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -154,4 +155,6 @@ public interface Controller<T extends UI> extends CommonController {
 	Object getResult();
 
     void onTerminate();
+
+    void setApplication(Application app);
 }
