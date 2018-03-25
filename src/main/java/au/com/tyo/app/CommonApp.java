@@ -148,7 +148,7 @@ public class CommonApp<UIType extends UI, ControllerType extends Controller>
 				case Constants.MESSAGE_BACKGROUND_TASK_STARTED:
 					onMessageBackgroundTaskStarted();
 					break;
-				case Constants.MESSAGE_BACKGROUND_TASK_ENDDED:
+				case Constants.MESSAGE_BACKGROUND_TASK_FINISHED:
 					onMessageBackgroundTaskEnded();
 					break;
 				case Constants.MESSAGE_BACKGROUND_TASK_STAGE_ONE:
@@ -199,6 +199,12 @@ public class CommonApp<UIType extends UI, ControllerType extends Controller>
                 case Constants.MESSAGE_CUSTOM_TEN:
                     onMessageCustomTen();
                     break;
+                case Constants.MESSAGE_NETWORK_READY:
+                    onMessageNetworkReady();
+                    break;
+				default:
+					onMessage(msg);
+					break;
 			}
 		}
 
@@ -208,6 +214,22 @@ public class CommonApp<UIType extends UI, ControllerType extends Controller>
 
 		}
 
+	}
+
+    /**
+     *
+     */
+    protected void onMessageNetworkReady() {
+        // no ops yet
+    }
+
+    /**
+	 * Other messages that need to be dealt with
+	 *
+	 * @param msg
+	 */
+	protected void onMessage(Message msg) {
+		// no ops yet
 	}
 
 	@Override

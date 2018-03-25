@@ -3,4 +3,5 @@
     android:id="@+id/app_logo"
     android:layout_width="@dimen/splash_screen_logo_width"
     android:layout_height="@dimen/splash_screen_logo_height"
-    android:src="@mipmap/splash_icon" />
+    style="@style/AppStyle.Splash.Icon"
+    />

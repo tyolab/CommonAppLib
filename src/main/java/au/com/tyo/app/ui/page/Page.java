@@ -1510,7 +1510,15 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
         View decorView = getActivity().getWindow().getDecorView();
         // Hide the status bar.
         int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
-        decorView.setSystemUiVisibility(uiOptions);
+        int oldOptions = decorView.getSystemUiVisibility();
+        decorView.setSystemUiVisibility(uiOptions | oldOptions);
+    }
+
+    public void hideHardwareButtons() {
+        View decorView = getActivity().getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+        int oldOptions = decorView.getSystemUiVisibility();
+        decorView.setSystemUiVisibility(uiOptions | oldOptions);
     }
 
     @Override
@@ -1598,8 +1606,13 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
     }
 
     protected void onPageBackgroundTaskFinished() {
+        hideProgressBar();
     }
 
     protected void onPrePageBackgroundTaskExecute() {
+    }
+
+    public void setHideActionBar(boolean hideActionBar) {
+        this.hideActionBar = hideActionBar;
     }
 }
