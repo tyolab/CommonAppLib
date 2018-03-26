@@ -20,7 +20,7 @@ import au.com.tyo.utils.StringUtils;
  * Created by Eric Tang (eric.tang@tyo.com.au) on 11/9/17.
  */
 
-public class PageWebView extends Page implements ValueCallback<String> {
+public class PageWebView<C extends Controller> extends Page<C> implements ValueCallback<String> {
 
     private static final String TAG = "PageWebView";
 
@@ -38,7 +38,7 @@ public class PageWebView extends Page implements ValueCallback<String> {
      * @param controller
      * @param activity
      */
-    public PageWebView(Controller controller, Activity activity) {
+    public PageWebView(C controller, Activity activity) {
         super(controller, activity);
         setContentViewResId(R.layout.webview);
     }

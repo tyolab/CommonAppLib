@@ -18,7 +18,7 @@ public interface Constants extends au.com.tyo.android.Constants {
 
 	int MESSAGE_BACKGROUND_TASK_STARTED = 0;
 
-	int MESSAGE_BACKGROUND_TASK_ENDDED = 1;
+	int MESSAGE_BACKGROUND_TASK_FINISHED = 1;
 
 	int MESSAGE_BACKGROUND_TASK_STAGE_ONE = 11;
 	int MESSAGE_BACKGROUND_TASK_STAGE_TWO = 12;
@@ -37,6 +37,8 @@ public interface Constants extends au.com.tyo.android.Constants {
 	int MESSAGE_CUSTOM_EIGHT = 28;
 	int MESSAGE_CUSTOM_NINE = 29;
 	int MESSAGE_CUSTOM_TEN = 30;
+
+	int MESSAGE_CUSTOM = 100;
 
 	// SPLASH SCREEN
 	int MESSAGE_AD_LOADED = 99;

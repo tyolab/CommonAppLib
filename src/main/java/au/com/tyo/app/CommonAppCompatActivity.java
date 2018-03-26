@@ -229,6 +229,10 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
+        // needs to recreate UI after configuration changed, from portrait to landscape or the other way around
+        if (null != controller.getUi())
+        	controller.getUi().setUiRecreationRequired(true);
+
         controller.onConfigurationChanged(newConfig);
     }
     

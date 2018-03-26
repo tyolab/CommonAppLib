@@ -53,8 +53,14 @@
 
     </style>
 
-    <style name="ToolbarStyle">
+    <style name="AppStyle.Toolbar">
 
     </style>
+
+    <style name="AppStyle.Splash.Icon">
+        <item name="android:src">@mipmap/splash_icon</item>
+    </style>
+
+    <style name="AppStyle.Splash"></style>
 
 </resources>
