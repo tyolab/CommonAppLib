@@ -12,16 +12,34 @@ import au.com.tyo.android.AndroidUtils;
 
 public class WidgetAppVersion extends android.support.v7.widget.AppCompatTextView {
 
+    private String appVersion;
+
     public WidgetAppVersion(Context context) {
         super(context);
+        init(context);
     }
 
     public WidgetAppVersion(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        init(context);
     }
 
     public WidgetAppVersion(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+
+        init(context);
+    }
+
+    private void init(Context context) {
+        setAppVersion("v" + AndroidUtils.getPackageVersionName(context));
+    }
+
+    public String getAppVersion() {
+        return appVersion;
+    }
+
+    public void setAppVersion(String appVersion) {
+        this.appVersion = appVersion;
     }
 
     @Override
@@ -29,7 +47,7 @@ public class WidgetAppVersion extends android.support.v7.widget.AppCompatTextVie
         super.onFinishInflate();
 
         Context context = getContext();
-        String info =  "v" + AndroidUtils.getPackageVersionName(context); // + "-build" + AndroidUtils.getPackageVersionCode(context) + "" + (BuildConfig.DEBUG ? "(Debug)" : "");
+        String info = getAppVersion(); // + "-build" + AndroidUtils.getPackageVersionCode(context) + "" + (BuildConfig.DEBUG ? "(Debug)" : "");
         setText(info);
     }
 }

@@ -112,6 +112,8 @@ public class PageWebView<C extends Controller> extends Page<C> implements ValueC
             if (callString.length() > 0)
                 callString.append(", ");
 
+            if (obj == null)
+                callString.append("null");
             if (obj instanceof String)
                 callString.append("'" + ((String) obj).toString() + "'");
             else
