@@ -79,7 +79,7 @@ import static au.com.tyo.app.Constants.REQUEST_NONE;
  *
  */
 
-public class Page<T extends Controller> extends PageFragment implements UIPage, MenuItem.OnMenuItemClickListener, Runnable {
+public class Page<ControllerType extends Controller> extends PageFragment implements UIPage, MenuItem.OnMenuItemClickListener, Runnable {
 
     private static final String LOG_TAG = "Screen";
 
@@ -135,7 +135,7 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
     /**
      * Controller
      */
-    private T controller;
+    private ControllerType controller;
 
     /**
      * The associated activity
@@ -201,7 +201,7 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
      * @param controller
      * @param activity
      */
-    public Page(T controller, Activity activity) {
+    public Page(ControllerType controller, Activity activity) {
         this.activity = activity;
         this.controller = controller;
         toShowSearchView = false;
@@ -362,12 +362,12 @@ public class Page<T extends Controller> extends PageFragment implements UIPage, 
         }
     }
 
-    public T getController() {
+    public ControllerType getController() {
         return controller;
     }
 
     public void setController(Controller controller) {
-        this.controller = (T) controller;
+        this.controller = (ControllerType) controller;
     }
 
     @Override

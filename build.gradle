@@ -26,7 +26,7 @@ android {
 }
 
 dependencies {
-    api 'com.android.support:multidex:1.0.2'
+    api 'com.android.support:multidex:1.0.3'
 
     api project(':CommonAndroid')
     api project(':CommonUiLib')
