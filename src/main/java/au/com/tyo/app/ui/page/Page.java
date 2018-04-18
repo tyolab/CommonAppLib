@@ -1311,14 +1311,15 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     @Override
     public boolean onPrepareOptionsMenu(Object actionBar, Menu menu) {
         getActionBarMenu().initializeMenuForActionBar(actionBar, menu);
-        prepareMenu();
+        prepareMenu(menu);
         return false;
     }
 
     /**
      *
+     * @param menu
      */
-    protected void prepareMenu() {
+    protected void prepareMenu(Menu menu) {
         // no ops
     }
 
