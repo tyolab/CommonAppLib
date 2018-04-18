@@ -209,7 +209,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         setSubpage(true);
         setResult(null);
 
-        configActionBarMenu(controller);
+        configActionBarMenu();
         pageInitializer = PageInitializer.getInstance();
 
         if (pageInitializer != null)
@@ -292,10 +292,9 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     }
 
     /**
-     *
-     * @param controller
+     * Override this method if need a customer action menu bar
      */
-    protected void configActionBarMenu(Controller controller) {
+    protected void configActionBarMenu() {
         // do nothing yet
         if (null == actionBarMenu)
             actionBarMenu = new ActionBarMenu();
@@ -474,7 +473,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         /**
          * the root view of content.xml
          */
-        setContentView((ViewGroup) mainView.findViewById(R.id.content_view));
+        setContentView((ViewGroup) bodyView.findViewById(R.id.content_view));
         loadContentView();
 
         footerView = (ViewGroup) mainView.findViewById(R.id.footer_view);
@@ -1361,7 +1360,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     }
 
     @Override
-    public void onPostCreate() {
+    public void onPostCreate(Bundle savedInstanceState) {
         if (getContentViewResId() <= 0)
             setContentViewResId(R.layout.content);
     }
@@ -1615,5 +1614,20 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
 
     public void setHideActionBar(boolean hideActionBar) {
         this.hideActionBar = hideActionBar;
+    }
+
+    @Override
+    public boolean onKeyLongPress(int keyCode, KeyEvent event) {
+        return false;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        // no ops yet
+    }
+
+    @Override
+    public void onWidowReady() {
+        // no ops yet
     }
 }

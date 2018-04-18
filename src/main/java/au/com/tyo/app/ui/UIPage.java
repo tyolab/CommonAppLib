@@ -133,7 +133,7 @@ public interface UIPage extends UIEntity {
 
     void onUiCreated();
 
-    void onPostCreate();
+    void onPostCreate(Bundle savedInstanceState);
 
     String getString(int strResId);
 
@@ -162,4 +162,10 @@ public interface UIPage extends UIEntity {
     boolean onKeyDown(int keyCode, KeyEvent event);
 
     boolean onKeyUp(int keyCode, KeyEvent event);
+
+    boolean onKeyLongPress(int keyCode, KeyEvent event);
+
+    void onSaveInstanceState(Bundle savedInstanceState);
+
+    void onWidowReady();
 }

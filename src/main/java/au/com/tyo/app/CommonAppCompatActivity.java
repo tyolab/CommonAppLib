@@ -113,7 +113,7 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 		if (null == page)
 			throw new IllegalStateException("The page instance is not initialised, please make sure that you have set up the page class or assign on properly");
 
-		page.onPostCreate();
+		page.onPostCreate(null);
     }
 
     @Override
@@ -209,20 +209,19 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (!getPage().onActivityResult(requestCode, resultCode, data))
-		    controller.onActivityResult(requestCode, resultCode, data);
+        getPage().onActivityResult(requestCode, resultCode, data);
 	}
 	
 	@Override
 	public boolean onKeyLongPress(int keyCode, KeyEvent event) {
-		return controller.onKeyLongPress(keyCode, event) || super.onKeyLongPress(keyCode, event);
+		return getPage().onKeyLongPress(keyCode, event) || super.onKeyLongPress(keyCode, event);
 	}
 	
 	@Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
    
-        controller.onPostCreate(savedInstanceState);
+        getPage().onPostCreate(savedInstanceState);
     }
  
     @Override
@@ -233,13 +232,13 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
         if (null != controller.getUi())
         	controller.getUi().setUiRecreationRequired(true);
 
-        controller.onConfigurationChanged(newConfig);
+        getPage().onConfigurationChanged(newConfig);
     }
     
     @Override
     protected void onSaveInstanceState(Bundle savedInstanceState) {
 
-    	controller.onSaveInstanceState(savedInstanceState);
+    	getPage().onSaveInstanceState(savedInstanceState);
         
         // Always call the superclass so it can save the view hierarchy state
         super.onSaveInstanceState(savedInstanceState);
@@ -250,7 +249,7 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 		super.onWindowFocusChanged(hasFocus);
 
 		if (hasFocus && !isFinishing())
-			controller.onWidowReady();
+			getPage().onWidowReady();
 	}
 
 	@Override
