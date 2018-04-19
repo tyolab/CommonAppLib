@@ -80,6 +80,18 @@ public class CommonApp<UIType extends UI, ControllerType extends Controller>
 	private Object result;
 
 	private Set<String> permitted;
+
+	private List<ThemeInfo> availableThemes;
+
+	public static class ThemeInfo {
+		int themeId;
+		String name;
+
+        public ThemeInfo(int id, String string) {
+            themeId = id;
+            name = string;
+        }
+    }
 	
 	public CommonApp(Context context) {
 		super(context);
@@ -104,11 +116,14 @@ public class CommonApp<UIType extends UI, ControllerType extends Controller>
 		inputManager = new InputManager();
 	}
 
+	public void setAvailableThemes(List availableThemes) {
+		this.availableThemes = availableThemes;
+	}
+
 	@Override
 	public Object getParcel() {
 		return parcel;
 	}
-
 
 	@Override
 	public void setParcel(Object parcel) {
@@ -623,19 +638,37 @@ public class CommonApp<UIType extends UI, ControllerType extends Controller>
 	protected void setThemeUsage(int themeId) {
 		settings.updateThemePreference(themeId);
 
-		settings.setLightThemeUsed(themeId == R.style.CommonAppTheme_Light);
+		/**
+		 * @// TODO: 19/04/18
+		 *
+		 * use a simple approach, checking the class parent of instance may be a better solution
+		 */
+		String name = AndroidUtils.getApplicationThemeName(getContext());
+		boolean usingLight = true;
+		if (null != name) {
+		    name = name.toLowerCase();
+		    if (name.contains("dark"))
+		        usingLight = false;
+        }
+
+		settings.setLightThemeUsed(usingLight);
 	}
 
 	protected void setThemeByIndex(int index) {
+	    if (null == availableThemes)
+	        return;
 
-			int themeId = R.style.CommonAppTheme_Light;
+	    if (index < 0 || index >= availableThemes.size())
+	        return;
 
-			if (index == 0)
-				themeId = R.style.CommonAppTheme_Light;
-			else if (index == 1)
-				themeId = R.style.CommonAppTheme_Dark;
+		int themeId = availableThemes.get(index).themeId;
 
-			setThemeUsage(themeId);
+//		if (index == 0)
+//			themeId = R.style.CommonAppTheme_Light;
+//		else if (index == 1)
+//			themeId = R.style.CommonAppTheme_Dark;
+
+		setThemeUsage(themeId);
 
 
 		setThemeById(themeId);

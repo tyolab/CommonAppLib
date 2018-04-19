@@ -211,6 +211,10 @@ public class UIBase extends CommonUIBase implements UI {
         startActivity(cls, data);
     }
 
+    protected void gotoPageWithData(Class cls, Object data, String title) {
+        gotoPageWithData(cls, data, true, REQUEST_NONE, title);
+    }
+
     protected void gotoPageWithData(Class cls, Object data) {
 	    gotoPageWithData(cls, data, true, REQUEST_NONE, null);
     }
