@@ -25,6 +25,8 @@
     <dimen name="search_bar_padding_bottom">5dp</dimen>
     <dimen name="search_bar_padding_left">12dp</dimen>
     <dimen name="search_bar_padding_right">12dp</dimen>
+
+    <dimen name="search_go_button_padding">2dp</dimen>
     
     <!-- BODY  -->
     <dimen name="body_view_padding_top">8dp</dimen>
@@ -53,15 +55,17 @@
     <dimen name="common_fragment_title_padding_left">6dp</dimen>
     <dimen name="common_fragment_title_padding_top">3dp</dimen>
     <dimen name="common_fragment_title_padding_bottom">3dp</dimen>
+
     <dimen name="frame_list_bottom_pading_top">0dp</dimen>
     <dimen name="frame_list_bottom_pading_bottom">0dp</dimen>
     <dimen name="frame_list_top_pading_top">0dp</dimen>
     <dimen name="frame_list_top_padding_bottom">0dp</dimen>
 
-    <dimen name="activity_padding_top">0dp</dimen>
     <dimen name="progress_info_margin_top">12dp</dimen>
     <dimen name="progress_view_padding">12dp</dimen>
     <dimen name="progress_view_padding_left">36dp</dimen>
     <dimen name="progress_view_padding_right">36dp</dimen>
-    <dimen name="search_go_button_padding">2dp</dimen>
+
+    <!-- ACTIVITY -->
+    <dimen name="activity_padding_top">0dp</dimen>
 </resources>
