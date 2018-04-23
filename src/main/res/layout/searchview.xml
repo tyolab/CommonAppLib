@@ -24,8 +24,8 @@ The background that can be set to:     android:background="@drawable/bg_searchba
         android:layout_width="0dip"
         android:layout_height="wrap_content"
         android:layout_weight="1.0"
-        android:layout_marginTop="2dip"
-        android:layout_marginBottom="2dip"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="1dp"
         android:layout_marginLeft="8dip"
         android:layout_marginRight="5dip"
          >
@@ -64,6 +64,7 @@ The background that can be set to:     android:background="@drawable/bg_searchba
         android:layout_height="wrap_content"
         android:layout_marginTop="2dip"
         android:layout_marginBottom="2dip"
+        android:padding="@dimen/search_go_button_padding"
         android:contentDescription="@string/function_button_search"
         android:visibility="visible"
     />

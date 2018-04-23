@@ -10,7 +10,7 @@
 		layout="@layout/searchview"
 		android:id="@+id/search_nav_bar"
 		android:layout_width="match_parent"
-		android:layout_height="@dimen/toolbar_height"
+		android:layout_height="@dimen/search_bar_height"
 		android:layout_gravity="center_horizontal|center_vertical"
 		/>
 

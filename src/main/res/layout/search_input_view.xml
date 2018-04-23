@@ -6,8 +6,8 @@
     android:focusable="true"
     android:paddingLeft="2dip"
     android:paddingRight="2dip"
-    android:paddingTop="3dip"
-    android:paddingBottom="3dip"
+    android:paddingTop="0dp"
+    android:paddingBottom="0dp"
     android:hint="@string/search_hint"
     android:singleLine="true"
     android:ellipsize="end"
@@ -17,7 +17,7 @@
     android:background="@null"
     android:textCursorDrawable="@null"
     android:selectAllOnFocus="true"
-    
+    android:textAppearance="?android:attr/textAppearanceSmallInverse"
     >
     
 
