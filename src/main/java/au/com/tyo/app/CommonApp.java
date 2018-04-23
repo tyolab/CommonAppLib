@@ -711,7 +711,7 @@ public class CommonApp<UIType extends UI, ControllerType extends Controller>
     @Override
 	protected void showInfo(boolean showAcknowledgement) {
 		// Inflate the about message contents
-		View messageView = ((Activity) context).getLayoutInflater().inflate(au.com.tyo.android.R.layout.info_dialog, null, false);
+		View messageView = ((Activity) context).getLayoutInflater().inflate(R.layout.info_dialog, null, false);
 		View acknowledgement = messageView.findViewById(au.com.tyo.android.R.id.acknowledge_view);
 		if (showAcknowledgement) {
 			acknowledgement.setVisibility(View.VISIBLE);
@@ -730,7 +730,7 @@ public class CommonApp<UIType extends UI, ControllerType extends Controller>
 
 		String appDesc = getAppNameWithVersion();
 
-		AlertDialog.Builder builder = DialogFactory.getBuilder(context, R.style.CommonAlertDialog_Light);
+		AlertDialog.Builder builder = DialogFactory.getBuilder(context, getSettings().getThemeId());
 		builder.setIcon(logoResId);
 		builder.setTitle(appDesc);
 		builder.setView(messageView);
