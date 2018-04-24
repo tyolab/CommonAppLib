@@ -4,7 +4,10 @@ import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
@@ -18,6 +21,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -41,6 +45,7 @@ import java.util.List;
 import java.util.Map;
 
 import au.com.tyo.android.AndroidUtils;
+import au.com.tyo.android.CommonCache;
 import au.com.tyo.android.CommonInitializer;
 import au.com.tyo.android.CommonPermission;
 import au.com.tyo.app.CommonApp;
@@ -179,6 +184,11 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     protected Integer toolbarColor = null;
     protected Integer bodyViewColor = null;
     protected Integer titleTextColor = null;
+
+    /**
+     * Message Receiver
+     */
+    private BroadcastReceiver messageReceiver;
 
     /**
      * Back to exit method
@@ -1629,5 +1639,28 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     @Override
     public void onWidowReady() {
         // no ops yet
+    }
+
+    public void createMessageReceiver() {
+        messageReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Page.this.handleMessage(context, intent);
+            }
+        };
+    }
+
+    protected void handleMessage(Context context, Intent intent) {
+        // no ops yet
+    }
+
+    public void registerBroadcarstReceivers() {
+        IntentFilter f = new IntentFilter(Constants.ACTION_MESSAGE_RECEIVER);
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(messageReceiver, f);
+    }
+
+    public void unregisterBroadcarstReceivers() {
+        if (null != messageReceiver)
+            LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(messageReceiver);
     }
 }

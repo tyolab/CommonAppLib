@@ -82,4 +82,5 @@ public interface Constants extends au.com.tyo.android.Constants {
     String EXTRA_KEY_JSON = "TYODROID_EXTRA_KEY_JSON";
 	String EXTRA_KEY_EDITABLE = "TYODROID_EXTRA_KEY_EDITABLE";
 
+	String ACTION_MESSAGE_RECEIVER = "au.com.tyo.app.CommonData";
 }

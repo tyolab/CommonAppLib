@@ -17,6 +17,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Parcel;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -807,5 +809,11 @@ public class CommonApp<UIType extends UI, ControllerType extends Controller>
 	@Override
 	public void onTerminate() {
 
+	}
+
+	public void sendBroadcastMessageToPage(Object data) {
+		Intent intent = new Intent(Constants.ACTION_MESSAGE_RECEIVER);
+		CommonExtra.putExtra(intent, Constants.DATA, data);
+		LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
 	}
 }
