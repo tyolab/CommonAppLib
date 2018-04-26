@@ -1184,10 +1184,14 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
+            onHomeButtonClick();
             return true;
         }
         return false;
+    }
+
+    protected boolean onHomeButtonClick() {
+        return onBackPressed();
     }
 
     @Override
