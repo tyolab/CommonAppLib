@@ -732,11 +732,11 @@ public class CommonApp<UIType extends UI, ControllerType extends Controller>
 
 		String appDesc = getAppNameWithVersion();
 
-		AlertDialog.Builder builder = DialogFactory.getBuilder(context, getSettings().getThemeId());
+		AlertDialog.Builder builder = DialogFactory.getBuilder(context, getSettings().getThemeId(), logoResId);
 		builder.setIcon(logoResId);
 		builder.setTitle(appDesc);
 		builder.setView(messageView);
-		Dialog dialog = builder.create();
+		AlertDialog dialog = builder.create();
 		showDialog(dialog);
 	}
 

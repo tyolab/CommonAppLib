@@ -597,8 +597,8 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
                     finish();
                 }
                 else {
-                    controller.getUi().getCurrentPage().hideSuggestionView();
                     controller.onOpenSearchItemClicked(item);
+                    hideSuggestionView();
                 }
             }
         });
