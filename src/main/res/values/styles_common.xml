@@ -37,7 +37,7 @@
         <item name="colorAccent">@color/green</item>
         for the checkbox color
     -->
-    <style name="Base.CommonAlertDialog.Light" parent="AlertDialog.AppCompat.Light" >
+    <style name="Base.CommonAlertDialog.Light" parent="Theme.AppCompat.Light.Dialog.Alert" >
     </style>
 
     <style name="CommonAlertDialog.Light" parent="Base.CommonAlertDialog.Light" >
@@ -56,7 +56,7 @@
         <item name="android:textAppearanceListItem">@style/CommonTextAppearance.Light</item>
     </style>
 
-    <style name="Base.CommonAlertDialog.Dark" parent="AlertDialog.AppCompat" >
+    <style name="Base.CommonAlertDialog.Dark" parent="Theme.AppCompat.DayNight.Dialog.Alert" >
     </style>
 
     <style name="CommonAlertDialog.Dark" parent="Base.CommonAlertDialog.Dark">
