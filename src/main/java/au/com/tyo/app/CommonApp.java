@@ -670,8 +670,9 @@ public class CommonApp<UIType extends UI, ControllerType extends Controller>
 //		else if (index == 1)
 //			themeId = R.style.CommonAppTheme_Dark;
 
-		setThemeUsage(themeId);
+        getSettings().updateThemePreference(themeId);
 
+		setThemeUsage(themeId);
 
 		setThemeById(themeId);
 	}
@@ -683,13 +684,11 @@ public class CommonApp<UIType extends UI, ControllerType extends Controller>
 
 		if (application != null) {
 			int oldId = -1;
-			try {
-				oldId = AndroidUtils.getPredefinedApplicationThemeId(context);
-				//oldId = AndroidUtils.getApplicationThemeId(context, application.getTheme());
-			} catch (PackageManager.NameNotFoundException e) {
-
-			}
-			if (oldId != themeId) {
+            // this the theme id defined in the manifest
+            // oldId = AndroidUtils.getPredefinedApplicationThemeId(context);
+            oldId = AndroidUtils.getApplicationThemeId(context);
+            //oldId = AndroidUtils.getApplicationThemeId(context, application.getTheme());
+            if (oldId != themeId) {
 				application.setTheme(themeId); // set the application wise theme
 
 				ui.setUiRecreationRequired(true);
@@ -811,9 +810,15 @@ public class CommonApp<UIType extends UI, ControllerType extends Controller>
 
 	}
 
-	public void sendBroadcastMessageToPage(Object data) {
+	public void sendBroadcastMessageToPage(int messageId) {
+		Message message = new Message();
+		message.what = messageId;
+		sendBroadcastMessageToPage(message);
+	}
+
+	public void sendBroadcastMessageToPage(Message message) {
 		Intent intent = new Intent(Constants.ACTION_MESSAGE_RECEIVER);
-		CommonExtra.putExtra(intent, Constants.DATA, data);
+		CommonExtra.putExtra(intent, Constants.DATA, message);
 		LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
 	}
 }
