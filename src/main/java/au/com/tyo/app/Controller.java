@@ -35,7 +35,9 @@ public interface Controller<T extends UI> extends CommonController {
 
 	boolean isAppQuit();
 
-    void onMessageBackgroundTaskStageTwo();
+	void setAppQuit(boolean appQuit);
+
+	void onMessageBackgroundTaskStageTwo();
 
 	void onMessageBackgroundTaskStageThree();
 

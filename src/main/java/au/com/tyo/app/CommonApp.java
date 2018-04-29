@@ -145,6 +145,7 @@ public class CommonApp<UIType extends UI, ControllerType extends Controller>
 		return appQuit;
 	}
 
+	@Override
 	public void setAppQuit(boolean appQuit) {
 		this.appQuit = appQuit;
 	}
@@ -348,6 +349,8 @@ public class CommonApp<UIType extends UI, ControllerType extends Controller>
 
 	@Override
 	public void createUi() {
+		setAppQuit(false);
+
 		if (ui == null) {
 			
 			/* Get UI Class Information */

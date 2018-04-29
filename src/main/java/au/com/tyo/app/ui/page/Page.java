@@ -20,6 +20,7 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.graphics.drawable.DrawableCompat;
@@ -1199,8 +1200,24 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         return false;
     }
 
+    public void addFragment(Fragment fragment) {
+        addFragmentToList(fragment);
+    }
+
     public void removeFragments() {
-        fragments = new ArrayList<>();
+        // the alternative way
+//        while (fragmentManager.getBackStackEntryCount() > 0) {
+//            fragmentManager.popBackStackImmediate();
+//        }
+        if (null != fragments && fragments.size() > 0) {
+            FragmentTransaction fragmentTransaction = ((FragmentActivity) activity).getSupportFragmentManager().beginTransaction();
+            for (Fragment fragment : fragments) {
+                fragmentTransaction.remove(fragment);
+            }
+
+            fragmentTransaction.commit();
+            fragments.clear();
+        }
     }
 
     @Override

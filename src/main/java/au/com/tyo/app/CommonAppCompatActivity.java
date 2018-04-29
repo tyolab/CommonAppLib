@@ -180,7 +180,7 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
   	@Override
   	protected void onResume() {
   		super.onResume();
-  		
+
 		agent.onResume(getPage());
   	}
 
