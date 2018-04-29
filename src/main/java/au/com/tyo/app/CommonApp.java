@@ -55,7 +55,7 @@ import static au.com.tyo.app.Constants.REQUEST_NONE;
  * @author Eric Tang <eric.tang@tyo.com.au>
  */
 
-public class CommonApp<UIType extends UI, ControllerType extends Controller>
+public abstract class CommonApp<UIType extends UI, ControllerType extends Controller>
         extends CommonApplicationImpl<ControllerType>
         implements Controller<UIType> {
 
@@ -813,12 +813,19 @@ public class CommonApp<UIType extends UI, ControllerType extends Controller>
 
 	}
 
+    @Override
+    public void sendBroadcastMessageToPage(int messageId, Object object) {
+        Message message = new Message();
+        message.what = messageId;
+        sendBroadcastMessageToPage(message);
+    }
+
+	@Override
 	public void sendBroadcastMessageToPage(int messageId) {
-		Message message = new Message();
-		message.what = messageId;
-		sendBroadcastMessageToPage(message);
+        sendBroadcastMessageToPage(messageId, null);
 	}
 
+	@Override
 	public void sendBroadcastMessageToPage(Message message) {
 		Intent intent = new Intent(Constants.ACTION_MESSAGE_RECEIVER);
 		CommonExtra.putExtra(intent, Constants.DATA, message);

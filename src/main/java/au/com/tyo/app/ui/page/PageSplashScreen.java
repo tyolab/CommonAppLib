@@ -1,6 +1,7 @@
 package au.com.tyo.app.ui.page;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
@@ -253,5 +254,17 @@ public class PageSplashScreen extends Page implements SplashScreenMessageListene
     @Override
     public void onAdLoaded() {
         displayInterstitial();
+    }
+
+    /**
+     * The only way for data passing between other apps and the app with tyodroid framework
+     *
+     * @param intent
+     */
+    @Override
+    public void bindData(Intent intent) {
+        super.bindData(intent);
+
+        controller.bindDataFromOtherApps(intent);
     }
 }

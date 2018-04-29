@@ -587,6 +587,11 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
 
         suggestionView = (SuggestionView) mainView.findViewById(R.id.suggestion_view);
         suggestionView.setupComponents(controller);
+
+        setOnSuggestionItemClickListener();
+    }
+
+    public void setOnSuggestionItemClickListener() {
         suggestionView.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -1675,12 +1680,12 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         // no ops yet
     }
 
-    public void registerBroadcarstReceivers() {
+    public void registerBroadcastReceivers() {
         IntentFilter f = new IntentFilter(Constants.ACTION_MESSAGE_RECEIVER);
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(messageReceiver, f);
     }
 
-    public void unregisterBroadcarstReceivers() {
+    public void unregisterBroadcastReceivers() {
         if (null != messageReceiver)
             LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(messageReceiver);
     }

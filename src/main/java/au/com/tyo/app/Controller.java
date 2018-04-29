@@ -7,8 +7,10 @@ package au.com.tyo.app;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Message;
 import android.view.KeyEvent;
 
 import java.util.List;
@@ -159,4 +161,12 @@ public interface Controller<T extends UI> extends CommonController {
     void onTerminate();
 
     void setApplication(Application app);
+
+    void bindDataFromOtherApps(Intent intent);
+
+	void sendBroadcastMessageToPage(int messageId, Object object);
+
+	void sendBroadcastMessageToPage(int messageId);
+
+	void sendBroadcastMessageToPage(Message message);
 }
