@@ -12,6 +12,7 @@ import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.lang.reflect.Method;
 
@@ -67,8 +68,7 @@ public class ActionBarMenu {
         return null;
     }
 
-    public boolean initializeMenuForActionBar(Object actionBar, Menu menu) {
-        setActionBar(actionBar);
+    public boolean initializeMenuForActionBar(Menu menu) {
         setInitialized(true);
         return true;
     }

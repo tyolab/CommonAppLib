@@ -46,7 +46,6 @@ import java.util.List;
 import java.util.Map;
 
 import au.com.tyo.android.AndroidUtils;
-import au.com.tyo.android.CommonCache;
 import au.com.tyo.android.CommonInitializer;
 import au.com.tyo.android.CommonPermission;
 import au.com.tyo.app.CommonApp;
@@ -1350,7 +1349,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
 
     @Override
     public boolean onPrepareOptionsMenu(Object actionBar, Menu menu) {
-        getActionBarMenu().initializeMenuForActionBar(actionBar, menu);
+        getActionBarMenu().initializeMenuForActionBar(menu);
         prepareMenu(menu);
         return false;
     }

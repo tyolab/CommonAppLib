@@ -211,19 +211,23 @@ public class UIBase extends CommonUIBase implements UI {
         startActivity(cls, data);
     }
 
-    protected void gotoPageWithData(Class cls, Object data, String title) {
+    public void gotoPageWithData(Class cls, Object data, String title) {
         gotoPageWithData(cls, data, true, REQUEST_NONE, title);
     }
 
-    protected void gotoPageWithData(Class cls, Object data) {
+    public void gotoPageWithData(Class cls, Object data) {
 	    gotoPageWithData(cls, data, true, REQUEST_NONE, null);
     }
 
-    protected void gotoPageWithData(Class cls, Object data, boolean throughController, int requestCode, String title) {
+    public void gotoPageWithData(Class cls, String key, Object data, String title) {
+        gotoPageWithData(cls, key, data, true, REQUEST_NONE, title);
+    }
+
+    public void gotoPageWithData(Class cls, Object data, boolean throughController, int requestCode, String title) {
 	    gotoPageWithData(cls, Constants.DATA, data, throughController, requestCode, title);
     }
 
-    protected void gotoPageWithData(Class cls, String key, Object data, boolean throughController, int requestCode, String title) {
+    public void gotoPageWithData(Class cls, String key, Object data, boolean throughController, int requestCode, String title) {
         controller.setParcel(null);
         Context context = getCurrentPage().getActivity();
 
