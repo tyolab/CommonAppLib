@@ -187,8 +187,6 @@ public class PageSplashScreen extends Page implements SplashScreenMessageListene
         protected void onPreExecute() {
             super.onPreExecute();
 
-            // Thread.currentThread().setName("SplashScreenThread");
-
             controller.onBackgroundTaskStarted(PageSplashScreen.this.getActivity());
         }
 

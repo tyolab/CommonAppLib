@@ -235,8 +235,10 @@ public class UIBase extends CommonUIBase implements UI {
         if (null != title)
             extra.setExtra(Constants.PAGE_TITLE, title);
 
-        if (throughController)
+        if (throughController) {
             controller.setParcel(data);
+            extra.setExtra(Constants.DATA_LOCATION_CONTROLLER, true);
+        }
         else {
             if (data instanceof Uri)
                 extra.getIntent().setData((Uri) data);

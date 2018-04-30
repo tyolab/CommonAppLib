@@ -57,6 +57,7 @@ public interface Constants extends au.com.tyo.android.Constants {
 	String RESULT = "TYODROID_RESULT";
     String RESULT_LOCATION = "TYODROID_RESULT_LOCATION";
     String RESULT_LOCATION_CONTROLLER = "TYODROID_RESULT_LOCATION_CONTROLLER";
+    String DATA_LOCATION_CONTROLLER = "TRYODROID_DATA_LOCATION_CONTROLLER";
 
     String PAGE_TITLE = "TYODROID_PAGE_TITLE";
 	String PAGE_REQUEST_CODE = "TYODROID_PAGE_REQUEST_CODE";
@@ -70,7 +71,9 @@ public interface Constants extends au.com.tyo.android.Constants {
     String DATA_LIST = "TYODROID_DATA_LIST";
     String DATA_ASSETS_PATH = "TYODROID_ASSETS_PATH";
 
-    String RESULT_CODE = "TYODROID_RESULT_CODE";;
+	String MESSAGE_BROADCAST = "";
+
+    String RESULT_CODE = "TYODROID_RESULT_CODE";
 
 	int REQUEST_CODE = 999;
     int REQUEST_NONE = -1;
@@ -83,4 +86,5 @@ public interface Constants extends au.com.tyo.android.Constants {
 	String EXTRA_KEY_EDITABLE = "TYODROID_EXTRA_KEY_EDITABLE";
 
 	String ACTION_MESSAGE_RECEIVER = "au.com.tyo.app.CommonData";
+
 }

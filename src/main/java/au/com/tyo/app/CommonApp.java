@@ -817,6 +817,7 @@ public abstract class CommonApp<UIType extends UI, ControllerType extends Contro
     public void sendBroadcastMessageToPage(int messageId, Object object) {
         Message message = new Message();
         message.what = messageId;
+        message.obj = object;
         sendBroadcastMessageToPage(message);
     }
 
@@ -828,7 +829,7 @@ public abstract class CommonApp<UIType extends UI, ControllerType extends Contro
 	@Override
 	public void sendBroadcastMessageToPage(Message message) {
 		Intent intent = new Intent(Constants.ACTION_MESSAGE_RECEIVER);
-		CommonExtra.putExtra(intent, Constants.DATA, message);
+		CommonExtra.putExtra(intent, Constants.MESSAGE_BROADCAST, message);
 		LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
 	}
 }

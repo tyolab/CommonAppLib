@@ -844,6 +844,11 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     }
 
     public void finish() {
+        // we finish using the parcel if there is one
+        // controller.setParcel(null);
+        if (getActivity().getIntent().getBooleanExtra(Constants.DATA_LOCATION_CONTROLLER, false))
+            controller.setParcel(null);
+
         checkIfFinishWithResult();
         activity.finish();
     }
@@ -1537,9 +1542,6 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     public void onDataBound() {
         if (!isSubpage())
             getController().getUi().setMainPage(this);
-
-        // we finish using the parcel if there is one
-        controller.setParcel(null);
     }
 
     public void setPageInFullScreenMode() {
