@@ -102,7 +102,7 @@
         <item name="android:textColor">@color/theme_dark_text_color</item>
     </style>
 
-    <style name="CommonButtonOverflow" />
+    <style name="CommonButtonOverflow" parent="@style/Widget.AppCompat.ActionButton.Overflow"/>
 
     <style name="CommonButtonOverflow.Dark">
 
