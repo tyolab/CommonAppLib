@@ -17,7 +17,7 @@
         android:paddingBottom="@dimen/progress_view_padding"
         android:paddingLeft="@dimen/progress_view_padding_left"
         android:paddingRight="@dimen/progress_view_padding_right"
-        android:background="@drawable/progress_bg_light"
+        style="?dialogStyle"
         >
         <ProgressBar
             style="?android:progressBarStyle"
