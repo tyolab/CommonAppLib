@@ -26,15 +26,36 @@ android {
 }
 
 dependencies {
-    api 'com.android.support:multidex:1.0.3'
+    implementation 'com.android.support:multidex:1.0.3'
 
     api project(':CommonAndroid')
-    api project(':CommonUiLib')
 
-    api 'com.google.android.gms:play-services-ads:15.0.0'
+    implementation project(':CommonUiLib')
+    implementation project(':CommonUtils')
 
     // Calligraphy
-    api 'uk.co.chrisjenx:calligraphy:2.3.0'
+    implementation 'uk.co.chrisjenx:calligraphy:2.3.0'
 
-    compile project(path: ':CommonUtils')
+    implementation ('com.google.code.gson:gson:2.8.0') {
+        exclude module: 'httpclient'
+        exclude group: 'org.apache.httpcomponents'
+    }
+
+    implementation ('com.google.http-client:google-http-client-gson:1.22.0') {
+        exclude module: 'httpclient'
+        exclude group: 'org.apache.httpcomponents'
+    }
+
+    implementation ('com.google.http-client:google-http-client-jackson2:1.22.0') {
+        exclude module: 'httpclient'
+        exclude group: 'org.apache.httpcomponents'
+    }
+
+    implementation 'com.android.support:preference-v7:27.1.1'
+
+    // Amazon Ad
+    implementation 'com.amazon.android:mobile-ads:5.+'
+
+    // Google Ad
+    implementation 'com.google.android.gms:play-services-ads:15.0.0'
 }
