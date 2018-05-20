@@ -52,9 +52,6 @@ public interface Constants extends au.com.tyo.android.Constants {
 	/**
 	 * Activity Communication
 	 */
-	String DATA = "TYODROID_DATA";
-    String BUNDLE = "TYODROID_BUNDLE";
-	String RESULT = "TYODROID_RESULT";
     String RESULT_LOCATION = "TYODROID_RESULT_LOCATION";
     String RESULT_LOCATION_CONTROLLER = "TYODROID_RESULT_LOCATION_CONTROLLER";
     String DATA_LOCATION_CONTROLLER = "TRYODROID_DATA_LOCATION_CONTROLLER";

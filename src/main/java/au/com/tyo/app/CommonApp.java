@@ -612,6 +612,10 @@ public abstract class CommonApp<UIType extends UI, ControllerType extends Contro
 	public void onRestoreInstanceState(Bundle savedInstanceState) {
 	}
 
+	public void sendMessage(Message msg) {
+		getMessageHandler().sendMessage(msg);
+	}
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 	}
