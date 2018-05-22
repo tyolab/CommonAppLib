@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import au.com.tyo.app.ui.page.PageFragment;
 import au.com.tyo.app.ui.view.CommonFragmentView;
 import au.com.tyo.app.ui.UIPage;
 
@@ -27,9 +28,14 @@ public abstract class CommonFragment<T extends Controller> extends Fragment {
     private T controller;
 
     /**
-     * UI Page
+     * associated UI Page
      */
     private UIPage page;
+
+    /**
+     * Page fragment
+     */
+    private PageFragment pageFragment;
 
     private int parentContainerHeight = -1;
     private int parentContainerWidth = -1;
@@ -39,7 +45,7 @@ public abstract class CommonFragment<T extends Controller> extends Fragment {
      */
 
     private int fragmentResId = R.layout.common_frame_for_fragment;
-    protected int contentViewResId = -1;
+    // protected int contentViewResId = -1;
     protected boolean ready;
 
     private TextView tvTitle = null;
@@ -54,6 +60,10 @@ public abstract class CommonFragment<T extends Controller> extends Fragment {
 
     private String title = null;
     private boolean toShow = true;
+
+    public CommonFragment() {
+        pageFragment = new PageFragment(this);
+    }
 
     public T getController() {
         return controller;
@@ -111,13 +121,13 @@ public abstract class CommonFragment<T extends Controller> extends Fragment {
         this.fragmentResId = fragmentResId;
     }
 
-    public void setContentViewResId(int contentViewResId) {
-        this.contentViewResId = contentViewResId;
-    }
-
-    public int getContentViewResId() {
-        return contentViewResId;
-    }
+//    public void setContentViewResId(int contentViewResId) {
+//        this.contentViewResId = contentViewResId;
+//    }
+//
+//    public int getContentViewResId() {
+//        return contentViewResId;
+//    }
 
     public void checkLocationOnScreen() {
         fragmentView.checkLocationOnScreen();
@@ -136,6 +146,14 @@ public abstract class CommonFragment<T extends Controller> extends Fragment {
 
     public void setPage(UIPage page) {
         this.page = page;
+    }
+
+    public PageFragment getPageFragment() {
+        return pageFragment;
+    }
+
+    public void setPageFragment(PageFragment pageFragment) {
+        this.pageFragment = pageFragment;
     }
 
     @Override
@@ -199,10 +217,10 @@ public abstract class CommonFragment<T extends Controller> extends Fragment {
     }
 
     protected void loadContentView(LayoutInflater inflater) {
-        if (contentViewResId > -1) {
+        if (pageFragment.getContentViewResId() > -1) {
             contentContainer.removeAllViews();
 
-            contentView = inflater.inflate(contentViewResId,
+            contentView = inflater.inflate(pageFragment.getContentViewResId(),
                     contentContainer, false);
             contentContainer.addView(contentView);
         }
@@ -210,7 +228,7 @@ public abstract class CommonFragment<T extends Controller> extends Fragment {
 
     protected void loadContentView(int contentViewResId) {
         removeContentView();
-        this.contentViewResId = contentViewResId;
+        pageFragment.setContentViewResId(contentViewResId);
 
         if (contentViewResId > -1) {
             contentContainer.removeAllViews();
@@ -283,5 +301,29 @@ public abstract class CommonFragment<T extends Controller> extends Fragment {
 
     protected void onFragmentReady() {
         ready = true;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        pageFragment.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        pageFragment.onPause();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        pageFragment.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        pageFragment.onStop();
     }
 }
