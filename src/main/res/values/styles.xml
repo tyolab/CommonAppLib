@@ -57,10 +57,24 @@
 
     </style>
 
+    <style name="AppStyle.Splash">
+
+    </style>
+
     <style name="AppStyle.Splash.Icon">
         <item name="android:src">@mipmap/splash_icon</item>
     </style>
 
-    <style name="AppStyle.Splash"></style>
+    <style name="AppStyle.ProgressBar">
+
+    </style>
+
+    <style name="AppStyle.ProgressBar.Background">
+        <item name="android:background">@color/pageProgressPageBackground</item>
+        <item name="android:layout_marginTop">@dimen/progress_view_margin</item>
+        <item name="android:layout_marginBottom">@dimen/progress_view_margin</item>
+        <item name="android:layout_marginLeft">@dimen/progress_view_margin_left</item>
+        <item name="android:layout_marginRight">@dimen/progress_view_margin_right</item>
+    </style>
 
 </resources>

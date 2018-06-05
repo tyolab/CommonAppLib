@@ -60,13 +60,15 @@ public class PageWebView<C extends Controller> extends Page<C> implements ValueC
         super.setupComponents();
         webView = (WebView) findViewById(R.id.webview);
 
-        webView.setWebChromeClient(webChromeClient == null ? (webChromeClient = new CommonWebChromeClient()) : webChromeClient);
-        webView.setWebViewClient(webViewClient == null ? (webViewClient = new CommonWebViewClient(getController().getUi().getWebPageListener())) : webViewClient);
+        if (null != webView) {
+            webView.setWebChromeClient(webChromeClient == null ? (webChromeClient = new CommonWebChromeClient()) : webChromeClient);
+            webView.setWebViewClient(webViewClient == null ? (webViewClient = new CommonWebViewClient(getController().getUi().getWebPageListener())) : webViewClient);
 
-        // webView.clearCache(true);
-        // webView.clearHistory();
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+            // webView.clearCache(true);
+            // webView.clearHistory();
+            webView.getSettings().setJavaScriptEnabled(true);
+            webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+        }
     }
 
     @Override

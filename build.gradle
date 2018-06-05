@@ -30,23 +30,23 @@ dependencies {
 
     api project(':CommonAndroid')
 
-    implementation project(':CommonUiLib')
-    implementation project(':CommonUtils')
+    api project(':CommonUiLib')
+    api project(':CommonUtils')
 
     // Calligraphy
     implementation 'uk.co.chrisjenx:calligraphy:2.3.0'
 
-    implementation ('com.google.code.gson:gson:2.8.0') {
+    api ('com.google.code.gson:gson:2.8.0') {
         exclude module: 'httpclient'
         exclude group: 'org.apache.httpcomponents'
     }
 
-    implementation ('com.google.http-client:google-http-client-gson:1.22.0') {
+    api ('com.google.http-client:google-http-client-gson:1.22.0') {
         exclude module: 'httpclient'
         exclude group: 'org.apache.httpcomponents'
     }
 
-    implementation ('com.google.http-client:google-http-client-jackson2:1.22.0') {
+    api ('com.google.http-client:google-http-client-jackson2:1.22.0') {
         exclude module: 'httpclient'
         exclude group: 'org.apache.httpcomponents'
     }

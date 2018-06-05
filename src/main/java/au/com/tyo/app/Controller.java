@@ -171,4 +171,6 @@ public interface Controller<T extends UI> extends CommonController {
 	void sendBroadcastMessageToPage(Message message);
 
     void sendMessage(Message msg);
+
+    void sendBroadcastMessageToPage(String key, Object data);
 }
