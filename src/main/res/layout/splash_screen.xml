@@ -3,7 +3,7 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent" >
 
-	<include layout="@layout/splash_backgroud" />
+	<include layout="@layout/splash_background" />
 
 	<RelativeLayout
 		android:layout_width="match_parent"

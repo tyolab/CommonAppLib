@@ -82,7 +82,7 @@ import static au.com.tyo.app.Constants.REQUEST_NONE;
 
 public class Page<ControllerType extends Controller> extends PageFragment implements UIPage, MenuItem.OnMenuItemClickListener, Runnable {
 
-    private static final String LOG_TAG = "Screen";
+    private static final String LOG_TAG = "Page";
 
     /**
      * Common Widgets
@@ -581,28 +581,32 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         searchView.setupComponents(controller);
 
         suggestionView = (SuggestionView) mainView.findViewById(R.id.suggestion_view);
-        suggestionView.setupComponents(controller);
+        if (null != suggestionView)
+            suggestionView.setupComponents(controller);
+        else
+            Log.w(LOG_TAG, "Search bar is set, but suggestion view is not found");
 
         setOnSuggestionItemClickListener();
     }
 
     public void setOnSuggestionItemClickListener() {
-        suggestionView.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Searchable item = (Searchable) suggestionView.getAdapter().getItem(position);
+        if (null != suggestionView)
+            suggestionView.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Searchable item = (Searchable) suggestionView.getAdapter().getItem(position);
 
-                if (item instanceof Parcelable) {
-                    // just pass the item to the previous activity
-                    result = item;
-                    finish();
+                    if (item instanceof Parcelable) {
+                        // just pass the item to the previous activity
+                        result = item;
+                        finish();
+                    }
+                    else {
+                        controller.onOpenSearchItemClicked(item);
+                        hideSuggestionView();
+                    }
                 }
-                else {
-                    controller.onOpenSearchItemClicked(item);
-                    hideSuggestionView();
-                }
-            }
-        });
+            });
     }
 
     public void showFooter() {
