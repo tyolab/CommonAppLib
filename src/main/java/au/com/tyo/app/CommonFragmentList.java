@@ -42,8 +42,11 @@ public class CommonFragmentList extends CommonFragment {
     }
 
     protected void setupContentViewResource() {
-        setContentViewResId(R.layout.frame_list);
+        getPageFragment().setContentViewResId(R.layout.frame_list);
     }
+
+
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {

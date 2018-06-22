@@ -164,11 +164,11 @@ public interface Controller<T extends UI> extends CommonController {
 
     void bindDataFromOtherApps(Intent intent);
 
-	void sendBroadcastMessageToPage(int messageId, Object object);
+	void broadcastMessage(int messageId, Object object);
 
-	void sendBroadcastMessageToPage(int messageId);
+	void broadcastMessage(int messageId);
 
-	void sendBroadcastMessageToPage(Message message);
+	void broadcastMessage(Message message);
 
     void sendMessage(Message msg);
 }
