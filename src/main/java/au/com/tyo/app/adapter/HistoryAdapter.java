@@ -47,7 +47,7 @@ public class HistoryAdapter extends ImageTextListViewAdapter {
 //
 //		@SuppressWarnings("unchecked")
 //		@Override
-//		public void handleMessage(Message msg) {
+//		public void handleBroadcastMessage(Message msg) {
 //			if (msg.obj != null) {
 //				parent.setItems((List<ImagedSearchableItem>) msg.obj);
 //                parent.notifyDataSetChanged();

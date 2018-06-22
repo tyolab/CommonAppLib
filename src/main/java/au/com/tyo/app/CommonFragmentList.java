@@ -49,10 +49,8 @@ public class CommonFragmentList extends CommonFragment {
 
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        setupListView(view);
+    protected void setupComponents() {
+        setupListView(getContentView());
     }
 
     protected void setupListView(View view) {

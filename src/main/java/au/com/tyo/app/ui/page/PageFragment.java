@@ -1,5 +1,6 @@
 package au.com.tyo.app.ui.page;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -21,7 +22,7 @@ import au.com.tyo.app.ui.UIEntity;
 
 public class PageFragment implements UIEntity {
 
-    private ViewGroup contentView;
+    private View contentView;
 
     /**
      * The default content view layout resource id
@@ -86,11 +87,11 @@ public class PageFragment implements UIEntity {
         contentView.setVisibility(View.VISIBLE);
     }
 
-    public void setContentView(ViewGroup contentView) {
+    public void setContentView(View contentView) {
         this.contentView = contentView;
     }
 
-    public ViewGroup getContentView() {
+    public View getContentView() {
         return contentView;
     }
 
@@ -102,24 +103,33 @@ public class PageFragment implements UIEntity {
         this.contentViewResId = contentViewResId;
     }
 
-    public void loadContentView(Context context) {
-        loadContentView(LayoutInflater.from(context));
+    public View loadContentView(Context context) {
+        return loadContentView(LayoutInflater.from(context));
     }
 
-    public void loadContentView(LayoutInflater inflater) {
-        loadContentView(inflater, null);
+    public View loadContentView(LayoutInflater inflater) {
+        return loadContentView(inflater, null);
     }
 
-    public void loadContentView(LayoutInflater inflater, ViewGroup parent) {
+    public View loadContentView(LayoutInflater inflater, ViewGroup parent) {
         if (contentViewResId > -1) {
-            if (null == contentView && null != parent)
-                contentView = (ViewGroup) inflater.inflate(contentViewResId,
-                        parent, true);
+            if (null == contentView) {
+                if (null != parent) {
+                    parent.removeAllViews();
+                    contentView = (ViewGroup) inflater.inflate(contentViewResId,
+                            parent, true);
+                }
+                else
+                    contentView = (ViewGroup) inflater.inflate(contentViewResId,
+                            null);
+            }
             else {
-                contentView.removeAllViews();
-                inflater.inflate(contentViewResId, contentView, true);
+                ViewGroup vg = (ViewGroup) contentView.getParent();
+                vg.removeAllViews();
+                contentView = inflater.inflate(contentViewResId, vg, true);
             }
         }
+        return contentView;
     }
 
     @Override
@@ -151,23 +161,29 @@ public class PageFragment implements UIEntity {
         messageReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                handleMessage(context, intent);
+                handleBroadcastMessage(context, intent);
             }
         };
     }
 
-    protected void handleMessage(Context context, Intent intent) {
+    protected void handleBroadcastMessage(Context context, Intent intent) {
         if (null != messageHandler)
             messageHandler.handleMessage(context, intent);
     }
 
     public void registerBroadcastReceivers() {
         IntentFilter f = new IntentFilter(Constants.ACTION_MESSAGE_RECEIVER);
-        LocalBroadcastManager.getInstance(fragment.getActivity()).registerReceiver(messageReceiver, f);
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(messageReceiver, f);
     }
 
     public void unregisterBroadcastReceivers() {
         if (null != messageReceiver)
-            LocalBroadcastManager.getInstance(fragment.getActivity()).unregisterReceiver(messageReceiver);
+            LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(messageReceiver);
+    }
+
+    public Activity getActivity() {
+        if (null != fragment)
+            return fragment.getActivity();
+        return null;
     }
 }

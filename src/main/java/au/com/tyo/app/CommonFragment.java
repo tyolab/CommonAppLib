@@ -52,7 +52,7 @@ public abstract class CommonFragment<T extends Controller> extends Fragment {
 
     private CommonFragmentView fragmentView;
     private ViewGroup contentContainer;
-    private View contentView;
+//    private View contentView;
 
     /**
      * Data for bindings
@@ -114,11 +114,15 @@ public abstract class CommonFragment<T extends Controller> extends Fragment {
     }
 
     public View getContentView() {
-        return contentView;
+        return getPageFragment().getContentView();
     }
 
     public void setFragmentResId(int fragmentResId) {
         this.fragmentResId = fragmentResId;
+    }
+
+    public void setContentViewResId(int contentViewResId) {
+        getPageFragment().setContentViewResId(contentViewResId);
     }
 
 //    public void setContentViewResId(int contentViewResId) {
@@ -183,11 +187,15 @@ public abstract class CommonFragment<T extends Controller> extends Fragment {
         if (null != page)
             page.addFragmentToList(this);
 
+        setupComponents();
+
         /**
          * All the UI elements are created
          */
         onFragmentReady();
     }
+
+    protected abstract void setupComponents();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -200,7 +208,6 @@ public abstract class CommonFragment<T extends Controller> extends Fragment {
 
         fragmentView = (CommonFragmentView) inflater.inflate(fragmentResId,
                 container, false);
-
 
         contentContainer = (ViewGroup) fragmentView.findViewById(R.id.frame_fragment_content);
         tvTitle = (TextView) fragmentView.findViewById(R.id.frame_fragment_title);
@@ -220,8 +227,13 @@ public abstract class CommonFragment<T extends Controller> extends Fragment {
         if (pageFragment.getContentViewResId() > -1) {
             contentContainer.removeAllViews();
 
-            contentView = inflater.inflate(pageFragment.getContentViewResId(),
-                    contentContainer, false);
+//            contentView = inflater.inflate(pageFragment.getContentViewResId(),
+//                    contentContainer, false);
+
+            View contentView = pageFragment.loadContentView(inflater);
+            if (null != contentView.getParent())
+                ((ViewGroup) contentView.getParent()).removeAllViews();
+
             contentContainer.addView(contentView);
         }
     }
@@ -233,34 +245,23 @@ public abstract class CommonFragment<T extends Controller> extends Fragment {
         if (contentViewResId > -1) {
             contentContainer.removeAllViews();
             LayoutInflater inflater = LayoutInflater.from(getActivity());
-
-            contentView = inflater.inflate(contentViewResId,
-                    null);
-            contentContainer.addView(contentView);
+            pageFragment.loadContentView(inflater);
+            contentContainer.addView(pageFragment.getContentView());
         }
     }
 
     protected void removeContentView() {
-        if (null != contentView) {
-//            ViewGroup parent = (ViewGroup) contentView.getParent();
-//
-//            if (null != parent)
-//                parent.removeView(contentView);
-            contentContainer.removeView(contentView);
-        }
+        contentContainer.removeAllViews();
     }
 
     protected void hideContentView() {
-        if (null != contentView) {
-            contentView.setVisibility(View.GONE);
-        }
+        pageFragment.hideContentView();
     }
 
     public void addContentView(View contentView) {
-        if (null != this.contentView)
-            contentContainer.removeView(this.contentView);
-        this.contentView = contentView;
+        contentContainer.removeAllViews();
         this.contentContainer.addView(contentView);
+        pageFragment.setContentView(contentView);
     }
 
     public boolean shallDisplay() {
@@ -325,5 +326,9 @@ public abstract class CommonFragment<T extends Controller> extends Fragment {
     public void onStop() {
         super.onStop();
         pageFragment.onStop();
+    }
+
+    public View findViewById(int resId) {
+        return pageFragment.getContentView().findViewById(resId);
     }
 }

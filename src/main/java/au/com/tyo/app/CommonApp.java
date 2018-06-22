@@ -7,14 +7,17 @@ package au.com.tyo.app;
 
 import android.app.Activity;
 import android.app.Application;
+import android.app.Dialog;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Parcel;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -829,8 +832,13 @@ public abstract class CommonApp<UIType extends UI, ControllerType extends Contro
 
 	@Override
 	public void broadcastMessage(Message message) {
+		sendBroadcastMessageToPage(Constants.MESSAGE_BROADCAST, message);
+	}
+
+	@Override
+	public void broadcastMessage(String key, Object data) {
 		Intent intent = new Intent(Constants.ACTION_MESSAGE_RECEIVER);
-		CommonExtra.putExtra(intent, Constants.MESSAGE_BROADCAST, message);
+		CommonExtra.putExtra(intent, key, data);
 		LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
 	}
 }

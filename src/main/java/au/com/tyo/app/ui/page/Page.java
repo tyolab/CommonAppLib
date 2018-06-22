@@ -338,16 +338,19 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
 
     @Override
     public void onPause() {
+        super.onPause();
         // should be overrode if needed
     }
 
     @Override
     public void onResume() {
+        super.onResume();
         // should be overrode if needed
     }
 
     @Override
     public void onStop() {
+        super.onStop();
         // should be overrode if needed
         task = null;
     }
@@ -1420,6 +1423,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
 
     @Override
     public void onStart() {
+        super.onStart();
         // check the permissions required for the app since Android 6
         checkPermissions();
     }
@@ -1661,4 +1665,8 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         // no ops yet
     }
 
+    @Override
+    public View getContentView() {
+        return super.getContentView();
+    }
 }

@@ -25,12 +25,12 @@ import au.com.tyo.app.ui.page.PageWebView;
 
 import static au.com.tyo.app.Constants.REQUEST_NONE;
 
-public class UIBase extends CommonUIBase implements UI {
+public class UIBase<ControllerType extends Controller> extends CommonUIBase implements UI {
 
 	/**
 	 * It has to be a private member as the sub controller class won't be the same
 	 */
-	private Controller controller;
+	private ControllerType controller;
 
     private UIPage currentScreen;
 
@@ -42,11 +42,15 @@ public class UIBase extends CommonUIBase implements UI {
 
     private UIPage mainPage;
 
-	public UIBase(Controller controller) {
+	public UIBase(ControllerType controller) {
 		this.controller = controller;
 	}
 
-	@Override
+    public ControllerType getController() {
+        return controller;
+    }
+
+    @Override
     public UIPage getMainPage() {
         return mainPage;
     }

@@ -135,7 +135,7 @@ public class CommonAppData extends Observable {
                     }
                 }
 
-                if (!cacheManager.exists(fileName))
+                if (!getCacheManager().exists(fileName))
                     writeCacheFile(fileName, object);
                 reader.close();
                 is.close();
@@ -150,7 +150,7 @@ public class CommonAppData extends Observable {
 
     public void writeCacheFile(String fileName, Object object) {
         try {
-            cacheManager.write(fileName, object);
+            getCacheManager().write(fileName, object);
         }
         catch (Exception e) {
             Log.e(TAG, StringUtils.exceptionStackTraceToString(e));
@@ -158,13 +158,13 @@ public class CommonAppData extends Observable {
     }
 
     public void deleteCacheFile(String fileName) {
-        cacheManager.delete(fileName);
+        getCacheManager().delete(fileName);
     }
 
     public Object loadCacheFile(String fileName) {
         Object object = null;
         try {
-            object = cacheManager.read(fileName);
+            object = getCacheManager().read(fileName);
         } catch (Exception e) {
             Log.d(TAG, StringUtils.exceptionStackTraceToString(e));
             deleteCacheFile(fileName);
@@ -173,7 +173,7 @@ public class CommonAppData extends Observable {
     }
 
     public boolean existsCacheFile(String filename) {
-        return cacheManager.exists(filename);
+        return getCacheManager().exists(filename);
     }
 
     public void notifyDataCacheObservers() {
