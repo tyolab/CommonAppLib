@@ -68,7 +68,7 @@ public interface Constants extends au.com.tyo.android.Constants {
     String DATA_LIST = "TYODROID_DATA_LIST";
     String DATA_ASSETS_PATH = "TYODROID_ASSETS_PATH";
 
-	String MESSAGE_BROADCAST = "";
+	String MESSAGE_BROADCAST = "TYODROID_MESSAGE_BROADCAST";
 
     String RESULT_CODE = "TYODROID_RESULT_CODE";
 
