@@ -77,6 +77,10 @@ public class CommonAppData extends Observable {
     }
 
     public InputStream assetToInputStream(String fileName) {
+        return assetToInputStream(context, fileName) ;
+    }
+
+    public static InputStream assetToInputStream(Context context, String fileName) {
         InputStream is = null;
         try {
             is = context.getAssets().open(fileName);
@@ -87,11 +91,11 @@ public class CommonAppData extends Observable {
         return is;
     }
     
-    public String assetToString(String fileName) {
+    public static String assetToString(Context context, String fileName) {
         String str = null;
         InputStream is = null;
         try {
-            is = assetToInputStream(fileName);
+            is = assetToInputStream(context, fileName);
             if (is != null)
                 str = new String(IO.inputStreamToBytes(is));
         } catch (IOException e) {
