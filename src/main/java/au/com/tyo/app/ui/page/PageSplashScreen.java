@@ -47,7 +47,6 @@ public class PageSplashScreen extends Page implements SplashScreenMessageListene
         super(controller, activity);
         hideActionBar = true;
 
-
         /**
          * set splash screen layout
          */

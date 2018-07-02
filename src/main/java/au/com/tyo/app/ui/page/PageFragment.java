@@ -111,6 +111,15 @@ public class PageFragment implements UIEntity {
         return loadContentView(inflater, null);
     }
 
+    /**
+     * Create the content view:
+     *  1) if it was null, then make the new layout as one
+     *  20 or add the new content to the original content view
+     *
+     * @param inflater
+     * @param parent
+     * @return
+     */
     public View loadContentView(LayoutInflater inflater, ViewGroup parent) {
         if (contentViewResId > -1) {
             if (null == contentView) {
@@ -124,9 +133,11 @@ public class PageFragment implements UIEntity {
                             null);
             }
             else {
-                ViewGroup vg = (ViewGroup) contentView.getParent();
+//                ViewGroup vg = (ViewGroup) contentView.getParent();
+//                vg.removeAllViews();
+                ViewGroup vg = ((ViewGroup) contentView);
                 vg.removeAllViews();
-                contentView = inflater.inflate(contentViewResId, vg, true);
+                inflater.inflate(contentViewResId, vg, true);
             }
         }
         return contentView;
