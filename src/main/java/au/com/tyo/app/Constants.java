@@ -73,6 +73,7 @@ public interface Constants extends au.com.tyo.android.Constants {
     String RESULT_CODE = "TYODROID_RESULT_CODE";
 
 	int REQUEST_CODE = 999;
+	int REQUEST_SOMETHING = 9999;
     int REQUEST_NONE = -1;
 	int REQUEST_PICK = 1;
 
