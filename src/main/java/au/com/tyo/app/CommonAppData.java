@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Observable;
 
 import au.com.tyo.android.CommonCache;
+import au.com.tyo.app.api.JSON;
 import au.com.tyo.io.IO;
 import au.com.tyo.io.Indexable;
 import au.com.tyo.utils.StringUtils;
@@ -129,7 +130,7 @@ public class CommonAppData extends Observable {
             try {
                 is = context.getAssets().open(jsonFile);
                 Reader reader = new InputStreamReader(is);
-                object = new Gson().fromJson(reader, listType);
+                object = JSON.getGson().fromJson(reader, listType);
 
                 if (object instanceof List) {
                     List list = (List) object;
