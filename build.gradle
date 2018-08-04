@@ -51,7 +51,7 @@ dependencies {
         exclude group: 'org.apache.httpcomponents'
     }
 
-    implementation 'com.android.support:preference-v7:28.0.0-alpha1'
+    implementation 'com.android.support:preference-v7:27.1.1'
 
     // Amazon Ad
     implementation 'com.amazon.android:mobile-ads:5.+'
