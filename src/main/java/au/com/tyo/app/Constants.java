@@ -70,6 +70,9 @@ public interface Constants extends au.com.tyo.android.Constants {
 
 	String MESSAGE_BROADCAST = "TYODROID_MESSAGE_BROADCAST";
 
+	int MESSAGE_BROADCAST_LOADING_DATA = 77789;
+	int MESSAGE_BROADCAST_DATA_LOADED = 77790;
+
     String RESULT_CODE = "TYODROID_RESULT_CODE";
 
 	int REQUEST_CODE = 999;

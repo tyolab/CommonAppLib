@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
@@ -50,7 +51,7 @@ public class PageFragment implements UIEntity {
     private MessageHandler messageHandler;
 
     public interface MessageHandler {
-        void handleMessage(Context context, Intent intent);
+        boolean handleMessage(Context context, Intent intent);
     }
 
     public PageFragment(Fragment fragment) {
@@ -178,8 +179,32 @@ public class PageFragment implements UIEntity {
     }
 
     protected void handleBroadcastMessage(Context context, Intent intent) {
-        if (null != messageHandler)
-            messageHandler.handleMessage(context, intent);
+        if (null != messageHandler && messageHandler.handleMessage(context, intent))
+            return;
+
+        if (intent.hasExtra(Constants.MESSAGE_BROADCAST)) {
+            handleBroadcastMessage((Message) intent.getParcelableExtra(Constants.MESSAGE_BROADCAST));
+        }
+    }
+
+    protected void handleBroadcastMessage(Message msg) {
+        switch (msg.what) {
+            case Constants.MESSAGE_BROADCAST_LOADING_DATA:
+                onLoadingData();
+                break;
+
+            case Constants.MESSAGE_BROADCAST_DATA_LOADED:
+                onDataLoaded();
+                break;
+        }
+    }
+
+    protected void onDataLoaded() {
+        // override me
+    }
+
+    protected void onLoadingData() {
+        // override me
     }
 
     public void registerBroadcastReceivers() {
