@@ -73,5 +73,21 @@ public interface UI {
 
     void startActivity(Context context, Class cls, boolean isMainActivity);
 
+    void gotoPage(Class cls);
+
+    void gotoPage(Class cls, Object data);
+
+    void gotoPageWithData(Class cls, Object data, String title);
+
+    void gotoPageWithData(Class cls, Object data);
+
+    void gotoPageWithData(Class cls, String key, Object data, String title);
+
+    void gotoPageWithData(Class cls, Object data, boolean throughController, int requestCode, String title);
+
+    void gotoPageWithData(Class cls, String key, Object data, boolean throughController, int requestCode, String title);
+
     void pickFromList(Object list, String title);
+
+    void gotoMainPage();
 }

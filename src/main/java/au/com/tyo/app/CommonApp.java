@@ -7,17 +7,14 @@ package au.com.tyo.app;
 
 import android.app.Activity;
 import android.app.Application;
-import android.app.Dialog;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.Parcel;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -341,10 +338,10 @@ public abstract class CommonApp<UIType extends UI, ControllerType extends Contro
 	public UIType getUi() {
 		return ui;
 	}
-	
+
 	@Override
-	public void setUi(UI ui) {
-		this.ui = (UIType) ui;
+	public void setUi(UIType ui) {
+		this.ui = ui;
 	}
 
 	@Override

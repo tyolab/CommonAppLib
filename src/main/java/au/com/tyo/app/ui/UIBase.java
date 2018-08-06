@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.view.View;
 
 import au.com.tyo.android.AndroidUtils;
+import au.com.tyo.android.CommonInitializer;
 import au.com.tyo.android.CommonUIBase;
 import au.com.tyo.android.DialogFactory;
 import au.com.tyo.app.CommonActivityList;
@@ -27,10 +28,10 @@ import static au.com.tyo.app.Constants.REQUEST_NONE;
 
 public class UIBase<ControllerType extends Controller> extends CommonUIBase implements UI {
 
-	/**
-	 * It has to be a private member as the sub controller class won't be the same
-	 */
-	private ControllerType controller;
+    /**
+     * It has to be a private member as the sub controller class won't be the same
+     */
+    private ControllerType controller;
 
     private UIPage currentScreen;
 
@@ -42,9 +43,9 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
 
     private UIPage mainPage;
 
-	public UIBase(ControllerType controller) {
-		this.controller = controller;
-	}
+    public UIBase(ControllerType controller) {
+        this.controller = controller;
+    }
 
     public ControllerType getController() {
         return controller;
@@ -98,7 +99,6 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
 
     /**
      * When the window is create, all layout / elements / components are inflated
-     *
      */
     @Override
     public void onWidowReady() {
@@ -127,7 +127,7 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
 
     @Override
     public boolean onBackPressed() {
-		return currentScreen.onBackPressed();
+        return currentScreen.onBackPressed();
     }
 
     @Override
@@ -136,23 +136,22 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
     }
 
     /**
-	 *
-	 */
-	@Override
-	public void onAppStart() {
+     *
+     */
+    @Override
+    public void onAppStart() {
 
-	}
+    }
 
-	/**
-	 *
-	 * @param activity
-	 */
-	public void setupTheme(Activity activity) {
-		int themeId = controller.getSettings().getThemeId();
-		if (themeId > 0)
-			activity.setTheme(themeId);
-		else {
-			// we use light theme by default
+    /**
+     * @param activity
+     */
+    public void setupTheme(Activity activity) {
+        int themeId = controller.getSettings().getThemeId();
+        if (themeId > 0)
+            activity.setTheme(themeId);
+        else {
+            // we use light theme by default
 //			controller.getSettings().setThemeId(R.style.CommonAppTheme_Light_NoActionBar);
 //			activity.setTheme(R.style.CommonAppTheme_Light_NoActionBar);
             try {
@@ -163,7 +162,7 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
             if (themeId > 0)
                 controller.getSettings().setThemeId(themeId);
         }
-	}
+    }
 
     @Override
     public void startActivity(Class aClass) {
@@ -191,7 +190,7 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
 
     @Override
     public void viewHtmlPageFromAsset(String assetFile, String title, Integer statusBarColor, PageWebView.WebPageListener webPageListener) {
-	    setWebPageListener(webPageListener);
+        setWebPageListener(webPageListener);
 
         getCurrentPage().viewHtmlPageFromAsset(CommonActivityWebView.class, assetFile, title, statusBarColor);
     }
@@ -207,30 +206,37 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
         return getCurrentPage().getActivity();
     }
 
+    @Override
     public void gotoPage(Class cls) {
         startActivity(cls);
     }
 
+    @Override
     public void gotoPage(Class cls, Object data) {
         startActivity(cls, data);
     }
 
+    @Override
     public void gotoPageWithData(Class cls, Object data, String title) {
         gotoPageWithData(cls, data, true, REQUEST_NONE, title);
     }
 
+    @Override
     public void gotoPageWithData(Class cls, Object data) {
-	    gotoPageWithData(cls, data, true, REQUEST_NONE, null);
+        gotoPageWithData(cls, data, true, REQUEST_NONE, null);
     }
 
+    @Override
     public void gotoPageWithData(Class cls, String key, Object data, String title) {
         gotoPageWithData(cls, key, data, true, REQUEST_NONE, title);
     }
 
+    @Override
     public void gotoPageWithData(Class cls, Object data, boolean throughController, int requestCode, String title) {
-	    gotoPageWithData(cls, Constants.DATA, data, throughController, requestCode, title);
+        gotoPageWithData(cls, Constants.DATA, data, throughController, requestCode, title);
     }
 
+    @Override
     public void gotoPageWithData(Class cls, String key, Object data, boolean throughController, int requestCode, String title) {
         controller.setParcel(null);
         Context context = getCurrentPage().getActivity();
@@ -246,8 +252,7 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
         if (throughController) {
             controller.setParcel(data);
             extra.setExtra(Constants.DATA_LOCATION_CONTROLLER, true);
-        }
-        else {
+        } else {
             if (data instanceof Uri)
                 extra.getIntent().setData((Uri) data);
             else
@@ -269,5 +274,10 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
 
     public void setWebPageListener(PageWebView.WebPageListener webPageListener) {
         this.webPageListener = webPageListener;
+    }
+
+    @Override
+    public void gotoMainPage() {
+        gotoPage(CommonInitializer.mainActivityClass);
     }
 }
