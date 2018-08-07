@@ -1366,7 +1366,14 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         // by default no menu created
         getActionBarMenu().setupMenu(menu, this);
         getActionBarMenu().setMenuTextColor(titleTextColor);
+
+        onMenuPostCreated();
         return true;
+    }
+
+    protected void onMenuPostCreated() {
+        // do nothing
+        // put the code for the menu touch up here, such as updating the title of the menu item(s)
     }
 
     public int getActionBarHeight() {
