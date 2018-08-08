@@ -101,6 +101,8 @@ public interface UIPage extends UIEntity {
 
     void startActivity(CommonExtra extra);
 
+    void startActivity(Intent intent);
+
     void startActivity(Class cls, int flags, String key, Object data, View view, int requestCode);
 
     int getContentViewResId();

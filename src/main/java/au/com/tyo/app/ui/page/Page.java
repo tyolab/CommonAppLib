@@ -967,6 +967,11 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     }
 
     @Override
+    public void startActivity(Intent intent) {
+        startActivity(activity, intent, null, -1);
+    }
+
+    @Override
     public void startActivity(Class cls, int flags, String key, Object data, View view, int requestCode) {
         startActivity(activity, cls, flags, key, data, view, requestCode, false);
     }
