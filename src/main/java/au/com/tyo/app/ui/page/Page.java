@@ -1491,6 +1491,8 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
 
     @Override
     public boolean onDestroy() {
+        super.onDestroy();
+
         if (!isSubpage())
             getController().getUi().setMainPage(null);
         return false;

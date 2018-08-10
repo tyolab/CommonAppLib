@@ -166,7 +166,12 @@ public class PageFragment implements UIEntity {
     }
 
     public void onStop() {
+        // no ops
+    }
+
+    public boolean onDestroy() {
         unregisterBroadcastReceivers();
+        return false;
     }
 
     public void createMessageReceiver() {

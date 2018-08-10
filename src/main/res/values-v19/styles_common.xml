@@ -1,15 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Base.CommonAlertDialog.Light" parent="AlertDialog.AppCompat.Light" >
-        <item name="android:windowBackground">@color/dialog_background_color_light</item>
-        <!--
-        <item name="android:colorBackground">@android:color/transparent</item>
-        -->
-    </style>
-    <style name="Base.CommonAlertDialog.Dark" parent="AlertDialog.AppCompat" >
-        <item name="android:windowBackground">@color/dialog_background_color_dark</item>
-        <!--
-        <item name="android:colorBackground">@android:color/transparent</item>
-        -->
-    </style>
+
 </resources>
