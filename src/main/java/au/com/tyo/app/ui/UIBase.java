@@ -253,8 +253,10 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
             controller.setParcel(data);
             extra.setExtra(Constants.DATA_LOCATION_CONTROLLER, true);
         } else {
-            if (data instanceof Uri)
+            if (data instanceof Uri) {
                 extra.getIntent().setData((Uri) data);
+                // extra.getIntent().addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+            }
             else
                 extra.setParcelExtra(key, data);
         }
