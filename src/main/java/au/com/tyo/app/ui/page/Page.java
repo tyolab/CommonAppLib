@@ -213,6 +213,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         setResult(null);
 
         configActionBarMenu();
+
         pageInitializer = PageInitializer.getInstance();
 
         if (pageInitializer != null)

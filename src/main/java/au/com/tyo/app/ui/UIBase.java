@@ -197,8 +197,16 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
 
     @Override
     public void showDialog(int messageArrayResId, int themeId, DialogInterface.OnClickListener okListener, DialogInterface.OnClickListener cancelListener) {
-        Dialog dialog = DialogFactory.createDialog(getCurrentPage().getActivity(), themeId, messageArrayResId, okListener, cancelListener);
+        Dialog dialog = createDialog(getCurrentPage().getActivity(), themeId, messageArrayResId, okListener, cancelListener);
         dialog.show();
+    }
+
+    public static Dialog createDialog(Activity activity, int messageArrayResId, int themeId, DialogInterface.OnClickListener okListener, DialogInterface.OnClickListener cancelListener) {
+        return DialogFactory.createDialog(activity, themeId, messageArrayResId, okListener, cancelListener);
+    }
+
+    public static Dialog createDialog(Activity activity, int messageArrayResId) {
+       return createDialog(activity, messageArrayResId, -1, DialogFactory.dismissMeListener, null);
     }
 
     @Override
