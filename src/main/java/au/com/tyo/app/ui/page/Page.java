@@ -259,7 +259,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     }
 
     public void setResult(Object result) {
-        setResult(result, -1);
+        setResult(result, Activity.RESULT_OK);
     }
 
     public void setResult(Object result, int i) {
