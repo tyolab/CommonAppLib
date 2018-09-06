@@ -231,7 +231,12 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
 
     @Override
     public void gotoPageWithData(Class cls, Object data) {
-        gotoPageWithData(cls, data, true, REQUEST_NONE, null);
+        gotoPageWithData(cls, data, true);
+    }
+
+    @Override
+    public void gotoPageWithData(Class cls, Object data, boolean throughController) {
+        gotoPageWithData(cls, data, throughController, REQUEST_NONE, null);
     }
 
     @Override
