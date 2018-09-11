@@ -196,6 +196,11 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
     }
 
     @Override
+    public void showDialog(int messageArrayResId, DialogInterface.OnClickListener okListener, DialogInterface.OnClickListener cancelListener) {
+        showDialog(messageArrayResId, -1, okListener, cancelListener);
+    }
+
+    @Override
     public void showDialog(int messageArrayResId, int themeId, DialogInterface.OnClickListener okListener, DialogInterface.OnClickListener cancelListener) {
         Dialog dialog = createDialog(getCurrentPage().getActivity(), messageArrayResId, themeId, okListener, cancelListener);
         dialog.show();

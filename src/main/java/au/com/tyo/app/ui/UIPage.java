@@ -170,4 +170,6 @@ public interface UIPage extends UIEntity {
     void onSaveInstanceState(Bundle savedInstanceState);
 
     void onWidowReady();
+
+    void finish();
 }
