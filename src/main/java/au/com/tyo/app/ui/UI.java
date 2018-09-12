@@ -94,4 +94,6 @@ public interface UI {
     void pickFromList(Object list, String title);
 
     void gotoMainPage();
+
+    void gotoBackgroundProgressStatusPage();
 }

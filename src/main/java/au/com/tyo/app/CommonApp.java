@@ -839,6 +839,7 @@ public abstract class CommonApp<UIType extends UI, ControllerType extends Contro
 		LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
 	}
 
+	@Override
 	public void broadcastMessageBackgroundTaskProgress(int progress) {
 		broadcastMessage(Constants.MESSAGE_BROADCAST_BACKGROUND_PROGRESS, progress);
 	}

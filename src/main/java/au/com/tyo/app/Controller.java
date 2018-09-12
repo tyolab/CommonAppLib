@@ -174,5 +174,7 @@ public interface Controller<T extends UI> extends CommonController {
 
 	void broadcastMessage(String key, Object data);
 
-    void onBackgroundDataProcessingTaskFinished();
+	void broadcastMessageBackgroundTaskProgress(int progress);
+
+	void onBackgroundDataProcessingTaskFinished();
 }

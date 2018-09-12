@@ -302,6 +302,7 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
         gotoPage(CommonInitializer.mainActivityClass);
     }
 
+    @Override
     public void gotoBackgroundProgressStatusPage() {
         gotoPageWithData(ActivityBackgroundProgress.class, null, false, au.com.tyo.app.Constants.REQUEST_CODE_DP_RESULT, null);
     }

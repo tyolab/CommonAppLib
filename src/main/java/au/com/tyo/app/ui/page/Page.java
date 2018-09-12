@@ -356,6 +356,9 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         super.onStop();
         // should be overrode if needed
         task = null;
+
+        // Page becomes invisible to user
+        getController().getUi().setCurrentScreen(null);
     }
 
     @Override
