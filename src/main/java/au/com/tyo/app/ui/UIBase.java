@@ -22,6 +22,7 @@ import au.com.tyo.app.CommonActivityWebView;
 import au.com.tyo.app.CommonExtra;
 import au.com.tyo.app.Constants;
 import au.com.tyo.app.Controller;
+import au.com.tyo.app.ui.activity.ActivityBackgroundProgress;
 import au.com.tyo.app.ui.page.PageWebView;
 
 import static au.com.tyo.app.Constants.REQUEST_NONE;
@@ -299,5 +300,9 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
     @Override
     public void gotoMainPage() {
         gotoPage(CommonInitializer.mainActivityClass);
+    }
+
+    public void gotoBackgroundProgressStatusPage() {
+        gotoPageWithData(ActivityBackgroundProgress.class, null, false, au.com.tyo.app.Constants.REQUEST_CODE_DP_RESULT, null);
     }
 }

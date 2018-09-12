@@ -187,8 +187,8 @@ public class PageFragment implements UIEntity {
         if (null != messageHandler && messageHandler.handleMessage(context, intent))
             return;
 
-        if (intent.hasExtra(Constants.MESSAGE_BROADCAST)) {
-            handleBroadcastMessage((Message) intent.getParcelableExtra(Constants.MESSAGE_BROADCAST));
+        if (intent.hasExtra(Constants.DATA_MESSAGE_BROADCAST)) {
+            handleBroadcastMessage((Message) intent.getParcelableExtra(Constants.DATA_MESSAGE_BROADCAST));
         }
     }
 

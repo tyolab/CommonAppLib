@@ -41,6 +41,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.OverridingMethodsMustInvokeSuper;
+
 import au.com.tyo.android.AndroidUtils;
 import au.com.tyo.android.CommonInitializer;
 import au.com.tyo.android.CommonPermission;
@@ -452,7 +454,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
             ad.loadBannerAd();
     }
 
-    @Override
+    @OverridingMethodsMustInvokeSuper
     public void setupComponents() {
         /**
          * Only if the default layout is used then we do the UI elements (search bar, footer, body, header, etc) setup

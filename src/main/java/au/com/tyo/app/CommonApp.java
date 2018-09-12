@@ -829,7 +829,7 @@ public abstract class CommonApp<UIType extends UI, ControllerType extends Contro
 
 	@Override
 	public void broadcastMessage(Message message) {
-		broadcastMessage(Constants.MESSAGE_BROADCAST, message);
+		broadcastMessage(Constants.DATA_MESSAGE_BROADCAST, message);
 	}
 
 	@Override
@@ -838,4 +838,13 @@ public abstract class CommonApp<UIType extends UI, ControllerType extends Contro
 		CommonExtra.putExtra(intent, key, data);
 		LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
 	}
+
+	public void broadcastMessageBackgroundTaskProgress(int progress) {
+		broadcastMessage(Constants.MESSAGE_BROADCAST_BACKGROUND_PROGRESS, progress);
+	}
+
+    @Override
+    public void onBackgroundDataProcessingTaskFinished() {
+        // override this, do things like stopping the DP service
+    }
 }

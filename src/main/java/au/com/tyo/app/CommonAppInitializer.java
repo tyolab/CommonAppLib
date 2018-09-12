@@ -11,7 +11,7 @@ import android.util.Log;
 
 import au.com.tyo.android.CommonInitializer;
 
-public class CommonAppInitializer extends MultiDexApplication {
+public class CommonAppInitializer<T extends Controller> extends MultiDexApplication {
 
     private static final String TAG = "CommonAppInitializer";
 
@@ -26,11 +26,11 @@ public class CommonAppInitializer extends MultiDexApplication {
         controller.setApplication(this);
     }
 
-    public static Controller getController() {
-        return controller;
+    public static<T> T getController() {
+        return (T) controller;
     }
 
-    public static Controller getController(Context context) {
+    public static<T> T getController(Context context) {
         if (null == controller || controller.isAppQuit()) {
             controller = (Controller) CommonInitializer.initializeController(context);
 
@@ -41,7 +41,7 @@ public class CommonAppInitializer extends MultiDexApplication {
             controller.initializeOnce();
         }
 
-        return controller;
+        return getController();
     }
 
     public static void initialize(Application application) {
