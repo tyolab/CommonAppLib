@@ -65,10 +65,16 @@ public class PageBackgroundProgress<T extends Controller> extends Page<T> {
         if (msg.what == Constants.MESSAGE_BROADCAST_BACKGROUND_PROGRESS) {
             progress = (int) msg.obj;
 
+            updateProgress();
+
             if (progress == 100) {
                 getController().onBackgroundDataProcessingTaskFinished();
                 finish();
             }
         }
+    }
+
+    private void updateProgress() {
+        getActivity().runOnUiThread(progressRunnable);
     }
 }

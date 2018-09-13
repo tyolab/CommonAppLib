@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -356,9 +357,6 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         super.onStop();
         // should be overrode if needed
         task = null;
-
-        // Page becomes invisible to user
-        getController().getUi().setCurrentScreen(null);
     }
 
     @Override
@@ -1026,12 +1024,16 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
      * @param view
      * @param requestCode
      */
-    public static void startActivity(Activity context, Intent intent, View view, int requestCode) {
+    public static void startActivity(Context context, Intent intent, View view, int requestCode) {
         Bundle options = null;
+        Activity activity = null;
 
-        if (null != view)
+        if (context instanceof Activity)
+            activity = (Activity) context;
+
+        if (null != activity && null != view)
             options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                    context,
+                    activity,
                     view,
                     Constants.BUNDLE).toBundle();
 
@@ -1039,14 +1041,14 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
             intent.putExtra(Constants.PAGE_REQUEST_CODE, requestCode);
 
         if (null != options && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            if (requestCode > REQUEST_NONE)
-                context.startActivityForResult(intent, requestCode, options);
+            if (requestCode > REQUEST_NONE && null != activity)
+                activity.startActivityForResult(intent, requestCode, options);
             else
                 context.startActivity(intent, options);
         }
         else {
-            if (requestCode > REQUEST_NONE)
-                context.startActivityForResult(intent, requestCode);
+            if (requestCode > REQUEST_NONE && null != activity)
+                activity.startActivityForResult(intent, requestCode);
             else
                 context.startActivity(intent);
         }
@@ -1501,6 +1503,11 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
 
         if (!isSubpage())
             getController().getUi().setMainPage(null);
+
+        // Page becomes invisible to user
+        // But setting to null will cause problems for the operations that needs context
+        // getController().getUi().setCurrentScreen(null);
+
         return false;
     }
 

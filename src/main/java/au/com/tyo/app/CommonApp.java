@@ -43,6 +43,7 @@ import au.com.tyo.app.model.ImagedSearchableItem;
 import au.com.tyo.app.model.Searchable;
 import au.com.tyo.app.ui.UI;
 import au.com.tyo.app.ui.UIBase;
+import au.com.tyo.app.ui.page.Page;
 import au.com.tyo.services.HttpPool;
 import au.com.tyo.utils.StringUtils;
 
@@ -793,7 +794,7 @@ public abstract class CommonApp<UIType extends UI, ControllerType extends Contro
     }
 
 	public void startActivity(Class cls, boolean mainActivity) {
-		getUi().startActivity(cls, -1, null, null, null, REQUEST_NONE, mainActivity);
+		getUi().startActivity((Page) getUi().getCurrentPage(), cls, -1, null, null, null, REQUEST_NONE, mainActivity);
 	}
 
 	@Override

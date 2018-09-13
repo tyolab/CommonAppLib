@@ -206,9 +206,18 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		return getPage().onPrepareOptionsMenu(getSupportActionBar(), menu) || super.onPrepareOptionsMenu(menu);
 	}
-	
+
+	/**
+	 * On activity result happens in a different thread when current page in UI get de-registered
+	 *
+	 * @param requestCode
+	 * @param resultCode
+	 * @param data
+	 */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		controller.getUi().setCurrentScreen(getPage());
+
         getPage().onActivityResult(requestCode, resultCode, data);
 	}
 	

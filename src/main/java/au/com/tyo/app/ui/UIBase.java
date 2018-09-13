@@ -23,6 +23,7 @@ import au.com.tyo.app.CommonExtra;
 import au.com.tyo.app.Constants;
 import au.com.tyo.app.Controller;
 import au.com.tyo.app.ui.activity.ActivityBackgroundProgress;
+import au.com.tyo.app.ui.page.Page;
 import au.com.tyo.app.ui.page.PageWebView;
 
 import static au.com.tyo.app.Constants.REQUEST_NONE;
@@ -128,7 +129,9 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
 
     @Override
     public boolean onBackPressed() {
-        return currentScreen.onBackPressed();
+        if (null != currentScreen)
+            return currentScreen.onBackPressed();
+        return false;
     }
 
     @Override
@@ -166,27 +169,27 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
     }
 
     @Override
-    public void startActivity(Class aClass) {
-        startActivity(aClass, null);
+    public void startActivity(Page fromPage, Class aClass) {
+        startActivity(fromPage, aClass, null);
     }
 
     @Override
-    public void startActivity(Class aClass, Object data) {
-        startActivity(aClass, -1/*Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK*/, null, data, null, REQUEST_NONE);
+    public void startActivity(Page fromPage, Class aClass, Object data) {
+        startActivity(fromPage, aClass, -1/*Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK*/, null, data, null, REQUEST_NONE);
     }
 
     @Override
-    public void startActivity(CommonExtra extra) {
-        getCurrentPage().startActivity(extra);
+    public void startActivity(Page fromPage, CommonExtra extra) {
+        fromPage.startActivity(extra);
     }
 
-    public void startActivity(Class cls, int flags, String key, Object data, View view, int requestCode) {
-        startActivity(cls, flags, key, data, view, requestCode, false);
+    public void startActivity(Page fromPage, Class cls, int flags, String key, Object data, View view, int requestCode) {
+        startActivity(fromPage, cls, flags, key, data, view, requestCode, false);
     }
 
     @Override
-    public void startActivity(Class cls, int flags, String key, Object data, View view, int requestCode, boolean isMainActivity) {
-        getCurrentPage().startActivity(cls, flags, key, data, view, requestCode, isMainActivity);
+    public void startActivity(Page fromPage, Class cls, int flags, String key, Object data, View view, int requestCode, boolean isMainActivity) {
+        fromPage.startActivity(cls, flags, key, data, view, requestCode, isMainActivity);
     }
 
     @Override
@@ -221,44 +224,44 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
     }
 
     @Override
-    public void gotoPage(Class cls) {
-        startActivity(cls);
+    public void gotoPage(Page fromPage, Class cls) {
+        startActivity(fromPage, cls);
     }
 
     @Override
-    public void gotoPage(Class cls, Object data) {
-        startActivity(cls, data);
+    public void gotoPage(Page fromPage, Class cls, Object data) {
+        startActivity(fromPage, cls, data);
     }
 
     @Override
-    public void gotoPageWithData(Class cls, Object data, String title) {
-        gotoPageWithData(cls, data, true, REQUEST_NONE, title);
+    public void gotoPageWithData(Page fromPage, Class cls, Object data, String title) {
+        gotoPageWithData(fromPage, cls, data, true, REQUEST_NONE, title);
     }
 
     @Override
-    public void gotoPageWithData(Class cls, Object data) {
-        gotoPageWithData(cls, data, true);
+    public void gotoPageWithData(Page fromPage, Class cls, Object data) {
+        gotoPageWithData(fromPage, cls, data, true);
     }
 
     @Override
-    public void gotoPageWithData(Class cls, Object data, boolean throughController) {
-        gotoPageWithData(cls, data, throughController, REQUEST_NONE, null);
+    public void gotoPageWithData(Page fromPage, Class cls, Object data, boolean throughController) {
+        gotoPageWithData(fromPage, cls, data, throughController, REQUEST_NONE, null);
     }
 
     @Override
-    public void gotoPageWithData(Class cls, String key, Object data, String title) {
-        gotoPageWithData(cls, key, data, true, REQUEST_NONE, title);
+    public void gotoPageWithData(Page fromPage, Class cls, String key, Object data, String title) {
+        gotoPageWithData(fromPage, cls, key, data, true, REQUEST_NONE, title);
     }
 
     @Override
-    public void gotoPageWithData(Class cls, Object data, boolean throughController, int requestCode, String title) {
-        gotoPageWithData(cls, Constants.DATA, data, throughController, requestCode, title);
+    public void gotoPageWithData(Page fromPage, Class cls, Object data, boolean throughController, int requestCode, String title) {
+        gotoPageWithData(fromPage, cls, Constants.DATA, data, throughController, requestCode, title);
     }
 
     @Override
-    public void gotoPageWithData(Class cls, String key, Object data, boolean throughController, int requestCode, String title) {
+    public void gotoPageWithData(Page fromPage, Class cls, String key, Object data, boolean throughController, int requestCode, String title) {
         controller.setParcel(null);
-        Context context = getCurrentPage().getActivity();
+        Context context = fromPage.getActivity();
 
         CommonExtra extra = new CommonExtra(cls);
         extra.createIntent(context);
@@ -280,12 +283,12 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
                 extra.setParcelExtra(key, data);
         }
 
-        startActivity(extra);
+        startActivity(fromPage, extra);
     }
 
     @Override
     public void pickFromList(Object list, String title) {
-        gotoPageWithData(CommonActivityList.class, Constants.DATA_LIST, list, true, Constants.REQUEST_PICK, title);
+        gotoPageWithData((Page) getCurrentPage(), CommonActivityList.class, Constants.DATA_LIST, list, true, Constants.REQUEST_PICK, title);
     }
 
     @Override
@@ -298,12 +301,12 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
     }
 
     @Override
-    public void gotoMainPage() {
-        gotoPage(CommonInitializer.mainActivityClass);
+    public void gotoMainPage(Page fromPage) {
+        gotoPage(fromPage, CommonInitializer.mainActivityClass);
     }
 
     @Override
-    public void gotoBackgroundProgressStatusPage() {
-        gotoPageWithData(ActivityBackgroundProgress.class, null, false, au.com.tyo.app.Constants.REQUEST_CODE_DP_RESULT, null);
+    public void gotoBackgroundProgressStatusPage(Page fromPage) {
+        gotoPageWithData(fromPage, ActivityBackgroundProgress.class, null, false, Constants.REQUEST_CODE_DP_RESULT, null);
     }
 }
