@@ -74,7 +74,7 @@ public class PageAgent {
      *
      */
     private Context context;
-    
+
     public interface ActivityActionListener {
 
         void bindData(Intent intent);
@@ -440,10 +440,16 @@ public class PageAgent {
         contentView = controller.getUi().getCurrentPage().getMainView();
     }
 
+    /**
+     *
+     */
     private void setupTitleBar1() {
 //        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
     }
 
+    /**
+     *
+     */
     private void setupTitleBar2() {
 //        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.information_view);
     }
@@ -470,6 +476,7 @@ public class PageAgent {
      */
     public void onResume(UIPage page) {
         controller.getUi().setCurrentScreen(page);
+        controller.getUi().setContextPage(page);
 
         setControllerContext();
 
@@ -482,6 +489,10 @@ public class PageAgent {
         page.onResume();
     }
 
+    public boolean onDestroy() {
+         return !getPage().onDestroy() && !getPage().isSubpage();
+    }
+
     /**
      *
      */
@@ -489,6 +500,9 @@ public class PageAgent {
         getPage().onPause();
     }
 
+    /**
+     *
+     */
     private void setControllerContext() {
 
         if (isActivity()) {

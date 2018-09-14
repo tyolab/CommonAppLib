@@ -97,4 +97,8 @@ public interface UI {
     void gotoMainPage(Page fromPage);
 
     void gotoBackgroundProgressStatusPage(Page fromPage);
+
+    UIPage getContextPage();
+
+    void setContextPage(UIPage contextPage);
 }

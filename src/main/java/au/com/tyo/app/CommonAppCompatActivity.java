@@ -188,7 +188,7 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
   	protected void onDestroy() {
   		super.onDestroy();
 
-  		if (!getPage().onDestroy() && isFinishing() && !getPage().isSubpage())
+  		if (!agent.onDestroy() && isFinishing())
   			controller.onDestroy();
   	}
 	

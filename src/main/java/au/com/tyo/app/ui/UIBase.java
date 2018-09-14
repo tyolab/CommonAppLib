@@ -45,6 +45,8 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
 
     private UIPage mainPage;
 
+    private UIPage contextPage;
+
     public UIBase(ControllerType controller) {
         this.controller = controller;
     }
@@ -308,5 +310,15 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
     @Override
     public void gotoBackgroundProgressStatusPage(Page fromPage) {
         gotoPageWithData(fromPage, ActivityBackgroundProgress.class, null, false, Constants.REQUEST_CODE_DP_RESULT, null);
+    }
+
+    @Override
+    public UIPage getContextPage() {
+        return contextPage;
+    }
+
+    @Override
+    public void setContextPage(UIPage contextPage) {
+        this.contextPage = contextPage;
     }
 }

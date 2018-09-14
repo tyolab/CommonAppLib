@@ -69,12 +69,11 @@ public class PageBackgroundProgress<T extends Controller> extends Page<T> {
             if (lp > progress) {
                 progress = lp;
                 updateProgress();
-
-                if (progress == 100) {
-                    getController().onBackgroundDataProcessingTaskFinished();
-                    finish();
-                }
             }
+        }
+        else if (msg.what == Constants.MESSAGE_BROADCAST_BACKGROUND_TASK_RESULT) {
+            getController().onBackgroundDataProcessingTaskFinished(msg.obj);
+            finish();
         }
     }
 
