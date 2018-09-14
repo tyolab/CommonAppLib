@@ -63,13 +63,17 @@ public class PageBackgroundProgress<T extends Controller> extends Page<T> {
     @Override
     protected void handleBroadcastMessage(Message msg) {
         if (msg.what == Constants.MESSAGE_BROADCAST_BACKGROUND_PROGRESS) {
-            progress = (int) msg.obj;
 
-            updateProgress();
+            int lp = (int) msg.obj;
 
-            if (progress == 100) {
-                getController().onBackgroundDataProcessingTaskFinished();
-                finish();
+            if (lp > progress) {
+                progress = lp;
+                updateProgress();
+
+                if (progress == 100) {
+                    getController().onBackgroundDataProcessingTaskFinished();
+                    finish();
+                }
             }
         }
     }
