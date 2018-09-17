@@ -357,6 +357,10 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         super.onStop();
         // should be overrode if needed
         task = null;
+
+        // Page becomes invisible to user
+        // But setting to null will cause problems for the operations that needs context
+        getController().getUi().setContextPage(null);
     }
 
     @Override
@@ -1503,10 +1507,6 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
 
         if (!isSubpage())
             getController().getUi().setMainPage(null);
-
-        // Page becomes invisible to user
-        // But setting to null will cause problems for the operations that needs context
-        // getController().getUi().setCurrentScreen(null);
 
         return false;
     }
