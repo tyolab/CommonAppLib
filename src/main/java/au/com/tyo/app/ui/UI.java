@@ -66,6 +66,8 @@ public interface UI {
 
     void viewHtmlPageFromAsset(String assetFile, String title, Integer statusBarColor, PageWebView.WebPageListener webPageListener);
 
+    void showDialog(String title, String info, DialogInterface.OnClickListener okListener, DialogInterface.OnClickListener cancelListener);
+
     void showDialog(int messageArrayResId, DialogInterface.OnClickListener okListener, DialogInterface.OnClickListener cancelListener);
 
     void showDialog(int messageArrayResId, int themeId, DialogInterface.OnClickListener okListener, DialogInterface.OnClickListener cancelListener);
@@ -75,6 +77,8 @@ public interface UI {
     PageWebView.WebPageListener getWebPageListener();
 
     void startActivity(Context context, Class cls, boolean isMainActivity);
+
+    void gotoPage(Class cls);
 
     void gotoPage(Page fromPage, Class cls);
 

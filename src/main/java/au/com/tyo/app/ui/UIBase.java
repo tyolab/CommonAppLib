@@ -202,6 +202,12 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
     }
 
     @Override
+    public void showDialog(String title, String info, DialogInterface.OnClickListener okListener, DialogInterface.OnClickListener cancelListener) {
+        Dialog dialog = createDialog(getCurrentPage().getActivity(), title, info, -1, okListener, cancelListener);
+        dialog.show();
+    }
+
+    @Override
     public void showDialog(int messageArrayResId, DialogInterface.OnClickListener okListener, DialogInterface.OnClickListener cancelListener) {
         showDialog(messageArrayResId, -1, okListener, cancelListener);
     }
@@ -210,6 +216,10 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
     public void showDialog(int messageArrayResId, int themeId, DialogInterface.OnClickListener okListener, DialogInterface.OnClickListener cancelListener) {
         Dialog dialog = createDialog(getCurrentPage().getActivity(), messageArrayResId, themeId, okListener, cancelListener);
         dialog.show();
+    }
+
+    public static Dialog createDialog(Activity activity, String title, String info, int themeId, DialogInterface.OnClickListener okListener, DialogInterface.OnClickListener cancelListener) {
+        return DialogFactory.createDialog(activity, themeId, title, info, okListener, cancelListener);
     }
 
     public static Dialog createDialog(Activity activity, int messageArrayResId, int themeId, DialogInterface.OnClickListener okListener, DialogInterface.OnClickListener cancelListener) {
@@ -223,6 +233,11 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
     @Override
     public Context getContext() {
         return getCurrentPage().getActivity();
+    }
+
+    @Override
+    public void gotoPage(Class cls) {
+        gotoPage((Page) getCurrentPage(), cls);
     }
 
     @Override
