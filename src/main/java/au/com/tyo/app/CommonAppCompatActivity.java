@@ -22,7 +22,7 @@ import au.com.tyo.app.ui.UIPage;
  * @author Eric Tang <eric.tang@tyo.com.au>
  * 
  */
-public class CommonAppCompatActivity extends AppCompatActivity implements UIActivity, PageAgent.ActivityActionListener {
+public class CommonAppCompatActivity extends AppCompatActivity implements UIActivity, PageAgent.PageActionListener {
 
 	private static final String LOG_TAG = CommonAppCompatActivity.class.getSimpleName();
 

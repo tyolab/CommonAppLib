@@ -32,6 +32,7 @@ dependencies {
 
     api project(':CommonUiLib')
     api project(':CommonUtils')
+    api project(path: ':CommonJsonForm')
 
     // Calligraphy
     implementation 'uk.co.chrisjenx:calligraphy:2.3.0'
@@ -58,4 +59,5 @@ dependencies {
 
     // Google Ad
     implementation 'com.google.android.gms:play-services-ads:15.0.0'
+
 }

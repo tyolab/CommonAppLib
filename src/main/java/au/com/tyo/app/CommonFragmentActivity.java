@@ -22,7 +22,7 @@ import au.com.tyo.app.ui.UIPage;
  * @author Eric Tang <eric.tang@tyo.com.au>
  * 
  */
-public class CommonFragmentActivity extends FragmentActivity implements UIActivity, PageAgent.ActivityActionListener {
+public class CommonFragmentActivity extends FragmentActivity implements UIActivity, PageAgent.PageActionListener {
 
     protected PageAgent agent;
 

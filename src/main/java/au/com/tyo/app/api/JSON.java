@@ -42,4 +42,7 @@ public class JSON {
         return parser.parseAndClose(inputStream, Charsets.UTF_8, cls);
     }
 
+    public static String toJson(Object form) {
+        return getGson().toJson(form);
+    }
 }

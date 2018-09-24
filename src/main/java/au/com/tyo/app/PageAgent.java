@@ -57,7 +57,7 @@ public class PageAgent {
     /**
      *
      */
-    private ActivityActionListener actionListener;
+    private PageActionListener actionListener;
 
     /**
      *
@@ -75,7 +75,7 @@ public class PageAgent {
      */
     private Context context;
 
-    public interface ActivityActionListener {
+    public interface PageActionListener {
 
         void bindData(Intent intent);
 
@@ -85,7 +85,6 @@ public class PageAgent {
 
         void onDataBoundFinished();
     }
-
 
     public PageAgent(Object uiObject) {
         this.uiObject = uiObject;
@@ -99,8 +98,8 @@ public class PageAgent {
         else
             throw new IllegalStateException("uiObject must be an instance of Activity or Fragment");
 
-        if (uiObject instanceof ActivityActionListener)
-            actionListener = (ActivityActionListener) uiObject;
+        if (uiObject instanceof PageActionListener)
+            actionListener = (PageActionListener) uiObject;
 
         init();
     }
@@ -236,13 +235,18 @@ public class PageAgent {
                 }
             }
         }
+
+        if (null != page) {
+            if (page instanceof PageActionListener)
+                actionListener = (PageActionListener) page;
+        }
     }
 
-    public ActivityActionListener getActionListener() {
+    public PageActionListener getActionListener() {
         return actionListener;
     }
 
-    public void setActionListener(ActivityActionListener actionListener) {
+    public void setActionListener(PageActionListener actionListener) {
         this.actionListener = actionListener;
     }
 
