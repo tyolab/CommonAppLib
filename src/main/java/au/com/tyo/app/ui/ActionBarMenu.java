@@ -171,4 +171,8 @@ public class ActionBarMenu {
             }
         }
     }
+
+    public void hideMenuItem(int menuItemId) {
+        setMenuItemVisible(menuItemId, false);
+    }
 }
