@@ -336,4 +336,9 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
     public void setContextPage(UIPage contextPage) {
         this.contextPage = contextPage;
     }
+
+    @Override
+    public void onBackPressedOnProgressPage() {
+        // no ops yet
+    }
 }

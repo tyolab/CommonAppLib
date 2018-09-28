@@ -849,4 +849,5 @@ public abstract class CommonApp<UIType extends UI, ControllerType extends Contro
     public void onBackgroundDataProcessingTaskFinished(Object obj) {
         // override this, do things like stopping the DP service
     }
+
 }

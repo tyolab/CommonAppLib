@@ -84,6 +84,7 @@ public class PageBackgroundProgress<T extends Controller> extends Page<T> {
     @Override
     public boolean onBackPressed() {
         // disable back key
+        getController().getUi().onBackPressedOnProgressPage();
         return true;
     }
 }

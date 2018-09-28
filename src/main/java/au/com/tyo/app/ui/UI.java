@@ -105,4 +105,6 @@ public interface UI {
     UIPage getContextPage();
 
     void setContextPage(UIPage contextPage);
+
+    void onBackPressedOnProgressPage();
 }
