@@ -80,4 +80,10 @@ public class PageBackgroundProgress<T extends Controller> extends Page<T> {
     private void updateProgress() {
         getActivity().runOnUiThread(progressRunnable);
     }
+
+    @Override
+    public boolean onBackPressed() {
+        // disable back key
+        return true;
+    }
 }
