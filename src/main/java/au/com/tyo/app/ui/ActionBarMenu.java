@@ -155,9 +155,11 @@ public class ActionBarMenu {
     }
 
     public void setMenuItemVisible(int itemId, boolean visible) {
-        MenuItem item = this.menu.findItem(itemId);
-        if (null != item)
-            item.setVisible(visible);
+        if (null != menu) {
+            MenuItem item = this.menu.findItem(itemId);
+            if (null != item)
+                item.setVisible(visible);
+        }
     }
 
     public void showOptionMenuIcon() {
@@ -184,5 +186,9 @@ public class ActionBarMenu {
 
     public boolean isMenuInitialised() {
         return menu != null;
+    }
+
+    public void showMenuItem(int menuItemId) {
+        setMenuItemVisible(menuItemId, true);
     }
 }
