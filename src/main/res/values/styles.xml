@@ -77,4 +77,11 @@
         <item name="android:layout_marginRight">@dimen/progress_view_margin_right</item>
     </style>
 
+    <style name="AppStyle.ProgressBar.Box">
+        <item name="android:paddingTop">@dimen/progress_view_padding</item>
+        <item name="android:paddingBottom">@dimen/progress_view_padding</item>
+        <item name="android:paddingLeft">@dimen/progress_view_padding_left</item>
+        <item name="android:paddingRight">@dimen/progress_view_padding_right</item>
+    </style>
+
 </resources>

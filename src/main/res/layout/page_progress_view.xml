@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_gravity="center"
+        style="@style/AppStyle.ProgressBar.Box"
         >
         <ProgressBar
             style="?android:progressBarStyle"

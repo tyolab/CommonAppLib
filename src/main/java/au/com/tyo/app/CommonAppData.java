@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Observable;
 
 import au.com.tyo.android.CommonCache;
+import au.com.tyo.app.api.JSON;
 import au.com.tyo.io.IO;
 import au.com.tyo.io.Indexable;
 import au.com.tyo.utils.StringUtils;
@@ -77,6 +78,10 @@ public class CommonAppData extends Observable {
     }
 
     public InputStream assetToInputStream(String fileName) {
+        return assetToInputStream(context, fileName) ;
+    }
+
+    public static InputStream assetToInputStream(Context context, String fileName) {
         InputStream is = null;
         try {
             is = context.getAssets().open(fileName);
@@ -87,11 +92,11 @@ public class CommonAppData extends Observable {
         return is;
     }
     
-    public String assetToString(String fileName) {
+    public static String assetToString(Context context, String fileName) {
         String str = null;
         InputStream is = null;
         try {
-            is = assetToInputStream(fileName);
+            is = assetToInputStream(context, fileName);
             if (is != null)
                 str = new String(IO.inputStreamToBytes(is));
         } catch (IOException e) {
@@ -125,7 +130,7 @@ public class CommonAppData extends Observable {
             try {
                 is = context.getAssets().open(jsonFile);
                 Reader reader = new InputStreamReader(is);
-                object = new Gson().fromJson(reader, listType);
+                object = JSON.getGson().fromJson(reader, listType);
 
                 if (object instanceof List) {
                     List list = (List) object;

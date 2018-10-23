@@ -22,7 +22,7 @@ import au.com.tyo.app.ui.UIPage;
  * @author Eric Tang <eric.tang@tyo.com.au>
  * 
  */
-public class CommonFragmentActivity extends FragmentActivity implements UIActivity, PageAgent.ActivityActionListener {
+public class CommonFragmentActivity extends FragmentActivity implements UIActivity, PageAgent.PageActionListener {
 
     protected PageAgent agent;
 
@@ -150,32 +150,32 @@ public class CommonFragmentActivity extends FragmentActivity implements UIActivi
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		controller.onActivityResult(requestCode, resultCode, data);
+		getPage().onActivityResult(requestCode, resultCode, data);
 	}
 	
 	@Override
 	public boolean onKeyLongPress(int keyCode, KeyEvent event) {
-		return controller.onKeyLongPress(keyCode, event)  || super.onKeyLongPress(keyCode, event);
+		return getPage().onKeyLongPress(keyCode, event)  || super.onKeyLongPress(keyCode, event);
 	}
 	
 	@Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-   
-        controller.onPostCreate(savedInstanceState);
+
+		getPage().onPostCreate(savedInstanceState);
     }
  
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
-        controller.onConfigurationChanged(newConfig);
+		getPage().onConfigurationChanged(newConfig);
     }
     
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
 
-    	controller.onSaveInstanceState(savedInstanceState);
+		getPage().onSaveInstanceState(savedInstanceState);
         
         // Always call the superclass so it can save the view hierarchy state
         super.onSaveInstanceState(savedInstanceState);
@@ -186,7 +186,7 @@ public class CommonFragmentActivity extends FragmentActivity implements UIActivi
 		super.onWindowFocusChanged(hasFocus);
 
 		if (hasFocus)
-			controller.onWidowReady();
+			getPage().onWidowReady();
 	}
 
 	@Override

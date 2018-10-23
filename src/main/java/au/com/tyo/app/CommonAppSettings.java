@@ -7,21 +7,34 @@ package au.com.tyo.app;
 
 import android.content.Context;
 import au.com.tyo.android.AndroidSettings;
+import au.com.tyo.app.api.JSON;
+import au.com.tyo.json.DataJson;
+import au.com.tyo.json.JsonBase;
 
 /**
  * @author Eric Tang <eric.tang@tyo.com.au>
  */
 
-public class CommonAppSettings extends AndroidSettings {
+public class CommonAppSettings<T1 extends DataJson, T2 extends DataJson> extends AndroidSettings {
 	
 	public static final String PREF_SHOW_SEARCH_BAR = "pref_show_search_bar";
+
+	public static final String PREF_APP_DATA = "pref_app_data";
+
+	public static final String PREF_APP_SETTINGS = "pref_app_settings";
 	
 	protected boolean alwaysShowSearchBar;
+
+	private T2 appSettings;
+	private T1 appData;
 
 	public CommonAppSettings(Context context) {
 		super(context);
 		
 		alwaysShowSearchBar = true;
+
+		// loadAppData();
+		// loadAppSettings();
 	}
 	
 	/**
@@ -38,9 +51,46 @@ public class CommonAppSettings extends AndroidSettings {
 		
 		alwaysShowSearchBar = b;
 	}
-	
+
+	/**
+	 * The app settings saved in preferences
+	 */
+	protected void loadAppSettings(Class<? extends T2> aClass) {
+        appSettings = JSON.parse(prefs.getString(PREF_APP_SETTINGS, "{}"), aClass);
+	}
+
+	/**
+	 * The app data saved in preferences
+	 */
+	protected void loadAppData(Class<? extends T1> aClass) {
+        appData = JSON.parse(prefs.getString(PREF_APP_DATA, "{}"), aClass);
+	}
+
+	public void saveAppData() {
+        updatePreference(PREF_APP_DATA, JSON.toJson(appData));
+    }
+
+    public void saveAppSettings() {
+        updatePreference(PREF_APP_SETTINGS, JSON.toJson(appSettings));
+    }
 
 	public boolean toShowSearchBar() {
 		return alwaysShowSearchBar;
 	}
+
+    public DataJson getAppSettings() {
+        return appSettings;
+    }
+
+    public void setAppSettings(T2 appSettings) {
+        this.appSettings = appSettings;
+    }
+
+    public DataJson getAppData() {
+        return appData;
+    }
+
+    public void setAppData(T1 appData) {
+        this.appData = appData;
+    }
 }

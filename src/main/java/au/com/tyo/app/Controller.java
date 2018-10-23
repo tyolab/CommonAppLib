@@ -22,6 +22,8 @@ import au.com.tyo.app.model.DisplayItem;
 import au.com.tyo.app.model.ImagedSearchableItem;
 import au.com.tyo.app.model.Searchable;
 import au.com.tyo.app.ui.UI;
+import au.com.tyo.app.ui.page.Page;
+import au.com.tyo.app.ui.page.PageBackgroundProgress;
 
 /**
  * @author Eric Tang <eric.tang@tyo.com.au>
@@ -173,4 +175,9 @@ public interface Controller<T extends UI> extends CommonController {
     void sendMessage(Message msg);
 
 	void broadcastMessage(String key, Object data);
+
+	void broadcastMessageBackgroundTaskProgress(int progress);
+
+	void onBackgroundDataProcessingTaskFinished(Object obj);
+
 }

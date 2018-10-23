@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.view.View;
 
 import au.com.tyo.app.CommonExtra;
+import au.com.tyo.app.ui.page.Page;
 import au.com.tyo.app.ui.page.PageWebView;
 
 /**
@@ -43,15 +44,15 @@ public interface UI {
 
     void setupTheme(Activity activity);
 
-    void startActivity(Class activityTripClass);
+    void startActivity(Page fromPage, Class activityTripClass);
 
-    void startActivity(Class aClass, Object data);
+    void startActivity(Page fromPage, Class aClass, Object data);
 
-    void startActivity(CommonExtra extra);
+    void startActivity(Page fromPage, CommonExtra extra);
 
-    void startActivity(Class cls, int flags, String key, Object data, View view, int requestCode);
+    void startActivity(Page fromPage, Class cls, int flags, String key, Object data, View view, int requestCode);
 
-	void startActivity(Class cls, int flags, String key, Object data, View view, int requestCode, boolean isMainActivity);
+	void startActivity(Page fromPage, Class cls, int flags, String key, Object data, View view, int requestCode, boolean isMainActivity);
 
     UIPage getMainPage();
 
@@ -65,6 +66,10 @@ public interface UI {
 
     void viewHtmlPageFromAsset(String assetFile, String title, Integer statusBarColor, PageWebView.WebPageListener webPageListener);
 
+    void showDialog(String title, String info, DialogInterface.OnClickListener okListener, DialogInterface.OnClickListener cancelListener);
+
+    void showDialog(int messageArrayResId, DialogInterface.OnClickListener okListener, DialogInterface.OnClickListener cancelListener);
+
     void showDialog(int messageArrayResId, int themeId, DialogInterface.OnClickListener okListener, DialogInterface.OnClickListener cancelListener);
 
     Context getContext();
@@ -73,5 +78,33 @@ public interface UI {
 
     void startActivity(Context context, Class cls, boolean isMainActivity);
 
+    void gotoPage(Class cls);
+
+    void gotoPage(Page fromPage, Class cls);
+
+    void gotoPage(Page fromPage, Class cls, Object data);
+
+    void gotoPageWithData(Page fromPage, Class cls, Object data, String title);
+
+    void gotoPageWithData(Page fromPage, Class cls, Object data);
+
+    void gotoPageWithData(Page fromPage, Class cls, Object data, boolean throughController);
+
+    void gotoPageWithData(Page fromPage, Class cls, String key, Object data, String title);
+
+    void gotoPageWithData(Page fromPage, Class cls, Object data, boolean throughController, int requestCode, String title);
+
+    void gotoPageWithData(Page fromPage, Class cls, String key, Object data, boolean throughController, int requestCode, String title);
+
     void pickFromList(Object list, String title);
+
+    void gotoMainPage(Page fromPage);
+
+    void gotoBackgroundProgressStatusPage(Page fromPage);
+
+    UIPage getContextPage();
+
+    void setContextPage(UIPage contextPage);
+
+    void onBackPressedOnProgressPage();
 }

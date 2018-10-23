@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -41,6 +42,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.OverridingMethodsMustInvokeSuper;
+
 import au.com.tyo.android.AndroidUtils;
 import au.com.tyo.android.CommonInitializer;
 import au.com.tyo.android.CommonPermission;
@@ -49,6 +52,7 @@ import au.com.tyo.app.CommonAppLog;
 import au.com.tyo.app.CommonExtra;
 import au.com.tyo.app.Constants;
 import au.com.tyo.app.Controller;
+import au.com.tyo.app.PageAgent;
 import au.com.tyo.app.R;
 import au.com.tyo.app.model.Searchable;
 import au.com.tyo.app.ui.ActionBarMenu;
@@ -82,7 +86,7 @@ import static au.com.tyo.app.Constants.REQUEST_NONE;
 
 public class Page<ControllerType extends Controller> extends PageFragment implements UIPage, MenuItem.OnMenuItemClickListener, Runnable {
 
-    private static final String LOG_TAG = "Screen";
+    private static final String LOG_TAG = "Page";
 
     /**
      * Common Widgets
@@ -213,6 +217,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         setResult(null);
 
         configActionBarMenu();
+
         pageInitializer = PageInitializer.getInstance();
 
         if (pageInitializer != null)
@@ -258,7 +263,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     }
 
     public void setResult(Object result) {
-        setResult(result, -1);
+        setResult(result, Activity.RESULT_OK);
     }
 
     public void setResult(Object result, int i) {
@@ -353,6 +358,10 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         super.onStop();
         // should be overrode if needed
         task = null;
+
+        // Page becomes invisible to user
+        // But setting to null will cause problems for the operations that needs context
+        getController().getUi().setContextPage(null);
     }
 
     @Override
@@ -451,7 +460,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
             ad.loadBannerAd();
     }
 
-    @Override
+    @OverridingMethodsMustInvokeSuper
     public void setupComponents() {
         /**
          * Only if the default layout is used then we do the UI elements (search bar, footer, body, header, etc) setup
@@ -581,30 +590,33 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         searchView.setupComponents(controller);
 
         suggestionView = (SuggestionView) mainView.findViewById(R.id.suggestion_view);
-        if (null != suggestionView) {
+        if (null != suggestionView)
             suggestionView.setupComponents(controller);
+        else
+            Log.w(LOG_TAG, "Search bar is set, but suggestion view is not found");
 
             setOnSuggestionItemClickListener();
         }
     }
 
     public void setOnSuggestionItemClickListener() {
-        suggestionView.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Searchable item = (Searchable) suggestionView.getAdapter().getItem(position);
+        if (null != suggestionView)
+            suggestionView.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Searchable item = (Searchable) suggestionView.getAdapter().getItem(position);
 
-                if (item instanceof Parcelable) {
-                    // just pass the item to the previous activity
-                    result = item;
-                    finish();
+                    if (item instanceof Parcelable) {
+                        // just pass the item to the previous activity
+                        result = item;
+                        finish();
+                    }
+                    else {
+                        controller.onOpenSearchItemClicked(item);
+                        hideSuggestionView();
+                    }
                 }
-                else {
-                    controller.onOpenSearchItemClicked(item);
-                    hideSuggestionView();
-                }
-            }
-        });
+            });
     }
 
     public void showFooter() {
@@ -965,6 +977,11 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     }
 
     @Override
+    public void startActivity(Intent intent) {
+        startActivity(activity, intent, null, -1);
+    }
+
+    @Override
     public void startActivity(Class cls, int flags, String key, Object data, View view, int requestCode) {
         startActivity(activity, cls, flags, key, data, view, requestCode, false);
     }
@@ -1013,12 +1030,16 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
      * @param view
      * @param requestCode
      */
-    public static void startActivity(Activity context, Intent intent, View view, int requestCode) {
+    public static void startActivity(Context context, Intent intent, View view, int requestCode) {
         Bundle options = null;
+        Activity activity = null;
 
-        if (null != view)
+        if (context instanceof Activity)
+            activity = (Activity) context;
+
+        if (null != activity && null != view)
             options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                    context,
+                    activity,
                     view,
                     Constants.BUNDLE).toBundle();
 
@@ -1026,14 +1047,14 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
             intent.putExtra(Constants.PAGE_REQUEST_CODE, requestCode);
 
         if (null != options && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            if (requestCode > REQUEST_NONE)
-                context.startActivityForResult(intent, requestCode, options);
+            if (requestCode > REQUEST_NONE && null != activity)
+                activity.startActivityForResult(intent, requestCode, options);
             else
                 context.startActivity(intent, options);
         }
         else {
-            if (requestCode > REQUEST_NONE)
-                context.startActivityForResult(intent, requestCode);
+            if (requestCode > REQUEST_NONE && null != activity)
+                activity.startActivityForResult(intent, requestCode);
             else
                 context.startActivity(intent);
         }
@@ -1364,7 +1385,14 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         // by default no menu created
         getActionBarMenu().setupMenu(menu, this);
         getActionBarMenu().setMenuTextColor(titleTextColor);
+
+        onMenuPostCreated();
         return true;
+    }
+
+    protected void onMenuPostCreated() {
+        // do nothing
+        // put the code for the menu touch up here, such as updating the title of the menu item(s)
     }
 
     public int getActionBarHeight() {
@@ -1477,8 +1505,11 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
 
     @Override
     public boolean onDestroy() {
+        super.onDestroy();
+
         if (!isSubpage())
             getController().getUi().setMainPage(null);
+
         return false;
     }
 
@@ -1671,4 +1702,5 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     public View getContentView() {
         return super.getContentView();
     }
+
 }

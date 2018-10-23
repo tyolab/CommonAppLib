@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -101,6 +102,8 @@ public interface UIPage extends UIEntity {
 
     void startActivity(CommonExtra extra);
 
+    void startActivity(Intent intent);
+
     void startActivity(Class cls, int flags, String key, Object data, View view, int requestCode);
 
     int getContentViewResId();
@@ -168,4 +171,8 @@ public interface UIPage extends UIEntity {
     void onSaveInstanceState(Bundle savedInstanceState);
 
     void onWidowReady();
+
+    void finish();
+
+    FragmentManager getSupportFragmentManager();
 }

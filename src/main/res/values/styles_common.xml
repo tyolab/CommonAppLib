@@ -151,9 +151,12 @@
 
         <item name="drawerBackgroundColor">@color/theme_light_drawer_background_color</item>
 
+        <!-- Use this individually for each project -->
+        <!--
         <item name="android:alertDialogStyle">@style/CommonAlertDialog.Light</item>
         <item name="android:alertDialogTheme">@style/CommonAlertDialog.Light</item>
         <item name="alertDialogTheme">@style/CommonAlertDialog.Light</item>
+        -->
 
         <item name="ic_action_settings">@drawable/ic_action_settings_light</item>
         <item name="ic_action_exit">@drawable/ic_action_exit_light</item>
@@ -222,9 +225,12 @@
 
         <item name="drawerBackgroundColor">@color/theme_dark_drawer_background_color</item>
 
+        <!-- Use this individually for each project -->
+        <!--
         <item name="android:alertDialogStyle">@style/CommonAlertDialog.Dark</item>
         <item name="android:alertDialogTheme">@style/CommonAlertDialog.Dark</item>
         <item name="alertDialogTheme">@style/CommonAlertDialog.Dark</item>
+        -->
 
         <item name="ic_action_settings">@drawable/ic_action_settings_dark</item>
         <item name="ic_action_exit">@drawable/ic_action_exit_dark</item>

@@ -135,6 +135,12 @@ public class ActionBarMenu {
         }
     }
 
+    public void setMenuItemTitle(int menuItemId, String title) {
+        MenuItem item = this.menu.findItem(menuItemId);
+        if (null != item)
+            setMenuItemTitle(item, title);
+    }
+
     public void setMenuItemTitle(MenuItem menuItem, String title) {
         if (title.length() == 0)
             return;
@@ -170,5 +176,13 @@ public class ActionBarMenu {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    public void hideMenuItem(int menuItemId) {
+        setMenuItemVisible(menuItemId, false);
+    }
+
+    public boolean isMenuInitialised() {
+        return menu != null;
     }
 }

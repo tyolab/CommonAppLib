@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
@@ -50,7 +51,7 @@ public class PageFragment implements UIEntity {
     private MessageHandler messageHandler;
 
     public interface MessageHandler {
-        void handleMessage(Context context, Intent intent);
+        boolean handleMessage(Context context, Intent intent);
     }
 
     public PageFragment(Fragment fragment) {
@@ -111,6 +112,15 @@ public class PageFragment implements UIEntity {
         return loadContentView(inflater, null);
     }
 
+    /**
+     * Create the content view:
+     *  1) if it was null, then make the new layout as one
+     *  20 or add the new content to the original content view
+     *
+     * @param inflater
+     * @param parent
+     * @return
+     */
     public View loadContentView(LayoutInflater inflater, ViewGroup parent) {
         if (contentViewResId > -1) {
             if (null == contentView) {
@@ -124,9 +134,11 @@ public class PageFragment implements UIEntity {
                             null);
             }
             else {
-                ViewGroup vg = (ViewGroup) contentView.getParent();
+//                ViewGroup vg = (ViewGroup) contentView.getParent();
+//                vg.removeAllViews();
+                ViewGroup vg = ((ViewGroup) contentView);
                 vg.removeAllViews();
-                contentView = inflater.inflate(contentViewResId, vg, true);
+                inflater.inflate(contentViewResId, vg, true);
             }
         }
         return contentView;
@@ -154,7 +166,12 @@ public class PageFragment implements UIEntity {
     }
 
     public void onStop() {
+        // no ops
+    }
+
+    public boolean onDestroy() {
         unregisterBroadcastReceivers();
+        return false;
     }
 
     public void createMessageReceiver() {
@@ -167,8 +184,32 @@ public class PageFragment implements UIEntity {
     }
 
     protected void handleBroadcastMessage(Context context, Intent intent) {
-        if (null != messageHandler)
-            messageHandler.handleMessage(context, intent);
+        if (null != messageHandler && messageHandler.handleMessage(context, intent))
+            return;
+
+        if (intent.hasExtra(Constants.DATA_MESSAGE_BROADCAST)) {
+            handleBroadcastMessage((Message) intent.getParcelableExtra(Constants.DATA_MESSAGE_BROADCAST));
+        }
+    }
+
+    protected void handleBroadcastMessage(Message msg) {
+        switch (msg.what) {
+            case Constants.MESSAGE_BROADCAST_LOADING_DATA:
+                onLoadingData();
+                break;
+
+            case Constants.MESSAGE_BROADCAST_DATA_LOADED:
+                onDataLoaded();
+                break;
+        }
+    }
+
+    protected void onDataLoaded() {
+        // override me
+    }
+
+    protected void onLoadingData() {
+        // override me
     }
 
     public void registerBroadcastReceivers() {

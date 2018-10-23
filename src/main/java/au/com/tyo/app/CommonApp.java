@@ -7,17 +7,14 @@ package au.com.tyo.app;
 
 import android.app.Activity;
 import android.app.Application;
-import android.app.Dialog;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.Parcel;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -46,6 +43,7 @@ import au.com.tyo.app.model.ImagedSearchableItem;
 import au.com.tyo.app.model.Searchable;
 import au.com.tyo.app.ui.UI;
 import au.com.tyo.app.ui.UIBase;
+import au.com.tyo.app.ui.page.Page;
 import au.com.tyo.services.HttpPool;
 import au.com.tyo.utils.StringUtils;
 
@@ -341,10 +339,10 @@ public abstract class CommonApp<UIType extends UI, ControllerType extends Contro
 	public UIType getUi() {
 		return ui;
 	}
-	
+
 	@Override
-	public void setUi(UI ui) {
-		this.ui = (UIType) ui;
+	public void setUi(UIType ui) {
+		this.ui = ui;
 	}
 
 	@Override
@@ -796,7 +794,7 @@ public abstract class CommonApp<UIType extends UI, ControllerType extends Contro
     }
 
 	public void startActivity(Class cls, boolean mainActivity) {
-		getUi().startActivity(cls, -1, null, null, null, REQUEST_NONE, mainActivity);
+		getUi().startActivity((Page) getUi().getCurrentPage(), cls, -1, null, null, null, REQUEST_NONE, mainActivity);
 	}
 
 	@Override
@@ -832,7 +830,7 @@ public abstract class CommonApp<UIType extends UI, ControllerType extends Contro
 
 	@Override
 	public void broadcastMessage(Message message) {
-		broadcastMessage(Constants.MESSAGE_BROADCAST, message);
+		broadcastMessage(Constants.DATA_MESSAGE_BROADCAST, message);
 	}
 
 	@Override
@@ -841,4 +839,15 @@ public abstract class CommonApp<UIType extends UI, ControllerType extends Contro
 		CommonExtra.putExtra(intent, key, data);
 		LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
 	}
+
+	@Override
+	public void broadcastMessageBackgroundTaskProgress(int progress) {
+		broadcastMessage(Constants.MESSAGE_BROADCAST_BACKGROUND_PROGRESS, progress);
+	}
+
+    @Override
+    public void onBackgroundDataProcessingTaskFinished(Object obj) {
+        // override this, do things like stopping the DP service
+    }
+
 }
