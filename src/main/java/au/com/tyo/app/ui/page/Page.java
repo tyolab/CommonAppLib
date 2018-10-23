@@ -581,9 +581,11 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         searchView.setupComponents(controller);
 
         suggestionView = (SuggestionView) mainView.findViewById(R.id.suggestion_view);
-        suggestionView.setupComponents(controller);
+        if (null != suggestionView) {
+            suggestionView.setupComponents(controller);
 
-        setOnSuggestionItemClickListener();
+            setOnSuggestionItemClickListener();
+        }
     }
 
     public void setOnSuggestionItemClickListener() {

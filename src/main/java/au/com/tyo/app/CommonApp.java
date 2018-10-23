@@ -832,7 +832,7 @@ public abstract class CommonApp<UIType extends UI, ControllerType extends Contro
 
 	@Override
 	public void broadcastMessage(Message message) {
-		sendBroadcastMessageToPage(Constants.MESSAGE_BROADCAST, message);
+		broadcastMessage(Constants.MESSAGE_BROADCAST, message);
 	}
 
 	@Override
