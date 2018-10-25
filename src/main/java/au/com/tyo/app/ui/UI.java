@@ -80,6 +80,18 @@ public interface UI {
 
     void gotoPage(Class cls);
 
+    void gotoPage(Class cls, Object data);
+
+    void gotoPageWithData(Class cls, Object data, String title);
+
+    void gotoPageWithData(Class cls, Object data);
+
+    void gotoPageWithData(Class cls, Object data, boolean throughController);
+
+    void gotoPageWithData(Class cls, String key, Object data, String title);
+
+    void gotoPageWithData(Class cls, Object data, boolean throughController, int requestCode, String title);
+
     void gotoPage(Page fromPage, Class cls);
 
     void gotoPage(Page fromPage, Class cls, Object data);

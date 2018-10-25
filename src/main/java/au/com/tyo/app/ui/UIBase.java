@@ -241,6 +241,36 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
     }
 
     @Override
+    public void gotoPage(Class cls, Object data) {
+        startActivity((Page) getCurrentPage(), cls, data);
+    }
+
+    @Override
+    public void gotoPageWithData(Class cls, Object data, String title) {
+        gotoPageWithData((Page) getCurrentPage(), cls, data, true, REQUEST_NONE, title);
+    }
+
+    @Override
+    public void gotoPageWithData(Class cls, Object data) {
+        gotoPageWithData((Page) getCurrentPage(), cls, data, true);
+    }
+
+    @Override
+    public void gotoPageWithData(Class cls, Object data, boolean throughController) {
+        gotoPageWithData((Page) getCurrentPage(), cls, data, throughController, REQUEST_NONE, null);
+    }
+
+    @Override
+    public void gotoPageWithData(Class cls, String key, Object data, String title) {
+        gotoPageWithData((Page) getCurrentPage(), cls, key, data, true, REQUEST_NONE, title);
+    }
+
+    @Override
+    public void gotoPageWithData(Class cls, Object data, boolean throughController, int requestCode, String title) {
+        gotoPageWithData((Page) getCurrentPage(), cls, Constants.DATA, data, throughController, requestCode, title);
+    }
+
+    @Override
     public void gotoPage(Page fromPage, Class cls) {
         startActivity(fromPage, cls);
     }

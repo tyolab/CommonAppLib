@@ -595,8 +595,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         else
             Log.w(LOG_TAG, "Search bar is set, but suggestion view is not found");
 
-            setOnSuggestionItemClickListener();
-        }
+        setOnSuggestionItemClickListener();
     }
 
     public void setOnSuggestionItemClickListener() {
