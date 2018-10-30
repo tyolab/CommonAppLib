@@ -47,6 +47,7 @@ import javax.annotation.OverridingMethodsMustInvokeSuper;
 import au.com.tyo.android.AndroidUtils;
 import au.com.tyo.android.CommonInitializer;
 import au.com.tyo.android.CommonPermission;
+import au.com.tyo.android.utils.ActivityUtils;
 import au.com.tyo.app.CommonApp;
 import au.com.tyo.app.CommonAppLog;
 import au.com.tyo.app.CommonExtra;
@@ -1512,45 +1513,6 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         return false;
     }
 
-    public static Object getActivityResult(Intent data) {
-        Object result = null;
-        if (data.hasExtra(Constants.RESULT)) {
-            try {
-                result = data.getParcelableExtra(Constants.RESULT);
-            }
-            catch (Exception ex) {}
-            if (result == null)
-                try {
-                    result = data.getStringExtra(Constants.RESULT);
-                }
-                catch (Exception ex) {}
-            if (result == null)
-                try {
-                    result = data.getStringArrayExtra(Constants.RESULT);
-                }
-                catch (Exception ex) {}
-            if (result == null)
-                try {
-                    result = data.getStringArrayListExtra(Constants.RESULT);
-                }
-                catch (Exception ex) {}
-            if (result == null)
-                try {
-                    result = data.getParcelableArrayExtra(Constants.RESULT);
-                }
-                catch (Exception ex) {}
-            if (result == null)
-                try {
-                    result = data.getParcelableArrayListExtra(Constants.RESULT);
-                }
-                catch (Exception ex) {}
-        }
-
-        if (null == result && null != CommonApp.getInstance())
-            result = ((Controller) CommonApp.getInstance()).getParcel();
-        return result;
-    }
-
     @Override
     public void onRequestedPermissionsGranted(String permission) {
         controller.grantPermission(permission);
@@ -1702,4 +1664,11 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         return super.getContentView();
     }
 
+    public Object getActivityResult(Intent data) {
+        Object result = ActivityUtils.getActivityResult(data);
+
+        if (null == result)
+            result = controller.getParcel();
+        return result;
+    }
 }
