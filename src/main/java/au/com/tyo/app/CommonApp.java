@@ -717,6 +717,9 @@ public abstract class CommonApp<UIType extends UI, ControllerType extends Contro
     @Override
 	protected void showInfo(boolean showAcknowledgement) {
 		// Inflate the about message contents
+		/**
+		 * We are not replace dialog method with page
+		 */
 		View messageView = ((Activity) context).getLayoutInflater().inflate(R.layout.info_dialog, null, false);
 		View acknowledgement = messageView.findViewById(au.com.tyo.android.R.id.acknowledge_view);
 		if (showAcknowledgement) {

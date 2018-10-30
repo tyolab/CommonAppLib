@@ -13,16 +13,19 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.view.View;
 
+import java.util.Map;
+
 import au.com.tyo.android.AndroidUtils;
 import au.com.tyo.android.CommonInitializer;
 import au.com.tyo.android.CommonUIBase;
 import au.com.tyo.android.DialogFactory;
-import au.com.tyo.app.CommonActivityList;
-import au.com.tyo.app.CommonActivityWebView;
+import au.com.tyo.app.ui.activity.CommonActivityAbout;
+import au.com.tyo.app.ui.activity.CommonActivityList;
+import au.com.tyo.app.ui.activity.CommonActivityWebView;
 import au.com.tyo.app.CommonExtra;
 import au.com.tyo.app.Constants;
 import au.com.tyo.app.Controller;
-import au.com.tyo.app.ui.activity.ActivityBackgroundProgress;
+import au.com.tyo.app.ui.activity.CommonActivityBackgroundProgress;
 import au.com.tyo.app.ui.page.Page;
 import au.com.tyo.app.ui.page.PageWebView;
 
@@ -353,8 +356,13 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
     }
 
     @Override
+    public void gotoAboutPage(Map data, String title) {
+        gotoPageWithData((Page) getCurrentPage(), CommonActivityAbout.class, data, title);
+    }
+
+    @Override
     public void gotoBackgroundProgressStatusPage(Page fromPage) {
-        gotoPageWithData(fromPage, ActivityBackgroundProgress.class, null, false, Constants.REQUEST_CODE_DP_RESULT, null);
+        gotoPageWithData(fromPage, CommonActivityBackgroundProgress.class, null, false, Constants.REQUEST_CODE_DP_RESULT, null);
     }
 
     @Override
