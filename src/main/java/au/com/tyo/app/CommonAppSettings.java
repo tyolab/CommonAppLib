@@ -8,8 +8,7 @@ package au.com.tyo.app;
 import android.content.Context;
 import au.com.tyo.android.AndroidSettings;
 import au.com.tyo.app.api.JSON;
-import au.com.tyo.json.DataJson;
-import au.com.tyo.json.JsonBase;
+import au.com.tyo.json.util.DataJson;
 
 /**
  * @author Eric Tang <eric.tang@tyo.com.au>

@@ -38,7 +38,7 @@ import au.com.tyo.android.DialogFactory;
 import au.com.tyo.android.NetworkMonitor;
 import au.com.tyo.android.services.HttpAndroid;
 import au.com.tyo.android.services.ImageDownloader;
-import au.com.tyo.app.model.DataFormEx;
+import au.com.tyo.json.util.DataFormEx;
 import au.com.tyo.app.model.DisplayItem;
 import au.com.tyo.app.model.ImagedSearchableItem;
 import au.com.tyo.app.model.Searchable;
@@ -730,8 +730,13 @@ public abstract class CommonApp<UIType extends UI, ControllerType extends Contro
 
 	protected void showInfoInActivity(boolean showAcknowledgement) {
 		String appDesc = getAppNameWithVersion();
+		Context context = getContext();
 
 		DataFormEx infoData = new DataFormEx();
+		DataFormEx.FormGroup aboutGroup = new DataFormEx.FormGroup(context.getString(R.string.about));
+		aboutGroup.addField(context.getString(R.string.version), AndroidUtils.getPackageVersionName(context) + " " + AndroidUtils.getAbi());
+
+		infoData.addGroup(aboutGroup);
         if (showAcknowledgement) {
             if (null != acknowledgementTitle) {
 
@@ -761,7 +766,6 @@ public abstract class CommonApp<UIType extends UI, ControllerType extends Contro
 				tv.setText(acknowledgementInfo);
 			}
 		}
-
 
 		String appDesc = getAppNameWithVersion();
 

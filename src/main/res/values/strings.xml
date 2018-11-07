@@ -13,5 +13,6 @@
     <string name="common_api_host" />
     <string name="common_api_path" />
     <string name="pick_from_list">Pick From List</string>
+    <string name="version">Version</string>
 
 </resources>
