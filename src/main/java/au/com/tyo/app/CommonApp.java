@@ -38,6 +38,7 @@ import au.com.tyo.android.DialogFactory;
 import au.com.tyo.android.NetworkMonitor;
 import au.com.tyo.android.services.HttpAndroid;
 import au.com.tyo.android.services.ImageDownloader;
+import au.com.tyo.app.model.DataFormEx;
 import au.com.tyo.app.model.DisplayItem;
 import au.com.tyo.app.model.ImagedSearchableItem;
 import au.com.tyo.app.model.Searchable;
@@ -720,6 +721,31 @@ public abstract class CommonApp<UIType extends UI, ControllerType extends Contro
 		/**
 		 * We are not replace dialog method with page
 		 */
+		// showInfoInActivity(showAcknowledgement);
+		/*
+
+		*/
+		showInfoInDialog(showAcknowledgement);
+	}
+
+	protected void showInfoInActivity(boolean showAcknowledgement) {
+		String appDesc = getAppNameWithVersion();
+
+		DataFormEx infoData = new DataFormEx();
+        if (showAcknowledgement) {
+            if (null != acknowledgementTitle) {
+
+            }
+
+            if (null != acknowledgementInfo) {
+
+            }
+        }
+
+		getUi().gotoAboutPage(infoData, getAppNameWithVersion());
+	}
+
+	protected void showInfoInDialog(boolean showAcknowledgement) {
 		View messageView = ((Activity) context).getLayoutInflater().inflate(R.layout.info_dialog, null, false);
 		View acknowledgement = messageView.findViewById(au.com.tyo.android.R.id.acknowledge_view);
 		if (showAcknowledgement) {

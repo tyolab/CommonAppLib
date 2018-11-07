@@ -12,6 +12,8 @@ public class PageAbout<T extends Controller> extends PageFormEx<T> {
      */
     public PageAbout(T controller, Activity activity) {
         super(controller, activity);
+
+        setEditable(false);
     }
 
 }

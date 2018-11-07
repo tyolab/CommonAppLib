@@ -139,6 +139,10 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
         this.jsonForm = jsonForm;
     }
 
+    public void setEditable(boolean editable) {
+        this.editable = editable;
+    }
+
     public boolean isSortFormNeeded() {
         return sortFormNeeded;
     }

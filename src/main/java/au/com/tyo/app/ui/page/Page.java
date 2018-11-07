@@ -1277,18 +1277,24 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     }
 
     public void addFragmentToContainer(int fragmentContainerResId, Fragment fragment, String tag) {
-        ((FragmentActivity) activity).getSupportFragmentManager().beginTransaction()
-                .add(fragmentContainerResId, fragment, tag).commit();
+        ((FragmentActivity) activity).getSupportFragmentManager()
+                .beginTransaction()
+                .add(fragmentContainerResId, fragment, tag)
+                .commit();
     }
 
     public void showFragment(Fragment fragment) {
-        ((FragmentActivity) activity).getSupportFragmentManager().beginTransaction()
-                .show(fragment).commit();
+        ((FragmentActivity) activity).getSupportFragmentManager()
+                .beginTransaction()
+                .show(fragment)
+                .commit();
     }
 
     public void hideFragment(Fragment fragment) {
-        ((FragmentActivity) activity).getSupportFragmentManager().beginTransaction()
-                .hide(fragment).commit();
+        ((FragmentActivity) activity).getSupportFragmentManager()
+                .beginTransaction()
+                .hide(fragment)
+                .commit();
     }
 
     public Fragment getFragment(int index) {
