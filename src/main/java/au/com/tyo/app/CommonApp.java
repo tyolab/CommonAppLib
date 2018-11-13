@@ -725,7 +725,7 @@ public abstract class CommonApp<UIType extends UI, ControllerType extends Contro
 		/*
 
 		*/
-		showInfoInDialog(showAcknowledgement);
+		showInfoInActivity(showAcknowledgement);
 	}
 
 	protected void showInfoInActivity(boolean showAcknowledgement) {
@@ -733,24 +733,43 @@ public abstract class CommonApp<UIType extends UI, ControllerType extends Contro
 		Context context = getContext();
 
 		DataFormEx infoData = new DataFormEx();
+		infoData.setTitle(context.getString(R.string.about));
+		infoData.setFormEditable(false);
+
 		DataFormEx.FormGroup aboutGroup = new DataFormEx.FormGroup(context.getString(R.string.about));
 		aboutGroup.addField(context.getString(R.string.version), AndroidUtils.getPackageVersionName(context) + " " + AndroidUtils.getAbi());
+		aboutGroup.addField(context.getString(R.string.copyright), context.getString(R.string.app_copyright));
+        infoData.addGroup(aboutGroup);
 
-		infoData.addGroup(aboutGroup);
+        DataFormEx.FormGroup contactGroup = new DataFormEx.FormGroup(context.getString(R.string.app_contact_us));
+        contactGroup.addField(context.getString(R.string.website), context.getString(R.string.tyolab_website));
+        contactGroup.addField(context.getString(R.string.email), context.getString(R.string.tyolab_email));
+		infoData.addGroup(contactGroup);
+
         if (showAcknowledgement) {
+            DataFormEx.FormGroup acknowledgementGroup = new DataFormEx.FormGroup(context.getString(R.string.app_acknowledgement_title));
+
             if (null != acknowledgementTitle) {
-
+                acknowledgementGroup.setTitle(acknowledgementTitle);
             }
 
-            if (null != acknowledgementInfo) {
-
-            }
+            addAcknowledgementFields(acknowledgementGroup);
+            infoData.addGroup(acknowledgementGroup);
         }
 
 		getUi().gotoAboutPage(infoData, getAppNameWithVersion());
 	}
 
-	protected void showInfoInDialog(boolean showAcknowledgement) {
+    /**
+     * Override this
+     *
+     * @param acknowledgementGroup
+     */
+    protected void addAcknowledgementFields(DataFormEx.FormGroup acknowledgementGroup) {
+        // no ops
+    }
+
+    protected void showInfoInDialog(boolean showAcknowledgement) {
 		View messageView = ((Activity) context).getLayoutInflater().inflate(R.layout.info_dialog, null, false);
 		View acknowledgement = messageView.findViewById(au.com.tyo.android.R.id.acknowledge_view);
 		if (showAcknowledgement) {

@@ -5,6 +5,8 @@
 
 package au.com.tyo.app;
 
+import au.com.tyo.json.util.DataFormEx;
+
 /**
  * @author Eric Tang <eric.tang@tyo.com.au>
  */
@@ -89,7 +91,8 @@ public interface Constants extends au.com.tyo.android.Constants {
     String RELOAD = "TYODROID_RESTART";
 
     String EXTRA_KEY_JSON = "TYODROID_EXTRA_KEY_JSON";
-	String EXTRA_KEY_EDITABLE = "TYODROID_EXTRA_KEY_EDITABLE";
+
+	String EXTRA_KEY_EDITABLE = DataFormEx.KEY_EDITABLE;
 
 	String ACTION_MESSAGE_RECEIVER = "au.com.tyo.app.CommonData";
 
