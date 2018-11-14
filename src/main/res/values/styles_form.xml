@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppStyle.Form.Group">
+
+        <item name="android:background">?attr/formBackgroundStyle</item>
+
+    </style>
+
+    <style name="AppStyle.Form.FieldTitle">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+</resources>

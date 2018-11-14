@@ -7,4 +7,6 @@
     <attr name="fragmentTitleStyle" format="reference" />
 
     <attr name="bodyStyle" format="reference" />
+
+    <attr name="formBackgroundStyle" format="reference" />
 </resources>

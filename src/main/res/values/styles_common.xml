@@ -208,6 +208,8 @@
         <item name="bodyStyle">@style/AppStyle.Body</item>
 
         <item name="actionOverflowButtonStyle">@style/AppStyle.Menu.Light</item>
+
+        <item name="formBackgroundStyle">@drawable/sq_bg_light</item>
     </style>
 
     <style name="CommonTheme.Dark" parent="Theme.AppCompat.NoActionBar" />
@@ -281,6 +283,8 @@
         <item name="bodyStyle">@style/AppStyle.Body</item>
 
         <item name="actionOverflowButtonStyle">@style/AppStyle.Menu.Dark</item>
+
+        <item name="formBackgroundStyle">@drawable/sq_bg_dark</item>
     </style>
 
     <style name="CommonAppBaseTheme.Light" parent="CommonTheme.Light.Pale">
