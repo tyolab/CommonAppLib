@@ -21,5 +21,7 @@
 
     <string name="tyolab_website">http://tyo.com.au</string>
     <string name="tyolab_email">dev@tyo.com.au</string>
+    <string name="information">Information</string>
+    <string name="app_information">App Information</string>
 
 </resources>

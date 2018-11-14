@@ -10,7 +10,6 @@ import android.app.Application;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
@@ -740,36 +739,61 @@ public abstract class CommonApp<UIType extends UI, ControllerType extends Contro
 		infoData.setTitle(context.getString(R.string.about));
 		infoData.setFormEditable(false);
 
-		DataFormEx.FormGroup aboutGroup = new DataFormEx.FormGroup(context.getString(R.string.about));
+		addAboutPageHeader(infoData);
+
+		DataFormEx.FormGroup aboutGroup = new DataFormEx.FormGroup(context.getString(R.string.app_information));
+		aboutGroup.setShowingGroupTitle(true);
+
 		aboutGroup.addField(context.getString(R.string.version), AndroidUtils.getPackageVersionName(context) + " " + AndroidUtils.getAbi());
 		aboutGroup.addField(context.getString(R.string.copyright), context.getString(R.string.app_copyright));
         infoData.addGroup(aboutGroup);
 
         DataFormEx.FormGroup contactGroup = new DataFormEx.FormGroup(context.getString(R.string.app_contact_us));
+        contactGroup.setShowingGroupTitle(true);
+
         contactGroup.addField(context.getString(R.string.website), context.getString(R.string.tyolab_website));
         contactGroup.addField(context.getString(R.string.email), context.getString(R.string.tyolab_email));
 		infoData.addGroup(contactGroup);
 
         if (showAcknowledgement) {
             DataFormEx.FormGroup acknowledgementGroup = new DataFormEx.FormGroup(context.getString(R.string.app_acknowledgement_title));
+            acknowledgementGroup.setShowingGroupTitle(true);
 
             if (null != acknowledgementTitle) {
                 acknowledgementGroup.setTitle(acknowledgementTitle);
             }
 
-            addAcknowledgementFields(acknowledgementGroup);
+            addAboutPageAcknowledgementFields(acknowledgementGroup);
             infoData.addGroup(acknowledgementGroup);
         }
 
+        addAboutPageFooter(infoData);
+
 		getUi().gotoAboutPage(infoData, getAppNameWithVersion());
 	}
+
+    /**
+     * Override me for adding header to the about page
+     * @param infoData
+     */
+    protected void addAboutPageHeader(DataFormEx infoData) {
+	    // no ops
+    }
+
+    /**
+     * Override me for adding the footer to the about page
+     * @param infoData
+     */
+    protected void addAboutPageFooter(DataFormEx infoData) {
+        // no ops
+    }
 
     /**
      * Override this
      *
      * @param acknowledgementGroup
      */
-    protected void addAcknowledgementFields(DataFormEx.FormGroup acknowledgementGroup) {
+    protected void addAboutPageAcknowledgementFields(DataFormEx.FormGroup acknowledgementGroup) {
         // no ops
     }
 
