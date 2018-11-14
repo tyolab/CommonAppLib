@@ -10,6 +10,7 @@ import android.app.Application;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
@@ -691,9 +692,12 @@ public abstract class CommonApp<UIType extends UI, ControllerType extends Contro
 		if (application != null) {
 			int oldId = -1;
             // this the theme id defined in the manifest
-            // oldId = AndroidUtils.getPredefinedApplicationThemeId(context);
-            oldId = AndroidUtils.getApplicationThemeId(context);
-            //oldId = AndroidUtils.getApplicationThemeId(context, application.getTheme());
+            if (null != getCurrentActivity())
+                oldId = AndroidUtils.getActivityThemeId(getCurrentActivity());
+
+            if (-1 == oldId)
+                oldId = AndroidUtils.getApplicationThemeId(context);
+
             if (oldId != themeId) {
 				application.setTheme(themeId); // set the application wise theme
 

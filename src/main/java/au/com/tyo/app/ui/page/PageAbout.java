@@ -14,6 +14,7 @@ public class PageAbout<T extends Controller> extends PageFormEx<T> {
         super(controller, activity);
 
         setEditable(false);
+        setMenuEditRequired(false);
     }
 
 }

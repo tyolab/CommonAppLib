@@ -364,16 +364,22 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
         if (getController().getParcel() != null && getForm() == null) {
             if (getController().getParcel() instanceof Map) {
                 Map map = (Map) getController().getParcel();
-                if (map.containsKey(Constants.DATA) || map.containsKey(Constants.EXTRA_KEY_EDITABLE)) {
-                    setForm(map.get(Constants.DATA));
-
-                    editable = map.containsKey(Constants.EXTRA_KEY_EDITABLE) ? (boolean) map.get(Constants.EXTRA_KEY_EDITABLE) : true;
+                Map formMap;
+                if (map.containsKey(Constants.DATA)) {
+                    setForm(formMap = (Map) map.get(Constants.DATA));
                 }
                 else
-                    setForm(map);
+                    setForm(formMap = map);
+
+                editable = formMap.containsKey(Constants.EXTRA_KEY_EDITABLE) ? (boolean) formMap.get(Constants.EXTRA_KEY_EDITABLE) : true;
+                setTitle((String) formMap.get(Constants.EXTRA_KEY_TITLE));
             }
-            else if (getController().getParcel() instanceof FormItem)
-                setForm((FormItem) getController().getParcel());
+            else if (getController().getParcel() instanceof FormItem) {
+                FormItem formItem = (FormItem) getController().getParcel();
+                setForm(formItem);
+                editable = formItem.isEditable();
+                setTitle(formItem.getTitle());
+            }
         }
     }
 

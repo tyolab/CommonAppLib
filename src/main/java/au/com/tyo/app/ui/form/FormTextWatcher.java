@@ -10,8 +10,8 @@ import au.com.tyo.json.android.interfaces.JsonApi;
 
 public class FormTextWatcher extends GenericTextWatcher {
 
-    public FormTextWatcher(String stepName, View view) {
-        super(stepName, view);
+    public FormTextWatcher(JsonApi jsonApi, String stepName, View view) {
+        super(jsonApi, stepName, view);
     }
 
     @Override
