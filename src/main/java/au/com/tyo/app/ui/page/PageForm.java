@@ -709,7 +709,7 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
 
     @Override
     public String toKey(String key) {
-        return key;
+        return FormHelper.getGeneralTitleKeyConverter().toKey(key);
     }
 
     /**

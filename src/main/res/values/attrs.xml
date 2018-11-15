@@ -9,4 +9,8 @@
     <attr name="bodyStyle" format="reference" />
 
     <attr name="formBackgroundStyle" format="reference" />
+
+    <attr name="colorPrimaryText" format="reference" />
+
+    <attr name="colorPrimaryTitle" format="reference" />
 </resources>
