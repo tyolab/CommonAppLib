@@ -18,22 +18,32 @@ public class CommonAppSettings<T1 extends DataJson, T2 extends DataJson> extends
 	
 	public static final String PREF_SHOW_SEARCH_BAR = "pref_show_search_bar";
 
+    /**
+     * App Data in json string format saved in system built-in shared preference
+     */
 	public static final String PREF_APP_DATA = "pref_app_data";
 
+    /**
+     * App Settings in json string format saved in system built-in shared preference
+     */
 	public static final String PREF_APP_SETTINGS = "pref_app_settings";
 	
 	protected boolean alwaysShowSearchBar;
 
-	private T2 appSettings;
-	private T1 appData;
+	protected T2 appSettings;
+	protected T1 appData;
 
 	public CommonAppSettings(Context context) {
 		super(context);
 		
 		alwaysShowSearchBar = true;
 
-		// loadAppData();
-		// loadAppSettings();
+        /**
+         * Load App Settings in a background thread such as where the the splash screen is showed
+         *
+         * loadAppData();
+         * loadAppSettings();
+         */
 	}
 	
 	/**
@@ -54,14 +64,14 @@ public class CommonAppSettings<T1 extends DataJson, T2 extends DataJson> extends
 	/**
 	 * The app settings saved in preferences
 	 */
-	protected void loadAppSettings(Class<? extends T2> aClass) {
+	public void loadAppSettings(Class<? extends T2> aClass) {
         appSettings = JSON.parse(prefs.getString(PREF_APP_SETTINGS, "{}"), aClass);
 	}
 
 	/**
 	 * The app data saved in preferences
 	 */
-	protected void loadAppData(Class<? extends T1> aClass) {
+	public void loadAppData(Class<? extends T1> aClass) {
         appData = JSON.parse(prefs.getString(PREF_APP_DATA, "{}"), aClass);
 	}
 

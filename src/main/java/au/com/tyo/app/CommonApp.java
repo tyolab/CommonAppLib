@@ -45,6 +45,7 @@ import au.com.tyo.app.model.Searchable;
 import au.com.tyo.app.ui.UI;
 import au.com.tyo.app.ui.UIBase;
 import au.com.tyo.app.ui.page.Page;
+import au.com.tyo.json.util.DataJson;
 import au.com.tyo.services.HttpPool;
 import au.com.tyo.utils.StringUtils;
 
@@ -54,7 +55,10 @@ import static au.com.tyo.app.Constants.REQUEST_NONE;
  * @author Eric Tang <eric.tang@tyo.com.au>
  */
 
-public abstract class CommonApp<UIType extends UI, ControllerType extends Controller>
+public abstract class CommonApp<UIType extends UI,
+								ControllerType extends Controller,
+								SettingType extends DataJson,
+								AppDataType extends DataJson>
         extends CommonApplicationImpl<ControllerType>
         implements Controller<UIType> {
 
@@ -64,7 +68,7 @@ public abstract class CommonApp<UIType extends UI, ControllerType extends Contro
 	
 	private UIType ui;
 	
-	private CommonAppSettings settings;
+	private CommonAppSettings<AppDataType, SettingType> settings;
 
 	/* other stuff */
 	
@@ -444,8 +448,9 @@ public abstract class CommonApp<UIType extends UI, ControllerType extends Contro
 	public void initializeInBackgroundThread(Context context) {
 		super.initializeInBackgroundThread(context);
 
-        if (null != settings)
-            settings.loadPreferences();
+        if (null != settings) {
+			settings.loadPreferences();
+		}
 	}
 
 	@Override
