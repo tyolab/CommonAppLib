@@ -26,14 +26,14 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 
 	private static final String LOG_TAG = CommonAppCompatActivity.class.getSimpleName();
 
-	private static Class pageClass;
+	private Class pageClass;
 
     protected PageAgent agent;
 
 	private Controller controller;
 
-	public static void setPageClass(Class pageClass) {
-		CommonAppCompatActivity.pageClass = pageClass;
+	public void setPageClass(Class pageClass) {
+		this.pageClass = pageClass;
 	}
 
 	protected void createController() {
@@ -188,8 +188,7 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
   	protected void onDestroy() {
   		super.onDestroy();
 
-  		if (!agent.onDestroy() && isFinishing())
-  			controller.onDestroy();
+  		agent.onDestroy();
   	}
 	
 	@Override

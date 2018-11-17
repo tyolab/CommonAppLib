@@ -6,6 +6,9 @@
 package au.com.tyo.app;
 
 import android.content.Context;
+
+import java.util.Map;
+
 import au.com.tyo.android.AndroidSettings;
 import au.com.tyo.app.api.JSON;
 import au.com.tyo.json.util.DataJson;
@@ -14,7 +17,7 @@ import au.com.tyo.json.util.DataJson;
  * @author Eric Tang <eric.tang@tyo.com.au>
  */
 
-public class CommonAppSettings<T1 extends DataJson, T2 extends DataJson> extends AndroidSettings {
+public abstract class CommonAppSettings<T1 extends Map, T2 extends Map> extends AndroidSettings {
 	
 	public static final String PREF_SHOW_SEARCH_BAR = "pref_show_search_bar";
 
@@ -66,6 +69,8 @@ public class CommonAppSettings<T1 extends DataJson, T2 extends DataJson> extends
 	 */
 	public void loadAppSettings(Class<? extends T2> aClass) {
         appSettings = JSON.parse(prefs.getString(PREF_APP_SETTINGS, "{}"), aClass);
+
+        loadSettingsIntoMemory();
 	}
 
 	/**
@@ -79,7 +84,7 @@ public class CommonAppSettings<T1 extends DataJson, T2 extends DataJson> extends
         updatePreference(PREF_APP_DATA, JSON.toJson(appData));
     }
 
-    public void saveAppSettings() {
+    public void save() {
         updatePreference(PREF_APP_SETTINGS, JSON.toJson(appSettings));
     }
 
@@ -87,7 +92,7 @@ public class CommonAppSettings<T1 extends DataJson, T2 extends DataJson> extends
 		return alwaysShowSearchBar;
 	}
 
-    public DataJson getAppSettings() {
+    public T2 getAppSettings() {
         return appSettings;
     }
 
@@ -95,11 +100,18 @@ public class CommonAppSettings<T1 extends DataJson, T2 extends DataJson> extends
         this.appSettings = appSettings;
     }
 
-    public DataJson getAppData() {
+    public T1 getAppData() {
         return appData;
     }
 
     public void setAppData(T1 appData) {
         this.appData = appData;
+    }
+
+    /**
+     * Specify each setting from the map
+     */
+    public void loadSettingsIntoMemory() {
+        // no ops
     }
 }

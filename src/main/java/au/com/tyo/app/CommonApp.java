@@ -436,7 +436,9 @@ public abstract class CommonApp<UIType extends UI,
 
         /** maybe if the previous failed we are not creating the default one */
 		if (settings == null)
-			settings = new CommonAppSettings(context);
+			settings = new CommonAppSettings(context) {
+
+            };
 		
 		watchDog = NetworkMonitor.getInstance(this);
 		watchDog.start();

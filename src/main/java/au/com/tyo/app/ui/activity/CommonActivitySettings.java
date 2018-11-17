@@ -8,6 +8,7 @@ public class CommonActivitySettings extends CommonActivity {
 
     @Override
     protected void loadPageClass() {
+        if (null == getAgent().getPageClass())
         getAgent().setPageClass(PageSettings.class);
     }
 

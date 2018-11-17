@@ -108,6 +108,10 @@ public class PageAgent {
         this.pageClass = pageClass;
     }
 
+    public Class getPageClass() {
+        return this.pageClass;
+    }
+
     public static void setPagesPackage(String packageName) {
         pagesPackage = packageName;
     }

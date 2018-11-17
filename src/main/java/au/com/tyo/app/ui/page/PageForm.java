@@ -96,7 +96,9 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
         this.form = null;
         this.formMetaData = null;
         this.formMetaAssetJsonFile = null;
-        this.menuEditRequired = true;
+
+        // by default, if it is editable form, we don't need to show the edit menu unless you specially want it
+        this.menuEditRequired = false;
     }
 
     /**
@@ -721,5 +723,17 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
     @Override
     public String toTitle(String key) {
         return ResourceUtils.getStringByIdName(getActivity(), key);
+    }
+
+    /**
+     * Save the data on stop if the edit/save menu item is not visible
+     */
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (isDirty()) {
+            saveAndFinish();
+        }
     }
 }
