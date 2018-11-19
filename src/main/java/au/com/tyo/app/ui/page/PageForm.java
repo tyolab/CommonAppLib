@@ -476,6 +476,7 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
             removeFragments();
 
         FormFragment jsonFormFragment = (FormFragment) FormFragment.getFormFragment(JsonFormConstants.FIRST_STEP_NAME);
+        jsonFormFragment.setDarkThemeInUse(!getController().getSettings().isLightThemeUsed());
         addFragmentToList(jsonFormFragment);
         return jsonFormFragment;
     }
