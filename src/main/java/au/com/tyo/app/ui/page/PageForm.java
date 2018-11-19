@@ -50,12 +50,13 @@ import au.com.tyo.json.android.constants.JsonFormConstants;
 import au.com.tyo.json.android.fragments.FormFragment;
 import au.com.tyo.json.android.interfaces.JsonApi;
 import au.com.tyo.json.android.utils.FormHelper;
+import au.com.tyo.json.util.TitleKeyConverter;
 
 /**
  * Created by Eric Tang (eric.tang@tyo.com.au) on 20/12/17.
  */
 
-public abstract class PageForm<T extends Controller> extends Page<T>  implements JsonApi, FormHelper.TitleKeyConverter {
+public abstract class PageForm<T extends Controller> extends Page<T>  implements JsonApi, TitleKeyConverter {
 
     private static final    String              TAG = "PageForm";
 
@@ -65,8 +66,19 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
 
     private                 int                 formContainerId;
 
+    /**
+     * Form editable if conditions satisfied
+     */
     private                 boolean             editable;
 
+    /**
+     * Form locked, so it is unconditional uneditable
+     */
+    private                 boolean             locked;
+
+    /**
+     * Is the form data gets changed
+     */
     private                 boolean             dirty;
 
     /**
@@ -373,13 +385,14 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
                 else
                     setForm(formMap = map);
 
-                editable = formMap.containsKey(Constants.EXTRA_KEY_EDITABLE) ? (boolean) formMap.get(Constants.EXTRA_KEY_EDITABLE) : true;
+                if (formMap.containsKey(Constants.EXTRA_KEY_EDITABLE))
+                    setEditable((boolean) formMap.get(Constants.EXTRA_KEY_EDITABLE));
                 setTitle((String) formMap.get(Constants.EXTRA_KEY_TITLE));
             }
             else if (getController().getParcel() instanceof FormItem) {
                 FormItem formItem = (FormItem) getController().getParcel();
                 setForm(formItem);
-                editable = formItem.isEditable();
+                setEditable(formItem.isEditable());
                 setTitle(formItem.getTitle());
             }
         }
@@ -401,7 +414,8 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
 
             loadFormData(intent);
 
-            editable = intent.getBooleanExtra(Constants.EXTRA_KEY_EDITABLE, true);
+            if (intent.hasExtra(Constants.EXTRA_KEY_EDITABLE))
+                setEditable(intent.getBooleanExtra(Constants.EXTRA_KEY_EDITABLE, true));
         }
     }
 
@@ -413,15 +427,10 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
             if (form instanceof FormItem)
                 jsonForm = ((FormItem) form).toJsonForm();
             else if (form instanceof Map)
-                jsonForm = FormHelper.createForm((Map) form, this, formMetaData, sortFormNeeded);
+                jsonForm = FormHelper.createForm((Map) form, !locked,this, formMetaData, sortFormNeeded);
             else
                 throw new IllegalStateException("Form data must be derived from a Map class or implemented FormItem interface");
         }
-
-//        if (jsonForm == null) {
-//            jsonForm = new JsonForm("");
-//            jsonForm.createNewStep();
-//        }
     }
 
     /**
@@ -540,9 +549,10 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
                 || form.getFormState() == FormState.State.AUTO_FILLED;
     }
 
-    public void setFormEditable(boolean editable) {
-        this.editable = !editable;
-        getJsonFormFragment().setFormEditable(this.editable);
+    public void changeFormEditableState() {
+        setEditable(!editable);
+
+        getJsonFormFragment().changeFormEditableState(this.editable);
     }
 
     protected void onFormEditStateChange(boolean editable) {
@@ -554,8 +564,7 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
             getJsonForm().setFormState(FormState.State.UPDATING);
 
         //
-        setFormEditable(editable);
-
+        changeFormEditableState();
     }
 
     /**

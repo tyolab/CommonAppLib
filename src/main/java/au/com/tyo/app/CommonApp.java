@@ -46,6 +46,7 @@ import au.com.tyo.app.ui.UI;
 import au.com.tyo.app.ui.UIBase;
 import au.com.tyo.app.ui.page.Page;
 import au.com.tyo.json.util.DataJson;
+import au.com.tyo.json.util.FormGroup;
 import au.com.tyo.services.HttpPool;
 import au.com.tyo.utils.StringUtils;
 
@@ -744,27 +745,27 @@ public abstract class CommonApp<UIType extends UI,
 
 		DataFormEx infoData = new DataFormEx();
 		infoData.setTitle(context.getString(R.string.about));
-		infoData.setFormEditable(false);
+		infoData.setEditable(false);
 
 		addAboutPageHeader(infoData);
 
-		DataFormEx.FormGroup aboutGroup = new DataFormEx.FormGroup(context.getString(R.string.app_information));
-		aboutGroup.setShowingGroupTitle(true);
+		FormGroup aboutGroup = new FormGroup(context.getString(R.string.app_information));
+		aboutGroup.setShowingTitle(true);
 
 		aboutGroup.addField(context.getString(R.string.version), AndroidUtils.getPackageVersionName(context) + " " + AndroidUtils.getAbi());
 		aboutGroup.addField(context.getString(R.string.copyright), context.getString(R.string.app_copyright));
         infoData.addGroup(aboutGroup);
 
-        DataFormEx.FormGroup contactGroup = new DataFormEx.FormGroup(context.getString(R.string.app_contact_us));
-        contactGroup.setShowingGroupTitle(true);
+        FormGroup contactGroup = new FormGroup(context.getString(R.string.app_contact_us));
+        contactGroup.setShowingTitle(true);
 
         contactGroup.addField(context.getString(R.string.website), context.getString(R.string.tyolab_website));
         contactGroup.addField(context.getString(R.string.email), context.getString(R.string.tyolab_email));
 		infoData.addGroup(contactGroup);
 
         if (showAcknowledgement) {
-            DataFormEx.FormGroup acknowledgementGroup = new DataFormEx.FormGroup(context.getString(R.string.app_acknowledgement_title));
-            acknowledgementGroup.setShowingGroupTitle(true);
+            FormGroup acknowledgementGroup = new FormGroup(context.getString(R.string.app_acknowledgement_title));
+            acknowledgementGroup.setShowingTitle(true);
 
             if (null != acknowledgementTitle) {
                 acknowledgementGroup.setTitle(acknowledgementTitle);
@@ -800,7 +801,7 @@ public abstract class CommonApp<UIType extends UI,
      *
      * @param acknowledgementGroup
      */
-    protected void addAboutPageAcknowledgementFields(DataFormEx.FormGroup acknowledgementGroup) {
+    protected void addAboutPageAcknowledgementFields(FormGroup acknowledgementGroup) {
         // no ops
     }
 

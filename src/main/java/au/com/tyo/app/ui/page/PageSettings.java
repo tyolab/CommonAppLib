@@ -17,6 +17,7 @@ public class PageSettings <T extends Controller> extends PageFormEx<T> {
         super(controller, activity);
 
         settings = controller.getSettings();
+        setEditable(true);
         setMenuEditRequired(false);
     }
 
