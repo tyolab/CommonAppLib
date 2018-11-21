@@ -13,4 +13,6 @@
     <attr name="colorPrimaryText" format="reference" />
 
     <attr name="colorPrimaryTitle" format="reference" />
+
+    <attr name="toolbarStyle" format="reference" />
 </resources>

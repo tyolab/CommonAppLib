@@ -213,6 +213,8 @@
 
         <item name="colorPrimaryText">@color/theme_light_text_color</item>
         <item name="colorPrimaryTitle">@color/theme_light_title_color</item>
+
+        <item name="toolbarStyle">@style/AppStyle.Toolbar.Light</item>
     </style>
 
     <style name="CommonTheme.Dark" parent="Theme.AppCompat.NoActionBar" />
@@ -291,6 +293,8 @@
 
         <item name="colorPrimaryText">@color/theme_dark_text_color</item>
         <item name="colorPrimaryTitle">@color/theme_dark_title_color</item>
+
+        <item name="toolbarStyle">@style/AppStyle.Toolbar.Dark</item>
     </style>
 
     <style name="CommonAppBaseTheme.Light" parent="CommonTheme.Light.Pale">
