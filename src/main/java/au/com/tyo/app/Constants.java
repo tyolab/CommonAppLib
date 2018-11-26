@@ -97,4 +97,8 @@ public interface Constants extends au.com.tyo.android.Constants {
 
 	String ACTION_MESSAGE_RECEIVER = "au.com.tyo.app.CommonData";
 
+    String PAGE_LIST_QUICK_ACCESS_TITLE = "PAGE_LIST_QUICK_ACCESS_TITLE";
+	String PAGE_LIST_QUICK_ACCESS_LIST = "PAGE_LIST_QUICK_ACCESS_LIST";
+	String PAGE_LIST_FULL_LIST_TITLE = "PAGE_LIST_FULL_LIST_TITLE";
+	String PAGE_LIST_FULL_LIST_DATA = "PAGE_LIST_FULL_LIST_DATA";
 }

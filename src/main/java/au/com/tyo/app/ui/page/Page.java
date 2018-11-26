@@ -701,12 +701,12 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         Object barObj = null;
 
         if (activity instanceof AppCompatActivity) {
-            Toolbar toolbar = actionBarMenu.getToolbar();
+            // Toolbar toolbar = actionBarMenu.getToolbar();
 
-            if (null == toolbar) {
-                toolbar = (Toolbar) activity.findViewById(R.id.tyodroid_toolbar);
-                actionBarMenu.setToolbar(toolbar);
-            }
+            // if (null == toolbar) {
+                setupToolbar();
+             Toolbar toolbar = actionBarMenu.getToolbar();
+            //}
 
             if (toolbar != null) {
                 try {
@@ -778,7 +778,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         }
         else {
             if (null != mainView && actionBarMenu.getToolbar() == null)
-                actionBarMenu.setToolbar((Toolbar) mainView.findViewById(R.id.tyodroid_toolbar));
+                setupToolbar();
 
             return actionBarMenu.getToolbar();
         }

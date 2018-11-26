@@ -13,6 +13,8 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.view.View;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import au.com.tyo.android.AndroidUtils;
@@ -358,6 +360,15 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
     @Override
     public void gotoAboutPage(Map data, String title) {
         gotoPageWithData((Page) getCurrentPage(), CommonActivityAbout.class, data, title);
+    }
+
+    public void gotoListPageForResult(String title, String fullListTitle, List fullList, String quickAccessTitle, List quickAccess) {
+        Map data = new HashMap();
+        data.put(Constants.PAGE_LIST_QUICK_ACCESS_TITLE, quickAccessTitle);
+        data.put(Constants.PAGE_LIST_QUICK_ACCESS_LIST, quickAccess);
+        data.put(Constants.PAGE_LIST_FULL_LIST_TITLE, quickAccessTitle);
+        data.put(Constants.PAGE_LIST_FULL_LIST_DATA, quickAccessTitle);
+        gotoPageWithData((Page) getCurrentPage(), CommonActivityList.class, data, title);
     }
 
     @Override
