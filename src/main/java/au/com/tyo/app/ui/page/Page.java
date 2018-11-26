@@ -139,6 +139,11 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     protected View mainView;
 
     /**
+     * Toolbar container
+     */
+    protected View toolbarContainer;
+
+    /**
      * Controller
      */
     private ControllerType controller;
@@ -540,7 +545,11 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     }
 
     private void setupToolbar() {
-        actionBarMenu.setToolbar((Toolbar) mainView.findViewById(R.id.tyodroid_toolbar));
+        toolbarContainer = mainView.findViewById(R.id.tyodroid_toolbar_container);
+        Toolbar toolbar = (Toolbar) toolbarContainer.findViewById(R.id.tyodroid_toolbar);
+        if (null == toolbar && toolbarContainer instanceof Toolbar)
+            toolbar = (Toolbar) toolbarContainer;
+        actionBarMenu.setToolbar(toolbar);
     }
 
     public void hideToolbar() {
@@ -853,13 +862,14 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     }
 
     public void finish() {
+
         // we finish using the parcel if there is one
         // controller.setParcel(null);
         if (getActivity().getIntent().getBooleanExtra(Constants.DATA_LOCATION_CONTROLLER, false))
             controller.setParcel(null);
 
         checkIfFinishWithResult();
-        activity.finish();
+        getActivity().finish();
     }
 
     private void checkIfFinishWithResult() {
@@ -1318,10 +1328,6 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         if (null != pageInitializer)
             pageInitializer.initializePageOnActivityStart(this);
 
-        // do nothing
-        if (null != title && title.length() > 0)
-            setPageTitleOnToolbar(title);
-
         if (statusBarColor != null)
             setPageStatusBarColor(statusBarColor);
 
@@ -1341,6 +1347,9 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
             // drawable.setColorFilter(getActivity().getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
             getActionBarMenu().getSupportActionBar().setHomeAsUpIndicator(drawable);
         }
+
+        if (null != title && title.length() > 0)
+            setPageTitleOnToolbar(title);
     }
 
     public FragmentManager getSupportFragmentManager() {

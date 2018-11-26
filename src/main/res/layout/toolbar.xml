@@ -1,14 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--
+     The navigation button is vertically aligned within the Toolbar's minimum height, if set.
+    -->
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    style="?attr/toolbarStyle"
+    android:id="@+id/tyodroid_toolbar"
+    android:minHeight="?attr/actionBarSize"
+    >
+
+</android.support.v7.widget.Toolbar>
+<!--
 <android.support.design.widget.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     >
-    <!--
-     The navigation button is vertically aligned within the Toolbar's minimum height, if set.
-    -->
+
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         style="?attr/toolbarStyle"
         android:id="@+id/tyodroid_toolbar"
         android:minHeight="?attr/actionBarSize"
@@ -16,3 +28,5 @@
 
     </android.support.v7.widget.Toolbar>
 </android.support.design.widget.AppBarLayout>
+
+-->

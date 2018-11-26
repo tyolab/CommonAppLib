@@ -42,6 +42,8 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
 
     private UIPage currentScreen;
 
+    private UIPage previousPage;
+
     private View splashScreenOverlayView;
 
     protected boolean uiRecreationRequired = false;
@@ -72,6 +74,15 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
 
     public UIPage getCurrentPage() {
         return currentScreen;
+    }
+
+    public UIPage getPreviousPage() {
+        return previousPage;
+    }
+
+    @Override
+    public void setPreviousPage(UIPage previousPage) {
+        this.previousPage = previousPage;
     }
 
     public void setCurrentScreen(UIPage currentScreen) {
@@ -368,7 +379,7 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
         data.put(Constants.PAGE_LIST_QUICK_ACCESS_LIST, quickAccess);
         data.put(Constants.PAGE_LIST_FULL_LIST_TITLE, quickAccessTitle);
         data.put(Constants.PAGE_LIST_FULL_LIST_DATA, quickAccessTitle);
-        gotoPageWithData((Page) getCurrentPage(), CommonActivityList.class, data, title);
+        gotoPageWithData((Page) getCurrentPage(), CommonActivityList.class, data, true, Constants.REQUEST_PICK, title);
     }
 
     @Override

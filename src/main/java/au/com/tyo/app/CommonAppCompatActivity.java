@@ -16,6 +16,7 @@ import android.view.MenuItem;
 
 import au.com.tyo.app.ui.UIActivity;
 import au.com.tyo.app.ui.UIPage;
+import au.com.tyo.app.ui.page.Page;
 
 /**
  * 
@@ -267,8 +268,10 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 
 	@Override
 	public void finish() {
-        if (null != getPage())
-		    getPage().onFinish();
+		controller.getUi().setPreviousPage((Page) getPage());
+
+        // if (null != getPage())
+		getPage().onFinish();
 
 		super.finish();
 

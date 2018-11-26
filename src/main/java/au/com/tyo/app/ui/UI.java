@@ -13,6 +13,7 @@ import android.view.View;
 import java.util.Map;
 
 import au.com.tyo.app.CommonExtra;
+import au.com.tyo.app.Controller;
 import au.com.tyo.app.ui.page.Page;
 import au.com.tyo.app.ui.page.PageWebView;
 
@@ -123,4 +124,6 @@ public interface UI {
     void setContextPage(UIPage contextPage);
 
     void onBackPressedOnProgressPage();
+
+    void setPreviousPage(UIPage page);
 }
