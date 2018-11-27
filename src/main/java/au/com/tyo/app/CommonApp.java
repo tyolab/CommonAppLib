@@ -651,8 +651,8 @@ public abstract class CommonApp<UIType extends UI,
 		quitOrRestart(true);
 	}
 
-	protected void setThemeUsage(int themeId) {
-		settings.updateThemePreference(themeId);
+	protected void checkLightDarkThemeUsage(int themeId) {
+		// settings.updateThemePreference(themeId);
 
 		/**
 		 * @// TODO: 19/04/18
@@ -667,7 +667,7 @@ public abstract class CommonApp<UIType extends UI,
 		        usingLight = false;
         }
 
-		settings.setLightThemeUsed(usingLight);
+		settings.setLightThemeInUse(usingLight);
 	}
 
 	protected void setThemeByIndex(int index) {
@@ -679,19 +679,16 @@ public abstract class CommonApp<UIType extends UI,
 
 		int themeId = availableThemes.get(index).themeId;
 
-//		if (index == 0)
-//			themeId = R.style.CommonAppTheme_Light;
-//		else if (index == 1)
-//			themeId = R.style.CommonAppTheme_Dark;
-
+		int oldTheme = getSettings().getThemeId();
         getSettings().updateThemePreference(themeId);
 
-		setThemeUsage(themeId);
+		checkLightDarkThemeUsage(themeId);
 
-		setThemeById(themeId);
+		if (oldTheme != themeId)
+			updateThemeNow(themeId);
 	}
 
-	public void setThemeById(int themeId) {
+	public void updateTheme(int themeId) {
 		Application application = null;
 		if (null != getCurrentActivity())
 			application = getCurrentActivity().getApplication();
@@ -706,13 +703,17 @@ public abstract class CommonApp<UIType extends UI,
                 oldId = AndroidUtils.getApplicationThemeId(context);
 
             if (oldId != themeId) {
-				application.setTheme(themeId); // set the application wise theme
-
-				ui.setUiRecreationRequired(true);
-
-				this.quitOrRestart(true);
+				updateThemeNow(themeId);
 			}
 		}
+	}
+
+	public void updateThemeNow(int themeId) {
+		application.setTheme(themeId); // set the application wise theme
+
+		ui.setUiRecreationRequired(true);
+
+		this.quitOrRestart(true);
 	}
 
 	@Override

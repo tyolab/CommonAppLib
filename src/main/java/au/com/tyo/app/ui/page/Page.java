@@ -125,8 +125,6 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
 
     private boolean toShowSearchView;
 
-    protected boolean hideActionBar = false;
-
     protected int mainUiResId = -1;
 
     private InformationView informationView;
@@ -207,6 +205,12 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
      */
     private PageInitializer pageInitializer;
 
+    ////////////////////////////////////////////////////////////
+
+    protected boolean hideActionBar = false;
+
+    protected boolean showTitleInToolbar = false;
+
     /**
      *
      * @param controller
@@ -218,6 +222,12 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         this.activity = activity;
         this.controller = controller;
         toShowSearchView = false;
+
+        /**
+         * can be set
+         * showTitleInToolbar = controller.getContext().getResources().getBoolean(R.bool.showTitleOnActionBar)
+         */
+        showTitleInToolbar = true;
         doubleBackToExit = true;
         setSubpage(true);
         setResult(null);
@@ -228,6 +238,14 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
 
         if (pageInitializer != null)
             pageInitializer.initializePageOnConstruct(this);
+    }
+
+    public boolean isShowTitleInToolbar() {
+        return showTitleInToolbar;
+    }
+
+    public void setShowTitleInToolbar(boolean showTitleInToolbar) {
+        this.showTitleInToolbar = showTitleInToolbar;
     }
 
     public String[] getRequiredPermissions() {
@@ -756,7 +774,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
                         bar.setDisplayHomeAsUpEnabled(true);
                     }
 
-                    bar.setDisplayShowTitleEnabled(controller.getContext().getResources().getBoolean(R.bool.showTitleOnActionBar));
+                    bar.setDisplayShowTitleEnabled(showTitleInToolbar);
                 }
             }
             else if (barObj instanceof android.support.v7.app.ActionBar) {
@@ -766,7 +784,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
                     bar.hide();
                 }
                 else {
-                    boolean showTitle = controller.getContext().getResources().getBoolean(R.bool.showTitleOnActionBar);
+                    boolean showTitle = showTitleInToolbar;
 
                     if (controller.getContext().getResources().getBoolean(R.bool.showIconOnActionBar)){
                         bar.setLogo(R.drawable.ic_logo);
@@ -1337,6 +1355,10 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         if (bodyViewColor != null)
             bodyView.setBackgroundColor(bodyViewColor);
 
+
+        if (null != title && title.length() > 0)
+            setPageTitleOnToolbar(title);
+
         if (titleTextColor != null) {
             setPageToolbarTitleColor(titleTextColor);
 
@@ -1347,9 +1369,6 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
             // drawable.setColorFilter(getActivity().getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
             getActionBarMenu().getSupportActionBar().setHomeAsUpIndicator(drawable);
         }
-
-        if (null != title && title.length() > 0)
-            setPageTitleOnToolbar(title);
     }
 
     public FragmentManager getSupportFragmentManager() {

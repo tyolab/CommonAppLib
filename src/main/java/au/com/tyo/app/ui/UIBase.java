@@ -373,12 +373,13 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
         gotoPageWithData((Page) getCurrentPage(), CommonActivityAbout.class, data, title);
     }
 
-    public void gotoListPageForResult(String title, String fullListTitle, List fullList, String quickAccessTitle, List quickAccess) {
+    public void gotoListPageForResult(String title, String fullListTitle, List fullList, String quickAccessTitle, List quickAccess, int[] selected) {
         Map data = new HashMap();
-        data.put(Constants.PAGE_LIST_QUICK_ACCESS_TITLE, quickAccessTitle);
-        data.put(Constants.PAGE_LIST_QUICK_ACCESS_LIST, quickAccess);
-        data.put(Constants.PAGE_LIST_FULL_LIST_TITLE, quickAccessTitle);
-        data.put(Constants.PAGE_LIST_FULL_LIST_DATA, quickAccessTitle);
+        data.put(Constants.DATA_LIST_QUICK_ACCESS_TITLE, quickAccessTitle);
+        data.put(Constants.DATA_LIST_QUICK_ACCESS_LIST, quickAccess);
+        data.put(Constants.DATA_LIST_FULL_LIST_TITLE, fullListTitle);
+        data.put(Constants.DATA_LIST_FULL_LIST_DATA, fullList);
+        data.put(Constants.DATA_LIST_SELECTED, selected);
         gotoPageWithData((Page) getCurrentPage(), CommonActivityList.class, data, true, Constants.REQUEST_PICK, title);
     }
 

@@ -46,19 +46,33 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
     private QuickAccessListAdapter adapter;
     private AdapterView.OnItemClickListener onItemClickListener;
 
+    private int listItemResourceId;
+
     public PageCommonList(T controller, Activity activity) {
         super(controller, activity);
+
+        listItemResourceId = -1;
 
         setContentViewResId(R.layout.list_view);
 
         createAdapter();
     }
 
+    public int getListItemResourceId() {
+        return listItemResourceId;
+    }
+
+    public void setListItemResourceId(int listItemResourceId) {
+        this.listItemResourceId = listItemResourceId;
+    }
+
     protected void createAdapter() {
-            createAdapter(android.R.layout.simple_list_item_1);
+            createAdapter(listItemResourceId);
     }
 
     protected void createAdapter(int resId) {
+        if (resId == -1)
+            resId = android.R.layout.simple_list_item_1;
         adapter = new QuickAccessListAdapter(getActivity(), resId);
     }
 
@@ -123,6 +137,7 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
 
         if (intent.hasExtra(Constants.DATA_LIST)) {
             List list = null;
+            createAdapter();
 
             try {
                 list = intent.getParcelableArrayListExtra(Constants.DATA_LIST);
@@ -175,10 +190,25 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
         // when the parcel / parcel list is too big just don't do it
         if (null != getController().getParcel()) {
             Object object = getController().getParcel();
-            Object data;
+
+            //
+            createAdapter();
+
+            Object data = null;
             if (object instanceof Map) {
                 Map map = (Map) object;
-                data = (map).get(Constants.DATA_LIST);
+
+                if (map.containsKey(Constants.DATA_LIST))
+                    data = (map).get(Constants.DATA_LIST);
+                else {
+                    adapter.initialize((String) map.get(Constants.DATA_LIST_FULL_LIST_TITLE),
+                            (List) map.get(Constants.DATA_LIST_FULL_LIST_DATA),
+                            (String) map.get(Constants.DATA_LIST_QUICK_ACCESS_TITLE),
+                            (List) map.get(Constants.DATA_LIST_QUICK_ACCESS_LIST),
+                            true,
+                            (int[]) map.get(Constants.DATA_LIST_SELECTED));
+                }
+
                 String title = (String) map.get(Constants.PAGE_TITLE);
                 if (null != title)
                     setTitle(title);
@@ -186,12 +216,23 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
             else
                 data = object;
 
-            if (data instanceof List)
-                addList((List) data);
-            else
-                addList(Arrays.asList(data));
-
+            if (null != data) {
+                if (data instanceof List)
+                    addList((List) data);
+                else
+                    addList(Arrays.asList(data));
+            }
         }
+    }
+
+    @Override
+    public void onDataBound() {
+        super.onDataBound();
+
+        if (null == adapter)
+            createAdapter();
+
+
     }
 
     public void addItem(Object obj) {

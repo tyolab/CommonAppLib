@@ -9,16 +9,15 @@ import au.com.tyo.app.Controller;
  * Created by Eric Tang (eric.tang@tyo.com.au) on 23/9/17.
  */
 
-public class PageCommonLocation extends Page {
+public class PageCommonLocation<ControllerType extends Controller> extends Page<ControllerType> {
 
 
     /**
      * @param controller
-     * @param context
+     * @param activity
      */
-    public PageCommonLocation(Controller controller, Activity context) {
-        super(controller, context);
-
+    public PageCommonLocation(ControllerType controller, Activity activity) {
+        super(controller, activity);
     }
 
     @Override
