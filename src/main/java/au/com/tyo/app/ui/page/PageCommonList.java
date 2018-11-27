@@ -48,6 +48,8 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
 
     private int listItemResourceId;
 
+    private String listKey;
+
     public PageCommonList(T controller, Activity activity) {
         super(controller, activity);
 
@@ -160,6 +162,9 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
 
             addList(list);
         }
+
+        if (intent.hasExtra(Constants.DATA_LIST_KEY))
+            listKey = intent.getStringExtra(Constants.DATA_LIST_KEY);
     }
 
     private void addList(List list) {
@@ -208,6 +213,9 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
                             true,
                             (int[]) map.get(Constants.DATA_LIST_SELECTED));
                 }
+
+                if (map.containsKey(Constants.DATA_LIST_KEY))
+                    listKey = (String) map.get(Constants.DATA_LIST_KEY);
 
                 String title = (String) map.get(Constants.PAGE_TITLE);
                 if (null != title)
