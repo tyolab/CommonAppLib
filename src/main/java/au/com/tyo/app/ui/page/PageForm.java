@@ -708,8 +708,6 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
             Object result = getActivityResult(data);
             if (null != result) {
                 boolean ret = onValueReceived(key, result);
-                if (ret)
-                    return true;
             }
         }
         return super.onActivityResult(requestCode, resultCode, data);
