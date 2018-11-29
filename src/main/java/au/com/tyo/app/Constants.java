@@ -5,6 +5,7 @@
 
 package au.com.tyo.app;
 
+import au.com.tyo.json.android.constants.JsonFormConstants;
 import au.com.tyo.json.util.DataFormEx;
 
 /**
@@ -84,6 +85,7 @@ public interface Constants extends au.com.tyo.android.Constants {
 	int REQUEST_SOMETHING = 9999;
     int REQUEST_NONE = -1;
 	int REQUEST_PICK = 1009;
+	int REQUEST_FORM_FILLING = JsonFormConstants.REQUEST_FORM_FILLING;
 
 	int REQUEST_CODE_DP_RESULT = 7000;
 
@@ -103,4 +105,6 @@ public interface Constants extends au.com.tyo.android.Constants {
 	String DATA_LIST_FULL_LIST_DATA = "TYODROID_DATA_LIST_FULL_LIST_DATA";
     Object DATA_LIST_SELECTED = "TYODROID_DATA_LIST_SELECTED";
     String DATA_LIST_KEY = "TYODROID_DATA_LIST_KEY";
+
+	String PAGE_RESULT_KEY = "TYODROID_PAGE_RESULT_KEY";
 }

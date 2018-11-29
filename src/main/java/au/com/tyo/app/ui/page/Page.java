@@ -172,6 +172,11 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     private int resultCode;
 
     /**
+     * The result key
+     */
+    private String resultKey;
+
+    /**
      * The fragments assicated with the pages
      */
     private List<Fragment> fragments;
@@ -231,6 +236,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         doubleBackToExit = true;
         setSubpage(true);
         setResult(null);
+        setResultKey(Constants.RESULT);
 
         configActionBarMenu();
 
@@ -311,6 +317,14 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     @Override
     public void setSubpage(boolean subpage) {
         isSubpage = subpage;
+    }
+
+    public String getResultKey() {
+        return resultKey;
+    }
+
+    public void setResultKey(String resultKey) {
+        this.resultKey = resultKey;
     }
 
     @Override
@@ -896,11 +910,11 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
 
             if (requestCode < 5000) {
                 if (result instanceof Parcelable)
-                    resultIntent.putExtra(Constants.RESULT, (Parcelable) result);
+                    resultIntent.putExtra(resultKey, (Parcelable) result);
                 else if (result instanceof Parcelable[])
-                    resultIntent.putExtra(Constants.RESULT, (Parcelable[]) result);
+                    resultIntent.putExtra(resultKey, (Parcelable[]) result);
                 else if (result instanceof String)
-                    resultIntent.putExtra(Constants.RESULT, (String) result);
+                    resultIntent.putExtra(resultKey, (String) result);
                 else {
                     resultIntent.putExtra(Constants.RESULT_LOCATION, Constants.RESULT_LOCATION_CONTROLLER);
                     controller.setResult(result);
@@ -1163,6 +1177,9 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
 
         if (intent.hasExtra(Constants.PAGE_IS_MAIN))
             setSubpage(!intent.getBooleanExtra(Constants.PAGE_IS_MAIN, false));
+
+        if (intent.hasExtra(Constants.PAGE_RESULT_KEY))
+            setResultKey(intent.getStringExtra(Constants.PAGE_RESULT_KEY));
     }
 
     /**
@@ -1705,17 +1722,19 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
      * @return
      */
     public Object getActivityResult(Intent data) {
-        boolean resultInController = false;
-
-        if (data.hasExtra(Constants.RESULT_LOCATION))
-            resultInController = data.getStringExtra(Constants.RESULT_LOCATION).equals(Constants.RESULT_LOCATION_CONTROLLER);
-
         Object result = null;
+        if (null != data) {
+            boolean resultInController = false;
 
-        if (!resultInController)
-            result = ActivityUtils.getActivityResult(data);
-        else
-            result = controller.getResult();
+            if (data.hasExtra(Constants.RESULT_LOCATION))
+                resultInController = data.getStringExtra(Constants.RESULT_LOCATION).equals(Constants.RESULT_LOCATION_CONTROLLER);
+
+
+            if (!resultInController)
+                result = ActivityUtils.getActivityResult(data);
+            else
+                result = controller.getResult();
+        }
         return result;
     }
 }

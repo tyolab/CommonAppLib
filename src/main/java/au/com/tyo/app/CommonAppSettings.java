@@ -114,4 +114,8 @@ public abstract class CommonAppSettings<T1 extends Map, T2 extends Map> extends 
     public void loadSettingsIntoMemory() {
         // no ops
     }
+
+    public void updateSetting(String key, Object value) {
+    	appSettings.put(key, value);
+	}
 }

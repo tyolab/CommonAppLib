@@ -703,18 +703,19 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
     @Override
     public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
         //
-        if (data != null) {
+        if (data != null && requestCode == Constants.REQUEST_FORM_FILLING) {
             String key = getCurrentKey();
             Object result = getActivityResult(data);
             if (null != result) {
-                boolean ret = onValueReceived(key, result);
+                return onValueReceived(key, result);
             }
         }
         return super.onActivityResult(requestCode, resultCode, data);
     }
 
     protected boolean onValueReceived(String key, Object result) {
-        return false;
+        getJsonFormFragment().updateForm(key, result);
+        return true;
     }
 
     @Override
@@ -743,5 +744,10 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
         if (isDirty()) {
             saveAndFinish();
         }
+    }
+
+    @Override
+    public Object getNullValueReplacement(String keyStr) {
+        return null;
     }
 }
