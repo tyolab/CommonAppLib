@@ -1698,11 +1698,24 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         return super.getContentView();
     }
 
+    /**
+     * If the result is in Controller, it has to be specified
+     *
+     * @param data
+     * @return
+     */
     public Object getActivityResult(Intent data) {
-        Object result = ActivityUtils.getActivityResult(data);
+        boolean resultInController = false;
 
-        if (null == result)
-            result = controller.getParcel();
+        if (data.hasExtra(Constants.RESULT_LOCATION))
+            resultInController = data.getStringExtra(Constants.RESULT_LOCATION).equals(Constants.RESULT_LOCATION_CONTROLLER);
+
+        Object result = null;
+
+        if (!resultInController)
+            result = ActivityUtils.getActivityResult(data);
+        else
+            result = controller.getResult();
         return result;
     }
 }

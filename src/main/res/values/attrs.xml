@@ -15,4 +15,7 @@
     <attr name="colorPrimaryTitle" format="reference" />
 
     <attr name="toolbarStyle" format="reference" />
+
+    <attr name="touchableBackgroundStyle" format="reference" />
+
 </resources>

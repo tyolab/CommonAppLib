@@ -2,6 +2,7 @@ package au.com.tyo.app.ui.page;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 
 import au.com.tyo.app.Controller;
 import au.com.tyo.json.android.interfaces.CommonListener;
@@ -70,5 +71,11 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
     @Override
     public CommonListener getFormOnClickListenerByKey(String key, String text) {
         return null;
+    }
+
+    @Override
+    public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        return super.onActivityResult(requestCode, resultCode, data);
     }
 }
