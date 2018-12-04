@@ -35,6 +35,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.OverridingMethodsMustInvokeSuper;
+
 import au.com.tyo.android.utils.ResourceUtils;
 import au.com.tyo.android.utils.SimpleDateUtils;
 import au.com.tyo.app.CommonAppData;
@@ -42,15 +44,17 @@ import au.com.tyo.app.Constants;
 import au.com.tyo.app.Controller;
 import au.com.tyo.app.R;
 import au.com.tyo.app.api.JSON;
+import au.com.tyo.json.FieldValue;
 import au.com.tyo.json.FormItem;
 import au.com.tyo.json.FormMetaData;
 import au.com.tyo.json.FormState;
 import au.com.tyo.json.JsonForm;
-import au.com.tyo.json.android.constants.JsonFormConstants;
 import au.com.tyo.json.android.fragments.FormFragment;
 import au.com.tyo.json.android.interfaces.JsonApi;
 import au.com.tyo.json.android.utils.FormHelper;
 import au.com.tyo.json.util.TitleKeyConverter;
+
+import static au.com.tyo.json.android.constants.JsonFormConstants.FIRST_STEP_NAME;
 
 /**
  * Created by Eric Tang (eric.tang@tyo.com.au) on 20/12/17.
@@ -62,8 +66,19 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
 
     protected               String              json;
 
+    /**
+     * Entire form json object
+     */
     private                 JSONObject          mJSONObject;
 
+    /**
+     * The steps json array
+     */
+    private                 JSONArray           jsonSteps;
+
+    /**
+     * The form container id
+     */
     private                 int                 formContainerId;
 
     /**
@@ -82,6 +97,11 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
     private                 boolean             dirty;
 
     /**
+     * If form validation is required
+     */
+    private                 boolean             formValidationRequired;
+
+    /**
      * By default we save data in the background thread, so we can't exit activity
      * until data is saved
      */
@@ -95,6 +115,11 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
     private                 String              formMetaAssetJsonFile;
 
     private                 boolean             menuEditRequired;
+
+    /**
+     * The name of current step
+     */
+    private                 String              currentStep;
 
     /**
      *
@@ -111,6 +136,7 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
 
         // by default, if it is editable form, we don't need to show the edit menu unless you specially want it
         this.menuEditRequired = false;
+        this.formValidationRequired = true;
     }
 
     /**
@@ -139,6 +165,14 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
 
     public void setMenuEditRequired(boolean menuEditRequired) {
         this.menuEditRequired = menuEditRequired;
+    }
+
+    public boolean isFormValidationRequired() {
+        return formValidationRequired;
+    }
+
+    public void setFormValidationRequired(boolean formValidationRequired) {
+        this.formValidationRequired = formValidationRequired;
     }
 
     public Object getForm() {
@@ -233,31 +267,59 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
     }
 
     @Override
-    public void writeValue(String stepName, String key, String value) throws JSONException {
+    public void writeValue(String stepName, String key, String value) {
         synchronized (mJSONObject) {
             try {
                 JSONObject jsonObject = mJSONObject.getJSONObject(stepName);
-                JSONArray fields = jsonObject.getJSONArray("fields");
-                for (int i = 0; i < fields.length(); i++) {
-                    JSONObject item = fields.getJSONObject(i);
-                    String keyAtIndex = item.getString("key");
-                    if (key.equals(keyAtIndex)) {
-                        getJsonFormFragment().addUserInputValueToMetadata(key, null, value);
 
-                        String oldValue = null;
+                writeValueToField(key, value, jsonObject);
 
-                        if (item.has("value"))
-                            oldValue = item.getString("value");
-
-                        if (null == oldValue || !oldValue.equals(value)) {
-                            item.put("value", value);
-                            onFieldDataDirty(key, null, value);
-                        }
-                        return;
+                JSONArray groups = jsonObject.optJSONArray("groups");
+                if (null != groups)
+                    for (int i = 0; i < groups.length(); i++) {
+                        JSONObject item = groups.getJSONObject(i);
+                        writeValueToField(key, value, item);
                     }
+            }
+            catch (Exception e) {
+                Log.e(TAG, "Failed to write value to the json object cache for key: " + key, e);
+            }
+        }
+    }
+
+    private void writeValueToField(String key, String value, JSONObject jsonObject) throws JSONException {
+        JSONArray fields = jsonObject.optJSONArray("fields");
+        if (null != fields)
+            for (int i = 0; i < fields.length(); i++) {
+                JSONObject item = fields.getJSONObject(i);
+                String keyAtIndex = item.getString("key");
+                if (key.equals(keyAtIndex)) {
+                    getJsonFormFragment().addUserInputValueToMetadata(key, null, value);
+
+                    String oldValue = item.optString("value");
+
+                    checkAndUpdateValue(item, key, null, oldValue, value);
+                    return;
                 }
             }
-            catch (Exception e) {}
+    }
+
+    private void checkAndUpdateValue(JSONObject item, String parentKey, String childKey, String oldValue, String value) throws JSONException {
+        boolean equal = false;
+
+        if (null == oldValue) {
+            if (null == value)
+                equal = true;
+        }
+        else {
+            if (null != value) {
+                equal = oldValue.equals(value);
+            }
+        }
+
+        if (!equal) {
+            item.put("value", value);
+            onFieldDataDirty(parentKey, childKey, value);
         }
     }
 
@@ -323,41 +385,52 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
     }
 
     @Override
-    public void writeValue(String stepName, String parentKey, String childObjectKey, String childKey, String value)
-            throws JSONException {
+    public void writeValue(String stepName, String parentKey, String childObjectKey, String childKey, String value) {
         synchronized (mJSONObject) {
             try {
                 JSONObject jsonObject = mJSONObject.getJSONObject(stepName);
-                JSONArray fields = jsonObject.getJSONArray("fields");
-                for (int i = 0; i < fields.length(); i++) {
-                    JSONObject item = fields.getJSONObject(i);
-                    String keyAtIndex = item.getString("key");
-                    if (parentKey.equals(keyAtIndex)) {
-                        JSONArray jsonArray = item.getJSONArray(childObjectKey);
-                        for (int j = 0; j < jsonArray.length(); j++) {
-                            JSONObject innerItem = jsonArray.getJSONObject(j);
-                            String anotherKeyAtIndex = innerItem.getString("key");
-                            if (childKey.equals(anotherKeyAtIndex)) {
-                                // add value to the metadata
-                                getJsonFormFragment().addUserInputValueToMetadata(parentKey, childKey, value);
 
-                                String oldValue = null;
+                writeValueToField(parentKey, childObjectKey, childKey, value, jsonObject);
 
-                                if (innerItem.has("value"))
-                                    oldValue = innerItem.getString("value");
+                JSONArray groups = jsonObject.optJSONArray("groups");
+                if (null != groups)
+                    for (int i = 0; i < groups.length(); i++) {
+                        JSONObject item = groups.getJSONObject(i);
+                        writeValueToField(parentKey, childObjectKey, childKey, value, item);
+                    }
+            }
+            catch (Exception e) {
+                Log.e(TAG, "Failed to write value to the json object cache for keys: " + parentKey + '-' + childKey, e);
+            }
+        }
+    }
 
-                                if (null == oldValue || !oldValue.equals(value)) {
-                                    innerItem.put("value", value);
-                                    onFieldDataDirty(parentKey, childKey, value);
-                                }
-                                return;
-                            }
-                        }
+    private void writeValueToField(String parentKey, String childObjectKey, String childKey, String value, JSONObject jsonObject) throws JSONException {
+        JSONArray fields = jsonObject.optJSONArray("fields");
+        if (null == fields)
+            return;
+
+        for (int i = 0; i < fields.length(); i++) {
+            JSONObject item = fields.getJSONObject(i);
+            String keyAtIndex = item.getString("key");
+            if (parentKey.equals(keyAtIndex)) {
+                JSONArray jsonArray = item.getJSONArray(childObjectKey);
+                for (int j = 0; j < jsonArray.length(); j++) {
+                    JSONObject innerItem = jsonArray.getJSONObject(j);
+                    String anotherKeyAtIndex = innerItem.getString("key");
+                    if (childKey.equals(anotherKeyAtIndex)) {
+                        // add value to the metadata
+                        getJsonFormFragment().addUserInputValueToMetadata(parentKey, childKey, value);
+
+                        String oldValue = innerItem.optString("value");
+
+                        checkAndUpdateValue(innerItem, parentKey, childKey, oldValue, value);
+                        return;
                     }
                 }
             }
-            catch (Exception e) {}
         }
+
     }
 
 
@@ -475,7 +548,7 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
         if (getFragmentCount() > 0)
             removeFragments();
 
-        FormFragment jsonFormFragment = (FormFragment) FormFragment.getFormFragment(JsonFormConstants.FIRST_STEP_NAME);
+        FormFragment jsonFormFragment = (FormFragment) FormFragment.getFormFragment(FIRST_STEP_NAME);
         jsonFormFragment.setDarkThemeInUse(!getController().getSettings().isLightThemeInUse());
         addFragmentToList(jsonFormFragment);
         return jsonFormFragment;
@@ -494,7 +567,9 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
     }
 
     protected boolean checkBeforeSave() {
-        return getJsonFormFragment().validateForm() && checkOthers();
+        if (formValidationRequired)
+            return getJsonFormFragment().validateForm() && checkOthers();
+        return true;
     }
 
     protected boolean checkOthers() {
@@ -589,8 +664,6 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
             // getToolBarMenu().setMenuItemOneVisible(false);
             save();
 
-            onFormSaved();
-
             if (exitAfterSaveAction())
                 finish();
 
@@ -651,6 +724,8 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
             setResult(getForm());
 
         setDirty(false);
+
+        onFormSaved();
     }
 
     protected abstract void saveFormData(Object form);
@@ -702,20 +777,46 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
 
     @Override
     public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
-        //
+
         if (data != null && requestCode == Constants.REQUEST_FORM_FILLING) {
             String key = getCurrentKey();
             Object result = getActivityResult(data);
             if (null != result) {
-                return onValueReceived(key, result);
+                return onResultReceived(key, result);
             }
         }
+        /**
+         * let the parent method update value in the field
+         */
         return super.onActivityResult(requestCode, resultCode, data);
     }
 
-    protected boolean onValueReceived(String key, Object result) {
-        getJsonFormFragment().updateForm(key, result);
+    @OverridingMethodsMustInvokeSuper
+    protected boolean onResultReceived(String key, Object result) {
+        /**
+         * @TODO
+         *    make the step into array
+         */
+        String value = objectToString(result);
+        writeValue(FIRST_STEP_NAME, key, value);
+
+        getJsonFormFragment().updateForm(key, value);
         return true;
+    }
+
+    /**
+     * If the object is implemented with FieldValue, we need a bit conversion
+     *
+     * @param object
+     * @return
+     */
+    protected String objectToString(Object object) {
+        if (null == object)
+            return null;
+
+        if (object instanceof FieldValue)
+            return ((FieldValue) object).getStringValue();
+        return object.toString();
     }
 
     @Override
@@ -749,5 +850,10 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
     @Override
     public Object getNullValueReplacement(String keyStr) {
         return null;
+    }
+
+    @Override
+    public void onValidateRequiredFormFieldFailed(String key) {
+        Log.e(TAG, "Form validation failed - key:" + key);
     }
 }
