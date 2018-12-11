@@ -88,10 +88,13 @@ public class SuggestionsAdapter extends ListViewItemAdapter implements Filterabl
 
 		filter = new SuggestionFilter();
 		suggestionListener = null;
-		createMessageHandler();
 	}
-	
-	public void createMessageHandler() {
+
+    public void setMessageHandler(Handler handler) {
+        this.handler = handler;
+    }
+
+    public Handler createMessageHandler() {
 		handler = new Handler() {
 
 			@SuppressLint("NewApi") 
@@ -111,7 +114,25 @@ public class SuggestionsAdapter extends ListViewItemAdapter implements Filterabl
 			}
 			
 		};
+		return handler;
 	}
+
+	public void handleSuggestionMessage(Message msg) {
+	    if (msg.what == Constants.MESSAGE_SUGGESTION_RETURN) {
+	        if (null != msg.obj) {
+                List<Searchable> list = (List<Searchable>) msg.obj;
+                if (keepOriginal) {
+                    removeRedundantItem(items, currentSearch.toString());
+                    removeRedundantItem(list, currentSearch.toString());
+                }
+                items = list;
+            }
+            else
+                items.clear();
+        }
+
+        notifyDataSetChanged();
+    }
 	
 	private void removeRedundantItem(List<Searchable> items, String name) {
 		if (items.size() > 0 && name != null && items.contains(name));			
@@ -172,10 +193,12 @@ public class SuggestionsAdapter extends ListViewItemAdapter implements Filterabl
 
         @Override
         protected void onPostExecute(List<?> results) {
-            Message msg = Message.obtain();
-            msg.what = Constants.MESSAGE_SUGGESTION_RETURN;
-            msg.obj = results;
-        	handler.sendMessage(msg);
+            if (null != handler) {
+                Message msg = Message.obtain();
+                msg.what = Constants.MESSAGE_SUGGESTION_RETURN;
+                msg.obj = results;
+                handler.sendMessage(msg);
+            }
         }
     }
     

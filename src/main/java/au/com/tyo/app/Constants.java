@@ -17,7 +17,7 @@ public interface Constants extends au.com.tyo.android.Constants {
 	/**
 	 * Message Constants
 	 */
-	int MESSAGE_SUGGESTION_RETURN = 99;
+	int MESSAGE_SUGGESTION_RETURN = 10991;
 
 	int MESSAGE_BACKGROUND_TASK_STARTED = 0;
 
