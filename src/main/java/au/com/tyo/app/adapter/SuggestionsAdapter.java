@@ -100,24 +100,15 @@ public class SuggestionsAdapter extends ListViewItemAdapter implements Filterabl
 			@SuppressLint("NewApi") 
 			@Override
 			public void handleMessage(Message msg) {
-			if (msg.obj != null) {
-				List<Searchable> list =  (List<Searchable>) msg.obj;
-					if (keepOriginal) {
-						removeRedundantItem(items, currentSearch.toString());
-						removeRedundantItem(list, currentSearch.toString());
-					}
-					items = list;
-
-				notifyDataSetChanged();
-			}
-			super.handleMessage(msg);
+            if (!handleSuggestionMessage(msg))
+			    super.handleMessage(msg);
 			}
 			
 		};
 		return handler;
 	}
 
-	public void handleSuggestionMessage(Message msg) {
+	public boolean handleSuggestionMessage(Message msg) {
 	    if (msg.what == Constants.MESSAGE_SUGGESTION_RETURN) {
 	        if (null != msg.obj) {
                 List<Searchable> list = (List<Searchable>) msg.obj;
@@ -129,9 +120,10 @@ public class SuggestionsAdapter extends ListViewItemAdapter implements Filterabl
             }
             else
                 items.clear();
+            notifyDataSetChanged();
+	        return true;
         }
-
-        notifyDataSetChanged();
+        return false;
     }
 	
 	private void removeRedundantItem(List<Searchable> items, String name) {
@@ -199,6 +191,8 @@ public class SuggestionsAdapter extends ListViewItemAdapter implements Filterabl
                 msg.obj = results;
                 handler.sendMessage(msg);
             }
+            else
+                Log.w(LOG_TAG, "The message handler is null, so the adapter won't be able to receive the data change");
         }
     }
     
