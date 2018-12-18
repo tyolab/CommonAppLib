@@ -358,11 +358,15 @@
         <item name="android:textColor">@android:color/primary_text_dark</item>
     </style>
 
-    <style name="NoTitleTheme" parent="CommonAppTheme.Dark">
+    <style name="NoTitleThemeDark" parent="CommonAppTheme.Dark">
         <item name="android:windowNoTitle">true</item>
     </style>
 
-    <style name="SplashScreenTheme" parent="NoTitleTheme">
+    <style name="NoTitleThemeLight" parent="CommonAppTheme.Light">
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="SplashScreenTheme" parent="NoTitleThemeDark">
         <item name="android:windowBackground">@color/splash_screen_background_color</item>
         <item name="android:colorBackground">@color/splash_screen_background_color</item>
     </style>
