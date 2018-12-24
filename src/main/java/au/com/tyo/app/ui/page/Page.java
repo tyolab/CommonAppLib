@@ -1511,7 +1511,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
 
     protected void checkPermissions() {
         if (null != getRequiredPermissions()) {
-            ArrayList<String> list = new ArrayList();
+            List<String> list = new ArrayList();
 
             for (String permission : getRequiredPermissions()) {
                 if (Build.VERSION.SDK_INT >= 23) {
