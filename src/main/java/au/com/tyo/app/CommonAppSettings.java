@@ -5,19 +5,25 @@
 
 package au.com.tyo.app;
 
+import android.Manifest;
 import android.content.Context;
+import android.util.Log;
 
+import java.io.File;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import au.com.tyo.android.AndroidSettings;
 import au.com.tyo.app.api.JSON;
-import au.com.tyo.json.util.DataJson;
 
 /**
  * @author Eric Tang <eric.tang@tyo.com.au>
  */
 
 public abstract class CommonAppSettings<T1 extends Map, T2 extends Map> extends AndroidSettings {
+
+    private static final String LOG_TAG = "CommonAppSettings";
 	
 	public static final String PREF_SHOW_SEARCH_BAR = "pref_show_search_bar";
 
@@ -30,11 +36,16 @@ public abstract class CommonAppSettings<T1 extends Map, T2 extends Map> extends 
      * App Settings in json string format saved in system built-in shared preference
      */
 	public static final String PREF_APP_SETTINGS = "pref_app_settings";
-	
-	protected boolean alwaysShowSearchBar;
+
+    protected boolean alwaysShowSearchBar;
 
 	protected T2 appSettings;
 	protected T1 appData;
+
+	/**
+	 * Collection of permissions granted
+	 */
+	private Set<String> permissionsGranted;
 
 	public CommonAppSettings(Context context) {
 		super(context);
@@ -118,4 +129,33 @@ public abstract class CommonAppSettings<T1 extends Map, T2 extends Map> extends 
     public void updateSetting(String key, Object value) {
     	appSettings.put(key, value);
 	}
+
+	public boolean hasPermission(String permission) {
+		return null != permissionsGranted && permissionsGranted.contains(permission);
+	}
+	
+	public void grantPermission(String permission) {
+		if (permissionsGranted == null)
+			permissionsGranted = new HashSet();
+		permissionsGranted.add(permission);
+	}
+
+	public boolean hasStorageWritePermission() {
+        return null != permissionsGranted && permissionsGranted.contains(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+    }
+
+    @Override
+    public String getAppDataSubPath(String subPath) {
+        String path = super.getAppDataSubPath(subPath);
+        File file = new File(path);
+        if (!file.exists()) {
+            if (!file.mkdirs()) {
+                Log.e(LOG_TAG, "Failed to create directory: " + path);
+
+                if (!hasStorageWritePermission())
+                    Log.w(LOG_TAG, "Please check if the write permission on the device storage is requested and granted.");
+            }
+        }
+        return path;
+    }
 }

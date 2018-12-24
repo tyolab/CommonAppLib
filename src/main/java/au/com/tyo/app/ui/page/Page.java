@@ -1566,7 +1566,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
 
     @Override
     public void onRequestedPermissionsGranted(String permission) {
-        controller.grantPermission(permission);
+        controller.getSettings().grantPermission(permission);
     }
 
     @Override

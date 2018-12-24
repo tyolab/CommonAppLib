@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -61,14 +62,19 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
         agent = new PageAgent(this);
 
         onCreatePage();
-        if (!ret)
-            getPage().onPreCreateCheckFailed();
 
-        agent.preInitialize(savedInstanceState, getPage());
+        if (null != agent.getPage()) {
+			if (!ret)
+				getPage().onPreCreateCheckFailed();
 
-        super.onCreate(savedInstanceState);
+			agent.preInitialize(savedInstanceState, getPage());
 
-        agent.onCreate(savedInstanceState);
+			super.onCreate(savedInstanceState);
+
+			agent.onCreate(savedInstanceState);
+		}
+		else
+			super.onCreate(savedInstanceState);
 	}
 
 	protected boolean beforeCreateCheck() {
@@ -111,9 +117,10 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 
 		UIPage page = getPage();
 
-		if (null == page)
-			throw new IllegalStateException("The page instance is not initialised, please make sure that you have set up the page class or assign on properly");
-
+		if (null == page) {
+			Log.w(LOG_TAG, "The page instance is not initialised, please make sure that you have set up the page class or assign on properly");
+			return;
+		}
 		page.onPostCreate(null);
     }
 
@@ -168,7 +175,7 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return getPage().onOptionsItemSelected(item) || controller.onOptionsItemSelected(this, item) || super.onOptionsItemSelected(item);
+        return (null != getPage() && getPage().onOptionsItemSelected(item)) || controller.onOptionsItemSelected(this, item) || super.onOptionsItemSelected(item);
     }
 	
 	@Override
@@ -182,7 +189,8 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
   	protected void onResume() {
   		super.onResume();
 
-		agent.onResume(getPage());
+        if (null != getPage())
+		    agent.onResume(getPage());
   	}
 
   	@Override
@@ -194,17 +202,17 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		return getPage().onKeyDown(keyCode, event) || controller.onKeyDown(keyCode, event) || super.onKeyDown(keyCode, event);
+		return (null != getPage() && getPage().onKeyDown(keyCode, event)) || controller.onKeyDown(keyCode, event) || super.onKeyDown(keyCode, event);
 	}
 
 	@Override
 	public boolean onKeyUp(int keyCode, KeyEvent event) {
-		return getPage().onKeyUp(keyCode, event) || controller.onKeyUp(keyCode, event) || super.onKeyUp(keyCode, event);
+		return (null != getPage() && getPage().onKeyUp(keyCode, event)) || controller.onKeyUp(keyCode, event) || super.onKeyUp(keyCode, event);
 	}
 	
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		return getPage().onPrepareOptionsMenu(getSupportActionBar(), menu) || super.onPrepareOptionsMenu(menu);
+		return (null != getPage() && getPage().onPrepareOptionsMenu(getSupportActionBar(), menu)) || super.onPrepareOptionsMenu(menu);
 	}
 
 	/**
@@ -216,21 +224,28 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 	 */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		controller.getUi().setCurrentScreen(getPage());
 
-        getPage().onActivityResult(requestCode, resultCode, data);
+        if (null != getPage()) {
+            controller.getUi().setCurrentScreen(getPage());
+
+            if (!getPage().onActivityResult(requestCode, resultCode, data))
+                super.onActivityResult(requestCode, resultCode, data);
+        }
+        else
+            super.onActivityResult(requestCode, resultCode, data);
 	}
 	
 	@Override
 	public boolean onKeyLongPress(int keyCode, KeyEvent event) {
-		return getPage().onKeyLongPress(keyCode, event) || super.onKeyLongPress(keyCode, event);
+		return (null != getPage() && getPage().onKeyLongPress(keyCode, event)) || super.onKeyLongPress(keyCode, event);
 	}
 	
 	@Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-   
-        getPage().onPostCreate(savedInstanceState);
+
+        if (null != getPage())
+            getPage().onPostCreate(savedInstanceState);
     }
  
     @Override
@@ -241,13 +256,15 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
         if (null != controller.getUi())
         	controller.getUi().setUiRecreationRequired(true);
 
-        getPage().onConfigurationChanged(newConfig);
+        if (null != getPage())
+            getPage().onConfigurationChanged(newConfig);
     }
     
     @Override
     protected void onSaveInstanceState(Bundle savedInstanceState) {
 
-    	getPage().onSaveInstanceState(savedInstanceState);
+        if (null != getPage())
+    	    getPage().onSaveInstanceState(savedInstanceState);
         
         // Always call the superclass so it can save the view hierarchy state
         super.onSaveInstanceState(savedInstanceState);
@@ -257,7 +274,7 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 	public void onWindowFocusChanged(boolean hasFocus) {
 		super.onWindowFocusChanged(hasFocus);
 
-		if (hasFocus && !isFinishing())
+		if (null != getPage() && hasFocus && !isFinishing())
 			getPage().onWidowReady();
 	}
 
@@ -268,10 +285,11 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 
 	@Override
 	public void finish() {
-		controller.getUi().setPreviousPage((Page) getPage());
+		controller.getUi().setPreviousPage(getPage());
 
-        // if (null != getPage())
-		getPage().onFinish();
+		// page could be null
+        if (null != getPage())
+		    getPage().onFinish();
 
 		super.finish();
 
@@ -281,7 +299,8 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getPage().onCreateOptionsMenu(getMenuInflater(), menu);
+        if (null != getPage())
+		    getPage().onCreateOptionsMenu(getMenuInflater(), menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -289,7 +308,8 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 	protected void onStart() {
 		super.onStart();
 
-		getPage().onStart();
+		if (null != getPage())
+			getPage().onStart();
 	}
 
     @Override
@@ -306,19 +326,21 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 	protected void onStop() {
 		super.onStop();
 
-		getPage().onStop();
+        if (null != getPage())
+		    getPage().onStop();
 	}
 
 	@Override
 	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
 		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        for (int i = 0; i < permissions.length; ++i) {
-            if (grantResults[i] == PackageManager.PERMISSION_GRANTED)
-                getPage().onRequestedPermissionsGranted(permissions[i]);
-            else
-                getPage().onRequestedPermissionsDenied(permissions[i]);
-        }
+        if (null != getPage())
+            for (int i = 0; i < permissions.length; ++i) {
+                if (grantResults[i] == PackageManager.PERMISSION_GRANTED)
+                    getPage().onRequestedPermissionsGranted(permissions[i]);
+                else
+                    getPage().onRequestedPermissionsDenied(permissions[i]);
+            }
 	}
 
 }

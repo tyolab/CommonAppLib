@@ -85,8 +85,6 @@ public abstract class CommonApp<UIType extends UI,
 
 	private Object result;
 
-	private Set<String> permitted;
-
 	private List<ThemeInfo> availableThemes;
 
 	public static class ThemeInfo {
@@ -871,18 +869,7 @@ public abstract class CommonApp<UIType extends UI,
 		// to be implemented if a simple list is used
 	}
 
-    public boolean hasPermission(String permission) {
-        return null != permitted && permitted.contains(permission);
-    }
-
-    @Override
-    public void grantPermission(String permission) {
-        if (permitted == null)
-            permitted = new HashSet();
-        permitted.add(permission);
-    }
-
-	public void startActivity(Class cls, boolean mainActivity) {
+    public void startActivity(Class cls, boolean mainActivity) {
 		getUi().startActivity((Page) getUi().getCurrentPage(), cls, -1, null, null, null, REQUEST_NONE, mainActivity);
 	}
 
