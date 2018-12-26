@@ -386,8 +386,8 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
     }
 
     @Override
-    public void gotoFormPage(String id, String title, Map data) {
-        gotoPageWithData((Page) getCurrentPage(), CommonActivityForm.class, data, title);
+    public void gotoFormPage(String id, String title) {
+        gotoPageWithData((Page) getCurrentPage(), CommonActivityForm.class, Constants.EXTRA_KEY_FORM_ID, id, false, REQUEST_NONE, title);
     }
 
     @Override

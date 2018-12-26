@@ -93,6 +93,7 @@ public interface Constants extends au.com.tyo.android.Constants {
     String RELOAD = "TYODROID_RESTART";
 
     String EXTRA_KEY_JSON = "TYODROID_EXTRA_KEY_JSON";
+	String EXTRA_KEY_FORM_ID = "TYODROID_EXTRA_KEY_FORM_ID";
 
 	String EXTRA_KEY_EDITABLE = DataFormEx.KEY_EDITABLE;
     String EXTRA_KEY_TITLE = DataFormEx.KEY_TITLE;
@@ -107,4 +108,5 @@ public interface Constants extends au.com.tyo.android.Constants {
     String DATA_LIST_KEY = "TYODROID_DATA_LIST_KEY";
 
 	String PAGE_RESULT_KEY = "TYODROID_PAGE_RESULT_KEY";
+
 }

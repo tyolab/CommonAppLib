@@ -119,7 +119,7 @@ public interface UI {
 
     void gotoListPageForResult(String title, String fullListTitle, List fullList, String quickAccessTitle, List quickAccess, int[] selected, int requestCode);
 
-    void gotoFormPage(String id, String title, Map data);
+    void gotoFormPage(String id, String title);
 
     void gotoBackgroundProgressStatusPage(Page fromPage);
 

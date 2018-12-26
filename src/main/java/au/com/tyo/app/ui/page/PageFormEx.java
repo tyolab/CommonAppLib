@@ -6,15 +6,19 @@ import android.content.Intent;
 
 import java.util.Map;
 
+import au.com.tyo.app.Constants;
 import au.com.tyo.app.Controller;
 import au.com.tyo.json.android.interfaces.CommonListener;
 import au.com.tyo.json.util.DataFormEx;
+import au.com.tyo.json.util.OrderedDataMap;
 
 public class PageFormEx<T extends Controller> extends PageForm<T> {
 
     private DataFormEx dataFormEx;
 
     private FormHandler formHandler;
+
+    private String formId;
 
     public interface FormHandler {
 
@@ -32,7 +36,13 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
 
         void getFormOnClickListenerByKey(String formId, String key, String text);
 
-        String getFormTitleFromKey(String key);
+        String getFormTitleByKey(String key);
+
+        void initializeForm(String formId, DataFormEx dataFormEx);
+
+        String toKey(String formId, String key);
+
+        String toTitle(String formId, String key);
     }
 
     /**
@@ -60,15 +70,43 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
     }
 
     @Override
+    public void bindData(Intent intent) {
+        super.bindData(intent);
+
+        if (intent.hasExtra(Constants.EXTRA_KEY_FORM_ID))
+            formId = intent.getStringExtra(Constants.EXTRA_KEY_FORM_ID);
+    }
+
+    @Override
+    public void bindData() {
+        super.bindData();
+    }
+
+    @Override
     public void onDataBound() {
 
-        if (getForm() instanceof DataFormEx)
-            dataFormEx = (DataFormEx) getForm();
-        else {
-            if (getForm() instanceof Map) {
-
+        if (null != getForm()) {
+            if (getForm() instanceof DataFormEx)
+                dataFormEx = (DataFormEx) getForm();
+            else if (getForm() instanceof OrderedDataMap) {
+                dataFormEx = new DataFormEx((OrderedDataMap) getForm());
+                setForm(dataFormEx);
             }
+            else if (getForm() instanceof Map) {
+                dataFormEx = new DataFormEx();
+                dataFormEx.putAll((Map<? extends String, ?>) getForm());
+                setForm(dataFormEx);
+            }
+
+            if (null != formId)
+                dataFormEx.setFormId(formId);
         }
+
+        if (null == formId && null == dataFormEx)
+            throw new IllegalStateException("Both form id and data form object are not set.");
+        
+        if (null != formHandler)
+            formHandler.initializeForm(formId, dataFormEx);
 
         super.onDataBound();
 
@@ -125,10 +163,16 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
     }
 
     @Override
-    public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        return super.onActivityResult(requestCode, resultCode, data);
+    public String toKey(String key) {
+        if (null != formHandler)
+            return formHandler.toKey(dataFormEx.getFormId(), key);
+        return super.toKey(key);
     }
 
-
+    @Override
+    public String toTitle(String key) {
+        if (null != formHandler)
+            return formHandler.toTitle(dataFormEx.getFormId(), key);
+        return super.toTitle(key);
+    }
 }
