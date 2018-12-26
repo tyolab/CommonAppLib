@@ -22,6 +22,7 @@ import au.com.tyo.android.CommonInitializer;
 import au.com.tyo.android.CommonUIBase;
 import au.com.tyo.android.DialogFactory;
 import au.com.tyo.app.ui.activity.CommonActivityAbout;
+import au.com.tyo.app.ui.activity.CommonActivityForm;
 import au.com.tyo.app.ui.activity.CommonActivityList;
 import au.com.tyo.app.ui.activity.CommonActivityWebView;
 import au.com.tyo.app.CommonExtra;
@@ -373,6 +374,7 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
         gotoPageWithData((Page) getCurrentPage(), CommonActivityAbout.class, data, title);
     }
 
+    @Override
     public void gotoListPageForResult(String title, String fullListTitle, List fullList, String quickAccessTitle, List quickAccess, int[] selected, int requestCode) {
         Map data = new HashMap();
         data.put(Constants.DATA_LIST_QUICK_ACCESS_TITLE, quickAccessTitle);
@@ -381,6 +383,11 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
         data.put(Constants.DATA_LIST_FULL_LIST_DATA, fullList);
         data.put(Constants.DATA_LIST_SELECTED, selected);
         gotoPageWithData((Page) getCurrentPage(), CommonActivityList.class, data, true, requestCode > -1  ? requestCode : Constants.REQUEST_PICK, title);
+    }
+
+    @Override
+    public void gotoFormPage(String id, String title, Map data) {
+        gotoPageWithData((Page) getCurrentPage(), CommonActivityForm.class, data, title);
     }
 
     @Override

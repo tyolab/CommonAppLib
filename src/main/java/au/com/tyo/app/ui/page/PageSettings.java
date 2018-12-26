@@ -7,6 +7,8 @@ import au.com.tyo.app.Controller;
 
 public class PageSettings <T extends Controller> extends PageFormEx<T> {
 
+    public static final String FORM_SETTINGS_ID = "settings";
+
     private CommonAppSettings settings;
 
     /**

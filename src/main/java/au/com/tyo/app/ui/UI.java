@@ -10,10 +10,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;
 
+import java.util.List;
 import java.util.Map;
 
 import au.com.tyo.app.CommonExtra;
-import au.com.tyo.app.Controller;
 import au.com.tyo.app.ui.page.Page;
 import au.com.tyo.app.ui.page.PageWebView;
 
@@ -116,6 +116,10 @@ public interface UI {
     void gotoMainPage(Page fromPage);
 
     void gotoAboutPage(Map data, String title);
+
+    void gotoListPageForResult(String title, String fullListTitle, List fullList, String quickAccessTitle, List quickAccess, int[] selected, int requestCode);
+
+    void gotoFormPage(String id, String title, Map data);
 
     void gotoBackgroundProgressStatusPage(Page fromPage);
 
