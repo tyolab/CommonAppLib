@@ -3,13 +3,18 @@ package au.com.tyo.app.ui.page;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.widget.ImageView;
 
+import java.util.List;
 import java.util.Map;
 
 import au.com.tyo.app.Constants;
 import au.com.tyo.app.Controller;
 import au.com.tyo.json.android.interfaces.CommonListener;
+import au.com.tyo.json.android.interfaces.FieldItem;
 import au.com.tyo.json.form.DataFormEx;
+import au.com.tyo.json.form.FormField;
+import au.com.tyo.json.form.FormGroup;
 import au.com.tyo.json.util.OrderedDataMap;
 
 public class PageFormEx<T extends Controller> extends PageForm<T> {
@@ -85,36 +90,43 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
     @Override
     public void onDataBound() {
 
-        if (null != getForm()) {
-            if (getForm() instanceof DataFormEx)
-                dataFormEx = (DataFormEx) getForm();
-            else if (getForm() instanceof OrderedDataMap) {
-                dataFormEx = new DataFormEx((OrderedDataMap) getForm());
-                setForm(dataFormEx);
-            }
-            else if (getForm() instanceof Map) {
-                dataFormEx = new DataFormEx();
-                dataFormEx.putAll((Map<? extends String, ?>) getForm());
-                setForm(dataFormEx);
-            }
-
-            if (null != formId)
-                dataFormEx.setFormId(formId);
-        }
-
-        if (null == formId && null == dataFormEx)
-            throw new IllegalStateException("Both form id and data form object are not set.");
-        
-        if (null != formHandler)
-            formHandler.initializeForm(formId, dataFormEx);
-
-        super.onDataBound();
-
         /**
          * Normally, we use controller to handle the form
          */
         if (formHandler == null && getController() instanceof FormHandler)
             setFormHandler((FormHandler) getController());
+
+        if (null != getForm()) {
+            // if we can get the form which means we don't need to do the initialization
+            if (getForm() instanceof DataFormEx)
+                dataFormEx = (DataFormEx) getForm();
+            else if (getForm() instanceof OrderedDataMap) {
+                dataFormEx = new DataFormEx((OrderedDataMap) getForm());
+            }
+            else if (getForm() instanceof Map) {
+                dataFormEx = new DataFormEx();
+                dataFormEx.putAll((Map<? extends String, ?>) getForm());
+            }
+        }
+
+        if (null == dataFormEx) {
+            if (null == formId)
+                throw new IllegalStateException("Both form id and data form object are not set.");
+            else {
+                dataFormEx = new DataFormEx();
+                dataFormEx.setFormId(formId);
+            }
+        }
+        else
+            if (null != formId)
+                dataFormEx.setFormId(formId);
+
+        if (null != formHandler)
+            formHandler.initializeForm(formId, dataFormEx);
+
+        setForm(dataFormEx);
+
+        super.onDataBound();
     }
 
     @Override
@@ -162,17 +174,45 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
         return null;
     }
 
-    @Override
-    public String toKey(String key) {
-        if (null != formHandler)
-            return formHandler.toKey(dataFormEx.getFormId(), key);
-        return super.toKey(key);
-    }
+    // don't need this
+    // we have no problems on how title gets converted to key
+    // @Override
+    // public String toKey(String key) {
+    //     if (null != formHandler)
+    //         return formHandler.toKey(dataFormEx.getFormId(), key);
+    //     return super.toKey(key);
+    // }
 
     @Override
     public String toTitle(String key) {
-        if (null != formHandler)
-            return formHandler.toTitle(dataFormEx.getFormId(), key);
-        return super.toTitle(key);
+        String title = null;
+        if (null != formHandler) {
+            title = formHandler.toTitle(dataFormEx.getFormId(), key);
+        }
+        if (null == title)
+            title = super.toTitle(key);
+        return title;
+    }
+
+    @Override
+    public void loadImage(String keyStr, ImageView imageView) {
+        // it is not very efficient but does the job
+        List<FormGroup> list = dataFormEx.getGroups();
+        for (int i = 0; i < list.size(); ++i) {
+            FormGroup formGroup = list.get(i);
+            Object obj = formGroup.get(keyStr);
+            if (null != obj) {
+                FieldItem item = null;
+                if (obj instanceof FieldItem)
+                    item = (FieldItem) obj;
+                else if (obj instanceof FormField && ((FormField) obj).getValue() instanceof FieldItem)
+                    item = (FieldItem) ((FormField) obj).getValue();
+
+                if (null != item)
+                    imageView.setImageDrawable(item.getImageDrawable());
+                break;
+            }
+
+        }
     }
 }
