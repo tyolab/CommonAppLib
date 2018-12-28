@@ -6,7 +6,7 @@
 package au.com.tyo.app;
 
 import au.com.tyo.json.android.constants.JsonFormConstants;
-import au.com.tyo.json.util.DataFormEx;
+import au.com.tyo.json.form.DataFormEx;
 
 /**
  * @author Eric Tang <eric.tang@tyo.com.au>
