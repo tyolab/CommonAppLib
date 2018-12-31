@@ -215,6 +215,10 @@
         <item name="colorPrimaryTitle">@color/theme_light_title_color</item>
 
         <item name="toolbarStyle">@style/AppStyle.Toolbar.Light</item>
+
+        <item name="refColorEnabled">@color/colorEnabled</item>
+
+        <item name="refColorDisabled">@color/colorDisabled</item>
     </style>
 
     <style name="CommonTheme.Dark" parent="Theme.AppCompat.NoActionBar" />
@@ -295,6 +299,10 @@
         <item name="colorPrimaryTitle">@color/theme_dark_title_color</item>
 
         <item name="toolbarStyle">@style/AppStyle.Toolbar.Dark</item>
+
+        <item name="refColorEnabled">@color/white</item>
+
+        <item name="refColorDisabled">@color/light_grey</item>
     </style>
 
     <style name="CommonAppBaseTheme.Light" parent="CommonTheme.Light.Pale">
