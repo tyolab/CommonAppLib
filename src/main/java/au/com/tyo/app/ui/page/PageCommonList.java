@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 import au.com.tyo.android.adapter.ListViewItemAdapter;
+import au.com.tyo.android.adapter.QuickAccessListAdapter;
 import au.com.tyo.app.Constants;
 import au.com.tyo.app.Controller;
 import au.com.tyo.app.R;
@@ -42,28 +43,44 @@ import au.com.tyo.app.ui.UIList;
 public class PageCommonList<T extends Controller> extends Page<T> implements UIList {
 
     private ListView listView;
-    private BaseAdapter adapter;
+    private QuickAccessListAdapter adapter;
     private AdapterView.OnItemClickListener onItemClickListener;
+
+    private int listItemResourceId;
+
+    private String listKey;
 
     public PageCommonList(T controller, Activity activity) {
         super(controller, activity);
+
+        listItemResourceId = -1;
 
         setContentViewResId(R.layout.list_view);
 
         createAdapter();
     }
 
+    public int getListItemResourceId() {
+        return listItemResourceId;
+    }
+
+    public void setListItemResourceId(int listItemResourceId) {
+        this.listItemResourceId = listItemResourceId;
+    }
+
     protected void createAdapter() {
-        adapter = new ListViewItemAdapter();
+            createAdapter(listItemResourceId);
+    }
+
+    protected void createAdapter(int resId) {
+        if (resId == -1)
+            resId = android.R.layout.simple_list_item_1;
+        adapter = new QuickAccessListAdapter(getActivity(), resId);
     }
 
     @Override
     public BaseAdapter getBaseAdapter() {
         return adapter;
-    }
-
-    public void setBaseAdapter(BaseAdapter adapter) {
-        this.adapter = adapter;
     }
 
     public void setOnItemClickListener(AdapterView.OnItemClickListener onItemClickListener) {
@@ -108,16 +125,8 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
         return onItemClickListener;
     }
 
-    public boolean isListAdapter() {
-        return adapter instanceof ListViewItemAdapter;
-    }
-
     public boolean isArrayAdapter() {
         return adapter instanceof ArrayAdapter;
-    }
-
-    protected ListViewItemAdapter getListAdapter() {
-        return (ListViewItemAdapter) adapter;
     }
 
     protected ArrayAdapter getArrayAdapter() {
@@ -130,6 +139,7 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
 
         if (intent.hasExtra(Constants.DATA_LIST)) {
             List list = null;
+            createAdapter();
 
             try {
                 list = intent.getParcelableArrayListExtra(Constants.DATA_LIST);
@@ -152,25 +162,30 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
 
             addList(list);
         }
+
+        if (intent.hasExtra(Constants.DATA_LIST_KEY))
+            listKey = intent.getStringExtra(Constants.DATA_LIST_KEY);
     }
 
     private void addList(List list) {
-        if (adapter instanceof ListViewItemAdapter) {
-            ListViewItemAdapter listAdapter = (ListViewItemAdapter) adapter;
-            listAdapter.clear();
-            if (null != list)
-                listAdapter.setItems(list);
-            else
-                listAdapter.setItems(new ArrayList());
-        }
-        else if (adapter instanceof ArrayAdapter) {
+        // if (adapter instanceof ListViewItemAdapter) {
+        //     ListViewItemAdapter listAdapter = (ListViewItemAdapter) adapter;
+        //     listAdapter.clear();
+        //     if (null != list)
+        //         listAdapter.setItems(list);
+        //     else
+        //         listAdapter.setItems(new ArrayList());
+        // }
+        // else
+        if (adapter instanceof ArrayAdapter) {
             ArrayAdapter arrayAdapter = getArrayAdapter();
             arrayAdapter.clear();
             arrayAdapter.addAll(list);
+
+            adapter.notifyDataSetChanged();
         }
         else
             throw new IllegalStateException("Unknown adapter type");
-        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -180,10 +195,28 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
         // when the parcel / parcel list is too big just don't do it
         if (null != getController().getParcel()) {
             Object object = getController().getParcel();
-            Object data;
+
+            //
+            createAdapter();
+
+            Object data = null;
             if (object instanceof Map) {
                 Map map = (Map) object;
-                data = (map).get(Constants.DATA_LIST);
+
+                if (map.containsKey(Constants.DATA_LIST))
+                    data = (map).get(Constants.DATA_LIST);
+                else {
+                    adapter.initialize((String) map.get(Constants.DATA_LIST_FULL_LIST_TITLE),
+                            (List) map.get(Constants.DATA_LIST_FULL_LIST_DATA),
+                            (String) map.get(Constants.DATA_LIST_QUICK_ACCESS_TITLE),
+                            (List) map.get(Constants.DATA_LIST_QUICK_ACCESS_LIST),
+                            true,
+                            (int[]) map.get(Constants.DATA_LIST_SELECTED));
+                }
+
+                if (map.containsKey(Constants.DATA_LIST_KEY))
+                    listKey = (String) map.get(Constants.DATA_LIST_KEY);
+
                 String title = (String) map.get(Constants.PAGE_TITLE);
                 if (null != title)
                     setTitle(title);
@@ -191,26 +224,39 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
             else
                 data = object;
 
-            if (data instanceof List)
-                addList((List) data);
-            else
-                addList(Arrays.asList(data));
-
+            if (null != data) {
+                if (data instanceof List)
+                    addList((List) data);
+                else
+                    addList(Arrays.asList(data));
+            }
         }
     }
 
+    @Override
+    public void onDataBound() {
+        super.onDataBound();
+
+        if (null == adapter)
+            createAdapter();
+
+
+    }
+
     public void addItem(Object obj) {
-        if (adapter instanceof ListViewItemAdapter) {
-            ListViewItemAdapter listAdapter = (ListViewItemAdapter) adapter;
-            listAdapter.add(obj);
-        }
-        else if (adapter instanceof ArrayAdapter) {
+        // if (adapter instanceof ListViewItemAdapter) {
+        //     ListViewItemAdapter listAdapter = (ListViewItemAdapter) adapter;
+        //     listAdapter.add(obj);
+        // }
+        // else
+        if (adapter instanceof ArrayAdapter) {
             ArrayAdapter arrayAdapter = getArrayAdapter();
             arrayAdapter.add(obj);
+                adapter.notifyDataSetChanged();
         }
         else
             throw new IllegalStateException("Unknown adapter type");
-        adapter.notifyDataSetChanged();
+
     }
 
     @Override

@@ -4,9 +4,9 @@ project.ext {
     MINIMUM_SDK_VERSION = 14
     TARGET_SDK_VERSION = 28
     COMPILE_SDK_VERSION = 28
-    TOOLS_VERSION = "28.0.2"
+    TOOLS_VERSION = "28.0.3"
 
-    SUPPORT_LIBERY_VERSION = "28.0.0-rc02"
+    SUPPORT_LIBERY_VERSION = "28.0.0"
 }
 
 android {
@@ -41,7 +41,8 @@ dependencies {
 
     api project(':CommonUiLib')
     api project(':CommonUtils')
-    api project(path: ':CommonJsonForm')
+    api project(':CommonJsonForm')
+    api project(':CommonJsonFormDroid')
 
     // Calligraphy
     implementation 'uk.co.chrisjenx:calligraphy:2.3.0'

@@ -5,6 +5,9 @@
 
 package au.com.tyo.app;
 
+import au.com.tyo.json.android.constants.JsonFormConstants;
+import au.com.tyo.json.form.DataFormEx;
+
 /**
  * @author Eric Tang <eric.tang@tyo.com.au>
  */
@@ -14,7 +17,7 @@ public interface Constants extends au.com.tyo.android.Constants {
 	/**
 	 * Message Constants
 	 */
-	int MESSAGE_SUGGESTION_RETURN = 99;
+	int MESSAGE_SUGGESTION_RETURN = 10991;
 
 	int MESSAGE_BACKGROUND_TASK_STARTED = 0;
 
@@ -81,7 +84,8 @@ public interface Constants extends au.com.tyo.android.Constants {
 	int REQUEST_CODE = 999;
 	int REQUEST_SOMETHING = 9999;
     int REQUEST_NONE = -1;
-	int REQUEST_PICK = 1;
+	int REQUEST_PICK = 1009;
+	int REQUEST_FORM_FILLING = JsonFormConstants.REQUEST_FORM_FILLING;
 
 	int REQUEST_CODE_DP_RESULT = 7000;
 
@@ -89,8 +93,20 @@ public interface Constants extends au.com.tyo.android.Constants {
     String RELOAD = "TYODROID_RESTART";
 
     String EXTRA_KEY_JSON = "TYODROID_EXTRA_KEY_JSON";
-	String EXTRA_KEY_EDITABLE = "TYODROID_EXTRA_KEY_EDITABLE";
+	String EXTRA_KEY_FORM_ID = "TYODROID_EXTRA_KEY_FORM_ID";
+
+	String EXTRA_KEY_EDITABLE = DataFormEx.KEY_EDITABLE;
+    String EXTRA_KEY_TITLE = DataFormEx.KEY_TITLE;
 
 	String ACTION_MESSAGE_RECEIVER = "au.com.tyo.app.CommonData";
+
+    String DATA_LIST_QUICK_ACCESS_TITLE = "TYODROID_DATA_LIST_QUICK_ACCESS_TITLE";
+	String DATA_LIST_QUICK_ACCESS_LIST = "TYODROID_DATA_LIST_QUICK_ACCESS_LIST";
+	String DATA_LIST_FULL_LIST_TITLE = "TYODROID_DATA_LIST_FULL_LIST_TITLE";
+	String DATA_LIST_FULL_LIST_DATA = "TYODROID_DATA_LIST_FULL_LIST_DATA";
+    Object DATA_LIST_SELECTED = "TYODROID_DATA_LIST_SELECTED";
+    String DATA_LIST_KEY = "TYODROID_DATA_LIST_KEY";
+
+	String PAGE_RESULT_KEY = "TYODROID_PAGE_RESULT_KEY";
 
 }

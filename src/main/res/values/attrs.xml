@@ -7,4 +7,19 @@
     <attr name="fragmentTitleStyle" format="reference" />
 
     <attr name="bodyStyle" format="reference" />
+
+    <attr name="formBackgroundStyle" format="reference" />
+
+    <attr name="colorPrimaryText" format="reference" />
+
+    <attr name="colorPrimaryTitle" format="reference" />
+
+    <attr name="toolbarStyle" format="reference" />
+
+    <attr name="touchableBackgroundStyle" format="reference" />
+
+    <attr name="refColorDisabled" format="reference" />
+
+    <attr name="refColorEnabled" format="reference" />
+
 </resources>

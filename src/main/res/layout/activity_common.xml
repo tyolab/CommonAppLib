@@ -8,9 +8,10 @@
     >
 
     <include layout="@layout/toolbar"
-        android:id="@+id/tyodroid_toolbar"
+        android:id="@+id/tyodroid_toolbar_container"
         />
 
-    <include layout="@layout/common_drawers" />
+    <include layout="@layout/common_drawers"
+        />
 
 </LinearLayout>

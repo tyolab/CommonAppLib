@@ -88,30 +88,43 @@ public class SuggestionsAdapter extends ListViewItemAdapter implements Filterabl
 
 		filter = new SuggestionFilter();
 		suggestionListener = null;
-		createMessageHandler();
 	}
-	
-	public void createMessageHandler() {
+
+    public void setMessageHandler(Handler handler) {
+        this.handler = handler;
+    }
+
+    public Handler createMessageHandler() {
 		handler = new Handler() {
 
 			@SuppressLint("NewApi") 
 			@Override
 			public void handleMessage(Message msg) {
-			if (msg.obj != null) {
-				List<Searchable> list =  (List<Searchable>) msg.obj;
-					if (keepOriginal) {
-						removeRedundantItem(items, currentSearch.toString());
-						removeRedundantItem(list, currentSearch.toString());
-					}
-					items = list;
-
-				notifyDataSetChanged();
-			}
-			super.handleMessage(msg);
+            if (!handleSuggestionMessage(msg))
+			    super.handleMessage(msg);
 			}
 			
 		};
+		return handler;
 	}
+
+	public boolean handleSuggestionMessage(Message msg) {
+	    if (msg.what == Constants.MESSAGE_SUGGESTION_RETURN) {
+	        if (null != msg.obj) {
+                List<Searchable> list = (List<Searchable>) msg.obj;
+                if (keepOriginal) {
+                    removeRedundantItem(items, currentSearch.toString());
+                    removeRedundantItem(list, currentSearch.toString());
+                }
+                items = list;
+            }
+            else
+                items.clear();
+            notifyDataSetChanged();
+	        return true;
+        }
+        return false;
+    }
 	
 	private void removeRedundantItem(List<Searchable> items, String name) {
 		if (items.size() > 0 && name != null && items.contains(name));			
@@ -172,10 +185,14 @@ public class SuggestionsAdapter extends ListViewItemAdapter implements Filterabl
 
         @Override
         protected void onPostExecute(List<?> results) {
-            Message msg = Message.obtain();
-            msg.what = Constants.MESSAGE_SUGGESTION_RETURN;
-            msg.obj = results;
-        	handler.sendMessage(msg);
+            if (null != handler) {
+                Message msg = Message.obtain();
+                msg.what = Constants.MESSAGE_SUGGESTION_RETURN;
+                msg.obj = results;
+                handler.sendMessage(msg);
+            }
+            else
+                Log.w(LOG_TAG, "The message handler is null, so the adapter won't be able to receive the data change");
         }
     }
     

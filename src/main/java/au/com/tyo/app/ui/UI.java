@@ -10,6 +10,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;
 
+import java.util.List;
+import java.util.Map;
+
 import au.com.tyo.app.CommonExtra;
 import au.com.tyo.app.ui.page.Page;
 import au.com.tyo.app.ui.page.PageWebView;
@@ -80,6 +83,18 @@ public interface UI {
 
     void gotoPage(Class cls);
 
+    void gotoPage(Class cls, Object data);
+
+    void gotoPageWithData(Class cls, Object data, String title);
+
+    void gotoPageWithData(Class cls, Object data);
+
+    void gotoPageWithData(Class cls, Object data, boolean throughController);
+
+    void gotoPageWithData(Class cls, String key, Object data, String title);
+
+    void gotoPageWithData(Class cls, Object data, boolean throughController, int requestCode, String title);
+
     void gotoPage(Page fromPage, Class cls);
 
     void gotoPage(Page fromPage, Class cls, Object data);
@@ -100,6 +115,12 @@ public interface UI {
 
     void gotoMainPage(Page fromPage);
 
+    void gotoAboutPage(Map data, String title);
+
+    void gotoListPageForResult(String title, String fullListTitle, List fullList, String quickAccessTitle, List quickAccess, int[] selected, int requestCode);
+
+    void gotoFormPage(String id, String title);
+
     void gotoBackgroundProgressStatusPage(Page fromPage);
 
     UIPage getContextPage();
@@ -107,4 +128,6 @@ public interface UI {
     void setContextPage(UIPage contextPage);
 
     void onBackPressedOnProgressPage();
+
+    void setPreviousPage(UIPage page);
 }

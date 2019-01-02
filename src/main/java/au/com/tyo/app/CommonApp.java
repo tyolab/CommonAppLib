@@ -26,10 +26,8 @@ import android.widget.TextView;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Observable;
-import java.util.Set;
 
 import au.com.tyo.android.AndroidUtils;
 import au.com.tyo.android.CommonApplicationImpl;
@@ -38,12 +36,15 @@ import au.com.tyo.android.DialogFactory;
 import au.com.tyo.android.NetworkMonitor;
 import au.com.tyo.android.services.HttpAndroid;
 import au.com.tyo.android.services.ImageDownloader;
+import au.com.tyo.json.form.DataFormEx;
 import au.com.tyo.app.model.DisplayItem;
 import au.com.tyo.app.model.ImagedSearchableItem;
 import au.com.tyo.app.model.Searchable;
 import au.com.tyo.app.ui.UI;
 import au.com.tyo.app.ui.UIBase;
 import au.com.tyo.app.ui.page.Page;
+import au.com.tyo.json.form.DataJson;
+import au.com.tyo.json.form.FormGroup;
 import au.com.tyo.services.HttpPool;
 import au.com.tyo.utils.StringUtils;
 
@@ -53,7 +54,10 @@ import static au.com.tyo.app.Constants.REQUEST_NONE;
  * @author Eric Tang <eric.tang@tyo.com.au>
  */
 
-public abstract class CommonApp<UIType extends UI, ControllerType extends Controller>
+public abstract class CommonApp<UIType extends UI,
+								ControllerType extends Controller,
+								SettingType extends DataJson,
+								AppDataType extends DataJson>
         extends CommonApplicationImpl<ControllerType>
         implements Controller<UIType> {
 
@@ -63,7 +67,7 @@ public abstract class CommonApp<UIType extends UI, ControllerType extends Contro
 	
 	private UIType ui;
 	
-	private CommonAppSettings settings;
+	private CommonAppSettings<AppDataType, SettingType> settings;
 
 	/* other stuff */
 	
@@ -78,8 +82,6 @@ public abstract class CommonApp<UIType extends UI, ControllerType extends Contro
 	private Object parcel;
 
 	private Object result;
-
-	private Set<String> permitted;
 
 	private List<ThemeInfo> availableThemes;
 
@@ -431,7 +433,9 @@ public abstract class CommonApp<UIType extends UI, ControllerType extends Contro
 
         /** maybe if the previous failed we are not creating the default one */
 		if (settings == null)
-			settings = new CommonAppSettings(context);
+			settings = new CommonAppSettings(context) {
+
+            };
 		
 		watchDog = NetworkMonitor.getInstance(this);
 		watchDog.start();
@@ -443,8 +447,9 @@ public abstract class CommonApp<UIType extends UI, ControllerType extends Contro
 	public void initializeInBackgroundThread(Context context) {
 		super.initializeInBackgroundThread(context);
 
-        if (null != settings)
-            settings.loadPreferences();
+        if (null != settings) {
+			settings.loadPreferences();
+		}
 	}
 
 	@Override
@@ -642,8 +647,8 @@ public abstract class CommonApp<UIType extends UI, ControllerType extends Contro
 		quitOrRestart(true);
 	}
 
-	protected void setThemeUsage(int themeId) {
-		settings.updateThemePreference(themeId);
+	protected void checkLightDarkThemeUsage(int themeId) {
+		// settings.updateThemePreference(themeId);
 
 		/**
 		 * @// TODO: 19/04/18
@@ -658,7 +663,7 @@ public abstract class CommonApp<UIType extends UI, ControllerType extends Contro
 		        usingLight = false;
         }
 
-		settings.setLightThemeUsed(usingLight);
+		settings.setLightThemeInUse(usingLight);
 	}
 
 	protected void setThemeByIndex(int index) {
@@ -670,19 +675,16 @@ public abstract class CommonApp<UIType extends UI, ControllerType extends Contro
 
 		int themeId = availableThemes.get(index).themeId;
 
-//		if (index == 0)
-//			themeId = R.style.CommonAppTheme_Light;
-//		else if (index == 1)
-//			themeId = R.style.CommonAppTheme_Dark;
-
+		int oldTheme = getSettings().getThemeId();
         getSettings().updateThemePreference(themeId);
 
-		setThemeUsage(themeId);
+		checkLightDarkThemeUsage(themeId);
 
-		setThemeById(themeId);
+		if (oldTheme != themeId)
+			updateThemeNow(themeId);
 	}
 
-	public void setThemeById(int themeId) {
+	public void updateTheme(int themeId) {
 		Application application = null;
 		if (null != getCurrentActivity())
 			application = getCurrentActivity().getApplication();
@@ -690,17 +692,24 @@ public abstract class CommonApp<UIType extends UI, ControllerType extends Contro
 		if (application != null) {
 			int oldId = -1;
             // this the theme id defined in the manifest
-            // oldId = AndroidUtils.getPredefinedApplicationThemeId(context);
-            oldId = AndroidUtils.getApplicationThemeId(context);
-            //oldId = AndroidUtils.getApplicationThemeId(context, application.getTheme());
+            if (null != getCurrentActivity())
+                oldId = AndroidUtils.getActivityThemeId(getCurrentActivity());
+
+            if (-1 == oldId)
+                oldId = AndroidUtils.getApplicationThemeId(context);
+
             if (oldId != themeId) {
-				application.setTheme(themeId); // set the application wise theme
-
-				ui.setUiRecreationRequired(true);
-
-				this.quitOrRestart(true);
+				updateThemeNow(themeId);
 			}
 		}
+	}
+
+	public void updateThemeNow(int themeId) {
+		application.setTheme(themeId); // set the application wise theme
+
+		ui.setUiRecreationRequired(true);
+
+		this.quitOrRestart(true);
 	}
 
 	@Override
@@ -717,6 +726,83 @@ public abstract class CommonApp<UIType extends UI, ControllerType extends Contro
     @Override
 	protected void showInfo(boolean showAcknowledgement) {
 		// Inflate the about message contents
+		/**
+		 * We are not replace dialog method with page
+		 */
+		// showInfoInActivity(showAcknowledgement);
+		/*
+
+		*/
+		showInfoInActivity(showAcknowledgement);
+	}
+
+	protected void showInfoInActivity(boolean showAcknowledgement) {
+		String appDesc = getAppNameWithVersion();
+		Context context = getContext();
+
+		DataFormEx infoData = new DataFormEx();
+		infoData.setTitle(context.getString(R.string.about));
+		infoData.setEditable(false);
+
+		addAboutPageHeader(infoData);
+
+		FormGroup aboutGroup = new FormGroup(context.getString(R.string.app_information));
+		aboutGroup.setShowingTitle(true);
+
+		aboutGroup.addField(context.getString(R.string.version), AndroidUtils.getPackageVersionName(context) + " " + AndroidUtils.getAbi());
+		aboutGroup.addField(context.getString(R.string.copyright), context.getString(R.string.app_copyright));
+        infoData.addGroup(aboutGroup);
+
+        FormGroup contactGroup = new FormGroup(context.getString(R.string.app_contact_us));
+        contactGroup.setShowingTitle(true);
+
+        contactGroup.addField(context.getString(R.string.website), context.getString(R.string.tyolab_website));
+        contactGroup.addField(context.getString(R.string.email), context.getString(R.string.tyolab_email));
+		infoData.addGroup(contactGroup);
+
+        if (showAcknowledgement) {
+            FormGroup acknowledgementGroup = new FormGroup(context.getString(R.string.app_acknowledgement_title));
+            acknowledgementGroup.setShowingTitle(true);
+
+            if (null != acknowledgementTitle) {
+                acknowledgementGroup.setTitle(acknowledgementTitle);
+            }
+
+            addAboutPageAcknowledgementFields(acknowledgementGroup);
+            infoData.addGroup(acknowledgementGroup);
+        }
+
+        addAboutPageFooter(infoData);
+
+		getUi().gotoAboutPage(infoData, getAppNameWithVersion());
+	}
+
+    /**
+     * Override me for adding header to the about page
+     * @param infoData
+     */
+    protected void addAboutPageHeader(DataFormEx infoData) {
+	    // no ops
+    }
+
+    /**
+     * Override me for adding the footer to the about page
+     * @param infoData
+     */
+    protected void addAboutPageFooter(DataFormEx infoData) {
+        // no ops
+    }
+
+    /**
+     * Override this
+     *
+     * @param acknowledgementGroup
+     */
+    protected void addAboutPageAcknowledgementFields(FormGroup acknowledgementGroup) {
+        // no ops
+    }
+
+    protected void showInfoInDialog(boolean showAcknowledgement) {
 		View messageView = ((Activity) context).getLayoutInflater().inflate(R.layout.info_dialog, null, false);
 		View acknowledgement = messageView.findViewById(au.com.tyo.android.R.id.acknowledge_view);
 		if (showAcknowledgement) {
@@ -732,7 +818,6 @@ public abstract class CommonApp<UIType extends UI, ControllerType extends Contro
 				tv.setText(acknowledgementInfo);
 			}
 		}
-
 
 		String appDesc = getAppNameWithVersion();
 
@@ -782,18 +867,7 @@ public abstract class CommonApp<UIType extends UI, ControllerType extends Contro
 		// to be implemented if a simple list is used
 	}
 
-    public boolean hasPermission(String permission) {
-        return null != permitted && permitted.contains(permission);
-    }
-
-    @Override
-    public void grantPermission(String permission) {
-        if (permitted == null)
-            permitted = new HashSet();
-        permitted.add(permission);
-    }
-
-	public void startActivity(Class cls, boolean mainActivity) {
+    public void startActivity(Class cls, boolean mainActivity) {
 		getUi().startActivity((Page) getUi().getCurrentPage(), cls, -1, null, null, null, REQUEST_NONE, mainActivity);
 	}
 

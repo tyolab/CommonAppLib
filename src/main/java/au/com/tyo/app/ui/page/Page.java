@@ -47,6 +47,7 @@ import javax.annotation.OverridingMethodsMustInvokeSuper;
 import au.com.tyo.android.AndroidUtils;
 import au.com.tyo.android.CommonInitializer;
 import au.com.tyo.android.CommonPermission;
+import au.com.tyo.android.utils.ActivityUtils;
 import au.com.tyo.app.CommonApp;
 import au.com.tyo.app.CommonAppLog;
 import au.com.tyo.app.CommonExtra;
@@ -124,8 +125,6 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
 
     private boolean toShowSearchView;
 
-    protected boolean hideActionBar = false;
-
     protected int mainUiResId = -1;
 
     private InformationView informationView;
@@ -136,6 +135,11 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
      * The the main / content view from the screen
      */
     protected View mainView;
+
+    /**
+     * Toolbar container
+     */
+    protected View toolbarContainer;
 
     /**
      * Controller
@@ -166,6 +170,11 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
      * The result code
      */
     private int resultCode;
+
+    /**
+     * The result key
+     */
+    private String resultKey;
 
     /**
      * The fragments assicated with the pages
@@ -201,6 +210,12 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
      */
     private PageInitializer pageInitializer;
 
+    ////////////////////////////////////////////////////////////
+
+    protected boolean hideActionBar = false;
+
+    protected boolean showTitleInToolbar = false;
+
     /**
      *
      * @param controller
@@ -212,9 +227,16 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         this.activity = activity;
         this.controller = controller;
         toShowSearchView = false;
+
+        /**
+         * can be set
+         * showTitleInToolbar = controller.getContext().getResources().getBoolean(R.bool.showTitleOnActionBar)
+         */
+        showTitleInToolbar = true;
         doubleBackToExit = true;
         setSubpage(true);
         setResult(null);
+        setResultKey(Constants.RESULT);
 
         configActionBarMenu();
 
@@ -222,6 +244,14 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
 
         if (pageInitializer != null)
             pageInitializer.initializePageOnConstruct(this);
+    }
+
+    public boolean isShowTitleInToolbar() {
+        return showTitleInToolbar;
+    }
+
+    public void setShowTitleInToolbar(boolean showTitleInToolbar) {
+        this.showTitleInToolbar = showTitleInToolbar;
     }
 
     public String[] getRequiredPermissions() {
@@ -287,6 +317,14 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     @Override
     public void setSubpage(boolean subpage) {
         isSubpage = subpage;
+    }
+
+    public String getResultKey() {
+        return resultKey;
+    }
+
+    public void setResultKey(String resultKey) {
+        this.resultKey = resultKey;
     }
 
     @Override
@@ -539,7 +577,11 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     }
 
     private void setupToolbar() {
-        actionBarMenu.setToolbar((Toolbar) mainView.findViewById(R.id.tyodroid_toolbar));
+        toolbarContainer = mainView.findViewById(R.id.tyodroid_toolbar_container);
+        Toolbar toolbar = (Toolbar) toolbarContainer.findViewById(R.id.tyodroid_toolbar);
+        if (null == toolbar && toolbarContainer instanceof Toolbar)
+            toolbar = (Toolbar) toolbarContainer;
+        actionBarMenu.setToolbar(toolbar);
     }
 
     public void hideToolbar() {
@@ -700,12 +742,12 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         Object barObj = null;
 
         if (activity instanceof AppCompatActivity) {
-            Toolbar toolbar = actionBarMenu.getToolbar();
+            // Toolbar toolbar = actionBarMenu.getToolbar();
 
-            if (null == toolbar) {
-                toolbar = (Toolbar) activity.findViewById(R.id.tyodroid_toolbar);
-                actionBarMenu.setToolbar(toolbar);
-            }
+            // if (null == toolbar) {
+                setupToolbar();
+             Toolbar toolbar = actionBarMenu.getToolbar();
+            //}
 
             if (toolbar != null) {
                 try {
@@ -746,7 +788,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
                         bar.setDisplayHomeAsUpEnabled(true);
                     }
 
-                    bar.setDisplayShowTitleEnabled(controller.getContext().getResources().getBoolean(R.bool.showTitleOnActionBar));
+                    bar.setDisplayShowTitleEnabled(showTitleInToolbar);
                 }
             }
             else if (barObj instanceof android.support.v7.app.ActionBar) {
@@ -756,7 +798,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
                     bar.hide();
                 }
                 else {
-                    boolean showTitle = controller.getContext().getResources().getBoolean(R.bool.showTitleOnActionBar);
+                    boolean showTitle = showTitleInToolbar;
 
                     if (controller.getContext().getResources().getBoolean(R.bool.showIconOnActionBar)){
                         bar.setLogo(R.drawable.ic_logo);
@@ -777,7 +819,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         }
         else {
             if (null != mainView && actionBarMenu.getToolbar() == null)
-                actionBarMenu.setToolbar((Toolbar) mainView.findViewById(R.id.tyodroid_toolbar));
+                setupToolbar();
 
             return actionBarMenu.getToolbar();
         }
@@ -852,13 +894,14 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     }
 
     public void finish() {
+
         // we finish using the parcel if there is one
         // controller.setParcel(null);
         if (getActivity().getIntent().getBooleanExtra(Constants.DATA_LOCATION_CONTROLLER, false))
             controller.setParcel(null);
 
         checkIfFinishWithResult();
-        activity.finish();
+        getActivity().finish();
     }
 
     private void checkIfFinishWithResult() {
@@ -867,11 +910,11 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
 
             if (requestCode < 5000) {
                 if (result instanceof Parcelable)
-                    resultIntent.putExtra(Constants.RESULT, (Parcelable) result);
+                    resultIntent.putExtra(resultKey, (Parcelable) result);
                 else if (result instanceof Parcelable[])
-                    resultIntent.putExtra(Constants.RESULT, (Parcelable[]) result);
+                    resultIntent.putExtra(resultKey, (Parcelable[]) result);
                 else if (result instanceof String)
-                    resultIntent.putExtra(Constants.RESULT, (String) result);
+                    resultIntent.putExtra(resultKey, (String) result);
                 else {
                     resultIntent.putExtra(Constants.RESULT_LOCATION, Constants.RESULT_LOCATION_CONTROLLER);
                     controller.setResult(result);
@@ -1134,6 +1177,9 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
 
         if (intent.hasExtra(Constants.PAGE_IS_MAIN))
             setSubpage(!intent.getBooleanExtra(Constants.PAGE_IS_MAIN, false));
+
+        if (intent.hasExtra(Constants.PAGE_RESULT_KEY))
+            setResultKey(intent.getStringExtra(Constants.PAGE_RESULT_KEY));
     }
 
     /**
@@ -1276,18 +1322,24 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     }
 
     public void addFragmentToContainer(int fragmentContainerResId, Fragment fragment, String tag) {
-        ((FragmentActivity) activity).getSupportFragmentManager().beginTransaction()
-                .add(fragmentContainerResId, fragment, tag).commit();
+        ((FragmentActivity) activity).getSupportFragmentManager()
+                .beginTransaction()
+                .add(fragmentContainerResId, fragment, tag)
+                .commit();
     }
 
     public void showFragment(Fragment fragment) {
-        ((FragmentActivity) activity).getSupportFragmentManager().beginTransaction()
-                .show(fragment).commit();
+        ((FragmentActivity) activity).getSupportFragmentManager()
+                .beginTransaction()
+                .show(fragment)
+                .commit();
     }
 
     public void hideFragment(Fragment fragment) {
-        ((FragmentActivity) activity).getSupportFragmentManager().beginTransaction()
-                .hide(fragment).commit();
+        ((FragmentActivity) activity).getSupportFragmentManager()
+                .beginTransaction()
+                .hide(fragment)
+                .commit();
     }
 
     public Fragment getFragment(int index) {
@@ -1311,10 +1363,6 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         if (null != pageInitializer)
             pageInitializer.initializePageOnActivityStart(this);
 
-        // do nothing
-        if (null != title && title.length() > 0)
-            setPageTitleOnToolbar(title);
-
         if (statusBarColor != null)
             setPageStatusBarColor(statusBarColor);
 
@@ -1323,6 +1371,10 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
 
         if (bodyViewColor != null)
             bodyView.setBackgroundColor(bodyViewColor);
+
+
+        if (null != title && title.length() > 0)
+            setPageTitleOnToolbar(title);
 
         if (titleTextColor != null) {
             setPageToolbarTitleColor(titleTextColor);
@@ -1459,7 +1511,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
 
     protected void checkPermissions() {
         if (null != getRequiredPermissions()) {
-            ArrayList<String> list = new ArrayList();
+            List<String> list = new ArrayList();
 
             for (String permission : getRequiredPermissions()) {
                 if (Build.VERSION.SDK_INT >= 23) {
@@ -1512,48 +1564,9 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         return false;
     }
 
-    public static Object getActivityResult(Intent data) {
-        Object result = null;
-        if (data.hasExtra(Constants.RESULT)) {
-            try {
-                result = data.getParcelableExtra(Constants.RESULT);
-            }
-            catch (Exception ex) {}
-            if (result == null)
-                try {
-                    result = data.getStringExtra(Constants.RESULT);
-                }
-                catch (Exception ex) {}
-            if (result == null)
-                try {
-                    result = data.getStringArrayExtra(Constants.RESULT);
-                }
-                catch (Exception ex) {}
-            if (result == null)
-                try {
-                    result = data.getStringArrayListExtra(Constants.RESULT);
-                }
-                catch (Exception ex) {}
-            if (result == null)
-                try {
-                    result = data.getParcelableArrayExtra(Constants.RESULT);
-                }
-                catch (Exception ex) {}
-            if (result == null)
-                try {
-                    result = data.getParcelableArrayListExtra(Constants.RESULT);
-                }
-                catch (Exception ex) {}
-        }
-
-        if (null == result && null != CommonApp.getInstance())
-            result = ((Controller) CommonApp.getInstance()).getParcel();
-        return result;
-    }
-
     @Override
     public void onRequestedPermissionsGranted(String permission) {
-        controller.grantPermission(permission);
+        controller.getSettings().grantPermission(permission);
     }
 
     @Override
@@ -1702,4 +1715,26 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         return super.getContentView();
     }
 
+    /**
+     * If the result is in Controller, it has to be specified
+     *
+     * @param data
+     * @return
+     */
+    public Object getActivityResult(Intent data) {
+        Object result = null;
+        if (null != data) {
+            boolean resultInController = false;
+
+            if (data.hasExtra(Constants.RESULT_LOCATION))
+                resultInController = data.getStringExtra(Constants.RESULT_LOCATION).equals(Constants.RESULT_LOCATION_CONTROLLER);
+
+
+            if (!resultInController)
+                result = ActivityUtils.getActivityResult(data);
+            else
+                result = controller.getResult();
+        }
+        return result;
+    }
 }

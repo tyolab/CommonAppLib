@@ -13,16 +13,22 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.view.View;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import au.com.tyo.android.AndroidUtils;
 import au.com.tyo.android.CommonInitializer;
 import au.com.tyo.android.CommonUIBase;
 import au.com.tyo.android.DialogFactory;
-import au.com.tyo.app.CommonActivityList;
-import au.com.tyo.app.CommonActivityWebView;
+import au.com.tyo.app.ui.activity.CommonActivityAbout;
+import au.com.tyo.app.ui.activity.CommonActivityForm;
+import au.com.tyo.app.ui.activity.CommonActivityList;
+import au.com.tyo.app.ui.activity.CommonActivityWebView;
 import au.com.tyo.app.CommonExtra;
 import au.com.tyo.app.Constants;
 import au.com.tyo.app.Controller;
-import au.com.tyo.app.ui.activity.ActivityBackgroundProgress;
+import au.com.tyo.app.ui.activity.CommonActivityBackgroundProgress;
 import au.com.tyo.app.ui.page.Page;
 import au.com.tyo.app.ui.page.PageWebView;
 
@@ -36,6 +42,8 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
     private ControllerType controller;
 
     private UIPage currentScreen;
+
+    private UIPage previousPage;
 
     private View splashScreenOverlayView;
 
@@ -67,6 +75,15 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
 
     public UIPage getCurrentPage() {
         return currentScreen;
+    }
+
+    public UIPage getPreviousPage() {
+        return previousPage;
+    }
+
+    @Override
+    public void setPreviousPage(UIPage previousPage) {
+        this.previousPage = previousPage;
     }
 
     public void setCurrentScreen(UIPage currentScreen) {
@@ -241,6 +258,36 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
     }
 
     @Override
+    public void gotoPage(Class cls, Object data) {
+        startActivity((Page) getCurrentPage(), cls, data);
+    }
+
+    @Override
+    public void gotoPageWithData(Class cls, Object data, String title) {
+        gotoPageWithData((Page) getCurrentPage(), cls, data, true, REQUEST_NONE, title);
+    }
+
+    @Override
+    public void gotoPageWithData(Class cls, Object data) {
+        gotoPageWithData((Page) getCurrentPage(), cls, data, true);
+    }
+
+    @Override
+    public void gotoPageWithData(Class cls, Object data, boolean throughController) {
+        gotoPageWithData((Page) getCurrentPage(), cls, data, throughController, REQUEST_NONE, null);
+    }
+
+    @Override
+    public void gotoPageWithData(Class cls, String key, Object data, String title) {
+        gotoPageWithData((Page) getCurrentPage(), cls, key, data, true, REQUEST_NONE, title);
+    }
+
+    @Override
+    public void gotoPageWithData(Class cls, Object data, boolean throughController, int requestCode, String title) {
+        gotoPageWithData((Page) getCurrentPage(), cls, Constants.DATA, data, throughController, requestCode, title);
+    }
+
+    @Override
     public void gotoPage(Page fromPage, Class cls) {
         startActivity(fromPage, cls);
     }
@@ -323,8 +370,29 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
     }
 
     @Override
+    public void gotoAboutPage(Map data, String title) {
+        gotoPageWithData((Page) getCurrentPage(), CommonActivityAbout.class, data, title);
+    }
+
+    @Override
+    public void gotoListPageForResult(String title, String fullListTitle, List fullList, String quickAccessTitle, List quickAccess, int[] selected, int requestCode) {
+        Map data = new HashMap();
+        data.put(Constants.DATA_LIST_QUICK_ACCESS_TITLE, quickAccessTitle);
+        data.put(Constants.DATA_LIST_QUICK_ACCESS_LIST, quickAccess);
+        data.put(Constants.DATA_LIST_FULL_LIST_TITLE, fullListTitle);
+        data.put(Constants.DATA_LIST_FULL_LIST_DATA, fullList);
+        data.put(Constants.DATA_LIST_SELECTED, selected);
+        gotoPageWithData((Page) getCurrentPage(), CommonActivityList.class, data, true, requestCode > -1  ? requestCode : Constants.REQUEST_PICK, title);
+    }
+
+    @Override
+    public void gotoFormPage(String id, String title) {
+        gotoPageWithData((Page) getCurrentPage(), CommonActivityForm.class, Constants.EXTRA_KEY_FORM_ID, id, false, REQUEST_NONE, title);
+    }
+
+    @Override
     public void gotoBackgroundProgressStatusPage(Page fromPage) {
-        gotoPageWithData(fromPage, ActivityBackgroundProgress.class, null, false, Constants.REQUEST_CODE_DP_RESULT, null);
+        gotoPageWithData(fromPage, CommonActivityBackgroundProgress.class, null, false, Constants.REQUEST_CODE_DP_RESULT, null);
     }
 
     @Override

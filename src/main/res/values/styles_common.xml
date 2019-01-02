@@ -208,6 +208,17 @@
         <item name="bodyStyle">@style/AppStyle.Body</item>
 
         <item name="actionOverflowButtonStyle">@style/AppStyle.Menu.Light</item>
+
+        <item name="formBackgroundStyle">@drawable/sq_bg_light</item>
+
+        <item name="colorPrimaryText">@color/theme_light_text_color</item>
+        <item name="colorPrimaryTitle">@color/theme_light_title_color</item>
+
+        <item name="toolbarStyle">@style/AppStyle.Toolbar.Light</item>
+
+        <item name="refColorEnabled">@color/colorEnabled</item>
+
+        <item name="refColorDisabled">@color/colorDisabled</item>
     </style>
 
     <style name="CommonTheme.Dark" parent="Theme.AppCompat.NoActionBar" />
@@ -281,6 +292,17 @@
         <item name="bodyStyle">@style/AppStyle.Body</item>
 
         <item name="actionOverflowButtonStyle">@style/AppStyle.Menu.Dark</item>
+
+        <item name="formBackgroundStyle">@drawable/sq_bg_dark</item>
+
+        <item name="colorPrimaryText">@color/theme_dark_text_color</item>
+        <item name="colorPrimaryTitle">@color/theme_dark_title_color</item>
+
+        <item name="toolbarStyle">@style/AppStyle.Toolbar.Dark</item>
+
+        <item name="refColorEnabled">@color/white</item>
+
+        <item name="refColorDisabled">@color/light_grey</item>
     </style>
 
     <style name="CommonAppBaseTheme.Light" parent="CommonTheme.Light.Pale">
@@ -344,11 +366,15 @@
         <item name="android:textColor">@android:color/primary_text_dark</item>
     </style>
 
-    <style name="NoTitleTheme" parent="CommonAppTheme.Dark">
+    <style name="NoTitleThemeDark" parent="CommonAppTheme.Dark">
         <item name="android:windowNoTitle">true</item>
     </style>
 
-    <style name="SplashScreenTheme" parent="NoTitleTheme">
+    <style name="NoTitleThemeLight" parent="CommonAppTheme.Light">
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="SplashScreenTheme" parent="NoTitleThemeDark">
         <item name="android:windowBackground">@color/splash_screen_background_color</item>
         <item name="android:colorBackground">@color/splash_screen_background_color</item>
     </style>

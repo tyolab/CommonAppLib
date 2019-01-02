@@ -45,7 +45,7 @@ public abstract class CommonFragment<T extends Controller> extends Fragment {
      */
 
     private int fragmentResId = R.layout.common_frame_for_fragment;
-    // protected int contentViewResId = -1;
+
     protected boolean ready;
 
     private TextView tvTitle = null;
@@ -124,14 +124,6 @@ public abstract class CommonFragment<T extends Controller> extends Fragment {
     public void setContentViewResId(int contentViewResId) {
         getPageFragment().setContentViewResId(contentViewResId);
     }
-
-//    public void setContentViewResId(int contentViewResId) {
-//        this.contentViewResId = contentViewResId;
-//    }
-//
-//    public int getContentViewResId() {
-//        return contentViewResId;
-//    }
 
     public void checkLocationOnScreen() {
         fragmentView.checkLocationOnScreen();

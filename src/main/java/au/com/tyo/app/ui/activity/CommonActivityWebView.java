@@ -1,5 +1,6 @@
-package au.com.tyo.app;
+package au.com.tyo.app.ui.activity;
 
+import au.com.tyo.app.CommonActivity;
 import au.com.tyo.app.ui.page.PageWebView;
 
 /**

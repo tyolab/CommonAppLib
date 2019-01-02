@@ -5,36 +5,59 @@
 
 package au.com.tyo.app;
 
+import android.Manifest;
 import android.content.Context;
+import android.util.Log;
+
+import java.io.File;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 import au.com.tyo.android.AndroidSettings;
 import au.com.tyo.app.api.JSON;
-import au.com.tyo.json.DataJson;
-import au.com.tyo.json.JsonBase;
 
 /**
  * @author Eric Tang <eric.tang@tyo.com.au>
  */
 
-public class CommonAppSettings<T1 extends DataJson, T2 extends DataJson> extends AndroidSettings {
+public abstract class CommonAppSettings<T1 extends Map, T2 extends Map> extends AndroidSettings {
+
+    private static final String LOG_TAG = "CommonAppSettings";
 	
 	public static final String PREF_SHOW_SEARCH_BAR = "pref_show_search_bar";
 
+    /**
+     * App Data in json string format saved in system built-in shared preference
+     */
 	public static final String PREF_APP_DATA = "pref_app_data";
 
+    /**
+     * App Settings in json string format saved in system built-in shared preference
+     */
 	public static final String PREF_APP_SETTINGS = "pref_app_settings";
-	
-	protected boolean alwaysShowSearchBar;
 
-	private T2 appSettings;
-	private T1 appData;
+    protected boolean alwaysShowSearchBar;
+
+	protected T2 appSettings;
+	protected T1 appData;
+
+	/**
+	 * Collection of permissions granted
+	 */
+	private Set<String> permissionsGranted;
 
 	public CommonAppSettings(Context context) {
 		super(context);
 		
 		alwaysShowSearchBar = true;
 
-		// loadAppData();
-		// loadAppSettings();
+        /**
+         * Load App Settings in a background thread such as where the the splash screen is showed
+         *
+         * loadAppData();
+         * loadAppSettings();
+         */
 	}
 	
 	/**
@@ -55,14 +78,16 @@ public class CommonAppSettings<T1 extends DataJson, T2 extends DataJson> extends
 	/**
 	 * The app settings saved in preferences
 	 */
-	protected void loadAppSettings(Class<? extends T2> aClass) {
+	public void loadAppSettings(Class<? extends T2> aClass) {
         appSettings = JSON.parse(prefs.getString(PREF_APP_SETTINGS, "{}"), aClass);
+
+        loadSettingsIntoMemory();
 	}
 
 	/**
 	 * The app data saved in preferences
 	 */
-	protected void loadAppData(Class<? extends T1> aClass) {
+	public void loadAppData(Class<? extends T1> aClass) {
         appData = JSON.parse(prefs.getString(PREF_APP_DATA, "{}"), aClass);
 	}
 
@@ -70,7 +95,7 @@ public class CommonAppSettings<T1 extends DataJson, T2 extends DataJson> extends
         updatePreference(PREF_APP_DATA, JSON.toJson(appData));
     }
 
-    public void saveAppSettings() {
+    public void save() {
         updatePreference(PREF_APP_SETTINGS, JSON.toJson(appSettings));
     }
 
@@ -78,7 +103,7 @@ public class CommonAppSettings<T1 extends DataJson, T2 extends DataJson> extends
 		return alwaysShowSearchBar;
 	}
 
-    public DataJson getAppSettings() {
+    public T2 getAppSettings() {
         return appSettings;
     }
 
@@ -86,11 +111,51 @@ public class CommonAppSettings<T1 extends DataJson, T2 extends DataJson> extends
         this.appSettings = appSettings;
     }
 
-    public DataJson getAppData() {
+    public T1 getAppData() {
         return appData;
     }
 
     public void setAppData(T1 appData) {
         this.appData = appData;
+    }
+
+    /**
+     * Specify each setting from the map
+     */
+    public void loadSettingsIntoMemory() {
+        // no ops
+    }
+
+    public void updateSetting(String key, Object value) {
+    	appSettings.put(key, value);
+	}
+
+	public boolean hasPermission(String permission) {
+		return null != permissionsGranted && permissionsGranted.contains(permission);
+	}
+	
+	public void grantPermission(String permission) {
+		if (permissionsGranted == null)
+			permissionsGranted = new HashSet();
+		permissionsGranted.add(permission);
+	}
+
+	public boolean hasStorageWritePermission() {
+        return null != permissionsGranted && permissionsGranted.contains(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+    }
+
+    @Override
+    public String getAppDataSubPath(String subPath) {
+        String path = super.getAppDataSubPath(subPath);
+        File file = new File(path);
+        if (!file.exists()) {
+            if (!file.mkdirs()) {
+                Log.e(LOG_TAG, "Failed to create directory: " + path);
+
+                if (!hasStorageWritePermission())
+                    Log.w(LOG_TAG, "Please check if the write permission on the device storage is requested and granted.");
+            }
+        }
+        return path;
     }
 }

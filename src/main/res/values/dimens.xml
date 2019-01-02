@@ -73,4 +73,10 @@
 
     <!-- ACTIVITY -->
     <dimen name="activity_padding_top">0dp</dimen>
+
+    <!-- FORM -->
+    <dimen name="form_row_padding_left">12dp</dimen>
+    <dimen name="form_row_padding_right">6dp</dimen>
+    <dimen name="page_progress_dialog_padding">6dp</dimen>
+
 </resources>

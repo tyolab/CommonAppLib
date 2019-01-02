@@ -108,6 +108,10 @@ public class PageAgent {
         this.pageClass = pageClass;
     }
 
+    public Class getPageClass() {
+        return this.pageClass;
+    }
+
     public static void setPagesPackage(String packageName) {
         pagesPackage = packageName;
     }
@@ -210,28 +214,30 @@ public class PageAgent {
                 }
                 catch (NoSuchMethodException e) {
                     // OK, the page may be implemented with the CommonApp Controller class like splashscreen page
+                    Log.e(LOG_TAG, "class: " + pageClass.getName(), e);
+
                     try {
                         Constructor ctor = null;
                         ctor = pageClass.getConstructor(Controller.class, Activity.class);
                         page = (UIPage) ctor.newInstance(new Object[]{controller, getActivity()});
                     } catch (NoSuchMethodException e1) {
-                        Log.e(LOG_TAG, StringUtils.exceptionStackTraceToString(e1));
+                        Log.e(LOG_TAG, "class: " + pageClass.getName(), e1);
                     } catch (IllegalAccessException e1) {
-                        Log.e(LOG_TAG, StringUtils.exceptionStackTraceToString(e1));
+                        Log.e(LOG_TAG, "class: " + pageClass.getName(), e1);
                     } catch (InstantiationException e1) {
-                        Log.e(LOG_TAG, StringUtils.exceptionStackTraceToString(e1));
+                        Log.e(LOG_TAG, "class: " + pageClass.getName(), e1);
                     } catch (InvocationTargetException e1) {
-                        Log.e(LOG_TAG, StringUtils.exceptionStackTraceToString(e1));
+                        Log.e(LOG_TAG, "class: " + pageClass.getName(), e1);
                     }
                 }
                 catch (IllegalAccessException e) {
-                    Log.e(LOG_TAG, StringUtils.exceptionStackTraceToString(e));
+                    Log.e(LOG_TAG, "class: " + pageClass.getName(), e);
                 }
                 catch (InstantiationException e) {
-                    Log.e(LOG_TAG, StringUtils.exceptionStackTraceToString(e));
+                    Log.e(LOG_TAG, "class: " + pageClass.getName(), e);
                 }
                 catch (InvocationTargetException e) {
-                    Log.e(LOG_TAG, StringUtils.exceptionStackTraceToString(e));
+                    Log.e(LOG_TAG, "class: " + pageClass.getName(), e);
                 }
             }
         }
@@ -494,21 +500,23 @@ public class PageAgent {
     }
 
     public boolean onDestroy() {
-         return !getPage().onDestroy() && !getPage().isSubpage();
+        if (null != getPage())
+            return !getPage().onDestroy() && !getPage().isSubpage();
+        return false;
     }
 
     /**
      *
      */
     public void onPause() {
-        getPage().onPause();
+        if (null != getPage())
+            getPage().onPause();
     }
 
     /**
      *
      */
     private void setControllerContext() {
-
         if (isActivity()) {
             controller.setCurrentActivity(getActivity());
             controller.setContext(getActivity());
