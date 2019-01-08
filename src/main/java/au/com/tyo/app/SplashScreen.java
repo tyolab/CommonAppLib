@@ -12,7 +12,17 @@ import au.com.tyo.app.ui.page.PageSplashScreen;
 public class SplashScreen extends CommonAppCompatActivity {
 
 	@Override
+	protected void onCreatePage() {
+
+		setPage(new PageSplashScreen(getController(), this));
+
+		super.onCreatePage();
+	}
+
+	/*
+	@Override
 	protected void loadPageClass() {
 		getAgent().setPageClass(PageSplashScreen.class);
 	}
+	*/
 }
