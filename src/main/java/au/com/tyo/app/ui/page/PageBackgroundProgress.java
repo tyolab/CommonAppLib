@@ -20,7 +20,8 @@ public class PageBackgroundProgress<T extends Controller> extends Page<T> {
 
     private ProgressBar progressBar;
 
-    private TextView tvPercent;
+    protected TextView tvPercent;
+    protected TextView tvProgressInfo;
 
     private static final int[] PERCENTS_V1 = new int[] {0, 10, 60, 100};
 
@@ -59,7 +60,7 @@ public class PageBackgroundProgress<T extends Controller> extends Page<T> {
     }
 
     protected void updateProgressInfo() {
-        updateProgressInfo("Data processing... %" + progress + "");
+        updateProgressInfo("%" + progress + "");
     }
 
     protected void updateProgressInfo(String text) {
@@ -72,7 +73,9 @@ public class PageBackgroundProgress<T extends Controller> extends Page<T> {
 
         progressBar = (ProgressBar) findViewById(R.id.progress_bar_background_service);
 
-        tvPercent = (TextView) findViewById(R.id.tv_data_unpack_percentage);
+        tvPercent = (TextView) findViewById(R.id.tv_progress_percentage);
+
+        tvProgressInfo = (TextView) findViewById(R.id.tv_progress_info);
     }
 
     @Override
