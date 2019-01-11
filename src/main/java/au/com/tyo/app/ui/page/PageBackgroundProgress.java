@@ -26,7 +26,9 @@ public class PageBackgroundProgress<T extends Controller> extends Page<T> {
 
     private static final int[] PERCENTS_V2 = new int[] {0, 30, 100};
 
-    private int progress;
+    protected int progress;
+
+    private int taskId;
 
     private Runnable progressRunnable = new Runnable() {
         @Override
@@ -35,10 +37,6 @@ public class PageBackgroundProgress<T extends Controller> extends Page<T> {
             updateProgressInfo();
         }
     };
-
-    protected void updateProgressInfo() {
-        tvPercent.setText("Data processing... %" + progress + "");
-    }
 
     /**
      * @param controller
@@ -49,6 +47,23 @@ public class PageBackgroundProgress<T extends Controller> extends Page<T> {
 
         setContentViewResId(R.layout.page_background_progress);
         setMessageReceiverRequired(true);
+        taskId = -1;
+    }
+
+    public int getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(int taskId) {
+        this.taskId = taskId;
+    }
+
+    protected void updateProgressInfo() {
+        updateProgressInfo("Data processing... %" + progress + "");
+    }
+
+    protected void updateProgressInfo(String text) {
+        tvPercent.setText(text);
     }
 
     @Override
@@ -74,6 +89,9 @@ public class PageBackgroundProgress<T extends Controller> extends Page<T> {
         else if (msg.what == Constants.MESSAGE_BROADCAST_BACKGROUND_TASK_RESULT) {
             getController().onBackgroundDataProcessingTaskFinished(msg.obj);
             finish();
+        }
+        else if (msg.what == Constants.MESSAGE_BROADCAST_BACKGROUND_TASK_DONE) {
+            getController().onBackgroundTaskFinished(taskId);
         }
     }
 

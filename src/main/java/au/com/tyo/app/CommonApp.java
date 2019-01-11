@@ -920,8 +920,17 @@ public abstract class CommonApp<UIType extends UI,
 	}
 
     @Override
+    public void broadcastMessageBackgroundTaskDone() {
+        broadcastMessage(Constants.MESSAGE_BROADCAST_BACKGROUND_TASK_DONE);
+    }
+
+    @Override
     public void onBackgroundDataProcessingTaskFinished(Object obj) {
         // override this, do things like stopping the DP service
     }
 
+	@Override
+	public void onBackgroundTaskFinished(int taskId) {
+		// no op yet
+	}
 }
