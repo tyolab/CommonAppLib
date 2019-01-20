@@ -95,7 +95,7 @@ public abstract class CommonAppSettings<T1 extends Map, T2 extends Map> extends 
         updatePreference(PREF_APP_DATA, JSON.toJson(appData));
     }
 
-    public void save() {
+    public void commit() {
         updatePreference(PREF_APP_SETTINGS, JSON.toJson(appSettings));
     }
 

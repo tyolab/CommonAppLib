@@ -40,7 +40,7 @@ public class PageSettings <T extends Controller> extends PageFormEx<T> {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                settings.save();
+                settings.commit();
             }
         }).start();
     }
