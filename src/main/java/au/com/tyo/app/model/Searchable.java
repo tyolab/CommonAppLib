@@ -17,5 +17,7 @@ public interface Searchable {
 	void setPosition(long position);
 
 	Drawable getDrawable();
+
+	long getId();
 	
 }
