@@ -3,6 +3,7 @@ package au.com.tyo.app.ui.page;
 import android.app.Activity;
 
 import au.com.tyo.app.CommonAppSettings;
+import au.com.tyo.app.Constants;
 import au.com.tyo.app.Controller;
 
 public class PageSettings <T extends Controller> extends PageFormEx<T> {
@@ -35,7 +36,11 @@ public class PageSettings <T extends Controller> extends PageFormEx<T> {
 
     @Override
     protected void saveFormData(Object form) {
+        // reload settings
         settings.loadSettingsIntoMemory();
+
+        // let the page(s) know
+        getController().broadcastMessage(Constants.MESSAGE_BROADCAST_SETTINGS_UPDATED);
 
         new Thread(new Runnable() {
             @Override
