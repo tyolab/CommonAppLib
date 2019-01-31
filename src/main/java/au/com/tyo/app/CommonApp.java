@@ -11,7 +11,6 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -36,13 +35,13 @@ import au.com.tyo.android.DialogFactory;
 import au.com.tyo.android.NetworkMonitor;
 import au.com.tyo.android.services.HttpAndroid;
 import au.com.tyo.android.services.ImageDownloader;
-import au.com.tyo.json.form.DataFormEx;
 import au.com.tyo.app.model.DisplayItem;
 import au.com.tyo.app.model.ImagedSearchableItem;
 import au.com.tyo.app.model.Searchable;
 import au.com.tyo.app.ui.UI;
 import au.com.tyo.app.ui.UIBase;
 import au.com.tyo.app.ui.page.Page;
+import au.com.tyo.json.form.DataFormEx;
 import au.com.tyo.json.form.DataJson;
 import au.com.tyo.json.form.FormGroup;
 import au.com.tyo.services.HttpPool;
@@ -844,17 +843,6 @@ public abstract class CommonApp<UIType extends UI,
         } catch (InstantiationException e) {
             Log.e(TAG, StringUtils.exceptionStackTraceToString(e));
         }
-	}
-
-	@Override
-	public void openUrl(String url) {
-		Intent intent = new Intent();
-		if (url.startsWith("mailto"))
-			intent.setAction(Intent.ACTION_SENDTO);
-		else
-			intent.setAction(Intent.ACTION_VIEW);
-		intent.setData(Uri.parse(url));
-		getCurrentActivity().startActivity(intent);
 	}
 
 	@Override

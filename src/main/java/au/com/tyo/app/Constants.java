@@ -91,9 +91,6 @@ public interface Constants extends au.com.tyo.android.Constants {
 
 	int REQUEST_CODE_DP_RESULT = 7000;
 
-    String EXIT_APP = "TYODROID_EXIT_APP";
-    String RELOAD = "TYODROID_RESTART";
-
     String EXTRA_KEY_JSON = "TYODROID_EXTRA_KEY_JSON";
 	String EXTRA_KEY_FORM_ID = "TYODROID_EXTRA_KEY_FORM_ID";
 

@@ -130,4 +130,6 @@ public interface UI {
     void onBackPressedOnProgressPage();
 
     void setPreviousPage(UIPage page);
+
+    void openUrl(String url);
 }

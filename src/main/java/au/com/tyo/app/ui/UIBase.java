@@ -9,8 +9,10 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.util.Log;
 import android.view.View;
 
 import java.util.HashMap;
@@ -36,6 +38,7 @@ import static au.com.tyo.app.Constants.REQUEST_NONE;
 
 public class UIBase<ControllerType extends Controller> extends CommonUIBase implements UI {
 
+    private static final String LOG_TAG = "UIBase";
     /**
      * It has to be a private member as the sub controller class won't be the same
      */
@@ -408,5 +411,21 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
     @Override
     public void onBackPressedOnProgressPage() {
         // no ops yet
+    }
+
+    @Override
+    public void openUrl(String url) {
+        try {
+            Intent intent = new Intent();
+            if (url.startsWith("mailto"))
+                intent.setAction(Intent.ACTION_SENDTO);
+            else
+                intent.setAction(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(url));
+            getCurrentPage().getActivity().startActivity(intent);
+        }
+        catch (Exception ex) {
+            Log.e(LOG_TAG, "failed to open link: " + url);
+        }
     }
 }

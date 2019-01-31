@@ -148,8 +148,6 @@ public interface Controller<T extends UI> extends CommonController {
 
     void initializeOnce();
 
-    void openUrl(String url);
-
     void onUiCreated();
 
     void setResult(Object result);

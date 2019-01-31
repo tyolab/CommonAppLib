@@ -17,14 +17,13 @@ import android.view.MenuItem;
 
 import au.com.tyo.app.ui.UIActivity;
 import au.com.tyo.app.ui.UIPage;
-import au.com.tyo.app.ui.page.Page;
 
 /**
  * 
  * @author Eric Tang <eric.tang@tyo.com.au>
  * 
  */
-public class CommonAppCompatActivity extends AppCompatActivity implements UIActivity, PageAgent.PageActionListener {
+public class CommonAppCompatActivity<ControllerType extends Controller> extends AppCompatActivity implements UIActivity, PageAgent.PageActionListener {
 
 	private static final String LOG_TAG = CommonAppCompatActivity.class.getSimpleName();
 
@@ -32,14 +31,14 @@ public class CommonAppCompatActivity extends AppCompatActivity implements UIActi
 
     protected PageAgent agent;
 
-	private Controller controller;
+	private ControllerType controller;
 
 	public void setPageClass(Class pageClass) {
 		this.pageClass = pageClass;
 	}
 
 	protected void createController() {
-		controller = (Controller) CommonApp.getInstance();
+		controller = CommonApp.getInstance();
 		if (null == controller) {
 			controller = CommonAppInitializer.getController(this);
 			CommonApp.setInstance(controller);
