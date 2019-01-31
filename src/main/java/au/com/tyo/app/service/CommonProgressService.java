@@ -26,8 +26,10 @@ public class CommonProgressService<T extends Controller> extends CommonIntentSer
     }
 
     protected void updateProgress(int progress) {
-        Log.d(TAG, "data processing progress: " + (currentProgress = progress));
-        broadcastProgress();
+        if (progress > currentProgress) {
+            Log.d(TAG, "data processing progress: " + (currentProgress = progress));
+            broadcastProgress();
+        }
     }
 
     protected void broadcastProgress() {
