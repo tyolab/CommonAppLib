@@ -31,8 +31,12 @@ public class CommonAppInitializer<T extends Controller> extends MultiDexApplicat
     }
 
     public static<T> T getController(Context context) {
+        return getController(context, false);
+    }
+
+    public static<T> T getController(Context context, boolean initializeBackground) {
         if (null == controller || controller.isAppQuit()) {
-            controller = (Controller) CommonInitializer.initializeController(context);
+            controller = (Controller) CommonInitializer.initializeController(context, true, initializeBackground);
 
             if (controller == null)
                 throw new IllegalStateException("Controller Impl class can't be detected");
