@@ -7,6 +7,7 @@ package au.com.tyo.app.ui.page;
 
 import android.app.Activity;
 import android.os.Message;
+import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -15,6 +16,8 @@ import au.com.tyo.app.Controller;
 import au.com.tyo.app.R;
 
 public class PageBackgroundProgress<T extends Controller> extends Page<T> {
+
+    private static final String TAG = "PageBackgroundProgress";
 
     public final static String PROGRESS_INFO_TEMPLATE = "Data processing \\%%d";
 
@@ -88,6 +91,9 @@ public class PageBackgroundProgress<T extends Controller> extends Page<T> {
                 progress = lp;
                 updateProgress();
             }
+
+            if (progress == 75)
+                Log.d(TAG, "Progress just got jumped to 75");
         }
         else if (msg.what == Constants.MESSAGE_BROADCAST_BACKGROUND_TASK_RESULT) {
             getController().onBackgroundDataProcessingTaskFinished(msg.obj);

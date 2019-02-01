@@ -26,6 +26,10 @@ public class CommonProgressService<T extends Controller> extends CommonIntentSer
     }
 
     protected void updateProgress(int progress) {
+
+        if (progress == 75)
+            Log.d(TAG, "Progress just got jumped to 75");
+
         if (progress > currentProgress) {
             Log.d(TAG, "data processing progress: " + (currentProgress = progress));
             broadcastProgress();
