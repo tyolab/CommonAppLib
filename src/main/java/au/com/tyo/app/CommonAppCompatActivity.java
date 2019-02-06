@@ -98,7 +98,8 @@ public class CommonAppCompatActivity<ControllerType extends Controller> extends 
      * Create page
      */
     protected void createPage() {
-        agent.createPage();
+    	if (null == getPage())
+        	agent.createPage();
     }
 
     /**
