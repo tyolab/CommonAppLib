@@ -254,6 +254,7 @@ public class SuggestionsAdapter extends ListViewItemAdapter implements Filterabl
 		
         final TextView tvTitle = (TextView) convertView.findViewById(android.R.id.text1);
         final ImageView iv = (ImageView) convertView.findViewById(R.id.itl_image_view);
+        final View overlayView = convertView.findViewById(R.id.overlay);
         
         /*
          * for displaying something really short like initials for easy identify the item
@@ -274,11 +275,13 @@ public class SuggestionsAdapter extends ListViewItemAdapter implements Filterabl
 
                     @Override
                     public void run() {
+                        controller.processSearchableItem(item);
+
                         DisplayItem displayItem = controller.getItemText(item);
                         String highlighted = controller.getTextForSearchResultItem(displayItem.getText());
                         tvTitle.setText(Html.fromHtml(highlighted));
 
-                        if (showImage) {
+                        if (item.hasImage()) {
                             if (displayItem.getImgBytes() != null) {
                                 Bitmap bm = BitmapUtils.bytesToBitmap(displayItem.getImgBytes());
                                 iv.setImageBitmap(bm);
@@ -289,6 +292,8 @@ public class SuggestionsAdapter extends ListViewItemAdapter implements Filterabl
                                 tvName.setVisibility(View.VISIBLE);
                             }
                         }
+
+                        if (!item.isAvailable()) overlayView.setVisibility(View.VISIBLE);
                     }
 
                 });

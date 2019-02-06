@@ -912,13 +912,39 @@ public abstract class CommonApp<UIType extends UI,
         broadcastMessage(Constants.MESSAGE_BROADCAST_BACKGROUND_TASK_DONE);
     }
 
-    @Override
+	/**
+	 *
+	 * @param obj
+	 */
+	@Override
     public void onBackgroundDataProcessingTaskFinished(Object obj) {
         // override this, do things like stopping the DP service
     }
 
+	/**
+	 * For the background service task
+	 *
+	 * @param taskId
+	 */
 	@Override
 	public void onBackgroundTaskFinished(int taskId) {
 		// no op yet
+		Log.i(TAG, "Background task handled by the service finished");
+	}
+
+	@Override
+	public void bindDataFromOtherApps(Intent intent) {
+		// Override me to process data passed by other Apps
+		Log.i(TAG, "Receive data from other apps");
+	}
+
+	/**
+	 * Searchable item set to requiresFurtherProcess()
+	 *
+	 * @param item
+	 */
+	@Override
+	public void processSearchableItem(Searchable item) {
+		Log.d(TAG, "Process data from other apps");
 	}
 }

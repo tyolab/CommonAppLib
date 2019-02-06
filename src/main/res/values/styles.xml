@@ -96,4 +96,8 @@
         <item name="android:paddingRight">@dimen/progress_view_padding_right</item>
     </style>
 
+    <style name="AppStyle.Suggestion.Overlay">
+
+    </style>
+
 </resources>

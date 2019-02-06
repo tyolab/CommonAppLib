@@ -10,6 +10,7 @@ import java.util.Map;
 
 import au.com.tyo.app.Constants;
 import au.com.tyo.app.Controller;
+import au.com.tyo.app.R;
 import au.com.tyo.json.android.interfaces.CommonListener;
 import au.com.tyo.json.android.interfaces.FieldItem;
 import au.com.tyo.json.form.DataFormEx;
@@ -102,9 +103,13 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
                 dataFormEx = (DataFormEx) getForm();
             else if (getForm() instanceof OrderedDataMap) {
                 dataFormEx = new DataFormEx((OrderedDataMap) getForm());
+                dataFormEx.setHeader(R.layout.header);
+                dataFormEx.setFooter(R.layout.footer);
             }
             else if (getForm() instanceof Map) {
                 dataFormEx = new DataFormEx();
+                dataFormEx.setHeader(R.layout.header);
+                dataFormEx.setFooter(R.layout.footer);
                 dataFormEx.putAll((Map<? extends String, ?>) getForm());
             }
         }
@@ -115,6 +120,8 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
             else {
                 dataFormEx = new DataFormEx();
                 dataFormEx.setFormId(formId);
+                dataFormEx.setHeader(R.layout.header);
+                dataFormEx.setFooter(R.layout.footer);
             }
         }
         else

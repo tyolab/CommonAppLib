@@ -19,5 +19,8 @@ public interface Searchable {
 	Drawable getDrawable();
 
 	long getId();
-	
+
+	boolean isAvailable();
+
+	boolean hasImage();
 }

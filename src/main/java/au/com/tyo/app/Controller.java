@@ -177,4 +177,6 @@ public interface Controller<T extends UI> extends CommonController {
 	void onBackgroundDataProcessingTaskFinished(Object obj);
 
     void onBackgroundTaskFinished(int taskId);
+
+    void processSearchableItem(Searchable item);
 }

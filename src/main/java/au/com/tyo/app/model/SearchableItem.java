@@ -54,7 +54,17 @@ public class SearchableItem implements Searchable, Serializable, Comparator<Sear
 		return id;
 	}
 
-	public void setId(long id) {
+    @Override
+    public boolean isAvailable() {
+        return true;
+    }
+
+    @Override
+    public boolean hasImage() {
+        return false;
+    }
+
+    public void setId(long id) {
 		this.id = id;
 	}
 
@@ -130,4 +140,7 @@ public class SearchableItem implements Searchable, Serializable, Comparator<Sear
 	public Drawable getDrawable() {
 		return null;
 	}
+
+
+
 }
