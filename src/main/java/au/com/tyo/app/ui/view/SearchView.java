@@ -62,13 +62,7 @@ public class SearchView extends LinearLayout implements
 
 	protected void init(Context context) {
 		// initialize the components in onFinishInflate()
-//		controller = WikieTalkieApp.getInstance();
 		this.context = context;
-		
-//        LayoutInflater factory = LayoutInflater.from(context);
-//        factory.inflate(R.layout.search_frame, this);
-        
-//        initilizeComponents();
 	}
 
 	@Override

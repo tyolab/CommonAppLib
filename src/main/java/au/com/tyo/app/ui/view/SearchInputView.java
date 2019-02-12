@@ -53,11 +53,11 @@ public class SearchInputView extends AppCompatEditText /*AutoCompleteTextView*/ 
 	private boolean keepShowingSuggestionView;
 	
 	interface SearchStateListener {
-	    static final int SEARCH_NORMAL = 0;
-	    static final int SEARCH_HIGHLIGHTED = 1;
-	    static final int SEARCH_EDITED = 2;
+	    int SEARCH_NORMAL = 0;
+	    int SEARCH_HIGHLIGHTED = 1;
+	    int SEARCH_EDITED = 2;
 
-	    public void onStateChanged(int state);
+	    void onStateChanged(int state);
 	}
 	
     interface SearchInputListener {
@@ -66,7 +66,7 @@ public class SearchInputView extends AppCompatEditText /*AutoCompleteTextView*/ 
 //
 //        public void onAction(String text, String extra, String source);
 
-        public void onSuggestionClick(String text, int from);
+        void onSuggestionClick(String text, int from);
     }
 
 	public SearchInputView(Context context, AttributeSet attrs, int defStyle) {
@@ -163,7 +163,7 @@ public class SearchInputView extends AppCompatEditText /*AutoCompleteTextView*/ 
             } 
             else {
 
-            		state = SearchStateListener.SEARCH_NORMAL;
+            	state = SearchStateListener.SEARCH_NORMAL;
             }
         } 
         else {

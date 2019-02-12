@@ -36,6 +36,8 @@ public class SuggestionsAdapter extends ListViewItemAdapter implements Filterabl
 	
 	public static final String LOG_TAG = "SuggestionsAdapter";
 
+	public static final List EMPTY = new ArrayList();
+
     private CompletionListener listener;
 	
 	private Filter filter;
@@ -54,6 +56,11 @@ public class SuggestionsAdapter extends ListViewItemAdapter implements Filterabl
 
 	private SuggestionListener suggestionListener;
 
+	/**
+	 * The identifier to indicated where the suggestion request from
+	 */
+	private String requestFromId;
+
 	public interface SuggestionListener {
 		List<?> onRequestSuggestions(String query, boolean bestMatch);
 	}
@@ -63,6 +70,14 @@ public class SuggestionsAdapter extends ListViewItemAdapter implements Filterabl
 		
 		this.controller = controller;
 		init();
+	}
+
+	public String getRequestFromId() {
+		return requestFromId;
+	}
+
+	public void setRequestFromId(String requestFromId) {
+		this.requestFromId = requestFromId;
 	}
 
 	public SuggestionListener getSuggestionListener() {
@@ -175,10 +190,10 @@ public class SuggestionsAdapter extends ListViewItemAdapter implements Filterabl
 				results = suggestionListener.onRequestSuggestions(query, hasToBeBestMatch);
 			else
 				// otherwise we use the default suggestions
-				results = controller.getSuggestions(query, hasToBeBestMatch);
+				results = controller.getSuggestions(requestFromId, query, hasToBeBestMatch);
 
 			if (null == results)
-				results = new ArrayList<>();
+				results = EMPTY;
         
             return results;
         }

@@ -58,7 +58,7 @@ public class CommonAppCompatActivity<ControllerType extends Controller> extends 
 
 		boolean ret = (beforeCreateCheck());
 
-        agent = new PageAgent(this);
+        PageAgent agent = getAgent();
 
         onCreatePage();
 
@@ -82,6 +82,8 @@ public class CommonAppCompatActivity<ControllerType extends Controller> extends 
 	}
 
 	public PageAgent getAgent() {
+		if (null == agent)
+			agent = new PageAgent(this);
         return agent;
     }
 
@@ -99,7 +101,7 @@ public class CommonAppCompatActivity<ControllerType extends Controller> extends 
      */
     protected void createPage() {
     	if (null == getPage())
-        	agent.createPage();
+        	getAgent().createPage();
     }
 
     /**
@@ -107,7 +109,7 @@ public class CommonAppCompatActivity<ControllerType extends Controller> extends 
      */
     protected void loadPageClass() {
         if (null != pageClass)
-        	agent.setPageClass(pageClass);
+        	getAgent().setPageClass(pageClass);
     }
 
 	/**
@@ -130,7 +132,7 @@ public class CommonAppCompatActivity<ControllerType extends Controller> extends 
     }
 
     public void setPage(UIPage page) {
-        agent.setPage(page);
+        getAgent().setPage(page);
     }
 
 	@Override

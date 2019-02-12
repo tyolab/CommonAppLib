@@ -487,14 +487,19 @@ public abstract class CommonApp<UIType extends UI,
 			ws.buildSnippetHtml(query);
 		return ws.getSnippetHtml();
 	}
-	
+
 	@Override
-	public List<?> getSuggestions(String query, boolean hasToBeBestMatch) {
-		return getSuggestions(query, "", hasToBeBestMatch);
+	public List<?> getSuggestions(String requestFromId, String query, boolean hasToBeBestMatch) {
+		return getSuggestions(requestFromId, query, hasToBeBestMatch, "");
 	}
 
 	@Override
-	public List<?> getSuggestions(String query, String extra, boolean hasToBeBestMatch) {
+	public List<?> getSuggestions(String query, boolean hasToBeBestMatch) {
+		return getSuggestions(null, query, hasToBeBestMatch, "");
+	}
+
+	@Override
+	public List<?> getSuggestions(String fromId, String query, boolean hasToBeBestMatch, String extra) {
 		return Arrays.asList(new String[] {"suggestion method is not implemented yet"});
 	}
 

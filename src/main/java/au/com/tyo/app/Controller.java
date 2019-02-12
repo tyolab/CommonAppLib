@@ -101,9 +101,11 @@ public interface Controller<T extends UI> extends CommonController {
 
 	DisplayItem getItemText(Searchable item);
 
-	List<?> getSuggestions(String query, String extra, boolean hasToBeBestMatch);
-	
 	List<?> getSuggestions(String query, boolean hasToBeBestMatch);
+
+	List<?> getSuggestions(String fromId, String query, boolean hasToBeBestMatch, String extra);
+	
+	List<?> getSuggestions(String requestFromId, String query, boolean hasToBeBestMatch);
 
 	void loadHistory();
 	

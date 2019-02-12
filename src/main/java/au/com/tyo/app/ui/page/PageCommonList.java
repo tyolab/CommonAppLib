@@ -24,12 +24,10 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import au.com.tyo.android.adapter.ListViewItemAdapter;
 import au.com.tyo.android.adapter.QuickAccessListAdapter;
 import au.com.tyo.app.Constants;
 import au.com.tyo.app.Controller;
@@ -49,6 +47,11 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
     private int listItemResourceId;
 
     private String listKey;
+
+    /**
+     * The unique identifier
+     */
+    private String listId;
 
     public PageCommonList(T controller, Activity activity) {
         super(controller, activity);
@@ -102,6 +105,9 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
     @Override
     public void onActivityStart() {
         super.onActivityStart();
+
+
+        getSuggestionView().getSuggestionAdapter().setRequestFromId(listId);
 
         if (null != listView) {
             listView.setAdapter(adapter);
@@ -165,18 +171,15 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
 
         if (intent.hasExtra(Constants.DATA_LIST_KEY))
             listKey = intent.getStringExtra(Constants.DATA_LIST_KEY);
+
+        if (intent.hasExtra(Constants.DATA_SHOW_SEARCH))
+            setToShowSearchView((Boolean) intent.getBooleanExtra(Constants.DATA_SHOW_SEARCH, false));
+
+        if (intent.hasExtra(Constants.DATA_LIST_ID))
+            listId = intent.getStringExtra(Constants.DATA_LIST_ID);
     }
 
     private void addList(List list) {
-        // if (adapter instanceof ListViewItemAdapter) {
-        //     ListViewItemAdapter listAdapter = (ListViewItemAdapter) adapter;
-        //     listAdapter.clear();
-        //     if (null != list)
-        //         listAdapter.setItems(list);
-        //     else
-        //         listAdapter.setItems(new ArrayList());
-        // }
-        // else
         if (adapter instanceof ArrayAdapter) {
             ArrayAdapter arrayAdapter = getArrayAdapter();
             arrayAdapter.clear();
@@ -212,6 +215,11 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
                             (List) map.get(Constants.DATA_LIST_QUICK_ACCESS_LIST),
                             true,
                             (int[]) map.get(Constants.DATA_LIST_SELECTED));
+
+                    setToShowSearchView((Boolean) map.get(Constants.DATA_SHOW_SEARCH));
+
+                    if (map.containsKey(Constants.DATA_LIST_ID))
+                        listId = (String) map.get(Constants.DATA_LIST_ID);
                 }
 
                 if (map.containsKey(Constants.DATA_LIST_KEY))
@@ -240,15 +248,11 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
         if (null == adapter)
             createAdapter();
 
-
+        if (listId == null)
+            listId = this.getClass().getSimpleName();
     }
 
     public void addItem(Object obj) {
-        // if (adapter instanceof ListViewItemAdapter) {
-        //     ListViewItemAdapter listAdapter = (ListViewItemAdapter) adapter;
-        //     listAdapter.add(obj);
-        // }
-        // else
         if (adapter instanceof ArrayAdapter) {
             ArrayAdapter arrayAdapter = getArrayAdapter();
             arrayAdapter.add(obj);
