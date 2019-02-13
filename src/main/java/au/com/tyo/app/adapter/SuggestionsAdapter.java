@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Html;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -296,6 +297,8 @@ public class SuggestionsAdapter extends ListViewItemAdapter implements Filterabl
         if (object instanceof Searchable) {
             final Searchable item = (Searchable) object;
 
+            tvTitle.setText(item.getTitle());
+
             if (item.requiresFurtherProcess()) {
                 convertView.post(new Runnable() {
 
@@ -303,9 +306,20 @@ public class SuggestionsAdapter extends ListViewItemAdapter implements Filterabl
                     public void run() {
                         controller.processSearchableItem(item);
 
-                        DisplayItem displayItem = controller.getItemText(item);
+                        /**
+                         * For presentation, I don't it is needed for now
+                         * make it look nicer
+                         */
+                        DisplayItem displayItem = null;
+                        if (item instanceof DisplayItem)
+                            displayItem = (DisplayItem) item;
+                        else
+                            displayItem = controller.getItemText(item);
+
                         String highlighted = controller.getTextForSearchResultItem(displayItem.getText());
-                        tvTitle.setText(Html.fromHtml(highlighted));
+
+                        if (!TextUtils.isEmpty(highlighted))
+                            tvTitle.setText(Html.fromHtml(highlighted));
 
                         if (item.hasImage()) {
                             if (displayItem.getImgBytes() != null) {
@@ -319,7 +333,8 @@ public class SuggestionsAdapter extends ListViewItemAdapter implements Filterabl
                             }
                         }
 
-                        if (!item.isAvailable()) overlayView.setVisibility(View.VISIBLE);
+                        if (!item.isAvailable())
+                            overlayView.setVisibility(View.VISIBLE);
                     }
 
                 });
