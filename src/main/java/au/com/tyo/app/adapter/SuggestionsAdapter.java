@@ -102,6 +102,8 @@ public class SuggestionsAdapter extends ListViewItemAdapter implements Filterabl
 	private void init() {
 		hasToBeBestMatch = true;
 		keepOriginal = false;
+		requestFromId = -1;
+
 		setShowImage(true);
 
 		filter = new SuggestionFilter();
