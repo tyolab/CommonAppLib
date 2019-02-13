@@ -102,6 +102,8 @@ public class PageBackgroundProgress<T extends Controller> extends Page<T> {
         else if (msg.what == Constants.MESSAGE_BROADCAST_BACKGROUND_TASK_DONE) {
             getController().onBackgroundTaskFinished(taskId);
         }
+        else
+            super.handleBroadcastMessage(msg);
     }
 
     private void updateProgress() {

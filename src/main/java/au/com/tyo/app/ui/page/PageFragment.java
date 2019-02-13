@@ -134,8 +134,6 @@ public class PageFragment implements UIEntity {
                             null);
             }
             else {
-//                ViewGroup vg = (ViewGroup) contentView.getParent();
-//                vg.removeAllViews();
                 ViewGroup vg = ((ViewGroup) contentView);
                 vg.removeAllViews();
                 inflater.inflate(contentViewResId, vg, true);
@@ -192,6 +190,12 @@ public class PageFragment implements UIEntity {
         }
     }
 
+    /**
+     * By default, we have two basic message handling functions for loading data, and when data loading
+     * is finished
+     *
+     * @param msg
+     */
     protected void handleBroadcastMessage(Message msg) {
         switch (msg.what) {
             case Constants.MESSAGE_BROADCAST_LOADING_DATA:

@@ -103,9 +103,9 @@ public interface Controller<T extends UI> extends CommonController {
 
 	List<?> getSuggestions(String query, boolean hasToBeBestMatch);
 
-	List<?> getSuggestions(String fromId, String query, boolean hasToBeBestMatch, String extra);
+	List<?> getSuggestions(int fromId, String query, boolean hasToBeBestMatch, String extra);
 	
-	List<?> getSuggestions(String requestFromId, String query, boolean hasToBeBestMatch);
+	List<?> getSuggestions(int requestFromId, String query, boolean hasToBeBestMatch);
 
 	void loadHistory();
 	
@@ -181,4 +181,5 @@ public interface Controller<T extends UI> extends CommonController {
     void onBackgroundTaskFinished(int taskId);
 
     void processSearchableItem(Searchable item);
+
 }

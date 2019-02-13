@@ -48,12 +48,10 @@ import au.com.tyo.android.AndroidUtils;
 import au.com.tyo.android.CommonInitializer;
 import au.com.tyo.android.CommonPermission;
 import au.com.tyo.android.utils.ActivityUtils;
-import au.com.tyo.app.CommonApp;
 import au.com.tyo.app.CommonAppLog;
 import au.com.tyo.app.CommonExtra;
 import au.com.tyo.app.Constants;
 import au.com.tyo.app.Controller;
-import au.com.tyo.app.PageAgent;
 import au.com.tyo.app.R;
 import au.com.tyo.app.model.Searchable;
 import au.com.tyo.app.ui.ActionBarMenu;
@@ -641,23 +639,51 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     }
 
     public void setOnSuggestionItemClickListener() {
-        if (null != suggestionView)
+        if (null != suggestionView) {
             suggestionView.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Searchable item = (Searchable) suggestionView.getAdapter().getItem(position);
+                    Object obj = suggestionView.getAdapter().getItem(position);
 
-                    if (item instanceof Parcelable) {
-                        // just pass the item to the previous activity
-                        result = item;
-                        finish();
+                    if (obj instanceof Searchable) {
+                        Searchable item = (Searchable) obj;
+                        onSearchableItemClick(item);
+                        hideSuggestionView();
                     }
                     else {
-                        controller.onOpenSearchItemClicked(item);
-                        hideSuggestionView();
+                        // same as parcelable
+                        onSuggestionItemClick(obj);
                     }
                 }
             });
+        }
+    }
+
+    /**
+     * If other type of item listed on the suggestion view
+     *
+     * @param obj
+     */
+    protected void onSuggestionItemClick(Object obj) {
+        Log.i(LOG_TAG, "A suggestion item is clicked: " + obj.toString());
+
+        // by default we just return to the obj to previous activity
+        // override it to deal with it differently
+        setResultAndFinish(obj);
+    }
+
+    protected void setResultAndFinish(Object obj) {
+        result = obj;
+        finish();
+    }
+
+    /**
+     * if the item is implemented with Searchable interface
+     *
+     * @param item
+     */
+    protected void onSearchableItemClick(Searchable item) {
+        controller.onOpenSearchItemClicked(item);
     }
 
     public void showFooter() {

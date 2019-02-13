@@ -51,12 +51,13 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
     /**
      * The unique identifier
      */
-    private String listId;
+    private int listId;
 
     public PageCommonList(T controller, Activity activity) {
         super(controller, activity);
 
         listItemResourceId = -1;
+        listId = -1;
 
         setContentViewResId(R.layout.list_view);
 
@@ -124,8 +125,7 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Object item = adapter.getItem(position);
-                    setResult(item);
-                    finish();
+                    setResultAndFinish(item);
                 }
             };
         return onItemClickListener;
@@ -176,7 +176,7 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
             setToShowSearchView((Boolean) intent.getBooleanExtra(Constants.DATA_SHOW_SEARCH, false));
 
         if (intent.hasExtra(Constants.DATA_LIST_ID))
-            listId = intent.getStringExtra(Constants.DATA_LIST_ID);
+            listId = intent.getIntExtra(Constants.DATA_LIST_ID, -1);
     }
 
     private void addList(List list) {
@@ -219,7 +219,7 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
                     setToShowSearchView((Boolean) map.get(Constants.DATA_SHOW_SEARCH));
 
                     if (map.containsKey(Constants.DATA_LIST_ID))
-                        listId = (String) map.get(Constants.DATA_LIST_ID);
+                        listId = (int) map.get(Constants.DATA_LIST_ID);
                 }
 
                 if (map.containsKey(Constants.DATA_LIST_KEY))
@@ -247,9 +247,6 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
 
         if (null == adapter)
             createAdapter();
-
-        if (listId == null)
-            listId = this.getClass().getSimpleName();
     }
 
     public void addItem(Object obj) {
@@ -281,5 +278,11 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
         // clear result
         setResult(null);
         return super.onBackPressed();
+    }
+
+    @Override
+    protected void onSuggestionItemClick(Object obj) {
+        // getController().onListItemClick(listId, obj);
+        setResultAndFinish(obj);
     }
 }

@@ -489,17 +489,17 @@ public abstract class CommonApp<UIType extends UI,
 	}
 
 	@Override
-	public List<?> getSuggestions(String requestFromId, String query, boolean hasToBeBestMatch) {
+	public List<?> getSuggestions(int requestFromId, String query, boolean hasToBeBestMatch) {
 		return getSuggestions(requestFromId, query, hasToBeBestMatch, "");
 	}
 
 	@Override
 	public List<?> getSuggestions(String query, boolean hasToBeBestMatch) {
-		return getSuggestions(null, query, hasToBeBestMatch, "");
+		return getSuggestions(-1, query, hasToBeBestMatch, "");
 	}
 
 	@Override
-	public List<?> getSuggestions(String fromId, String query, boolean hasToBeBestMatch, String extra) {
+	public List<?> getSuggestions(int fromId, String query, boolean hasToBeBestMatch, String extra) {
 		return Arrays.asList(new String[] {"suggestion method is not implemented yet"});
 	}
 
@@ -851,12 +851,12 @@ public abstract class CommonApp<UIType extends UI,
 	}
 
 	@Override
-	public void onDeleteFromList(Object data) {
+	public void onDeleteFromList(int listId, Object data) {
 		// to be implemented if a simple list is used
 	}
 
 	@Override
-	public void onListItemClick(Object obj) {
+	public void onListItemClick(int listId, Object obj) {
 		// to be implemented if a simple list is used
 	}
 

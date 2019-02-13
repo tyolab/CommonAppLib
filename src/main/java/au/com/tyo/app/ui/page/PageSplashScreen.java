@@ -13,9 +13,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 
 import au.com.tyo.android.AndroidUtils;
-import au.com.tyo.android.CommonInitializer;
 import au.com.tyo.android.NetworkMonitor;
-import au.com.tyo.app.CommonApp;
 import au.com.tyo.app.Constants;
 import au.com.tyo.app.Controller;
 import au.com.tyo.app.R;
@@ -45,7 +43,9 @@ public class PageSplashScreen extends Page implements SplashScreenMessageListene
 
     public PageSplashScreen(Controller controller, Activity activity) {
         super(controller, activity);
-        hideActionBar = true;
+
+        this.controller = controller;
+        this.hideActionBar = true;
 
         /**
          * set splash screen layout
@@ -58,15 +58,6 @@ public class PageSplashScreen extends Page implements SplashScreenMessageListene
         super.setupComponents();
 
         Activity activity = getActivity();
-
-        /**
-         * Controller initialisation
-         */
-        if (controller == null) {
-            if (CommonApp.getInstance() == null)
-                CommonApp.setInstance(CommonInitializer.initializeInstance(CommonApp.class, activity));
-            controller = (Controller) CommonApp.getInstance();
-        }
 
         adLoaded = false;
 
@@ -135,20 +126,9 @@ public class PageSplashScreen extends Page implements SplashScreenMessageListene
 
     // Invoke displayInterstitial() when you are ready to display an interstitial.
     private void displayInterstitial() {
-//		if (showAd) {
-//			int count = 0;
-//			while (count < 5) {
         if (interstitial.isLoaded()) {
             interstitial.show();
-//					break;
-//				}
-//				try {
-//					Thread.sleep(1000);
-//				} catch (InterruptedException e) {
-//				}
-//				++count;
         }
-//		}
     }
 
     private static class MessageHandler extends Handler {
@@ -238,6 +218,7 @@ public class PageSplashScreen extends Page implements SplashScreenMessageListene
                 controller.startMainActivity();
 
                 // close this activity, called in the above method
+                // this activity will be finished when main activity is started in controller
                 // finish();
             }
         }
@@ -262,6 +243,7 @@ public class PageSplashScreen extends Page implements SplashScreenMessageListene
     public void bindData(Intent intent) {
         super.bindData(intent);
 
-        controller.bindDataFromOtherApps(intent);
+        if (null != controller)
+            controller.bindDataFromOtherApps(intent);
     }
 }

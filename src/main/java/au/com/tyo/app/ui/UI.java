@@ -117,7 +117,7 @@ public interface UI {
 
     void gotoAboutPage(Map data, String title);
 
-    void gotoListPageForResult(String listId, String title, String fullListTitle, List fullList, String quickAccessTitle, List quickAccess, int[] selected, int requestCode, boolean showSearchBar);
+    void gotoListPageForResult(int listId, String title, String fullListTitle, List fullList, String quickAccessTitle, List quickAccess, int[] selected, int requestCode, boolean showSearchBar);
 
     void gotoFormPage(String id, String title);
 

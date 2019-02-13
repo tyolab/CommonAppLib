@@ -378,7 +378,7 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
     }
 
     @Override
-    public void gotoListPageForResult(String listId, String title, String fullListTitle, List fullList, String quickAccessTitle, List quickAccess, int[] selected, int requestCode, boolean showSearchBar) {
+    public void gotoListPageForResult(int listId, String title, String fullListTitle, List fullList, String quickAccessTitle, List quickAccess, int[] selected, int requestCode, boolean showSearchBar) {
         Map data = new HashMap();
         data.put(Constants.DATA_LIST_QUICK_ACCESS_TITLE, quickAccessTitle);
         data.put(Constants.DATA_LIST_QUICK_ACCESS_LIST, quickAccess);

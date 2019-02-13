@@ -21,7 +21,6 @@ import au.com.tyo.app.ui.UI;
 import au.com.tyo.app.ui.UIActivity;
 import au.com.tyo.app.ui.UIEntity;
 import au.com.tyo.app.ui.UIPage;
-import au.com.tyo.utils.StringUtils;
 
 /**
  * Created by Eric Tang (eric.tang@tyo.com.au) on 23/5/17.
@@ -417,9 +416,15 @@ public class PageAgent {
          */
 
         /**
+         * Process extras first to recover activity/page realted commands/data
+         */
+        processExtras(savedInstanceState);
+
+        /**
          * Create contentView
          */
         initialiseUi();
+
         if (null != uiActivity)
             uiActivity.onUiCreated();
 
@@ -435,8 +440,6 @@ public class PageAgent {
          * set up action bar as we use toolbar now it is part of content view
          */
         setupActionbar();
-
-        processExtras(savedInstanceState);
 
         if (null != uiActivity)
             uiActivity.onUiReady();

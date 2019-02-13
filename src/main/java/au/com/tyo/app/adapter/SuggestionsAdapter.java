@@ -1,6 +1,5 @@
 package au.com.tyo.app.adapter;
 
-import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Message;
@@ -16,8 +15,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import au.com.tyo.android.images.utils.BitmapUtils;
 import au.com.tyo.android.adapter.ListViewItemAdapter;
+import au.com.tyo.android.images.utils.BitmapUtils;
 import au.com.tyo.app.Constants;
 import au.com.tyo.app.Controller;
 import au.com.tyo.app.R;
@@ -32,7 +31,7 @@ import au.com.tyo.common.ui.AutoResizeTextView;
  *             "ArrayAdapter requires the resource ID to be a TextView"
  * 
  */
-public class SuggestionsAdapter extends ListViewItemAdapter implements Filterable {
+public class SuggestionsAdapter extends ListViewItemAdapter implements Filterable, Handler.Callback {
 	
 	public static final String LOG_TAG = "SuggestionsAdapter";
 
@@ -42,7 +41,7 @@ public class SuggestionsAdapter extends ListViewItemAdapter implements Filterabl
 	
 	private Filter filter;
 	
-	private Handler handler;
+	private Handler messageHandler;
 	
 	private Controller controller;
 	
@@ -59,7 +58,7 @@ public class SuggestionsAdapter extends ListViewItemAdapter implements Filterabl
 	/**
 	 * The identifier to indicated where the suggestion request from
 	 */
-	private String requestFromId;
+	private int requestFromId;
 
 	public interface SuggestionListener {
 		List<?> onRequestSuggestions(String query, boolean bestMatch);
@@ -72,15 +71,19 @@ public class SuggestionsAdapter extends ListViewItemAdapter implements Filterabl
 		init();
 	}
 
-	public String getRequestFromId() {
+	public int getRequestFromId() {
 		return requestFromId;
 	}
 
-	public void setRequestFromId(String requestFromId) {
+	public void setRequestFromId(int requestFromId) {
 		this.requestFromId = requestFromId;
 	}
 
-	public SuggestionListener getSuggestionListener() {
+    public Handler getMessageHandler() {
+        return messageHandler;
+    }
+
+    public SuggestionListener getSuggestionListener() {
 		return suggestionListener;
 	}
 
@@ -103,25 +106,31 @@ public class SuggestionsAdapter extends ListViewItemAdapter implements Filterabl
 
 		filter = new SuggestionFilter();
 		suggestionListener = null;
+
+		createMessageHandler();
 	}
 
     public void setMessageHandler(Handler handler) {
-        this.handler = handler;
+        this.messageHandler = handler;
     }
 
     public Handler createMessageHandler() {
-		handler = new Handler() {
-
-			@SuppressLint("NewApi") 
-			@Override
-			public void handleMessage(Message msg) {
-            if (!handleSuggestionMessage(msg))
-			    super.handleMessage(msg);
-			}
-			
-		};
-		return handler;
+		messageHandler = new MessageHandler(this);
+		return messageHandler;
 	}
+
+    @Override
+    public boolean handleMessage(Message msg) {
+        return handleSuggestionMessage(msg);
+    }
+
+    public static class MessageHandler extends Handler {
+
+        public MessageHandler(Callback callback) {
+            super(callback);
+        }
+
+    }
 
 	public boolean handleSuggestionMessage(Message msg) {
 	    if (msg.what == Constants.MESSAGE_SUGGESTION_RETURN) {
@@ -200,14 +209,14 @@ public class SuggestionsAdapter extends ListViewItemAdapter implements Filterabl
 
         @Override
         protected void onPostExecute(List<?> results) {
-            if (null != handler) {
+            if (null != messageHandler) {
                 Message msg = Message.obtain();
                 msg.what = Constants.MESSAGE_SUGGESTION_RETURN;
                 msg.obj = results;
-                handler.sendMessage(msg);
+                messageHandler.sendMessage(msg);
             }
             else
-                Log.w(LOG_TAG, "The message handler is null, so the adapter won't be able to receive the data change");
+                Log.w(LOG_TAG, "The message messageHandler is null, so the adapter won't be able to receive the data change");
         }
     }
     
