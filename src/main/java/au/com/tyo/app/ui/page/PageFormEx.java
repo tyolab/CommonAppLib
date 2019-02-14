@@ -84,11 +84,6 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
     }
 
     @Override
-    public void bindData() {
-        super.bindData();
-    }
-
-    @Override
     public void onDataBound() {
 
         /**
