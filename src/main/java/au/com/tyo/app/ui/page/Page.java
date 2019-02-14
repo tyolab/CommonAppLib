@@ -492,8 +492,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-        if (null != ad)
-            ad.loadBannerAd();
+        loadAd();
     }
 
     @OverridingMethodsMustInvokeSuper
@@ -536,9 +535,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
             ad = (AllAdView) mainView.findViewById(R.id.all_ad_view);
             if (null != ad) {
                 addAdView();
-
-                if (controller.getSettings().hasAd())
-                    ad.loadBannerAd();
+                loadAd();
             }
         }
 
@@ -548,6 +545,11 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         setupActionBarMenu();
 
         setupPageOverlay(pageOverlay);
+    }
+
+    private void loadAd() {
+        if (null != ad && controller.getSettings().hasAd())
+            ad.loadBannerAd();
     }
 
     protected void setupPageOverlay(View pageOverlay) {
