@@ -127,6 +127,8 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
                     Object item = adapter.getItem(position);
                     if (!getController().onListItemClick(listId, item))
                         setResultAndFinish(item);
+                    else
+                        finish();
                 }
             };
         return onItemClickListener;

@@ -157,9 +157,10 @@ public class PageFragment implements UIEntity {
 
     public void onStart() {
         if (isMessageReceiverRequired()) {
-            if (null == messageReceiver)
+            if (null == messageReceiver) {
                 createMessageReceiver();
-            registerBroadcastReceivers();
+                registerBroadcastReceivers();
+            }
         }
     }
 
@@ -222,8 +223,10 @@ public class PageFragment implements UIEntity {
     }
 
     public void unregisterBroadcastReceivers() {
-        if (null != messageReceiver)
+        if (null != messageReceiver) {
             LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(messageReceiver);
+            messageReceiver = null;
+        }
     }
 
     public Activity getActivity() {
