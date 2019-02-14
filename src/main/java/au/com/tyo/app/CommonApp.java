@@ -856,8 +856,9 @@ public abstract class CommonApp<UIType extends UI,
 	}
 
 	@Override
-	public void onListItemClick(int listId, Object obj) {
+	public boolean onListItemClick(int listId, Object obj) {
 		// to be implemented if a simple list is used
+		return false;
 	}
 
     public void startActivity(Class cls, boolean mainActivity) {

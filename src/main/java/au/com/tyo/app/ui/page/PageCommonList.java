@@ -125,7 +125,8 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Object item = adapter.getItem(position);
-                    setResultAndFinish(item);
+                    if (!getController().onListItemClick(listId, item))
+                        setResultAndFinish(item);
                 }
             };
         return onItemClickListener;
