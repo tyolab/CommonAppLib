@@ -285,7 +285,9 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
 
     @Override
     protected void onSuggestionItemClick(Object obj) {
-        // getController().onListItemClick(listId, obj);
-        setResultAndFinish(obj);
+        if (!getController().onListItemClick(listId, obj))
+            setResultAndFinish(obj);
+        else
+            finish();
     }
 }
