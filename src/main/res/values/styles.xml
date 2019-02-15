@@ -97,7 +97,7 @@
     </style>
 
     <style name="AppStyle.Suggestion.Overlay">
-
+        <item name="android:background">@color/search_opaque</item>
     </style>
 
 </resources>

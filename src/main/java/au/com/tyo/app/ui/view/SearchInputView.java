@@ -32,6 +32,7 @@ public class SearchInputView extends AppCompatEditText /*AutoCompleteTextView*/ 
 	
 	private SearchStateListener searchStateListener;
 	private SearchInputListener inputListener;
+	private SearchInputFocusWatcher searchInputFocusWatcher;
 	
 	private Context context;
 	
@@ -50,8 +51,6 @@ public class SearchInputView extends AppCompatEditText /*AutoCompleteTextView*/ 
 	
 	private SearchView parent;
 	
-	private boolean keepShowingSuggestionView;
-	
 	interface SearchStateListener {
 	    int SEARCH_NORMAL = 0;
 	    int SEARCH_HIGHLIGHTED = 1;
@@ -60,7 +59,7 @@ public class SearchInputView extends AppCompatEditText /*AutoCompleteTextView*/ 
 	    void onStateChanged(int state);
 	}
 	
-    interface SearchInputListener {
+    public interface SearchInputListener {
 
 //        public void onDismiss();
 //
@@ -68,6 +67,11 @@ public class SearchInputView extends AppCompatEditText /*AutoCompleteTextView*/ 
 
         void onSuggestionClick(String text, int from);
     }
+
+    public interface SearchInputFocusWatcher {
+		void onSearchInputFocused();
+		void onSearchInputFocusEscaped();
+	}
 
 	public SearchInputView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
@@ -92,9 +96,7 @@ public class SearchInputView extends AppCompatEditText /*AutoCompleteTextView*/ 
 
 	private void init() {
 		adapter = null;
-		imManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE); 
-        
-		keepShowingSuggestionView = false;
+		imManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
 		
 //        setOnItemClickListener(this);
         addTextChangedListener(this);
@@ -139,6 +141,10 @@ public class SearchInputView extends AppCompatEditText /*AutoCompleteTextView*/ 
 		setController(theController);
 	}
 
+	public void setSearchInputFocusWatcher(SearchInputFocusWatcher searchInputFocusWatcher) {
+		this.searchInputFocusWatcher = searchInputFocusWatcher;
+	}
+
 	@Override
 	protected void onFocusChanged(final boolean focused, int direction,
 			Rect previouslyFocusedRect) {
@@ -146,8 +152,9 @@ public class SearchInputView extends AppCompatEditText /*AutoCompleteTextView*/ 
 
 		final UI ui = controller.getUi();
 		
-        if (focused) { 	    	
-        	controller.onSearchInputFocused();
+        if (focused) {
+        	if (null != searchInputFocusWatcher)
+        		searchInputFocusWatcher.onSearchInputFocused();
 
         	showSoftInput();
         	
@@ -169,15 +176,20 @@ public class SearchInputView extends AppCompatEditText /*AutoCompleteTextView*/ 
         else {
             hideSoftInput();
 
-        	controller.onSearchInputFocusEscaped();
-        	
-        	if (!this.keepShowingSuggestionView)
-        		ui.getCurrentPage().setSuggestionViewVisibility(false);
+			if (null != searchInputFocusWatcher)
+				searchInputFocusWatcher.onSearchInputFocusEscaped();
 
         	setText("");
         }
         final int s = state;
-        post(new Runnable() {
+
+		/**
+		 * @TODO
+		 * Refactor it later, seems it is not necessary here
+		 *
+		 * and the Controller has no need to be here too
+		 */
+		post(new Runnable() {
             public void run() {
             	/*
             	 * change the drawer icon to < 
@@ -333,11 +345,6 @@ public class SearchInputView extends AppCompatEditText /*AutoCompleteTextView*/ 
 		
 		filter = adapter.getFilter();
     }
-
-	public void setKeepShowingSuggestionViewEvenLosingFocus(
-			boolean keepShowingSuggestionView) {
-		this.keepShowingSuggestionView = keepShowingSuggestionView;
-	}
 
 	public void onClearInput() {
 		/*

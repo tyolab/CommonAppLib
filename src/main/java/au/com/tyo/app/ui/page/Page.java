@@ -33,6 +33,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -83,7 +84,7 @@ import static au.com.tyo.app.Constants.REQUEST_NONE;
  *
  */
 
-public class Page<ControllerType extends Controller> extends PageFragment implements UIPage, MenuItem.OnMenuItemClickListener, Runnable {
+public class Page<ControllerType extends Controller> extends PageFragment implements UIPage, MenuItem.OnMenuItemClickListener, Runnable, SearchInputView.SearchInputFocusWatcher  {
 
     private static final String LOG_TAG = "Page";
 
@@ -214,6 +215,8 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
 
     protected boolean showTitleInToolbar = false;
 
+    private boolean keepShowingSuggestionView;
+
     /**
      *
      * @param controller
@@ -225,6 +228,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         this.activity = activity;
         this.controller = controller;
         toShowSearchView = false;
+        keepShowingSuggestionView = false;
 
         /**
          * can be set
@@ -629,7 +633,11 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
      */
     public void setupSearchView() {
         searchView = (SearchView) mainView.findViewById(R.id.search_nav_bar);
-        searchView.setupComponents(controller);
+
+        if (null != searchView) {
+            searchView.setupComponents(controller);
+            searchView.getSearchInputView().setSearchInputFocusWatcher(this);
+        }
 
         suggestionView = (SuggestionView) mainView.findViewById(R.id.suggestion_view);
         if (null != suggestionView)
@@ -649,8 +657,11 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
 
                     if (obj instanceof Searchable) {
                         Searchable item = (Searchable) obj;
-                        onSearchableItemClick(item);
-                        hideSuggestionView();
+
+                        if (item.isAvailable()) {
+                            onSearchableItemClick(item);
+                            hideSuggestionView();
+                        }
                     }
                     else {
                         // same as parcelable
@@ -1764,5 +1775,25 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
                 result = controller.getResult();
         }
         return result;
+    }
+
+    public void setKeepShowingSuggestionViewEvenLosingFocus(
+            boolean keepShowingSuggestionView) {
+        this.keepShowingSuggestionView = keepShowingSuggestionView;
+    }
+
+    @Override
+    public void onSearchInputFocused() {
+        // Override me to do your things
+        setSuggestionViewVisibility(true);
+
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        hideAd();
+    }
+
+    @Override
+    public void onSearchInputFocusEscaped() {
+        if (!this.keepShowingSuggestionView)
+            setSuggestionViewVisibility(false);
     }
 }

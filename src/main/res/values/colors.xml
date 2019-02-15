@@ -40,4 +40,5 @@
 
     <color name="splash_screen_background_color">#494949</color>
 
+    <color name="colorPrimarySuggestionLight">#030918</color>
 </resources>

@@ -219,6 +219,8 @@
         <item name="refColorEnabled">@color/colorEnabled</item>
 
         <item name="refColorDisabled">@color/colorDisabled</item>
+
+        <item name="colorPrimarySuggestion">@color/black</item>
     </style>
 
     <style name="CommonTheme.Dark" parent="Theme.AppCompat.NoActionBar" />
@@ -303,6 +305,8 @@
         <item name="refColorEnabled">@color/white</item>
 
         <item name="refColorDisabled">@color/light_grey</item>
+
+        <item name="colorPrimarySuggestion">@color/white</item>
     </style>
 
     <style name="CommonAppBaseTheme.Light" parent="CommonTheme.Light.Pale">

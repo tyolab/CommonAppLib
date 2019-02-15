@@ -1,6 +1,9 @@
 package au.com.tyo.app.adapter;
 
+import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Html;
@@ -16,6 +19,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import au.com.tyo.android.AndroidUtils;
 import au.com.tyo.android.adapter.ListViewItemAdapter;
 import au.com.tyo.android.images.utils.BitmapUtils;
 import au.com.tyo.app.Constants;
@@ -37,8 +41,9 @@ public class SuggestionsAdapter extends ListViewItemAdapter implements Filterabl
 	public static final String LOG_TAG = "SuggestionsAdapter";
 
 	public static final List EMPTY = new ArrayList();
+	private ColorStateList textColorList;
 
-    private CompletionListener listener;
+	private CompletionListener listener;
 	
 	private Filter filter;
 	
@@ -56,6 +61,8 @@ public class SuggestionsAdapter extends ListViewItemAdapter implements Filterabl
 
 	private SuggestionListener suggestionListener;
 
+
+
 	/**
 	 * The identifier to indicated where the suggestion request from
 	 */
@@ -69,6 +76,12 @@ public class SuggestionsAdapter extends ListViewItemAdapter implements Filterabl
 		super(R.layout.suggestion_list_cell/*au.com.tyo.android.R.layout.simple_dropdown_item_1line*/);
 		
 		this.controller = controller;
+		Context context = controller.getApplicationContext();
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+			this.textColorList = context.getResources().getColorStateList(R.color.suggest_text_color_state_list, ((Context) context).getTheme());
+		else
+			this.textColorList = context.getResources().getColorStateList(R.color.suggest_text_color_state_list);
+
 		init();
 	}
 
@@ -282,6 +295,8 @@ public class SuggestionsAdapter extends ListViewItemAdapter implements Filterabl
         final TextView tvTitle = (TextView) convertView.findViewById(android.R.id.text1);
         final ImageView iv = (ImageView) convertView.findViewById(R.id.itl_image_view);
         final View overlayView = convertView.findViewById(R.id.overlay);
+
+        tvTitle.setTextColor(textColorList);
         
         /*
          * for displaying something really short like initials for easy identify the item
@@ -300,7 +315,8 @@ public class SuggestionsAdapter extends ListViewItemAdapter implements Filterabl
             tvTitle.setText(item.getTitle());
 
             if (item.requiresFurtherProcess()) {
-                convertView.post(new Runnable() {
+				final View finalConvertView = convertView;
+				convertView.post(new Runnable() {
 
                     @Override
                     public void run() {
@@ -333,8 +349,24 @@ public class SuggestionsAdapter extends ListViewItemAdapter implements Filterabl
                             }
                         }
 
-                        if (!item.isAvailable())
-                            overlayView.setVisibility(View.VISIBLE);
+                        if (!item.isAvailable()) {
+                        	finalConvertView.setEnabled(false);
+                        	tvTitle.setEnabled(false);
+
+                        	// if (AndroidUtils.getAndroidVersion() >= 22)
+                        	// 	tvTitle.setAlpha(0.4f);
+                        	// else
+                        	// 	tvTitle.setTextColor();
+							overlayView.setVisibility(View.VISIBLE);
+						}
+						else {
+							overlayView.setVisibility(View.GONE);
+							finalConvertView.setEnabled(true);
+							tvTitle.setEnabled(true);
+
+							// if (AndroidUtils.getAndroidVersion() >= 22)
+							// 	tvTitle.setAlpha(1f);
+						}
                     }
 
                 });
