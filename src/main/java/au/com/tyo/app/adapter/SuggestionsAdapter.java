@@ -78,7 +78,7 @@ public class SuggestionsAdapter extends ListViewItemAdapter implements Filterabl
 		this.controller = controller;
 		Context context = controller.getApplicationContext();
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-			this.textColorList = context.getResources().getColorStateList(R.color.suggest_text_color_state_list, ((Context) context).getTheme());
+			this.textColorList = context.getColorStateList(R.color.suggest_text_color_state_list);
 		else
 			this.textColorList = context.getResources().getColorStateList(R.color.suggest_text_color_state_list);
 
