@@ -23,4 +23,6 @@
     <attr name="refColorEnabled" format="reference" />
 
     <attr name="colorPrimarySuggestion" format="reference" />
+
+    <attr name="colorPrimarySuggestionNotAvailable" format="reference" />
 </resources>
