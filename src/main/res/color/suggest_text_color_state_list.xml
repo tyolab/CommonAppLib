@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+@FIXME
+The color seems to be pink when enabled
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_enabled="false" android:color="@color/search_opaque" />
     <item android:state_enabled="true" android:color="?attr/colorPrimarySuggestion"/>
     <item android:color="?attr/colorPrimarySuggestion"/>
+</selector>
+-->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_enabled="false" android:color="?attr/refColorDisabled" />
+    <item android:state_enabled="true" android:color="?attr/refColorEnabled"/>
+    <item android:color="?attr/refColorEnabled"/>
 </selector>

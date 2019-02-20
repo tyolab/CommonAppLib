@@ -2,6 +2,8 @@ package au.com.tyo.app.ui.page;
 
 import android.app.Activity;
 
+import java.util.Map;
+
 import au.com.tyo.app.CommonAppSettings;
 import au.com.tyo.app.Constants;
 import au.com.tyo.app.Controller;
@@ -36,7 +38,7 @@ public class PageSettings <T extends Controller> extends PageFormEx<T> {
 
     @Override
     protected void saveFormData(Object form) {
-        // reload settings
+        // reload settings because each setting is stored separately in different variable
         settings.loadSettingsIntoMemory();
 
         // let the page(s) know
@@ -50,4 +52,15 @@ public class PageSettings <T extends Controller> extends PageFormEx<T> {
         }).start();
     }
 
+    @Override
+    protected void onFieldDataDirty(String key, String childKey, Object value) {
+        super.onFieldDataDirty(key, childKey, value);
+
+        if (null == childKey)
+            settings.updateSetting(key, value);
+        else {
+            Map subsettings = (Map) settings.getAppSettings().get(key);
+            subsettings.put(childKey, value);
+        }
+    }
 }

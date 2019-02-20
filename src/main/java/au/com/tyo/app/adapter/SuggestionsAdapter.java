@@ -41,6 +41,9 @@ public class SuggestionsAdapter extends ListViewItemAdapter implements Filterabl
 	public static final String LOG_TAG = "SuggestionsAdapter";
 
 	public static final List EMPTY = new ArrayList();
+
+	public static int disabledColor = R.color.gray_opaque;
+
 	private ColorStateList textColorList;
 
 	private CompletionListener listener;
@@ -61,8 +64,6 @@ public class SuggestionsAdapter extends ListViewItemAdapter implements Filterabl
 
 	private SuggestionListener suggestionListener;
 
-
-
 	/**
 	 * The identifier to indicated where the suggestion request from
 	 */
@@ -77,12 +78,22 @@ public class SuggestionsAdapter extends ListViewItemAdapter implements Filterabl
 		
 		this.controller = controller;
 		Context context = controller.getApplicationContext();
+
+        /**
+         * @FIXME
+         * clean up
+         * Not really needed now, can be set in the style file
+         */
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
 			this.textColorList = context.getColorStateList(R.color.suggest_text_color_state_list);
 		else
 			this.textColorList = context.getResources().getColorStateList(R.color.suggest_text_color_state_list);
 
 		init();
+	}
+
+	public static void setDisabledColor(int disabledColor) {
+		SuggestionsAdapter.disabledColor = disabledColor;
 	}
 
 	public int getRequestFromId() {
@@ -296,7 +307,7 @@ public class SuggestionsAdapter extends ListViewItemAdapter implements Filterabl
         final ImageView iv = (ImageView) convertView.findViewById(R.id.itl_image_view);
         final View overlayView = convertView.findViewById(R.id.overlay);
 
-        tvTitle.setTextColor(textColorList);
+        // tvTitle.setTextColor(textColorList);
         
         /*
          * for displaying something really short like initials for easy identify the item

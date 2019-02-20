@@ -63,7 +63,7 @@ public class PageBackgroundProgress<T extends Controller> extends Page<T> {
     }
 
     protected void updateProgressInfo() {
-        updateProgressInfo("%" + progress + "");
+        updateProgressInfo(' ' + progress + "%" );
     }
 
     protected void updateProgressInfo(String text) {

@@ -32,7 +32,11 @@
     </style>
 
     <style name="AppStyle.Suggestion.Text">
+        <!--
         <item name="android:textAppearance">?android:attr/textAppearanceMediumInverse</item>
+        -->
+        <item name="android:textColor">@color/suggest_text_color_state_list</item>
+        <item name="android:paddingLeft">8dp</item>
     </style>
 
     <style name="AppStyle.Widget.ProgressBar.Inverse" parent="@android:style/Widget.ProgressBar.Inverse">
