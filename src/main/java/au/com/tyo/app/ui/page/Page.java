@@ -903,8 +903,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         else if (isSubpage()) {
             finish();
 
-            if (controller.getUi().getMainPage() == null)
-                controller.startMainActivity();
+            onPageFinishedByBackPressed();
 
             return true;
         }
@@ -930,6 +929,11 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
             }
         }
         return false;
+    }
+
+    protected void onPageFinishedByBackPressed() {
+        if (controller.getUi().getMainPage() == null)
+            controller.startMainActivity();
     }
 
     public void finish() {
