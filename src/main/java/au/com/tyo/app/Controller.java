@@ -118,7 +118,7 @@ public interface Controller<T extends UI> extends CommonController {
 	
 	void onSearchInputFocusEscaped();
 
-	void search(String query);
+	// void search(String articleTitle, String query, long fromNothing, Boolean crosslinkOn, int scope);
 
 	void onSearchInputFocused();
 	
@@ -182,4 +182,5 @@ public interface Controller<T extends UI> extends CommonController {
 
     void processSearchableItem(Searchable item);
 
+	void search(String query);
 }

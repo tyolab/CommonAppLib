@@ -545,10 +545,6 @@ public abstract class CommonApp<UIType extends UI,
 	}
 
 	@Override
-	public void search(String query) {
-	}
-
-	@Override
 	public void onOpenSearchItemClicked(Searchable item) {
 	}
 
