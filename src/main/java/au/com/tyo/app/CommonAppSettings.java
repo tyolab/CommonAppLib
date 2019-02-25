@@ -16,6 +16,7 @@ import java.util.Set;
 
 import au.com.tyo.android.AndroidSettings;
 import au.com.tyo.app.api.JSON;
+import au.com.tyo.json.form.DataJson;
 
 /**
  * @author Eric Tang <eric.tang@tyo.com.au>
@@ -38,6 +39,9 @@ public abstract class CommonAppSettings<T1 extends Map, T2 extends Map> extends 
 	public static final String PREF_APP_SETTINGS = "pref_app_settings";
 
     protected boolean alwaysShowSearchBar;
+
+    protected Class<T2> appSettingsClass;
+    protected Class<T1> appDataClass;
 
 	protected T2 appSettings;
 	protected T1 appData;
@@ -78,7 +82,8 @@ public abstract class CommonAppSettings<T1 extends Map, T2 extends Map> extends 
 	/**
 	 * The app settings saved in preferences
 	 */
-	public void loadAppSettings(Class<? extends T2> aClass) {
+	public void loadAppSettings(Class<T2> aClass) {
+		appSettingsClass = aClass;
         appSettings = JSON.parse(prefs.getString(PREF_APP_SETTINGS, "{}"), aClass);
 
         loadSettingsIntoMemory();
@@ -87,7 +92,8 @@ public abstract class CommonAppSettings<T1 extends Map, T2 extends Map> extends 
 	/**
 	 * The app data saved in preferences
 	 */
-	public void loadAppData(Class<? extends T1> aClass) {
+	public void loadAppData(Class<T1> aClass) {
+		appDataClass = aClass;
         appData = JSON.parse(prefs.getString(PREF_APP_DATA, "{}"), aClass);
 	}
 
@@ -127,6 +133,13 @@ public abstract class CommonAppSettings<T1 extends Map, T2 extends Map> extends 
     }
 
     public void updateSetting(String key, Object value) {
+    	if (null == appSettings)
+    		try {
+				appSettings = appSettingsClass.newInstance();
+			}
+    		catch (Exception ex) {
+    			Log.e(LOG_TAG, "appSettings is null, and failed to create an instance for it", ex);
+			}
     	appSettings.put(key, value);
 	}
 
