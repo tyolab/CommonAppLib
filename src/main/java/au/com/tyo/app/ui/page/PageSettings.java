@@ -41,12 +41,10 @@ public class PageSettings <T extends Controller> extends PageFormEx<T> {
         // reload settings because each setting is stored separately in different variable
         settings.loadSettingsIntoMemory();
 
-        // let the page(s) know
-        getController().broadcastMessage(Constants.MESSAGE_BROADCAST_SETTINGS_UPDATED);
-
         new Thread(new Runnable() {
             @Override
             public void run() {
+                getController().onSettingsUpdated();
                 settings.commit();
             }
         }).start();

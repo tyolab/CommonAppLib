@@ -28,6 +28,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Observable;
 
+import javax.annotation.OverridingMethodsMustInvokeSuper;
+
 import au.com.tyo.android.AndroidUtils;
 import au.com.tyo.android.CommonApplicationImpl;
 import au.com.tyo.android.CommonInitializer;
@@ -949,4 +951,11 @@ public abstract class CommonApp<UIType extends UI,
 	public void processSearchableItem(Searchable item) {
 		Log.d(TAG, "Process data from other apps");
 	}
+
+	@OverridingMethodsMustInvokeSuper
+	@Override
+	public void onSettingsUpdated() {
+		broadcastMessage(Constants.MESSAGE_BROADCAST_SETTINGS_UPDATED);
+	}
+
 }

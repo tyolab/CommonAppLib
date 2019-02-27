@@ -183,4 +183,6 @@ public interface Controller<T extends UI> extends CommonController {
     void processSearchableItem(Searchable item);
 
 	void search(String query);
+
+    void onSettingsUpdated();
 }
