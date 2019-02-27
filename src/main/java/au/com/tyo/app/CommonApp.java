@@ -958,4 +958,8 @@ public abstract class CommonApp<UIType extends UI,
 		broadcastMessage(Constants.MESSAGE_BROADCAST_SETTINGS_UPDATED);
 	}
 
+	@Override
+	public void search(String query) {
+		// Override me to implement your own search function
+	}
 }

@@ -37,7 +37,7 @@ public class AllAdView extends FrameLayout {
 	
 	private AdLayout amazonAdBanner;
 	
-	private boolean isAmazonAd;
+	private static boolean isAmazonAd;
 	
 	private View banner;
 	
@@ -71,6 +71,10 @@ public class AllAdView extends FrameLayout {
     	banner = null;
 	}
 
+	public static void setIsAmazonAd(boolean isAmazonAd) {
+		AllAdView.isAmazonAd = isAmazonAd;
+	}
+
 	public void loadBannerAd() {
 		if (banner != null)	 
 			this.removeView(banner);
@@ -78,8 +82,8 @@ public class AllAdView extends FrameLayout {
 		initializeAd();
 
 		loadAd();
-//	    show();
-		hide();
+	    show();
+// 		hide();
 	}
 
 	private void loadAd() {
@@ -105,8 +109,9 @@ public class AllAdView extends FrameLayout {
     	this.parent = parent;
     	
     	Context context = this.getContext();
-    	
-    	isAmazonAd = new AndroidMarket(context).isFromAmazonMarket();
+
+    	if (!isAmazonAd)
+    	    isAmazonAd = new AndroidMarket(context).isFromAmazonMarket();
     	
     	if (isAmazonAd)
             try {
