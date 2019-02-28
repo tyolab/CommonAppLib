@@ -105,4 +105,8 @@
         <item name="android:background">@color/search_opaque</item>
     </style>
 
+    <style name="AppStyle.ToolbarTitle">
+
+    </style>
+
 </resources>

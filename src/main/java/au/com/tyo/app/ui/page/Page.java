@@ -580,12 +580,17 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         loadContentView(activity);
     }
 
-    private void setupToolbar() {
+    @OverridingMethodsMustInvokeSuper
+    protected void setupToolbar() {
         toolbarContainer = mainView.findViewById(R.id.tyodroid_toolbar_container);
         Toolbar toolbar = (Toolbar) toolbarContainer.findViewById(R.id.tyodroid_toolbar);
         if (null == toolbar && toolbarContainer instanceof Toolbar)
             toolbar = (Toolbar) toolbarContainer;
         actionBarMenu.setToolbar(toolbar);
+    }
+
+    protected Toolbar getToolbar() {
+        return actionBarMenu.getToolbar();
     }
 
     public void hideToolbar() {
@@ -1401,6 +1406,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
             actionBarMenu.getSupportActionBar().setTitle(title);
     }
 
+    @OverridingMethodsMustInvokeSuper
     @Override
     public void onActivityStart() {
         if (null != pageInitializer)
