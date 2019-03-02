@@ -22,6 +22,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -1421,14 +1422,18 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         if (bodyViewColor != null)
             bodyView.setBackgroundColor(bodyViewColor);
 
-
         if (null != title && title.length() > 0)
             setPageTitleOnToolbar(title);
 
         if (titleTextColor != null) {
             setPageToolbarTitleColor(titleTextColor);
 
-            final Drawable upArrow = VectorDrawableCompat.create(getActivity().getResources(), R.drawable.ic_arrow_back_black_24dp, null);
+            Drawable upArrow;
+
+            if (AndroidUtils.getAndroidVersion() >= 21)
+                upArrow = VectorDrawableCompat.create(getActivity().getResources(), R.drawable.ic_arrow_back_black_24dp, getActivity().getTheme());
+            else
+                upArrow = AppCompatResources.getDrawable(getActivity(), R.drawable.ic_arrow_back_black_24dp);
 
             Drawable drawable = DrawableCompat.wrap(upArrow);
             DrawableCompat.setTint(drawable.mutate(), titleTextColor);
