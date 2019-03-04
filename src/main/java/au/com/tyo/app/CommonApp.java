@@ -86,6 +86,9 @@ public abstract class CommonApp<UIType extends UI,
 
 	private List<ThemeInfo> availableThemes;
 
+	private boolean mainThreadInitialised;
+	private boolean backgroundThreadInitialised;
+
 	public static class ThemeInfo {
 		int themeId;
 		String name;
@@ -117,6 +120,27 @@ public abstract class CommonApp<UIType extends UI,
 		ui = null;
 		
 		inputManager = new InputManager();
+
+		setMainThreadInitialised(false);
+		setBackgroundThreadInitialised(false);
+	}
+
+	@Override
+	public boolean isMainThreadInitialised() {
+		return mainThreadInitialised;
+	}
+
+	public void setMainThreadInitialised(boolean mainThreadInitialised) {
+		this.mainThreadInitialised = mainThreadInitialised;
+	}
+
+	@Override
+	public boolean isBackgroundThreadInitialised() {
+		return backgroundThreadInitialised;
+	}
+
+	public void setBackgroundThreadInitialised(boolean backgroundThreadInitialised) {
+		this.backgroundThreadInitialised = backgroundThreadInitialised;
 	}
 
 	public void setAvailableThemes(List availableThemes) {
@@ -426,6 +450,7 @@ public abstract class CommonApp<UIType extends UI,
 		return null;
 	}
 
+	@OverridingMethodsMustInvokeSuper
 	@Override
 	public void initializeInMainThread(Context context) {
 		super.initializeInMainThread(context);
@@ -442,8 +467,11 @@ public abstract class CommonApp<UIType extends UI,
 		watchDog.start();
 
 		this.setMessageHandler(new MessageHandler());
+
+		setMainThreadInitialised(true);
 	}
 
+	@OverridingMethodsMustInvokeSuper
 	@Override
 	public void initializeInBackgroundThread(Context context) {
 		super.initializeInBackgroundThread(context);
@@ -451,6 +479,8 @@ public abstract class CommonApp<UIType extends UI,
         if (null != settings) {
 			settings.loadPreferences();
 		}
+
+		setBackgroundThreadInitialised(true);
 	}
 
 	@Override

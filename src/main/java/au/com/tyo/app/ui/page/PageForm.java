@@ -856,4 +856,12 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
     public void onValidateRequiredFormFieldFailed(String key) {
         Log.e(TAG, "Form validation failed - key:" + key);
     }
+
+    public void enableFormField(String key, boolean enabled) {
+        getJsonFormFragment().enableField(key, enabled);
+    }
+
+    public void updateFormField(String key, Object obj) {
+        getJsonFormFragment().updateForm(key, obj);
+    }
 }
