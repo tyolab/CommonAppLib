@@ -11,7 +11,8 @@ import au.com.tyo.app.ui.page.PageBackgroundProgress;
 public class CommonActivityBackgroundProgress extends CommonActivity {
 
     @Override
-    protected void loadPageClass() {
-        getAgent().setPageClass(PageBackgroundProgress.class);
+    protected void onCreatePage() {
+        getAgent().setPage(new PageBackgroundProgress<>(getController(), this));
+        super.onCreatePage();
     }
 }

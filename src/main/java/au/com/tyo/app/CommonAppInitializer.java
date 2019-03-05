@@ -23,7 +23,8 @@ public class CommonAppInitializer<T extends Controller> extends MultiDexApplicat
 
         initialize(this);
 
-        controller.setApplication(this);
+        if (null != controller)
+            controller.setApplication(this);
     }
 
     public static<T> T getController() {
