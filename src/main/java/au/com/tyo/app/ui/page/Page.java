@@ -1290,7 +1290,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
      * @param id
      * @return
      */
-    public View findViewById(int id) {
+    public final <T extends View> T findViewById(int id) {
         if (getContentView() != null)
             return getContentView().findViewById(id);
         return null;

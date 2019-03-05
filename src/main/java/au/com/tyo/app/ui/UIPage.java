@@ -140,7 +140,7 @@ public interface UIPage extends UIEntity {
 
     String getString(int strResId);
 
-    View findViewById(int id);
+    <T extends View> T findViewById(int id);
 
     void onStart();
 
