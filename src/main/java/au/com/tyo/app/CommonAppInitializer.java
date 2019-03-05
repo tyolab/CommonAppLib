@@ -43,7 +43,8 @@ public class CommonAppInitializer<T extends Controller> extends MultiDexApplicat
             controller = (Controller) CommonInitializer.initializeController(context, true, initializeBackground);
 
             if (controller == null) {
-                throw new IllegalStateException("Controller Impl class can't be detected");
+                // throw new IllegalStateException("Controller Impl class can't be detected");
+                // OK, not gonna throw error here
             }
             else {
                 CommonApp.setInstance(controller);

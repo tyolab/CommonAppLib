@@ -146,6 +146,10 @@ public interface Controller<T extends UI> extends CommonController {
 
 	boolean onSupportNavigateUp();
 
+	boolean isMainThreadInitialised();
+
+	boolean isBackgroundThreadInitialised();
+
     Object getParcel();
 
     void initializeOnce();

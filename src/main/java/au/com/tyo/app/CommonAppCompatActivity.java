@@ -63,6 +63,14 @@ public class CommonAppCompatActivity<ControllerType extends Controller> extends 
         onCreatePage();
 
         if (null != agent.getPage()) {
+        	if (!getPage().isSubpage()) {
+        		if (!controller.isMainThreadInitialised())
+        			controller.initializeInMainThread(this);
+
+        		if (!controller.isBackgroundThreadInitialised())
+        			controller.initializeInBackgroundThread(this);
+			}
+
 			if (!ret)
 				getPage().onPreCreateCheckFailed();
 
