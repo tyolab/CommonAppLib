@@ -121,7 +121,7 @@ public interface UI {
 
     void gotoFormPage(String id, String title);
 
-    void gotoBackgroundProgressStatusPage(Page fromPage);
+    void gotoBackgroundProgressStatusPage(Page fromPage, String title);
 
     UIPage getContextPage();
 

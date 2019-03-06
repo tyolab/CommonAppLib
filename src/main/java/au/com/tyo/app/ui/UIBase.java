@@ -397,8 +397,8 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
     }
 
     @Override
-    public void gotoBackgroundProgressStatusPage(Page fromPage) {
-        gotoPageWithData(fromPage, CommonActivityBackgroundProgress.class, null, false, Constants.REQUEST_CODE_DP_RESULT, null);
+    public void gotoBackgroundProgressStatusPage(Page fromPage, String title) {
+        gotoPageWithData(fromPage, CommonActivityBackgroundProgress.class, null, false, Constants.REQUEST_CODE_DP_RESULT, title);
     }
 
     @Override

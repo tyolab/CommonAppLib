@@ -207,6 +207,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
 
     /**
      * Page Initializer for pages that share the same attributes
+     * it is for all pages in an App
      */
     private PageInitializer pageInitializer;
 
@@ -590,7 +591,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         actionBarMenu.setToolbar(toolbar);
     }
 
-    protected Toolbar getToolbar() {
+    public Toolbar getToolbar() {
         return actionBarMenu.getToolbar();
     }
 
