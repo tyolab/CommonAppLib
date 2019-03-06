@@ -54,6 +54,9 @@
         <activity
             android:name="au.com.tyo.app.ui.activity.CommonActivityWebView"
             />
+
+        <activity android:name="au.com.tyo.app.ui.activity.CommonActivityBackgroundProgress"
+            />
     </application>
 
 
