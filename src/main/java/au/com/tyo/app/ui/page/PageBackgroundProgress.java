@@ -62,8 +62,16 @@ public class PageBackgroundProgress<T extends Controller> extends Page<T> {
         this.taskId = taskId;
     }
 
+    /**
+     * Update the progress text,
+     *
+     * NOTE:
+     *
+     * ' ' + progress = 32 + progress
+     * if progress = 98, so the result is 130
+     */
     protected void updateProgressInfo() {
-        updateProgressInfo(' ' + progress + "%" );
+        updateProgressInfo(progress + "%" );
     }
 
     protected void updateProgressInfo(String text) {
@@ -87,13 +95,15 @@ public class PageBackgroundProgress<T extends Controller> extends Page<T> {
 
             int lp = (int) msg.obj;
 
+            if (lp > 100) {
+                Log.w(TAG, "Progress just has jumped over 100");
+                return;
+            }
+
             if (lp > progress) {
                 progress = lp;
                 updateProgress();
             }
-
-            if (progress == 75)
-                Log.d(TAG, "Progress just got jumped to 75");
         }
         else if (msg.what == Constants.MESSAGE_BROADCAST_BACKGROUND_TASK_RESULT) {
             getController().onBackgroundDataProcessingTaskFinished(msg.obj);
