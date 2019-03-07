@@ -218,6 +218,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     protected boolean showTitleInToolbar = false;
 
     private boolean keepShowingSuggestionView;
+    private Drawable upArrow;
 
     /**
      *
@@ -231,6 +232,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         this.controller = controller;
         toShowSearchView = false;
         keepShowingSuggestionView = false;
+        upArrow = null;
 
         /**
          * can be set
@@ -1426,15 +1428,19 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         if (null != title && title.length() > 0)
             setPageTitleOnToolbar(title);
 
+        updatePageTitleTextColor();
+    }
+
+    protected void updatePageTitleTextColor() {
         if (titleTextColor != null) {
             setPageToolbarTitleColor(titleTextColor);
 
-            Drawable upArrow;
-
-            if (AndroidUtils.getAndroidVersion() >= 21)
-                upArrow = VectorDrawableCompat.create(getActivity().getResources(), R.drawable.ic_arrow_back_black_24dp, getActivity().getTheme());
-            else
-                upArrow = AppCompatResources.getDrawable(getActivity(), R.drawable.ic_arrow_back_black_24dp);
+            if (null == upArrow) {
+                if (AndroidUtils.getAndroidVersion() >= 21)
+                    upArrow = VectorDrawableCompat.create(getActivity().getResources(), R.drawable.ic_arrow_back_black_24dp, getActivity().getTheme());
+                else
+                    upArrow = AppCompatResources.getDrawable(getActivity(), R.drawable.ic_arrow_back_black_24dp);
+            }
 
             Drawable drawable = DrawableCompat.wrap(upArrow);
             DrawableCompat.setTint(drawable.mutate(), titleTextColor);
