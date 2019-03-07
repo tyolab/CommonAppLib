@@ -99,8 +99,10 @@ public class PageAgent {
 
         if (uiObject instanceof PageActionListener)
             actionListener = (PageActionListener) uiObject;
+    }
 
-        init();
+    public void setController(Controller controller) {
+        this.controller = controller;
     }
 
     public void setPageClass(Class pageClass) {
@@ -381,6 +383,8 @@ public class PageAgent {
     }
 
     public void preInitialize(Bundle savedInstanceState, UIPage screen) {
+
+        init();
 
         if (savedInstanceState != null)
             controller.onRestoreInstanceState(savedInstanceState);

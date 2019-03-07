@@ -56,11 +56,16 @@ public class CommonAppCompatActivity<ControllerType extends Controller> extends 
 		// controller has to be created first
 		createController();
 
-		boolean ret = (beforeCreateCheck());
+		PageAgent agent = getAgent();
 
-        PageAgent agent = getAgent();
+		boolean ret = false;
+		if (null != controller) {
+		    agent.setController(controller);
 
-        onCreatePage();
+			ret = (beforeCreateCheck());
+
+			onCreatePage();
+		}
 
         if (null != agent.getPage()) {
         	if (!getPage().isSubpage()) {
