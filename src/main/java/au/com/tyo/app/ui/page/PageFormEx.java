@@ -67,6 +67,14 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
         this.dataFormEx = dataFormEx;
     }
 
+    public String getFormId() {
+        return formId;
+    }
+
+    public void setFormId(String formId) {
+        this.formId = formId;
+    }
+
     public FormHandler getFormHandler() {
         return formHandler;
     }
@@ -98,13 +106,9 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
                 dataFormEx = (DataFormEx) getForm();
             else if (getForm() instanceof OrderedDataMap) {
                 dataFormEx = new DataFormEx((OrderedDataMap) getForm());
-                dataFormEx.setHeader(R.layout.header);
-                dataFormEx.setFooter(R.layout.footer);
             }
             else if (getForm() instanceof Map) {
                 dataFormEx = new DataFormEx();
-                dataFormEx.setHeader(R.layout.header);
-                dataFormEx.setFooter(R.layout.footer);
                 dataFormEx.putAll((Map<? extends String, ?>) getForm());
             }
         }
@@ -115,13 +119,17 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
             else {
                 dataFormEx = new DataFormEx();
                 dataFormEx.setFormId(formId);
-                dataFormEx.setHeader(R.layout.header);
-                dataFormEx.setFooter(R.layout.footer);
             }
         }
-        else
+        else {
             if (null != formId)
                 dataFormEx.setFormId(formId);
+        }
+
+        if (!dataFormEx.hasFooter())
+            dataFormEx.setFooter(R.layout.form_footer);
+        if (!dataFormEx.hasHeader())
+            dataFormEx.setHeader(R.layout.form_header);
 
         if (null != formHandler)
             formHandler.initializeForm(formId, dataFormEx);

@@ -48,7 +48,10 @@
         <item name="android:textColor">@color/theme_light_text_color</item>
         <item name="android:checkboxStyle">@style/CommonCheckBox.Light</item>
 
+        <!--
+        Use system default
         <item name="colorAccent">#FFC107</item>
+        -->
 
         <item name="android:textColorPrimary">@color/theme_light_text_color</item>
         <item name="android:textColorSecondary">@color/theme_light_text_color</item>
@@ -66,7 +69,10 @@
         <item name="android:textColor">@color/theme_dark_text_color</item>
         <item name="android:checkboxStyle">@style/CommonCheckBox.Dark</item>
 
+        <!--
+        Use system default
         <item name="colorAccent">#00359f</item>
+        -->
 
         <item name="android:color">@color/theme_dark_text_color</item>
         <item name="android:textColorPrimary">@color/theme_dark_text_color</item>
