@@ -214,15 +214,31 @@ public class CommonAppCompatActivity<ControllerType extends Controller> extends 
 
   		agent.onDestroy();
   	}
-	
+
+    /**
+     * The key event can be triggered when the App is not active or already exits
+     * which means the controller is out of scope, or may be not even initialized
+     *
+     * @param keyCode
+     * @param event
+     * @return
+     */
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		return (null != getPage() && getPage().onKeyDown(keyCode, event)) || controller.onKeyDown(keyCode, event) || super.onKeyDown(keyCode, event);
+		return (null != getPage() && getPage().onKeyDown(keyCode, event)) || super.onKeyDown(keyCode, event);
 	}
 
+    /**
+     * The key event can be triggered when the App is not active or already exits
+     * which means the controller is out of scope, or may be not even initialized
+     *
+     * @param keyCode
+     * @param event
+     * @return
+     */
 	@Override
 	public boolean onKeyUp(int keyCode, KeyEvent event) {
-		return (null != getPage() && getPage().onKeyUp(keyCode, event)) || controller.onKeyUp(keyCode, event) || super.onKeyUp(keyCode, event);
+		return (null != getPage() && getPage().onKeyUp(keyCode, event)) || super.onKeyUp(keyCode, event);
 	}
 	
 	@Override
