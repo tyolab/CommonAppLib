@@ -316,16 +316,19 @@ public class CommonAppCompatActivity<ControllerType extends Controller> extends 
 
 	@Override
 	public void finish() {
-		controller.getUi().setPreviousPage(getPage());
+	    if (null != controller) {
+            if (null != controller.getUi())
+                controller.getUi().setPreviousPage(getPage());
+
+            if (controller.getCurrentActivity() == this)
+                controller.setCurrentActivity(null);
+        }
 
 		// page could be null
         if (null != getPage())
 		    getPage().onFinish();
 
 		super.finish();
-
-		if (controller.getCurrentActivity() == this)
-			controller.setCurrentActivity(null);
 	}
 
 	@Override
