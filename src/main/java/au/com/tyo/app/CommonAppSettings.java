@@ -16,7 +16,6 @@ import java.util.Set;
 
 import au.com.tyo.android.AndroidSettings;
 import au.com.tyo.app.api.JSON;
-import au.com.tyo.json.form.DataJson;
 
 /**
  * @author Eric Tang <eric.tang@tyo.com.au>
@@ -94,7 +93,11 @@ public abstract class CommonAppSettings<T1 extends Map, T2 extends Map> extends 
 	 */
 	public void loadAppData(Class<T1> aClass) {
 		appDataClass = aClass;
-        appData = JSON.parse(prefs.getString(PREF_APP_DATA, "{}"), aClass);
+        appData = JSON.parse(prefs.getString(PREF_APP_DATA, getAppDataTemplate(context)), aClass);
+	}
+
+	protected String getAppDataTemplate(Context context) {
+		return "{}";
 	}
 
 	public void saveAppData() {
