@@ -5,7 +5,6 @@ import android.app.Activity;
 import java.util.Map;
 
 import au.com.tyo.app.CommonAppSettings;
-import au.com.tyo.app.Constants;
 import au.com.tyo.app.Controller;
 
 public class PageSettings <T extends Controller> extends PageFormEx<T> {
@@ -29,7 +28,7 @@ public class PageSettings <T extends Controller> extends PageFormEx<T> {
     @Override
     public void onDataBound() {
         if (null == getForm()) {
-            setForm(settings.getAppSettings());
+            setForm(settings.getSettingsCache());
             setEditable(true);
         }
 
@@ -57,7 +56,7 @@ public class PageSettings <T extends Controller> extends PageFormEx<T> {
         if (null == childKey)
             settings.updateSetting(key, value);
         else {
-            Map subsettings = (Map) settings.getAppSettings().get(key);
+            Map subsettings = (Map) settings.getSettingsCache().get(key);
             subsettings.put(childKey, value);
         }
     }

@@ -42,8 +42,8 @@ public abstract class CommonAppSettings<T1 extends Map, T2 extends Map> extends 
     protected Class<T2> appSettingsClass;
     protected Class<T1> appDataClass;
 
-	protected T2 appSettings;
-	protected T1 appData;
+	protected T2 settingsCache;
+	protected T1 userData;
 
 	/**
 	 * Collection of permissions granted
@@ -83,7 +83,7 @@ public abstract class CommonAppSettings<T1 extends Map, T2 extends Map> extends 
 	 */
 	public void loadAppSettings(Class<T2> aClass) {
 		appSettingsClass = aClass;
-        appSettings = JSON.parse(prefs.getString(PREF_APP_SETTINGS, "{}"), aClass);
+        settingsCache = JSON.parse(prefs.getString(PREF_APP_SETTINGS, "{}"), aClass);
 
         loadSettingsIntoMemory();
 	}
@@ -93,7 +93,7 @@ public abstract class CommonAppSettings<T1 extends Map, T2 extends Map> extends 
 	 */
 	public void loadAppData(Class<T1> aClass) {
 		appDataClass = aClass;
-        appData = JSON.parse(prefs.getString(PREF_APP_DATA, getAppDataTemplate(context)), aClass);
+        userData = JSON.parse(prefs.getString(PREF_APP_DATA, getAppDataTemplate(context)), aClass);
 	}
 
 	protected String getAppDataTemplate(Context context) {
@@ -101,31 +101,31 @@ public abstract class CommonAppSettings<T1 extends Map, T2 extends Map> extends 
 	}
 
 	public void saveAppData() {
-        updatePreference(PREF_APP_DATA, JSON.toJson(appData));
+        updatePreference(PREF_APP_DATA, JSON.toJson(userData));
     }
 
     public void commit() {
-        updatePreference(PREF_APP_SETTINGS, JSON.toJson(appSettings));
+        updatePreference(PREF_APP_SETTINGS, JSON.toJson(settingsCache));
     }
 
 	public boolean toShowSearchBar() {
 		return alwaysShowSearchBar;
 	}
 
-    public T2 getAppSettings() {
-        return appSettings;
+    public T2 getSettingsCache() {
+        return settingsCache;
     }
 
-    public void setAppSettings(T2 appSettings) {
-        this.appSettings = appSettings;
+    public void setSettingsCache(T2 settingsCache) {
+        this.settingsCache = settingsCache;
     }
 
-    public T1 getAppData() {
-        return appData;
+    public T1 getUserData() {
+        return userData;
     }
 
-    public void setAppData(T1 appData) {
-        this.appData = appData;
+    public void setUserData(T1 userData) {
+        this.userData = userData;
     }
 
     /**
@@ -136,14 +136,14 @@ public abstract class CommonAppSettings<T1 extends Map, T2 extends Map> extends 
     }
 
     public void updateSetting(String key, Object value) {
-    	if (null == appSettings)
+    	if (null == settingsCache)
     		try {
-				appSettings = appSettingsClass.newInstance();
+				settingsCache = appSettingsClass.newInstance();
 			}
     		catch (Exception ex) {
-    			Log.e(LOG_TAG, "appSettings is null, and failed to create an instance for it", ex);
+    			Log.e(LOG_TAG, "settingsCache is null, and failed to create an instance for it", ex);
 			}
-    	appSettings.put(key, value);
+    	settingsCache.put(key, value);
 	}
 
 	public boolean hasPermission(String permission) {
