@@ -502,8 +502,8 @@ public class PageAgent {
          * comment it off fow now
          */
         // processExtras();
-
-        page.onResume();
+        if (null != page)
+            page.onResume();
     }
 
     public boolean onDestroy() {
@@ -524,7 +524,7 @@ public class PageAgent {
      *
      */
     private void setControllerContext() {
-        if (isActivity()) {
+        if (isActivity() && null != controller) {
             controller.setCurrentActivity(getActivity());
             controller.setContext(getActivity());
         }
@@ -535,6 +535,7 @@ public class PageAgent {
      * @param intent
      */
     public void handleIntent(Intent intent) {
-        page.handleIntent(intent);
+        if (null != getPage())
+            getPage().handleIntent(intent);
     }
 }
