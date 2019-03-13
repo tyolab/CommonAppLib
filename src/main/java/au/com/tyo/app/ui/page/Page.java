@@ -46,6 +46,7 @@ import java.util.Map;
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
+import au.com.tyo.android.AndroidHelper;
 import au.com.tyo.android.AndroidUtils;
 import au.com.tyo.android.CommonInitializer;
 import au.com.tyo.android.CommonPermission;
@@ -1495,11 +1496,17 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
 
     protected boolean onMenuCreated(Menu menu) {
         // by default no menu created
-        getActionBarMenu().setupMenu(menu, this);
-        getActionBarMenu().setMenuTextColor(titleTextColor);
+        setupMenuItemOnClickListener(menu);
+
+        if (null != titleTextColor)
+            getActionBarMenu().setMenuTextColor(titleTextColor);
 
         onMenuPostCreated();
         return true;
+    }
+
+    protected void setupMenuItemOnClickListener(Menu menu) {
+        getActionBarMenu().setupMenu(menu, this);
     }
 
     protected void onMenuPostCreated() {
@@ -1647,18 +1654,11 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     }
 
     public void setPageInFullScreenMode() {
-        View decorView = getActivity().getWindow().getDecorView();
-        // Hide the status bar.
-        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
-        int oldOptions = decorView.getSystemUiVisibility();
-        decorView.setSystemUiVisibility(uiOptions | oldOptions);
+        AndroidHelper.setFullScreenMode(getActivity());
     }
 
     public void hideHardwareButtons() {
-        View decorView = getActivity().getWindow().getDecorView();
-        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
-        int oldOptions = decorView.getSystemUiVisibility();
-        decorView.setSystemUiVisibility(uiOptions | oldOptions);
+        AndroidHelper.hideHardwareButtons(getActivity());
     }
 
     @Override

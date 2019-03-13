@@ -772,7 +772,7 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
             saveAndFinish();
             return true;
         }
-        return false;
+        return super.onMenuItemClick(item);
     }
 
     @Override

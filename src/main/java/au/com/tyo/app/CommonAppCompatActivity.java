@@ -53,10 +53,11 @@ public class CommonAppCompatActivity<ControllerType extends Controller> extends 
 	@SuppressLint("MissingSuperCall")
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// controller has to be created first
-		createController();
 
 		PageAgent agent = getAgent();
+
+		// controller has to be created first
+		createController();
 
 		boolean ret = false;
 		if (null != controller) {
