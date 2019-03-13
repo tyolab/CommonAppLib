@@ -115,7 +115,7 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
 
         if (null == dataFormEx) {
             if (null == formId)
-                throw new IllegalStateException("Both form id and data form object are not set.");
+                throw new IllegalStateException(getClass().getName() + ": Both form id and data form object are not set.");
             else {
                 dataFormEx = new DataFormEx();
                 dataFormEx.setFormId(formId);
