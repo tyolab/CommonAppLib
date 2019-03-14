@@ -8,10 +8,12 @@ import android.content.IntentFilter;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import au.com.tyo.app.CommonLog;
 import au.com.tyo.app.Constants;
 import au.com.tyo.app.ui.UIEntity;
 
@@ -218,12 +220,14 @@ public class PageFragment implements UIEntity {
     }
 
     public void registerBroadcastReceivers() {
+        CommonLog.d(this, "register broadcast receiver");
         IntentFilter f = new IntentFilter(Constants.ACTION_MESSAGE_RECEIVER);
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(messageReceiver, f);
     }
 
     public void unregisterBroadcastReceivers() {
         if (null != messageReceiver) {
+            Log.d(getClass().getSimpleName(), "unregister broadcast receiver");
             LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(messageReceiver);
             messageReceiver = null;
         }

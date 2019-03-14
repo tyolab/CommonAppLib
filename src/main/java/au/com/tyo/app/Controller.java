@@ -18,6 +18,7 @@ import java.util.List;
 import au.com.tyo.android.CommonController;
 import au.com.tyo.android.NetworkMonitor;
 import au.com.tyo.android.services.ImageDownloader;
+import au.com.tyo.android.services.ServiceRunner;
 import au.com.tyo.app.model.DisplayItem;
 import au.com.tyo.app.model.ImagedSearchableItem;
 import au.com.tyo.app.model.Searchable;
@@ -180,7 +181,7 @@ public interface Controller<T extends UI> extends CommonController {
 
 	void broadcastMessageBackgroundTaskDone();
 
-	void onBackgroundDataProcessingTaskFinished(Object obj);
+	void onDataProcessingResultReceived(Object obj);
 
     void onBackgroundTaskFinished(int taskId);
 
@@ -189,4 +190,6 @@ public interface Controller<T extends UI> extends CommonController {
 	void search(String query);
 
     void onSettingsUpdated();
+
+    ServiceRunner getDpServiceRunner();
 }

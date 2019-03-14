@@ -89,6 +89,11 @@ public class PageBackgroundProgress<T extends Controller> extends Page<T> {
         tvProgressInfo = (TextView) findViewById(R.id.tv_progress_info);
     }
 
+    /**
+     * Should only handle the message related to the UI updates
+     *
+     * @param msg
+     */
     @Override
     protected void handleBroadcastMessage(Message msg) {
         if (msg.what == Constants.MESSAGE_BROADCAST_BACKGROUND_PROGRESS) {
@@ -106,11 +111,12 @@ public class PageBackgroundProgress<T extends Controller> extends Page<T> {
             }
         }
         else if (msg.what == Constants.MESSAGE_BROADCAST_BACKGROUND_TASK_RESULT) {
-            getController().onBackgroundDataProcessingTaskFinished(msg.obj);
-            finish();
+            // getController().onDataProcessingResultReceived(msg.obj);
+            // finish();
+            // no need to do anything
         }
         else if (msg.what == Constants.MESSAGE_BROADCAST_BACKGROUND_TASK_DONE) {
-            getController().onBackgroundTaskFinished(taskId);
+            finish();
         }
         else
             super.handleBroadcastMessage(msg);

@@ -37,6 +37,7 @@ import au.com.tyo.android.DialogFactory;
 import au.com.tyo.android.NetworkMonitor;
 import au.com.tyo.android.services.HttpAndroid;
 import au.com.tyo.android.services.ImageDownloader;
+import au.com.tyo.android.services.ServiceRunner;
 import au.com.tyo.app.model.DisplayItem;
 import au.com.tyo.app.model.ImagedSearchableItem;
 import au.com.tyo.app.model.Searchable;
@@ -49,6 +50,8 @@ import au.com.tyo.json.form.FormGroup;
 import au.com.tyo.services.HttpPool;
 import au.com.tyo.utils.StringUtils;
 
+import static au.com.tyo.app.Constants.MESSAGE_BROADCAST_BACKGROUND_TASK_DONE;
+import static au.com.tyo.app.Constants.MESSAGE_BROADCAST_BACKGROUND_TASK_RESULT;
 import static au.com.tyo.app.Constants.REQUEST_NONE;
 
 /**
@@ -60,7 +63,7 @@ public abstract class CommonApp<UIType extends UI,
 								SettingType extends DataJson,
 								AppDataType extends DataJson>
         extends CommonApplicationImpl<ControllerType>
-        implements Controller<UIType> {
+        implements Controller<UIType>, ServiceRunner.MessageHandler {
 
 	private static final String TAG = "CommonApp";
 	
@@ -88,6 +91,11 @@ public abstract class CommonApp<UIType extends UI,
 
 	private boolean mainThreadInitialised;
 	private boolean backgroundThreadInitialised;
+
+	/**
+	 * Service Runner for data processing
+	 */
+	protected ServiceRunner dpServiceRunner = null;
 
 	public static class ThemeInfo {
 		int themeId;
@@ -951,7 +959,7 @@ public abstract class CommonApp<UIType extends UI,
 	 * @param obj
 	 */
 	@Override
-    public void onBackgroundDataProcessingTaskFinished(Object obj) {
+    public void onDataProcessingResultReceived(Object obj) {
         // override this, do things like stopping the DP service
     }
 
@@ -992,4 +1000,32 @@ public abstract class CommonApp<UIType extends UI,
 	public void search(String query) {
 		// Override me to implement your own search function
 	}
+
+	@Override
+	public ServiceRunner getDpServiceRunner() {
+		return dpServiceRunner;
+	}
+
+    /**
+     *
+     *
+     *
+     * @param dpServiceRunner
+     */
+	public void installDataProcessingServiceRunner(ServiceRunner dpServiceRunner) {
+		this.dpServiceRunner = dpServiceRunner;
+
+		dpServiceRunner.setMessageHandler(this);
+	}
+
+    @Override
+    public void handleMessageFromService(Message msg) {
+        if (msg.what == Constants.MESSAGE_CLIENT_TASK_RESULT) {
+            onDataProcessingResultReceived(msg.obj);
+            broadcastMessage(MESSAGE_BROADCAST_BACKGROUND_TASK_RESULT, msg.obj);
+        }
+        else if (msg.what == Constants.MESSAGE_CLIENT_TASK_FINISHED) {
+            broadcastMessage(MESSAGE_BROADCAST_BACKGROUND_TASK_DONE);
+        }
+    }
 }
