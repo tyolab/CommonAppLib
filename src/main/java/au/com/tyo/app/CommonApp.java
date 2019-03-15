@@ -493,9 +493,9 @@ public abstract class CommonApp<UIType extends UI,
 
 		setBackgroundThreadInitialised(true);
 
-        if (null != formAbout) {
-            formAbout.initializeForm();
-        }
+//        if (null != formAbout) {
+//            formAbout.initializeForm();
+//        }
 	}
 
 	@Override

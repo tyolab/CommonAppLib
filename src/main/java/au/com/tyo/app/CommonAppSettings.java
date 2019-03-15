@@ -16,6 +16,7 @@ import java.util.Set;
 
 import au.com.tyo.android.AndroidSettings;
 import au.com.tyo.app.api.JSON;
+import au.com.tyo.json.form.DataFormEx;
 
 /**
  * @author Eric Tang <eric.tang@tyo.com.au>
@@ -173,5 +174,17 @@ public abstract class CommonAppSettings<T1 extends Map, T2 extends Map> extends 
             }
         }
         return path;
+    }
+
+	/**
+	 * Override me to make a more custom form
+	 *
+	 * @return
+	 */
+	public DataFormEx getSettingsForm() {
+		if (getSettingsCache() instanceof DataFormEx)
+			return (DataFormEx) getSettingsCache();
+
+		return new DataFormEx(getSettingsCache());
     }
 }

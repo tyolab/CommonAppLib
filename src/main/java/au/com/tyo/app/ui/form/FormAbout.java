@@ -14,6 +14,8 @@ import au.com.tyo.json.form.FormGroup;
  */
 public class FormAbout extends DataFormEx {
 
+    public static final String FORM_ID = "about";
+
     private final Context context;
     private boolean showAcknowledgement;
     private String acknowledgementTitle;
@@ -23,6 +25,8 @@ public class FormAbout extends DataFormEx {
 
         setTitle(context.getString(R.string.about));
         setEditable(false);
+        setFormId(FORM_ID);
+        setShowAcknowledgement(true);
     }
 
     public boolean isShowAcknowledgement() {
@@ -35,8 +39,6 @@ public class FormAbout extends DataFormEx {
 
     @Override
     public void initializeForm() {
-        super.initializeForm();
-
         FormGroup aboutGroup = new FormGroup(context.getString(R.string.app_information));
         aboutGroup.setShowingTitle(true);
 

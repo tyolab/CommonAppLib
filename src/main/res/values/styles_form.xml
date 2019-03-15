@@ -14,8 +14,9 @@
         <item name="android:paddingTop">12dp</item>
         <item name="android:paddingBottom">12dp</item>
         <item name="android:paddingLeft">@dimen/form_row_padding_left</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:textColor">?attr/colorPrimaryTitle</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="AppStyle.Form.LabelField">

@@ -393,6 +393,11 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
     }
 
     @Override
+    public void rateThisApp() {
+        getController().getSettings().getMarket().goToMarket();
+    }
+
+    @Override
     public void gotoListPageForResult(int listId, String title, String fullListTitle, List fullList, String quickAccessTitle, List quickAccess, int[] selected, int requestCode, boolean showSearchBar) {
         Map data = new HashMap();
         data.put(Constants.DATA_LIST_QUICK_ACCESS_TITLE, quickAccessTitle);
