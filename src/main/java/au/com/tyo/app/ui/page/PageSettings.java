@@ -6,6 +6,7 @@ import java.util.Map;
 
 import au.com.tyo.app.CommonAppSettings;
 import au.com.tyo.app.Controller;
+import au.com.tyo.json.form.DataFormEx;
 
 public class PageSettings <T extends Controller> extends PageFormEx<T> {
 
@@ -21,8 +22,13 @@ public class PageSettings <T extends Controller> extends PageFormEx<T> {
         super(controller, activity);
 
         settings = controller.getSettings();
+
+        if (settings.getSettingsCache() instanceof DataFormEx)
+            setDataFormEx((DataFormEx) settings.getSettingsCache());
+
         setEditable(true);
         setMenuEditRequired(false);
+        setFormId(FORM_SETTINGS_ID);
     }
 
     @Override

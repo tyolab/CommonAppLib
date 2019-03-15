@@ -383,6 +383,11 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
     }
 
     @Override
+    public void gotoAboutPage(){
+        gotoAboutPage(null, null);
+    }
+
+    @Override
     public void gotoAboutPage(Map data, String title) {
         gotoPageWithData((Page) getCurrentPage(), CommonActivityAbout.class, data, title);
     }

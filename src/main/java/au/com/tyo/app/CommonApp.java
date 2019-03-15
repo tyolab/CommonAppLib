@@ -43,6 +43,7 @@ import au.com.tyo.app.model.ImagedSearchableItem;
 import au.com.tyo.app.model.Searchable;
 import au.com.tyo.app.ui.UI;
 import au.com.tyo.app.ui.UIBase;
+import au.com.tyo.app.ui.form.FormAbout;
 import au.com.tyo.app.ui.page.Page;
 import au.com.tyo.json.form.DataFormEx;
 import au.com.tyo.json.form.DataJson;
@@ -91,6 +92,8 @@ public abstract class CommonApp<UIType extends UI,
 
 	private boolean mainThreadInitialised;
 	private boolean backgroundThreadInitialised;
+
+	private FormAbout formAbout;
 
 	/**
 	 * Service Runner for data processing
@@ -489,6 +492,10 @@ public abstract class CommonApp<UIType extends UI,
 		}
 
 		setBackgroundThreadInitialised(true);
+
+        if (null != formAbout) {
+            formAbout.initializeForm();
+        }
 	}
 
 	@Override
@@ -1027,5 +1034,14 @@ public abstract class CommonApp<UIType extends UI,
         else if (msg.what == Constants.MESSAGE_CLIENT_TASK_FINISHED) {
             broadcastMessage(MESSAGE_BROADCAST_BACKGROUND_TASK_DONE);
         }
+    }
+
+    @Override
+    public FormAbout getFormAbout() {
+        return formAbout;
+    }
+
+    public void setFormAbout(FormAbout formAbout) {
+        this.formAbout = formAbout;
     }
 }

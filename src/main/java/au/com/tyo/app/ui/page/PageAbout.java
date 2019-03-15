@@ -15,6 +15,8 @@ public class PageAbout<T extends Controller> extends PageFormEx<T> {
 
         setEditable(false);
         setMenuEditRequired(false);
+
+        setDataFormEx(controller.getFormAbout());
     }
 
 }

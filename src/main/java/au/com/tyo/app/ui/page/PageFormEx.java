@@ -97,8 +97,8 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
         /**
          * Normally, we use controller to handle the form
          */
-        if (formHandler == null && getController() instanceof FormHandler)
-            setFormHandler((FormHandler) getController());
+        if (formHandler == null && null != getController().getFormHandler())
+            setFormHandler(getController().getFormHandler());
 
         if (null != getForm()) {
             // if we can get the form which means we don't need to do the initialization
@@ -133,6 +133,11 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
 
         if (null != formHandler)
             formHandler.initializeForm(formId, dataFormEx);
+
+        if (!dataFormEx.isInitialized()) {
+            dataFormEx.initializeForm();
+            dataFormEx.setInitialized(true);
+        }
 
         setForm(dataFormEx);
 

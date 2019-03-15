@@ -23,6 +23,8 @@ import au.com.tyo.app.model.DisplayItem;
 import au.com.tyo.app.model.ImagedSearchableItem;
 import au.com.tyo.app.model.Searchable;
 import au.com.tyo.app.ui.UI;
+import au.com.tyo.app.ui.form.FormAbout;
+import au.com.tyo.app.ui.page.PageFormEx;
 
 /**
  * @author Eric Tang <eric.tang@tyo.com.au>
@@ -192,4 +194,8 @@ public interface Controller<T extends UI> extends CommonController {
     void onSettingsUpdated();
 
     ServiceRunner getDpServiceRunner();
+
+    PageFormEx.FormHandler getFormHandler();
+
+	FormAbout getFormAbout();
 }
