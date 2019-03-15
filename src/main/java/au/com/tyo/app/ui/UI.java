@@ -115,6 +115,8 @@ public interface UI {
 
     void gotoMainPage(Page fromPage);
 
+    void gotoMainPage();
+
     void gotoAboutPage(Map data, String title);
 
     void gotoListPageForResult(int listId, String title, String fullListTitle, List fullList, String quickAccessTitle, List quickAccess, int[] selected, int requestCode, boolean showSearchBar);

@@ -26,6 +26,7 @@ import au.com.tyo.android.DialogFactory;
 import au.com.tyo.app.ui.activity.CommonActivityAbout;
 import au.com.tyo.app.ui.activity.CommonActivityForm;
 import au.com.tyo.app.ui.activity.CommonActivityList;
+import au.com.tyo.app.ui.activity.CommonActivitySettings;
 import au.com.tyo.app.ui.activity.CommonActivityWebView;
 import au.com.tyo.app.CommonExtra;
 import au.com.tyo.app.Constants;
@@ -373,6 +374,15 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
     }
 
     @Override
+    public void gotoMainPage() {
+        gotoMainPage((Page) getCurrentPage());
+    }
+
+    public void gotoSettingsPage() {
+        gotoPage(CommonActivitySettings.class);
+    }
+
+    @Override
     public void gotoAboutPage(Map data, String title) {
         gotoPageWithData((Page) getCurrentPage(), CommonActivityAbout.class, data, title);
     }
@@ -431,4 +441,5 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
             Log.e(LOG_TAG, "failed to open link: " + url);
         }
     }
+
 }
