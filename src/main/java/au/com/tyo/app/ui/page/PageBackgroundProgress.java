@@ -110,11 +110,10 @@ public class PageBackgroundProgress<T extends Controller> extends Page<T> {
                 updateProgress();
             }
         }
-        else if (msg.what == Constants.MESSAGE_BROADCAST_BACKGROUND_TASK_RESULT) {
-            // getController().onDataProcessingResultReceived(msg.obj);
-            // finish();
-            // no need to do anything
-        }
+        // else if (msg.what == Constants.MESSAGE_BROADCAST_BACKGROUND_TASK_RESULT) {
+        // no need to do anything
+        // let controller deal with the data processing result and broadcast the message
+        // }
         else if (msg.what == Constants.MESSAGE_BROADCAST_BACKGROUND_TASK_DONE) {
             finish();
         }
