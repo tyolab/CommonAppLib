@@ -32,4 +32,28 @@ public class CommonLog {
     public static void wtf(Object object, String message) {
         Log.wtf(object.getClass().getSimpleName(), message);
     }
+
+    public static void d(Object object, String message, Throwable e) {
+        Log.d(object.getClass().getSimpleName(), message, e);
+    }
+
+    public static void e(Object object, String message, Throwable e) {
+        Log.e(object.getClass().getSimpleName(), message, e);
+    }
+
+    public static void i(Object object, String message, Throwable e) {
+        Log.i(object.getClass().getSimpleName(), message, e);
+    }
+
+    public static void w(Object object, String message, Throwable e) {
+        Log.w(object.getClass().getSimpleName(), message, e);
+    }
+
+    public static void v(Object object, String message, Throwable e) {
+        Log.v(object.getClass().getSimpleName(), message, e);
+    }
+
+    public static void wtf(Object object, String message, Throwable e) {
+        Log.wtf(object.getClass().getSimpleName(), message, e);
+    }
 }

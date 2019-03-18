@@ -61,8 +61,7 @@ import static au.com.tyo.app.Constants.REQUEST_NONE;
 
 public abstract class CommonApp<UIType extends UI,
 								ControllerType extends Controller,
-								SettingType extends DataJson,
-								AppDataType extends DataJson>
+								SettingsType extends CommonAppSettings>
         extends CommonApplicationImpl<ControllerType>
         implements Controller<UIType>, ServiceRunner.MessageHandler {
 
@@ -72,7 +71,7 @@ public abstract class CommonApp<UIType extends UI,
 	
 	private UIType ui;
 	
-	private CommonAppSettings<AppDataType, SettingType> settings;
+	private SettingsType settings;
 
 	/* other stuff */
 	
@@ -439,12 +438,12 @@ public abstract class CommonApp<UIType extends UI,
 		}
 	}
 	
-	public void setSettings(CommonAppSettings settings) {
+	public void setSettings(SettingsType settings) {
 		this.settings = settings;
 	}
 	
 	@Override
-	public CommonAppSettings getSettings() {
+	public SettingsType getSettings() {
 		return this.settings;
 	}
 
@@ -466,11 +465,11 @@ public abstract class CommonApp<UIType extends UI,
 	public void initializeInMainThread(Context context) {
 		super.initializeInMainThread(context);
 
-        settings = (CommonAppSettings) CommonInitializer.newSettings(context);
+        settings = (SettingsType) CommonInitializer.newSettings(context);
 
         /** maybe if the previous failed we are not creating the default one */
 		if (settings == null)
-			settings = new CommonAppSettings(context) {
+			settings = (SettingsType) new CommonAppSettings(context) {
 
             };
 		

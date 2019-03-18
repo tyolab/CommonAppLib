@@ -23,8 +23,7 @@ public class PageSettings <T extends Controller> extends PageFormEx<T> {
 
         settings = controller.getSettings();
 
-        if (settings.getSettingsForm() instanceof DataFormEx)
-            setDataFormEx((DataFormEx) settings.getSettingsForm());
+        setDataFormEx(settings.getSettingsForm());
 
         setEditable(true);
         setMenuEditRequired(false);

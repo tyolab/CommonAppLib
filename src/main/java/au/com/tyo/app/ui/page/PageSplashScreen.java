@@ -118,7 +118,7 @@ public class PageSplashScreen extends Page implements SplashScreenMessageListene
     public void startBackgroundTasks() {
         synchronized (this) {
             if (!tasksStarted) {
-                new AppInitializer().execute();
+                new BackgroundTaskRunner().execute();
                 tasksStarted = true;
             }
         }
@@ -154,19 +154,19 @@ public class PageSplashScreen extends Page implements SplashScreenMessageListene
         }
     }
 
-    private class AppInitializer extends AsyncTask<Void, Integer, Void> {
+    private class BackgroundTaskRunner extends AsyncTask<Void, Integer, Void> {
 
-        private static final String LOG_TAG = "AppInitializer";
+        private static final String LOG_TAG = "BackgroundTaskRunner";
 
 
-        public AppInitializer() {
+        public BackgroundTaskRunner() {
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
 
-            controller.onBackgroundTaskStarted(PageSplashScreen.this.getActivity());
+            controller.onBackgroundTaskStarted(getActivity());
         }
 
         @Override

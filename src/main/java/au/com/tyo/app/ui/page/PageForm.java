@@ -89,7 +89,7 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
     /**
      * Form locked, so it is unconditional uneditable
      */
-    private                 boolean             locked;
+    protected boolean             locked;
 
     /**
      * Is the form data gets changed
@@ -107,11 +107,22 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
      */
     private                 boolean             exitAfterSaveAction = false;
     private                 boolean             errorHandled = false;
-    private                 boolean             sortFormNeeded = false;
+    protected boolean             sortFormNeeded = false;
 
+    /**
+     * could be Data Map
+     */
     private                 Object              form;
-    private                 JsonForm            jsonForm;
-    private                 FormMetaData        formMetaData;
+
+    /**
+     * For form transforming to json
+     */
+    protected JsonForm            jsonForm;
+
+    /**
+     * Metadata map for form
+     */
+    protected FormMetaData        formMetaData;
     private                 String              formMetaAssetJsonFile;
 
     private                 boolean             menuEditRequired;
@@ -492,10 +503,17 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
         }
     }
 
-    private void createJsonForm() {
+    protected void createJsonForm() {
 
         loadFormMetaData(getActivity());
 
+        formToJsonForm();
+    }
+
+    /**
+     * Convert form data to json form
+     */
+    protected void formToJsonForm() {
         if (null != getForm()) {
             if (form instanceof FormItem)
                 jsonForm = ((FormItem) form).toJsonForm();

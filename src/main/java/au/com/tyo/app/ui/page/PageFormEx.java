@@ -13,6 +13,7 @@ import au.com.tyo.app.Controller;
 import au.com.tyo.app.R;
 import au.com.tyo.json.android.interfaces.CommonListener;
 import au.com.tyo.json.android.interfaces.FieldItem;
+import au.com.tyo.json.android.utils.FormHelper;
 import au.com.tyo.json.form.DataFormEx;
 import au.com.tyo.json.form.FormField;
 import au.com.tyo.json.form.FormGroup;
@@ -100,25 +101,26 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
         if (formHandler == null && null != getController().getFormHandler())
             setFormHandler(getController().getFormHandler());
 
-        if (null != getForm()) {
-            // if we can get the form which means we don't need to do the initialization
-            if (getForm() instanceof DataFormEx)
-                dataFormEx = (DataFormEx) getForm();
-            else if (getForm() instanceof OrderedDataMap) {
-                dataFormEx = new DataFormEx((OrderedDataMap) getForm());
-            }
-            else if (getForm() instanceof Map) {
-                dataFormEx = new DataFormEx();
-                dataFormEx.putAll((Map<? extends String, ?>) getForm());
-            }
-        }
-
         if (null == dataFormEx) {
-            if (null == formId)
-                throw new IllegalStateException(getClass().getName() + ": Both form id and data form object are not set.");
+            if (null != getForm()) {
+                // if we can get the form which means we don't need to do the initialization
+                if (getForm() instanceof DataFormEx)
+                    dataFormEx = (DataFormEx) getForm();
+                else if (getForm() instanceof OrderedDataMap) {
+                    dataFormEx = new DataFormEx((OrderedDataMap) getForm());
+                }
+                else if (getForm() instanceof Map) {
+                    dataFormEx = new DataFormEx();
+                    dataFormEx.putAll((Map<? extends String, ?>) getForm());
+                }
+            }
             else {
-                dataFormEx = new DataFormEx();
-                dataFormEx.setFormId(formId);
+                if (null == formId)
+                    throw new IllegalStateException(getClass().getName() + ": Both form id and data form object are not set.");
+                else {
+                    dataFormEx = new DataFormEx();
+                    dataFormEx.setFormId(formId);
+                }
             }
         }
         else {
@@ -126,20 +128,26 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
                 dataFormEx.setFormId(formId);
         }
 
+        /**
+         * If form has built-in initialization
+         */
+        dataFormEx.initializeForm();
+
+        /**
+         * In case, the form needs to be initialized in the form handler
+         */
+        if (null != formHandler)
+            formHandler.initializeForm(formId, dataFormEx);
+
         if (!dataFormEx.hasFooter())
             dataFormEx.setFooter(R.layout.form_footer);
         if (!dataFormEx.hasHeader())
             dataFormEx.setHeader(R.layout.form_header);
 
-        if (null != formHandler)
-            formHandler.initializeForm(formId, dataFormEx);
-
-        if (!dataFormEx.isInitialized()) {
-            dataFormEx.initializeForm();
-            dataFormEx.setInitialized(true);
-        }
-
-        setForm(dataFormEx);
+        if (null != dataFormEx.getFormData())
+            setForm(dataFormEx.getFormData());
+        else
+            setForm(dataFormEx);
 
         super.onDataBound();
     }
@@ -229,5 +237,13 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
             }
 
         }
+    }
+
+    @Override
+    protected void formToJsonForm() {
+        if (null == dataFormEx)
+            throw new IllegalStateException("The form data (DataFormEx) cannot be null.");
+
+        jsonForm = FormHelper.createForm((Map) dataFormEx, !locked,this, formMetaData, sortFormNeeded);
     }
 }
