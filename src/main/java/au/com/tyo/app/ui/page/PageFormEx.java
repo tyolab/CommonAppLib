@@ -174,7 +174,7 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
     @Override
     public void onFieldClick(String key, String type) {
         if (null != formHandler)
-            formHandler.onFieldClick(dataFormEx.getFormId(), key, type);
+            formHandler.onFieldClick(getFormId() != null ? getFormId() : dataFormEx.getFormId(), key, type);
     }
 
     @Override

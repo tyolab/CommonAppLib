@@ -10,7 +10,7 @@ import au.com.tyo.json.form.DataFormEx;
 
 public class PageSettings <T extends Controller> extends PageFormEx<T> {
 
-    public static final String FORM_SETTINGS_ID = "settings";
+    public static final String FORM_SETTINGS_ID = "form_settings";
 
     private CommonAppSettings settings;
 
