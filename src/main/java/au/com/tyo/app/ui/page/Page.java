@@ -1494,9 +1494,12 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         // no ops
     }
 
+    @OverridingMethodsMustInvokeSuper
     protected boolean onMenuCreated(Menu menu) {
+        getActionBarMenu().setMenu(menu);
+
         // by default no menu created
-        setupMenuItemOnClickListener(menu);
+        setupMenuItemOnClickListener();
 
         if (null != titleTextColor)
             getActionBarMenu().setMenuTextColor(titleTextColor);
@@ -1505,8 +1508,8 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         return true;
     }
 
-    protected void setupMenuItemOnClickListener(Menu menu) {
-        getActionBarMenu().setupMenu(menu, this);
+    protected void setupMenuItemOnClickListener() {
+        getActionBarMenu().setupMenuItemOnClickListener(this);
     }
 
     protected void onMenuPostCreated() {

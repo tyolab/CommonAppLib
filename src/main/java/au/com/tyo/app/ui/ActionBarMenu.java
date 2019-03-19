@@ -12,7 +12,6 @@ import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import java.lang.reflect.Method;
 
@@ -81,9 +80,7 @@ public class ActionBarMenu {
         this.toolbar = toolbar;
     }
 
-    public void setupMenu(Menu menu, MenuItem.OnMenuItemClickListener onMenuItemClickListener) {
-        this.menu = menu;
-
+    public void setupMenuItemOnClickListener(MenuItem.OnMenuItemClickListener onMenuItemClickListener) {
         for (int i = 0; i < menu.size(); ++i) {
             MenuItem menuItem = menu.getItem(i);
             menuItem.setOnMenuItemClickListener(onMenuItemClickListener);
@@ -190,5 +187,9 @@ public class ActionBarMenu {
 
     public void showMenuItem(int menuItemId) {
         setMenuItemVisible(menuItemId, true);
+    }
+
+    public void setMenu(Menu menu) {
+        this.menu = menu;
     }
 }
