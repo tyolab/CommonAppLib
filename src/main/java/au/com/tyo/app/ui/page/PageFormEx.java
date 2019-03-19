@@ -131,6 +131,7 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
         /**
          * If form has built-in initialization
          */
+        dataFormEx.setInitialized(false);
         dataFormEx.initializeForm();
 
         /**
