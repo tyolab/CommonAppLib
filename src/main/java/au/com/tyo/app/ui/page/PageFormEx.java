@@ -50,6 +50,8 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
         String toKey(String formId, String key);
 
         String toTitle(String formId, String key);
+
+        DataFormEx getForm(String formId);
     }
 
     /**
@@ -102,6 +104,9 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
             setFormHandler(getController().getFormHandler());
 
         if (null == dataFormEx) {
+            if (null != formHandler && null != formId)
+                dataFormEx = formHandler.getForm(formId);
+
             if (null != getForm()) {
                 // if we can get the form which means we don't need to do the initialization
                 if (getForm() instanceof DataFormEx)

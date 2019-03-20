@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.KeyEvent;
@@ -175,4 +176,8 @@ public interface UIPage extends UIEntity {
     void finish();
 
     FragmentManager getSupportFragmentManager();
+
+    void onRestoreInstanceState(Bundle savedInstanceState);
+
+    void onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState);
 }

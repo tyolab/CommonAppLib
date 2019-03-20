@@ -13,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
+import android.os.PersistableBundle;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
@@ -1820,5 +1821,15 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     public void onSearchInputFocusEscaped() {
         if (!this.keepShowingSuggestionView)
             setSuggestionViewVisibility(false);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        // no ops
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState) {
+        // no pos
     }
 }

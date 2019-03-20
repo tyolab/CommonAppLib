@@ -3,7 +3,7 @@
     <style name="AppStyle.Form.Group">
 
         <item name="android:background">?attr/formBackgroundStyle</item>
-
+        <item name="android:paddingBottom">12dp</item>
     </style>
 
     <style name="AppStyle.Form.FieldTitle">

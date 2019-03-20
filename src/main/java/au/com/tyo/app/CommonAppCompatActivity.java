@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -378,4 +379,17 @@ public class CommonAppCompatActivity<ControllerType extends Controller> extends 
             }
 	}
 
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+
+		getPage().onRestoreInstanceState(savedInstanceState);
+	}
+
+	@Override
+	public void onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState) {
+		super.onRestoreInstanceState(savedInstanceState, persistentState);
+
+		getPage().onRestoreInstanceState(savedInstanceState, persistentState);
+	}
 }
