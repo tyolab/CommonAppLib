@@ -107,24 +107,24 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
             if (null != formHandler && null != formId)
                 dataFormEx = formHandler.getForm(formId);
 
-            if (null != getForm()) {
-                // if we can get the form which means we don't need to do the initialization
-                if (getForm() instanceof DataFormEx)
-                    dataFormEx = (DataFormEx) getForm();
-                else if (getForm() instanceof OrderedDataMap) {
-                    dataFormEx = new DataFormEx((OrderedDataMap) getForm());
-                }
-                else if (getForm() instanceof Map) {
-                    dataFormEx = new DataFormEx();
-                    dataFormEx.putAll((Map<? extends String, ?>) getForm());
-                }
-            }
-            else {
-                if (null == formId)
-                    throw new IllegalStateException(getClass().getName() + ": Both form id and data form object are not set.");
-                else {
-                    dataFormEx = new DataFormEx();
-                    dataFormEx.setFormId(formId);
+            if (null == dataFormEx) {
+                if (null != getForm()) {
+                    // if we can get the form which means we don't need to do the initialization
+                    if (getForm() instanceof DataFormEx)
+                        dataFormEx = (DataFormEx) getForm();
+                    else if (getForm() instanceof OrderedDataMap) {
+                        dataFormEx = new DataFormEx((OrderedDataMap) getForm());
+                    } else if (getForm() instanceof Map) {
+                        dataFormEx = new DataFormEx();
+                        dataFormEx.putAll((Map<? extends String, ?>) getForm());
+                    }
+                } else {
+                    if (null == formId)
+                        throw new IllegalStateException(getClass().getName() + ": Both form id and data form object are not set.");
+                    else {
+                        dataFormEx = new DataFormEx();
+                        dataFormEx.setFormId(formId);
+                    }
                 }
             }
         }
