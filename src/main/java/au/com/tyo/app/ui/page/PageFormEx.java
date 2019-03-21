@@ -3,6 +3,7 @@ package au.com.tyo.app.ui.page;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.widget.ImageView;
 
 import java.util.List;
@@ -52,6 +53,8 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
         String toTitle(String formId, String key);
 
         DataFormEx getForm(String formId);
+
+        void onFormResume(String formId);
     }
 
     /**
@@ -251,5 +254,17 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
             throw new IllegalStateException("The form data (DataFormEx) cannot be null.");
 
         jsonForm = FormHelper.createForm((Map) dataFormEx, !locked,this, formMetaData, sortFormNeeded);
+    }
+
+    private String getFormIdInternal() {
+        return TextUtils.isEmpty(formId) ? dataFormEx.getFormId() : formId;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (null != formHandler)
+            formHandler.onFormResume(getFormIdInternal());
     }
 }
