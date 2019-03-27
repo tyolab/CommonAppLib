@@ -41,7 +41,7 @@ dependencies {
 
     api project(':CommonUiLib')
     api project(':CommonUtils')
-    api project(':CommonJsonForm')
+
     api project(':CommonJsonFormDroid')
 
     // Calligraphy
