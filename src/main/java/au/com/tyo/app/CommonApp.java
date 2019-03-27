@@ -14,8 +14,8 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.AlertDialog;
+
+import androidx.appcompat.app.AlertDialog;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -30,6 +30,7 @@ import java.util.Observable;
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import au.com.tyo.android.AndroidUtils;
 import au.com.tyo.android.CommonApplicationImpl;
 import au.com.tyo.android.CommonInitializer;
@@ -46,7 +47,6 @@ import au.com.tyo.app.ui.UIBase;
 import au.com.tyo.app.ui.form.FormAbout;
 import au.com.tyo.app.ui.page.Page;
 import au.com.tyo.json.form.DataFormEx;
-import au.com.tyo.json.form.DataJson;
 import au.com.tyo.json.form.FormGroup;
 import au.com.tyo.services.HttpPool;
 import au.com.tyo.utils.StringUtils;

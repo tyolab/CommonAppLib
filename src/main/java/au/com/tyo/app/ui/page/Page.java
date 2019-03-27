@@ -14,17 +14,17 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
 import android.os.PersistableBundle;
-import android.support.graphics.drawable.VectorDrawableCompat;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.content.res.AppCompatResources;
-import android.support.v7.widget.Toolbar;
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.appcompat.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
@@ -841,8 +841,8 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
                     bar.setDisplayShowTitleEnabled(showTitleInToolbar);
                 }
             }
-            else if (barObj instanceof android.support.v7.app.ActionBar) {
-                android.support.v7.app.ActionBar bar = (android.support.v7.app.ActionBar) barObj;
+            else if (barObj instanceof androidx.appcompat.app.ActionBar) {
+                androidx.appcompat.app.ActionBar bar = (androidx.appcompat.app.ActionBar) barObj;
 
                 if (hideActionBar) {
                     bar.hide();

@@ -130,15 +130,15 @@ public class PageAgent {
     }
 
     private boolean isFragment() {
-        return (uiObject instanceof android.support.v4.app.Fragment);
+        return (uiObject instanceof androidx.fragment.app.Fragment);
     }
 
     public Activity getActivity() {
         return (Activity) uiObject;
     }
 
-    public android.support.v4.app.Fragment getFragment() {
-        return (android.support.v4.app.Fragment) uiObject;
+    public androidx.fragment.app.Fragment getFragment() {
+        return (androidx.fragment.app.Fragment) uiObject;
     }
 
     private void init() {

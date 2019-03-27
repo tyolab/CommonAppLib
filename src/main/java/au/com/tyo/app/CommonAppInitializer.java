@@ -6,7 +6,7 @@ package au.com.tyo.app;
 
 import android.app.Application;
 import android.content.Context;
-import android.support.multidex.MultiDexApplication;
+import androidx.multidex.MultiDexApplication;
 import android.util.Log;
 
 import au.com.tyo.android.CommonInitializer;

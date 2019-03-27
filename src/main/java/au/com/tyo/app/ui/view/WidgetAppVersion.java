@@ -1,7 +1,7 @@
 package au.com.tyo.app.ui.view;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.util.AttributeSet;
 
 import au.com.tyo.android.AndroidUtils;
@@ -10,7 +10,7 @@ import au.com.tyo.android.AndroidUtils;
  * Created by Eric Tang (eric.tang@tyo.com.au) on 25/3/18.
  */
 
-public class WidgetAppVersion extends android.support.v7.widget.AppCompatTextView {
+public class WidgetAppVersion extends androidx.appcompat.widget.AppCompatTextView {
 
     private String appVersion;
 

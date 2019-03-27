@@ -4,9 +4,9 @@
 
 package au.com.tyo.app.ui;
 
-import android.support.v7.app.ActionBar;
-import android.support.v7.view.menu.MenuBuilder;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.appcompat.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
@@ -55,8 +55,8 @@ public class ActionBarMenu {
         this.actionBar = actionBar;
     }
 
-    public android.support.v7.app.ActionBar getSupportActionBar() {
-        if (actionBar instanceof android.support.v7.app.ActionBar)
+    public androidx.appcompat.app.ActionBar getSupportActionBar() {
+        if (actionBar instanceof androidx.appcompat.app.ActionBar)
             return (ActionBar) actionBar;
         return null;
     }

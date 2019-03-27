@@ -3,8 +3,8 @@ package au.com.tyo.app;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -261,10 +261,10 @@ public abstract class CommonFragment<T extends Controller> extends Fragment {
     }
 
     protected void showOrHide() {
-        android.support.v4.app.FragmentManager fm = getFragmentManager();
+        androidx.fragment.app.FragmentManager fm = getFragmentManager();
 
         if (null != fm) {
-            android.support.v4.app.FragmentTransaction transaction = fm.beginTransaction();
+            androidx.fragment.app.FragmentTransaction transaction = fm.beginTransaction();
             //.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
 
             if (shallDisplay()) {
