@@ -175,7 +175,7 @@ public class CommonAppCompatActivity<ControllerType extends Controller> extends 
 	 *
 	 * @return
 	 */
-	public Controller getController() {
+	public ControllerType getController() {
 		return controller;
 	}
 
