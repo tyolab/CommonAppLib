@@ -1025,7 +1025,7 @@ public abstract class CommonApp<UIType extends UI,
 	}
 
     @Override
-    public void handleMessageFromService(Message msg) {
+    public void handleMessageFromService(String serviceName, Message msg) {
         if (msg.what == Constants.MESSAGE_CLIENT_TASK_RESULT) {
             onDataProcessingResultReceived(msg.obj);
             broadcastMessage(MESSAGE_BROADCAST_BACKGROUND_TASK_RESULT, msg.obj);
