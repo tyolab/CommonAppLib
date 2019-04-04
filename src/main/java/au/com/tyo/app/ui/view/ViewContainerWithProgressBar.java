@@ -71,7 +71,7 @@ public class ViewContainerWithProgressBar extends FrameLayout {
 
 	public void inflateFromDefaultLayoutResource() {
         LayoutInflater factory = LayoutInflater.from(this.getContext());
-        factory.inflate(R.layout.container_and_progressbar, this);
+        factory.inflate(R.layout.container_and_progressbar, this, true);
 	}
 
 	public ViewGroup getViewContainer() {
