@@ -300,6 +300,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         return result;
     }
 
+    @Override
     public void setResult(Object result) {
         setResult(result, Activity.RESULT_OK);
     }
@@ -969,6 +970,12 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
                     resultIntent.putExtra(resultKey, (Parcelable[]) result);
                 else if (result instanceof String)
                     resultIntent.putExtra(resultKey, (String) result);
+                else if (result instanceof Integer)
+                    resultIntent.putExtra(resultKey, (Integer) result);
+                else if (result instanceof Boolean)
+                    resultIntent.putExtra(resultKey, (Boolean) result);
+                else if (result instanceof Long)
+                    resultIntent.putExtra(resultKey, (Long) result);
                 else {
                     resultIntent.putExtra(Constants.RESULT_LOCATION, Constants.RESULT_LOCATION_CONTROLLER);
                     controller.setResult(result);
