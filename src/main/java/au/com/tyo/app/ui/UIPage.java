@@ -186,4 +186,6 @@ public interface UIPage extends UIEntity {
     void onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState);
 
     Toolbar getToolbar();
+
+    Object getResult();
 }

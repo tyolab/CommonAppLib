@@ -296,6 +296,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         return activity;
     }
 
+    @Override
     public Object getResult() {
         return result;
     }
