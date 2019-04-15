@@ -286,7 +286,7 @@ public class CommonAppCompatActivity<ControllerType extends Controller> extends 
         super.onConfigurationChanged(newConfig);
 
         // needs to recreate UI after configuration changed, from portrait to landscape or the other way around
-        if (null != controller.getUi())
+        if (null != controller && null != controller.getUi())
         	controller.getUi().setUiRecreationRequired(true);
 
         if (null != getPage())
