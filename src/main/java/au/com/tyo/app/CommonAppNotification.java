@@ -14,13 +14,19 @@ import au.com.tyo.app.ui.activity.CommonActivityBackgroundProgress;
 
 public abstract class CommonAppNotification extends CommonNotification {
 
+    private static Class backgroundActivityClass = CommonActivityBackgroundProgress.class;
+
+    public static void setBackgroundActivityClass(Class backgroundActivityClass) {
+        CommonAppNotification.backgroundActivityClass = backgroundActivityClass;
+    }
+
     public CommonAppNotification(Context ctx, CharSequence applicationLabel) {
         super(ctx, applicationLabel);
     }
 
     public static PendingIntent createDataProcessingPageIntent(Context context, int notificationId) {
         Intent intentToLaunchThisActivityFromNotification = new Intent(
-                context, CommonActivityBackgroundProgress.class);
+                context, backgroundActivityClass);
         intentToLaunchThisActivityFromNotification.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                 Intent.FLAG_ACTIVITY_CLEAR_TOP);
 

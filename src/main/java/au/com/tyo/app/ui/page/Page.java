@@ -54,6 +54,7 @@ import au.com.tyo.android.CommonPermission;
 import au.com.tyo.android.utils.ActivityUtils;
 import au.com.tyo.app.CommonAppLog;
 import au.com.tyo.app.CommonExtra;
+import au.com.tyo.app.CommonLog;
 import au.com.tyo.app.Constants;
 import au.com.tyo.app.Controller;
 import au.com.tyo.app.R;
@@ -1315,6 +1316,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     @Override
     public void onFinish() {
         // no ops
+        CommonLog.d(this, "Page Finished");
     }
 
     @Override
