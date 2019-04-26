@@ -128,7 +128,15 @@ public class PageBackgroundProgress<T extends Controller> extends Page<T> {
     @Override
     public boolean onBackPressed() {
         // disable back key
-        getController().getUi().onBackPressedOnProgressPage();
-        return true;
+        if (getController().getUi().onBackPressedOnProgressPage())
+            return true;
+        return super.onBackPressed();
+    }
+
+    @Override
+    public void onActivityStart() {
+        super.onActivityStart();
+
+        setPageTitleOnToolbar(getActivity().getString(R.string.processing_data));
     }
 }

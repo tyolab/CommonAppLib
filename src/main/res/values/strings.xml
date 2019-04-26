@@ -23,5 +23,6 @@
     <string name="tyolab_email">dev@tyo.com.au</string>
     <string name="information">Information</string>
     <string name="app_information">App Information</string>
+    <string name="processing_data">Processing data</string>
 
 </resources>

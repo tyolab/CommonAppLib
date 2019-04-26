@@ -24,9 +24,9 @@ public abstract class CommonAppNotification extends CommonNotification {
         super(ctx, applicationLabel);
     }
 
-    public static PendingIntent createDataProcessingPageIntent(Context context, int notificationId) {
+    public PendingIntent createDataProcessingPageIntent(Context context, int notificationId, int state) {
         Intent intentToLaunchThisActivityFromNotification = new Intent(
-                context, backgroundActivityClass);
+                context, getPendingIntentClassByState(state));
         intentToLaunchThisActivityFromNotification.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                 Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
@@ -35,5 +35,15 @@ public abstract class CommonAppNotification extends CommonNotification {
                 notificationId, intentToLaunchThisActivityFromNotification,
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
         return pendingIntent;
+    }
+
+    /**
+     * Override me when needing providing different activity class for returning for different states
+     *
+     * @param state
+     * @return
+     */
+    public Class getPendingIntentClassByState(int state) {
+        return backgroundActivityClass;
     }
 }

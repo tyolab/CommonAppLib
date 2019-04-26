@@ -1441,6 +1441,9 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
             setPageTitleOnToolbar(title);
 
         updatePageTitleTextColor();
+
+        if (!isSubpage())
+            getController().getUi().setMainPage(this);
     }
 
     protected void updatePageTitleTextColor() {
@@ -1640,8 +1643,9 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     public boolean onDestroy() {
         super.onDestroy();
 
-        if (!isSubpage())
-            getController().getUi().setMainPage(null);
+        // keep it in the memory, it will gone once the whole memory gets recalled
+        // if (!isSubpage())
+        //     getController().getUi().setMainPage(null);
 
         return false;
     }
@@ -1663,8 +1667,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
 
     @Override
     public void onDataBound() {
-        if (!isSubpage())
-            getController().getUi().setMainPage(this);
+        //
     }
 
     public void setPageInFullScreenMode() {

@@ -432,8 +432,9 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
     }
 
     @Override
-    public void onBackPressedOnProgressPage() {
+    public boolean onBackPressedOnProgressPage() {
         // no ops yet
+        return false;
     }
 
     @Override

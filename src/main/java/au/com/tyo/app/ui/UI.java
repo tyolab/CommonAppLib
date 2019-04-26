@@ -133,7 +133,7 @@ public interface UI {
 
     void setContextPage(UIPage contextPage);
 
-    void onBackPressedOnProgressPage();
+    boolean onBackPressedOnProgressPage();
 
     void setPreviousPage(UIPage page);
 
