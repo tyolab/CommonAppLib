@@ -3,6 +3,7 @@ package au.com.tyo.app.ui.page;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
@@ -233,15 +234,24 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
         for (int i = 0; i < list.size(); ++i) {
             FormGroup formGroup = list.get(i);
             Object obj = formGroup.get(keyStr);
+            Drawable drawable = null;
             if (null != obj) {
                 FieldItem item = null;
-                if (obj instanceof FieldItem)
+                if (obj instanceof FieldItem) {
                     item = (FieldItem) obj;
-                else if (obj instanceof FormField && ((FormField) obj).getValue() instanceof FieldItem)
-                    item = (FieldItem) ((FormField) obj).getValue();
-
-                if (null != item)
-                    imageView.setImageDrawable(item.getImageDrawable());
+                    drawable = item.getImageDrawable();
+                }
+                else if (obj instanceof FormField) {
+                    FormField formField = (FormField) obj;
+                    if ((formField).getValue() instanceof FieldItem) {
+                        item = (FieldItem) ((FormField) obj).getValue();
+                        drawable = item.getImageDrawable();
+                    }
+                    else if (formField.getValue() instanceof Drawable)
+                        drawable = (Drawable) formField.getValue();
+                }
+                if (null != drawable)
+                    imageView.setImageDrawable(drawable);
                 break;
             }
 
