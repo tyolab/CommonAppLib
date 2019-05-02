@@ -708,8 +708,8 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
     }
 
     @Override
-    protected void onPageBackgroundTaskFinished() {
-        super.onPageBackgroundTaskFinished();
+    protected void onPageBackgroundTaskFinished(int id) {
+        super.onPageBackgroundTaskFinished(id);
 
         showDataSavedMessage();
 

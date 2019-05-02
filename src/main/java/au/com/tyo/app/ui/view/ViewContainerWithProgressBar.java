@@ -28,6 +28,8 @@ public class ViewContainerWithProgressBar extends FrameLayout {
 	private int progressBarContainerResId = R.id.container_progress_bar;
 
 	private int contentViewResourceId;
+	
+	private int id;
 
 	public ViewContainerWithProgressBar(Context context) {
 		super(context);
@@ -172,8 +174,8 @@ public class ViewContainerWithProgressBar extends FrameLayout {
 		this.contentViewResourceId = resId;
 	}
 
-	public void startTask(Runnable job) {
-		new ProgressTask(job).execute();
+	public void startTask(int id, Runnable job) {
+		new ProgressTask(id, job).execute();
 	}
 
 	public View getContentView() {
@@ -240,8 +242,11 @@ public class ViewContainerWithProgressBar extends FrameLayout {
 
 	public class ProgressTask extends BackgroundTask implements Caller {
 
-		public ProgressTask(Runnable job) {
+		public ProgressTask(int id, Runnable job) {
 			super(job);
+
+			ViewContainerWithProgressBar.this.id = id;
+			
             setCaller(this);
 		}
 
@@ -255,6 +260,11 @@ public class ViewContainerWithProgressBar extends FrameLayout {
 			// addContentView(contentViewResourceId);
 
 			hideProgressBar();
+			
+			onTaskFinished(id);
 		}
+	}
+
+	private void onTaskFinished(int id) {
 	}
 }

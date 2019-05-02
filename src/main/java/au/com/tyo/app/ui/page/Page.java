@@ -1713,17 +1713,24 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     /**
      *
      */
-    public void startBackgroundTask(Runnable runnable) {
+    public void startBackgroundTask(int id, Runnable runnable) {
         setResult(null);
 
         if (null != mainViewContainer)
-            mainViewContainer.startTask(runnable);
+            mainViewContainer.startTask(id, runnable);
         else {
             if (task == null) {
-                task = new ProgressTask(runnable);
+                task = new ProgressTask(id, runnable);
                 task.execute();
             }
         }
+    }
+
+    /**
+     *
+     */
+    public void startBackgroundTask(Runnable runnable) {
+        startBackgroundTask(-1, runnable);
     }
 
     /**
@@ -1737,8 +1744,13 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
 
     public class ProgressTask extends ViewContainerWithProgressBar.BackgroundTask implements ViewContainerWithProgressBar.Caller {
 
-        public ProgressTask(Runnable job) {
+        private int id;
+
+        public ProgressTask(int id, Runnable job) {
             super(job);
+
+            this.id = id;
+
             setCaller(this);
         }
 
@@ -1756,13 +1768,13 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
 
             hideProgressBar();
 
-            onPageBackgroundTaskFinished();
+            onPageBackgroundTaskFinished(id);
 
             task = null;
         }
     }
 
-    protected void onPageBackgroundTaskFinished() {
+    protected void onPageBackgroundTaskFinished(int id) {
         hideProgressBar();
     }
 
