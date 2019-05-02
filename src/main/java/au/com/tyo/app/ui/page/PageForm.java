@@ -24,6 +24,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -44,6 +46,7 @@ import au.com.tyo.app.Constants;
 import au.com.tyo.app.Controller;
 import au.com.tyo.app.R;
 import au.com.tyo.app.api.JSON;
+import au.com.tyo.json.android.fragments.JsonFormFragment;
 import au.com.tyo.json.form.FieldValue;
 import au.com.tyo.json.form.FormItem;
 import au.com.tyo.json.form.FormMetaData;
@@ -53,6 +56,7 @@ import au.com.tyo.json.android.fragments.FormFragment;
 import au.com.tyo.json.android.interfaces.JsonApi;
 import au.com.tyo.json.android.utils.FormHelper;
 import au.com.tyo.json.util.TitleKeyConverter;
+import au.com.tyo.json.validator.Validator;
 
 import static au.com.tyo.json.android.constants.JsonFormConstants.FIRST_STEP_NAME;
 
@@ -117,12 +121,12 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
     /**
      * For form transforming to json
      */
-    protected JsonForm            jsonForm;
+    protected               JsonForm            jsonForm;
 
     /**
      * Metadata map for form
      */
-    protected FormMetaData        formMetaData;
+    protected               FormMetaData        formMetaData;
     private                 String              formMetaAssetJsonFile;
 
     private                 boolean             menuEditRequired;
@@ -871,8 +875,14 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
     }
 
     @Override
-    public void onValidateRequiredFormFieldFailed(String key) {
+    public boolean onValidateRequiredFormFieldFailed(String key, String errorMessage) {
         Log.e(TAG, "Form validation failed - key:" + key);
+        View view = getJsonFormFragment().getInputViewByKey(key);
+        if (null != view) {
+            if (view instanceof EditText)
+                ((EditText) view).setError(errorMessage);
+        }
+        return false;
     }
 
     public void enableFormField(String key, boolean enabled) {
@@ -881,5 +891,11 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
 
     public void updateFormField(String key, Object obj) {
         getJsonFormFragment().updateForm(key, obj);
+    }
+
+    @Override
+    public void installValidator(String keyStr, Validator validator) {
+        JsonFormFragment.FieldMetadata formFieldMetaData = getJsonFormFragment().getMetadataMap().get(keyStr);
+        formFieldMetaData.addValidator(validator);
     }
 }

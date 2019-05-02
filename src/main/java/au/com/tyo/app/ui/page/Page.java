@@ -1819,7 +1819,6 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
             if (data.hasExtra(Constants.RESULT_LOCATION))
                 resultInController = data.getStringExtra(Constants.RESULT_LOCATION).equals(Constants.RESULT_LOCATION_CONTROLLER);
 
-
             if (!resultInController)
                 result = ActivityUtils.getActivityResult(data);
             else

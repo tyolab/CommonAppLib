@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import java.util.List;
@@ -56,6 +57,12 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
         DataFormEx getForm(String formId);
 
         void onFormResume(String formId);
+
+        boolean validate(String key, String text);
+
+        boolean hasValidator(String keyStr);
+
+        void installValidator(String keyStr, EditText editText);
     }
 
     /**
@@ -277,4 +284,19 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
         if (null != formHandler)
             formHandler.onFormResume(getFormIdInternal());
     }
+
+    @Override
+    public boolean validate(String stepName, String key, String text) {
+        if (null != formHandler)
+            return formHandler.validate(key, text);
+        return false;
+    }
+
+    @Override
+    public boolean hasValidator(String keyStr) {
+        if (null != formHandler)
+            return formHandler.hasValidator(keyStr);
+        return false;
+    }
+
 }
