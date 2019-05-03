@@ -880,8 +880,10 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
         Log.e(TAG, "Form validation failed - key:" + key);
         View view = getJsonFormFragment().getInputViewByKey(key);
         if (null != view) {
-            if (view instanceof EditText)
+            if (view instanceof EditText) {
                 ((EditText) view).setError(errorMessage);
+                return true;
+            }
         }
         return false;
     }
