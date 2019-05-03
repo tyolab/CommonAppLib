@@ -392,4 +392,10 @@ public class CommonAppCompatActivity<ControllerType extends Controller> extends 
 
 		getPage().onRestoreInstanceState(savedInstanceState, persistentState);
 	}
+
+	@Override
+	public void onBackPressed() {
+		if (null == getPage() || !getPage().onBackPressed())
+			super.onBackPressed();
+	}
 }

@@ -25,4 +25,7 @@
     <string name="app_information">App Information</string>
     <string name="processing_data">Processing data</string>
 
+    <string name="error">Error</string>
+    <string name="message_form_validation_error">Validation failed. Please check your changes,</string>
+
 </resources>

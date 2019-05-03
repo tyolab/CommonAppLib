@@ -138,4 +138,6 @@ public interface UI {
     void setPreviousPage(UIPage page);
 
     void openUrl(String url);
+
+    void showFormValidationFailureDialog();
 }

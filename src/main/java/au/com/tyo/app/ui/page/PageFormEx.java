@@ -58,11 +58,11 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
 
         void onFormResume(String formId);
 
-        boolean validate(String key, String text);
+        // boolean validate(String key, String text);
+        //
+        // boolean hasValidator(String keyStr);
 
-        boolean hasValidator(String keyStr);
-
-        void installValidator(String keyStr, EditText editText);
+        // void installValidator(String keyStr, EditText editText);
     }
 
     /**
@@ -285,18 +285,18 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
             formHandler.onFormResume(getFormIdInternal());
     }
 
-    @Override
-    public boolean validate(String stepName, String key, String text) {
-        if (null != formHandler)
-            return formHandler.validate(key, text);
-        return false;
-    }
-
-    @Override
-    public boolean hasValidator(String keyStr) {
-        if (null != formHandler)
-            return formHandler.hasValidator(keyStr);
-        return false;
-    }
+    // @Override
+    // public boolean validate(String stepName, String key, String text) {
+    //     if (null != formHandler)
+    //         return formHandler.validate(key, text);
+    //     return false;
+    // }
+    //
+    // @Override
+    // public boolean hasValidator(String keyStr) {
+    //     if (null != formHandler)
+    //         return formHandler.hasValidator(keyStr);
+    //     return false;
+    // }
 
 }

@@ -205,4 +205,10 @@ public class CommonFragmentActivity extends FragmentActivity implements UIActivi
 	public void onUiReady() {
 
 	}
+
+	@Override
+	public void onBackPressed() {
+		if (null == getPage() || !getPage().onBackPressed())
+			super.onBackPressed();
+	}
 }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2019. TYONLINE TECHNOLOGY PTY. LTD. (TYOLAB)
+  ~
+  -->
+
+<resources>
+    <string-array name="dialog_form_validation_failed">
+        <item name="title">@string/error</item>
+        <item name="message">@string/message_form_validation_error</item>
+    </string-array>
+</resources>

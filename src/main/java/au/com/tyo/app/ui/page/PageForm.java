@@ -39,6 +39,7 @@ import java.util.Map;
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
+import au.com.tyo.android.DialogFactory;
 import au.com.tyo.android.utils.ResourceUtils;
 import au.com.tyo.android.utils.SimpleDateUtils;
 import au.com.tyo.app.CommonAppData;
@@ -589,7 +590,7 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
     }
 
     protected boolean checkBeforeSave() {
-        if (formValidationRequired)
+        if (isFormValidationRequired())
             return getJsonFormFragment().validateForm() && checkOthers();
         return true;
     }
@@ -897,5 +898,34 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
     public void installValidator(String keyStr, Validator validator) {
         JsonFormFragment.FieldMetadata formFieldMetaData = getJsonFormFragment().getMetadataMap().get(keyStr);
         formFieldMetaData.addValidator(validator);
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        if (isDirty() && isFormValidationRequired()) {
+            if (!getJsonFormFragment().validateForm()) {
+                getController().getUi().showFormValidationFailureDialog();
+                return true;
+            }
+        }
+        return super.onBackPressed();
+    }
+
+    /**
+     * Validate Edit Text, but don't do it as it could be just in the middle of changing
+     *
+     * @param key
+     * @param text
+     * @return
+     */
+    @Override
+    public boolean validate(String key, String text) {
+        String errorMessage =
+            getJsonFormFragment().validateField(key, text);
+        if (null != errorMessage) {
+            onValidateRequiredFormFieldFailed(key, errorMessage);
+            return false;
+        }
+        return true;
     }
 }

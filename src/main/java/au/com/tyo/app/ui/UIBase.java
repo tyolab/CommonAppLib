@@ -453,4 +453,9 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
         }
     }
 
+    @Override
+    public void showFormValidationFailureDialog() {
+        // no, not by default
+        // override me to show yours
+    }
 }
