@@ -27,6 +27,8 @@ public class FormAbout extends DataFormEx {
         setEditable(false);
         setFormId(FORM_ID);
         setShowAcknowledgement(true);
+        setEditable(false);
+        setLocked(true);
     }
 
     public boolean isShowAcknowledgement() {
