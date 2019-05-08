@@ -10,6 +10,7 @@ import android.content.Context;
 import android.util.Log;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -49,7 +50,7 @@ public abstract class CommonAppSettings<T1 extends Map, T2 extends Map> extends 
 	/**
 	 * Collection of permissions granted
 	 */
-	private Set<String> permissionsGranted;
+	// private Set<String> permissionsGranted;
 
 	public CommonAppSettings(Context context) {
 		super(context);
@@ -148,17 +149,30 @@ public abstract class CommonAppSettings<T1 extends Map, T2 extends Map> extends 
 	}
 
 	public boolean hasPermission(String permission) {
-		return null != permissionsGranted && permissionsGranted.contains(permission);
+    	Map userData = getUserData();
+    	boolean ret = false;
+    	try {
+    		ret = ((Boolean) userData.get(permission));
+		}
+    	catch (Exception ex)  {
+    		userData.put(permission, false);
+    		saveAppData();
+		}
+		return userData.containsKey(permission) && ret;
 	}
 	
 	public void grantPermission(String permission) {
-		if (permissionsGranted == null)
-			permissionsGranted = new HashSet();
-		permissionsGranted.add(permission);
+		// if (permissionsGranted == null)
+		// 	permissionsGranted = new HashSet();
+		// permissionsGranted.add(permission);
+
+		// for the problem of type conversion, could be Double after loading from class
+		getUserData().put(permission, true);
+		saveAppData();
 	}
 
 	public boolean hasStorageWritePermission() {
-        return null != permissionsGranted && permissionsGranted.contains(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        return hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }
 
     @Override

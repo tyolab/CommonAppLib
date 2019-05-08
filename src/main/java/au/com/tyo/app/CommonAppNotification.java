@@ -24,6 +24,10 @@ public abstract class CommonAppNotification extends CommonNotification {
         super(ctx, applicationLabel);
     }
 
+    public CommonAppNotification(Context ctx, CharSequence applicationLabel, int importance) {
+        super(ctx, applicationLabel, importance);
+    }
+
     public PendingIntent createDataProcessingPageIntent(Context context, int notificationId, int state) {
         Intent intentToLaunchThisActivityFromNotification = new Intent(
                 context, getPendingIntentClassByState(state));

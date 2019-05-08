@@ -1599,14 +1599,17 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
             List<String> list = new ArrayList();
 
             for (String permission : getRequiredPermissions()) {
-                if (Build.VERSION.SDK_INT >= 23) {
-                    if (!CommonPermission.checkPermission(getActivity(), permission))
-                        list.add(permission);
-                    else
+                boolean hasThisPermission = getController().getSettings().hasPermission(permission);
+
+                if (!hasThisPermission) {
+                    if (Build.VERSION.SDK_INT >= 23) {
+                        if (!CommonPermission.checkPermission(getActivity(), permission))
+                            list.add(permission);
+                        else
+                            onRequestedPermissionsGranted(permission);
+                    } else
                         onRequestedPermissionsGranted(permission);
                 }
-                else
-                    onRequestedPermissionsGranted(permission);
             }
 
             if (list.size() > 0) {
