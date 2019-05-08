@@ -135,6 +135,8 @@ public interface UI {
 
     boolean onBackPressedOnProgressPage();
 
+    UIPage getPreviousPage();
+
     void setPreviousPage(UIPage page);
 
     void openUrl(String url);

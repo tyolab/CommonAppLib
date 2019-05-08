@@ -81,6 +81,7 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
         return currentScreen;
     }
 
+    @Override
     public UIPage getPreviousPage() {
         return previousPage;
     }
@@ -207,6 +208,7 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
     }
 
     public void startActivity(Page fromPage, Class cls, int flags, String key, Object data, View view, int requestCode) {
+        setPreviousPage(fromPage);
         startActivity(fromPage, cls, flags, key, data, view, requestCode, false);
     }
 
@@ -293,7 +295,7 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
 
     @Override
     public void gotoPage(Page fromPage, Class cls) {
-        startActivity(fromPage, cls);
+        gotoPage(fromPage, cls, null);
     }
 
     @Override

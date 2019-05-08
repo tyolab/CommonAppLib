@@ -1088,11 +1088,15 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
 
     @Override
     public void startActivity(Class cls, int flags, String key, Object data, View view, int requestCode) {
-        startActivity(activity, cls, flags, key, data, view, requestCode, false);
+        startActivity(cls, flags, key, data, view, requestCode, false);
     }
 
     @Override
     public void startActivity(Class cls, int flags, String key, Object data, View view, int requestCode, boolean isMainActivity) {
+        // set the previous page
+        getController().getUi().setPreviousPage(this);
+
+        // static call
         startActivity(activity, cls, flags, key, data, view, requestCode, isMainActivity);
     }
 
