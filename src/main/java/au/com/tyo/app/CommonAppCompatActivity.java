@@ -16,6 +16,8 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import javax.annotation.OverridingMethodsMustInvokeSuper;
+
 import au.com.tyo.app.ui.UIActivity;
 import au.com.tyo.app.ui.UIPage;
 
@@ -128,8 +130,9 @@ public class CommonAppCompatActivity<ControllerType extends Controller> extends 
     }
 
 	/**
-	 *
+	 * Things to do after page is created
 	 */
+	@OverridingMethodsMustInvokeSuper
     protected void onPageCreated() {
 
 		UIPage page = getPage();
@@ -139,6 +142,8 @@ public class CommonAppCompatActivity<ControllerType extends Controller> extends 
 			return;
 		}
 		page.onPostCreate(null);
+
+		controller.getUi().setContextPage(page);
     }
 
     @Override
