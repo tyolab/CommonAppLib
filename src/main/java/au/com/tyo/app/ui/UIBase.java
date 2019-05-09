@@ -6,6 +6,7 @@
 package au.com.tyo.app.ui;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -224,9 +225,34 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
         getCurrentPage().viewHtmlPageFromAsset(CommonActivityWebView.class, assetFile, title, statusBarColor);
     }
 
+    protected int getDefaultDialogTheme() {
+        return getDefaultDialogTheme(getController().getSettings().isLightThemeInUse());
+    }
+
+    protected static int getDefaultDialogTheme(boolean isLightThemeInUsed) {
+        int version = AndroidUtils.getAndroidVersion();
+
+        if (isLightThemeInUsed) {
+            if (version >= 22)
+                return android.R.style.Theme_DeviceDefault_Light_Dialog_Alert;
+            else if (version >= 14)
+                return AlertDialog.THEME_DEVICE_DEFAULT_LIGHT;
+            else
+                return 5;
+        }
+        else {
+            if (version >= 22)
+                return android.R.style.Theme_DeviceDefault_Dialog_Alert;
+            else if (version >= 14)
+                return AlertDialog.THEME_DEVICE_DEFAULT_DARK;
+            else
+                return 4;
+        }
+    }
+
     @Override
     public void showDialog(String title, String info, DialogInterface.OnClickListener okListener, DialogInterface.OnClickListener cancelListener) {
-        Dialog dialog = createDialog(getCurrentPage().getActivity(), title, info, -1, okListener, cancelListener);
+        Dialog dialog = createDialog(getCurrentPage().getActivity(), title, info, getDefaultDialogTheme(), okListener, cancelListener);
         dialog.show();
     }
 
@@ -249,8 +275,15 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
         return DialogFactory.createDialog(activity, themeId, messageArrayResId, okListener, cancelListener);
     }
 
+    /**
+     * By default we use light theme dialog
+     *
+     * @param activity
+     * @param messageArrayResId
+     * @return
+     */
     public static Dialog createDialog(Activity activity, int messageArrayResId) {
-       return createDialog(activity, messageArrayResId, -1, DialogFactory.dismissMeListener, null);
+       return createDialog(activity, messageArrayResId, getDefaultDialogTheme(true), DialogFactory.dismissMeListener, null);
     }
 
     @Override
