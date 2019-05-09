@@ -394,6 +394,7 @@ public class PageAgent {
 
                 createUI(screen);
 
+                controller.getUi().setContextPage(screen);
                 controller.getUi().setupTheme(getActivity());
             }
         }

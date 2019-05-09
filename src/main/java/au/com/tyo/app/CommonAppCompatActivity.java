@@ -142,8 +142,6 @@ public class CommonAppCompatActivity<ControllerType extends Controller> extends 
 			return;
 		}
 		page.onPostCreate(null);
-
-		controller.getUi().setContextPage(page);
     }
 
     @Override
