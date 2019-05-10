@@ -148,15 +148,20 @@ public abstract class CommonAppSettings<T1 extends Map, T2 extends Map> extends 
     	settingsCache.put(key, value);
 	}
 
+	/**
+	 * Only exit in memory
+	 *
+	 * @param permission
+	 * @return
+	 */
 	public boolean hasPermission(String permission) {
     	Map userData = getUserData();
     	boolean ret = false;
     	try {
-    		ret = ((Boolean) userData.get(permission));
+    		ret = userData.containsKey(permission) && (Boolean) userData.get(permission);
 		}
     	catch (Exception ex)  {
     		userData.put(permission, false);
-    		saveAppData();
 		}
 		return userData.containsKey(permission) && ret;
 	}
@@ -168,12 +173,19 @@ public abstract class CommonAppSettings<T1 extends Map, T2 extends Map> extends 
 
 		// for the problem of type conversion, could be Double after loading from class
 		getUserData().put(permission, true);
-		saveAppData();
+	}
+
+	public void denyPermission(String permission) {
+		getUserData().put(permission, false);
 	}
 
 	public boolean hasStorageWritePermission() {
         return hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }
+
+	public boolean hasStorageReadPermission() {
+		return hasPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
+	}
 
     @Override
     public String getAppDataSubPath(String subPath) {

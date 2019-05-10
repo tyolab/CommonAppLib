@@ -343,6 +343,9 @@ public class CommonAppCompatActivity<ControllerType extends Controller> extends 
 		return super.onCreateOptionsMenu(menu);
 	}
 
+	/**
+	 * The start of every cycle
+	 */
 	@Override
 	protected void onStart() {
 		super.onStart();

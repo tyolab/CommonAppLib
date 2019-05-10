@@ -1448,6 +1448,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
 
         if (!isSubpage())
             getController().getUi().setMainPage(this);
+
     }
 
     protected void updatePageTitleTextColor() {
@@ -1594,6 +1595,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     @Override
     public void onStart() {
         super.onStart();
+
         // check the permissions required for the app since Android 6
         checkPermissions();
     }
@@ -1603,16 +1605,16 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
             List<String> list = new ArrayList();
 
             for (String permission : getRequiredPermissions()) {
-                boolean hasThisPermission = getController().getSettings().hasPermission(permission);
-
-                if (!hasThisPermission) {
-                    if (Build.VERSION.SDK_INT >= 23) {
+                if (!getController().getSettings().hasPermission(permission)) {
+                    if (Build.VERSION.SDK_INT < 23)
+                        onRequestedPermissionsGranted(permission);
+                    else {
+                        // The permission could be revoked later on, so checking is enforced
                         if (!CommonPermission.checkPermission(getActivity(), permission))
                             list.add(permission);
                         else
                             onRequestedPermissionsGranted(permission);
-                    } else
-                        onRequestedPermissionsGranted(permission);
+                    }
                 }
             }
 
@@ -1665,6 +1667,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     @Override
     public void onRequestedPermissionsDenied(String permission) {
         // no ops
+        controller.getSettings().denyPermission(permission);
     }
 
     @Override
