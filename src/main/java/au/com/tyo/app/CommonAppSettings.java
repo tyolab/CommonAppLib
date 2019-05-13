@@ -50,7 +50,7 @@ public abstract class CommonAppSettings<T1 extends Map, T2 extends Map> extends 
 	/**
 	 * Collection of permissions granted
 	 */
-	// private Set<String> permissionsGranted;
+	private Set<String> permissionsGranted;
 
 	public CommonAppSettings(Context context) {
 		super(context);
@@ -155,28 +155,17 @@ public abstract class CommonAppSettings<T1 extends Map, T2 extends Map> extends 
 	 * @return
 	 */
 	public boolean hasPermission(String permission) {
-    	Map userData = getUserData();
-    	boolean ret = false;
-    	try {
-    		ret = userData.containsKey(permission) && (Boolean) userData.get(permission);
-		}
-    	catch (Exception ex)  {
-    		userData.put(permission, false);
-		}
-		return userData.containsKey(permission) && ret;
+    	return null != permissionsGranted && permissionsGranted.contains(permission);
 	}
 	
 	public void grantPermission(String permission) {
-		// if (permissionsGranted == null)
-		// 	permissionsGranted = new HashSet();
-		// permissionsGranted.add(permission);
-
-		// for the problem of type conversion, could be Double after loading from class
-		getUserData().put(permission, true);
+		if (permissionsGranted == null)
+			permissionsGranted = new HashSet();
+		permissionsGranted.add(permission);
 	}
 
 	public void denyPermission(String permission) {
-		getUserData().put(permission, false);
+		permissionsGranted.remove(permission);
 	}
 
 	public boolean hasStorageWritePermission() {
