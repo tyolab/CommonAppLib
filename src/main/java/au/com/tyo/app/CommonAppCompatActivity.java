@@ -56,6 +56,7 @@ public class CommonAppCompatActivity<ControllerType extends Controller> extends 
 	@SuppressLint("MissingSuperCall")
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
+		CommonLog.i(this, "onCreate...");
 
 		PageAgent agent = getAgent();
 
@@ -64,33 +65,47 @@ public class CommonAppCompatActivity<ControllerType extends Controller> extends 
 
 		boolean ret = false;
 		if (null != controller) {
+			CommonLog.i(this, "Controller created");
+
 		    agent.setController(controller);
 
 			ret = (beforeCreateCheck());
 
 			onCreatePage();
 		}
+		else
+			throw new IllegalStateException("Controller creation failed");
+
+		CommonLog.i(this, "Page created");
 
         if (null != agent.getPage()) {
         	if (!getPage().isSubpage()) {
+				CommonLog.i(this, "Checking main-thread");
         		if (!controller.isMainThreadInitialised())
         			controller.initializeInMainThread(this);
 
+				CommonLog.i(this, "Checking background-thread");
         		if (!controller.isBackgroundThreadInitialised())
         			controller.initializeInBackgroundThread(this);
 			}
 
-			if (!ret)
+			if (!ret) {
+				CommonLog.i(this, "Page pre-check");
 				getPage().onPreCreateCheckFailed();
+			}
 
+			CommonLog.i(this, "Agent pre-initializing");
 			agent.preInitialize(savedInstanceState, getPage());
 
+			CommonLog.i(this, "Setting up page components");
 			super.onCreate(savedInstanceState);
 
 			agent.onCreate(savedInstanceState);
 		}
-		else
+		else {
+			CommonLog.i(this, "Call super onCreate");
 			super.onCreate(savedInstanceState);
+		}
 	}
 
 	protected boolean beforeCreateCheck() {

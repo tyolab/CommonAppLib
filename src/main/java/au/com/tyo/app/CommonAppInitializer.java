@@ -21,10 +21,16 @@ public class CommonAppInitializer<T extends Controller> extends MultiDexApplicat
     public void onCreate() {
         super.onCreate();
 
+        CommonLog.i(this, "App starting...");
+
         initialize(this);
 
         if (null != controller)
             controller.setApplication(this);
+    }
+
+    public static void setController(Controller controller) {
+        CommonAppInitializer.controller = controller;
     }
 
     public static<T> T getController() {
@@ -36,6 +42,8 @@ public class CommonAppInitializer<T extends Controller> extends MultiDexApplicat
     }
 
     public static<T> T getController(Context context, boolean initializeBackground) {
+        Log.i(TAG, "Creating controller instance and initialize it, background functions call: " + initializeBackground);
+
         /**
          * If the app is existing, the controller shouldn't be null, all the variables are still usable
          * so if it is set to existing, the controller should then set to null
@@ -44,7 +52,7 @@ public class CommonAppInitializer<T extends Controller> extends MultiDexApplicat
             controller = (Controller) CommonInitializer.initializeController(context, true, initializeBackground);
 
             if (controller == null) {
-                // throw new IllegalStateException("Controller Impl class can't be detected");
+                throw new IllegalStateException("Controller Impl class can't be detected");
                 // OK, not gonna throw error here
             }
             else {

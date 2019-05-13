@@ -405,7 +405,7 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
 
     @Override
     public void gotoMainPage(Page fromPage) {
-        gotoPage(fromPage, CommonInitializer.mainActivityClass);
+        gotoPage(fromPage, CommonInitializer.classMainActivity);
     }
 
     @Override

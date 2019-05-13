@@ -150,7 +150,7 @@ public class PageAgent {
     }
 
     /**
-     * Create an assoicated page that contains all the widgets / controls
+     * Create an associated page that contains all the widgets / controls
      *
      * if a custom page is needed just override this method to create a different page setting
      *
@@ -395,7 +395,9 @@ public class PageAgent {
                 createUI(screen);
 
                 controller.getUi().setContextPage(screen);
-                controller.getUi().setupTheme(getActivity());
+
+                // setting the them when page is in onStart or onActivityStart function
+                //controller.getUi().setupTheme(getActivity());
             }
         }
     }

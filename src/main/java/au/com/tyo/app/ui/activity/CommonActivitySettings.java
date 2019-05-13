@@ -8,7 +8,7 @@ public class CommonActivitySettings extends CommonActivity {
 
     @Override
     protected void onCreatePage() {
-        setPage(new PageSettings<Controller>(getController(), this));
+        setPage(new PageSettings<>(getController(), this));
         super.onCreatePage();
     }
 

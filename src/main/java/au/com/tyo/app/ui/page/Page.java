@@ -548,7 +548,9 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
             ad = (AllAdView) mainView.findViewById(R.id.all_ad_view);
             if (null != ad) {
                 addAdView();
-                loadAd();
+
+                // Don't load ad here, because we don't know whether to display ad or not, let the each particular page decides
+                // loadAd();
             }
         }
 
@@ -996,8 +998,8 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     }
 
     public void sendExitAppCommand() {
-        if (null != CommonInitializer.mainActivityClass) {
-            Intent intent = new Intent(getActivity(), CommonInitializer.mainActivityClass);
+        if (null != CommonInitializer.classMainActivity) {
+            Intent intent = new Intent(getActivity(), CommonInitializer.classMainActivity);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intent.putExtra(Constants.EXIT_APP, true);
             getActivity().startActivity(intent);
@@ -1011,8 +1013,8 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     }
 
     public void sendReloadCommand() {
-        if (null != CommonInitializer.mainActivityClass) {
-            Intent intent = new Intent(getActivity(), CommonInitializer.mainActivityClass);
+        if (null != CommonInitializer.classMainActivity) {
+            Intent intent = new Intent(getActivity(), CommonInitializer.classMainActivity);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
             intent.putExtra(Constants.RELOAD, true);
             getActivity().startActivity(intent);
@@ -1260,8 +1262,8 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         if (null != intent) {
             if (intent.hasExtra(Constants.EXIT_APP) &&
                     intent.getBooleanExtra(Constants.EXIT_APP, true) &&
-                    (CommonInitializer.mainActivityClass == null ||
-                            getActivity().getClass().getName().equals(CommonInitializer.mainActivityClass.getName()))) {
+                    (CommonInitializer.classMainActivity == null ||
+                            getActivity().getClass().getName().equals(CommonInitializer.classMainActivity.getName()))) {
                 exitApp();
                 return true;
             }

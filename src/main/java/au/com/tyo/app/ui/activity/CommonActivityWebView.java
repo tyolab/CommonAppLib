@@ -1,6 +1,7 @@
 package au.com.tyo.app.ui.activity;
 
 import au.com.tyo.app.CommonActivity;
+import au.com.tyo.app.ui.page.PageSettings;
 import au.com.tyo.app.ui.page.PageWebView;
 
 /**
@@ -10,8 +11,9 @@ import au.com.tyo.app.ui.page.PageWebView;
 public class CommonActivityWebView extends CommonActivity {
 
     @Override
-    protected void loadPageClass() {
-        getAgent().setPageClass(PageWebView.class);
+    protected void onCreatePage() {
+        setPage(new PageWebView<>(getController(), this));
+        super.onCreatePage();
     }
 
 }

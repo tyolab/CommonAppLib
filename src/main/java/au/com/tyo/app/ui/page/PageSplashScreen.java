@@ -14,6 +14,7 @@ import com.google.android.gms.ads.InterstitialAd;
 
 import au.com.tyo.android.AndroidUtils;
 import au.com.tyo.android.NetworkMonitor;
+import au.com.tyo.app.CommonLog;
 import au.com.tyo.app.Constants;
 import au.com.tyo.app.Controller;
 import au.com.tyo.app.R;
@@ -106,8 +107,14 @@ public class PageSplashScreen extends Page implements SplashScreenMessageListene
 //            controller.initializeInMainThread(activity);
 
         viewOverlay = findViewById(R.id.splash_screen_overlay);
+    }
 
-        handler.sendEmptyMessageDelayed(Constants.MESSAGE_AD_TIMEUP, 12000);
+
+    @Override
+    public void onActivityStart() {
+        super.onActivityStart();
+
+        handler.sendEmptyMessageDelayed(Constants.MESSAGE_AD_TIMEUP, 3200);
 
         /**
          * Start background tasks
@@ -177,10 +184,7 @@ public class PageSplashScreen extends Page implements SplashScreenMessageListene
         @Override
         protected Void doInBackground(Void... params) {
 			/* it has to be initialise in an activity class */
-            try {
-                Thread.sleep(AndroidUtils.getAndroidVersion() > 10 ? 500 : 0);
-            } catch (InterruptedException e) {
-            }
+            CommonLog.i(this, "Running in the background for data initialization");
 
             publishProgress(10);
 
@@ -198,6 +202,8 @@ public class PageSplashScreen extends Page implements SplashScreenMessageListene
 			 */
             publishProgress(100);
 
+            CommonLog.i(this, "App initialized.");
+
             return null;
         }
 
@@ -209,6 +215,7 @@ public class PageSplashScreen extends Page implements SplashScreenMessageListene
                 try {
                     Thread.sleep(AndroidUtils.getAndroidVersion() > 10 ? 4500 : 3000);
                 } catch (InterruptedException e) {
+                    CommonLog.e(this, "Thread interrupted", e);
                 }
 
             /**
@@ -221,6 +228,8 @@ public class PageSplashScreen extends Page implements SplashScreenMessageListene
                 // this activity will be finished when main activity is started in controller
                 // finish();
             }
+            else
+                CommonLog.i(this, "Background task finished, but not gonna starting the main activity");
         }
     }
 

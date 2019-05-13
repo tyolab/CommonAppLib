@@ -23,6 +23,7 @@ public class SplashScreen extends CommonAppCompatActivity {
 
 	@Override
 	protected void onCreatePage() {
+		CommonLog.i(this, "Creating splashscreen page");
 
 		setPage(new PageSplashScreen(getController(), this));
 

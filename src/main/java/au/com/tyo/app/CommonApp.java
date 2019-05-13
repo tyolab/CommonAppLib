@@ -118,7 +118,7 @@ public abstract class CommonApp<UIType extends UI,
 		if (instance == null)
 			instance = this;
 		
-		if (CommonInitializer.mainActivityClass == null)
+		if (CommonInitializer.classMainActivity == null)
 			setMainActivityClass(CommonAppCompatActivity.class);
 		
 		if (CommonInitializer.splashScreenClass == null)
@@ -465,13 +465,15 @@ public abstract class CommonApp<UIType extends UI,
 	public void initializeInMainThread(Context context) {
 		super.initializeInMainThread(context);
 
-        settings = (SettingsType) CommonInitializer.newSettings(context);
+		if (null == settings)
+        	settings = (SettingsType) CommonInitializer.newSettings(context);
 
         /** maybe if the previous failed we are not creating the default one */
 		if (settings == null)
-			settings = (SettingsType) new CommonAppSettings(context) {
-
-            };
+			Log.w(TAG, "Warning: the settings instance is null");
+			// settings = (SettingsType) new CommonAppSettings(context) {
+			//
+            // };
 		
 		watchDog = NetworkMonitor.getInstance(this);
 		watchDog.start();
