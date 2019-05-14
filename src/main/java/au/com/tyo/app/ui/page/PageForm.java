@@ -28,9 +28,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import au.com.tyo.app.CommonLog;
+import google.json.JSONArray;
+import google.json.JSONException;
+import google.json.JSONObject;
 
 import java.io.File;
 import java.util.Date;
@@ -39,7 +40,6 @@ import java.util.Map;
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
-import au.com.tyo.android.DialogFactory;
 import au.com.tyo.android.utils.ResourceUtils;
 import au.com.tyo.android.utils.SimpleDateUtils;
 import au.com.tyo.app.CommonAppData;
@@ -47,15 +47,15 @@ import au.com.tyo.app.Constants;
 import au.com.tyo.app.Controller;
 import au.com.tyo.app.R;
 import au.com.tyo.app.api.JSON;
+import au.com.tyo.json.android.fragments.FormFragment;
 import au.com.tyo.json.android.fragments.JsonFormFragment;
+import au.com.tyo.json.android.interfaces.JsonApi;
+import au.com.tyo.json.android.utils.FormHelper;
 import au.com.tyo.json.form.FieldValue;
 import au.com.tyo.json.form.FormItem;
 import au.com.tyo.json.form.FormMetaData;
 import au.com.tyo.json.form.FormState;
 import au.com.tyo.json.jsonform.JsonForm;
-import au.com.tyo.json.android.fragments.FormFragment;
-import au.com.tyo.json.android.interfaces.JsonApi;
-import au.com.tyo.json.android.utils.FormHelper;
 import au.com.tyo.json.util.TitleKeyConverter;
 import au.com.tyo.json.validator.Validator;
 
@@ -94,7 +94,7 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
     /**
      * Form locked, so it is unconditional uneditable
      */
-    protected boolean             locked;
+    protected               boolean             locked;
 
     /**
      * Is the form data gets changed
@@ -112,7 +112,7 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
      */
     private                 boolean             exitAfterSaveAction = false;
     private                 boolean             errorHandled = false;
-    protected boolean             sortFormNeeded = false;
+    protected               boolean             sortFormNeeded = false;
 
     /**
      * could be Data Map
@@ -264,7 +264,7 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
             try {
                 return mJSONObject.getJSONObject(name);
             } catch (JSONException e) {
-                e.printStackTrace();
+                CommonLog.e(this, "Error in getting step name: " + name, e);
             }
         }
         return null;
@@ -546,7 +546,7 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
             load(json);
             FormFragment jsonFormFragment = createFragmentJsonForm();
 
-            if (editable && getJsonForm().getFormState() == FormState.State.NONE) {
+            if (editable && getJsonForm().getFormState() == FormState.State.NONA) {
                 getJsonForm().setFormState(FormState.State.NEW);
             }
 
@@ -581,7 +581,7 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
         try {
             mJSONObject = new JSONObject(json);
         } catch (JSONException e) {
-            Log.d(TAG, "Initialization error. Json passed is invalid : " + e.getMessage());
+            Log.e(TAG, "Initialization error. Json passed is invalid : " + e.getMessage());
         }
     }
 
@@ -929,5 +929,10 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return TextUtils.isEmpty(json) ? "{}" : json;
     }
 }

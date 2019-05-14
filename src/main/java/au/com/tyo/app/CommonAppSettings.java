@@ -202,4 +202,9 @@ public abstract class CommonAppSettings<T1 extends Map, T2 extends Map> extends 
 
 		return new DataFormEx(getSettingsCache());
     }
+
+    public void clearPermissions() {
+		if (null != permissionsGranted)
+			permissionsGranted.clear();
+    }
 }

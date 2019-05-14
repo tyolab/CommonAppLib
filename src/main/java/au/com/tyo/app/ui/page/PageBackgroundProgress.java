@@ -15,6 +15,8 @@ import au.com.tyo.app.Constants;
 import au.com.tyo.app.Controller;
 import au.com.tyo.app.R;
 
+import static au.com.tyo.app.Constants.MESSAGE_BROADCAST_BACKGROUND_PAGE_HIDING;
+
 public class PageBackgroundProgress<T extends Controller> extends Page<T> {
 
     private static final String TAG = "PageBackgroundProgress";
@@ -131,6 +133,13 @@ public class PageBackgroundProgress<T extends Controller> extends Page<T> {
         if (getController().getUi().onBackPressedOnProgressPage())
             return true;
         return super.onBackPressed();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        getController().broadcastMessage(MESSAGE_BROADCAST_BACKGROUND_PAGE_HIDING);
     }
 
     @Override
