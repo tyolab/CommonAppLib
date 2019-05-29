@@ -21,6 +21,9 @@
         android:layout_centerInParent="true"
         android:src="@drawable/ic_launcher" />
     -->
+    <include layout="@layout/background_progress_container_above"
+        android:id="@+id/container_above_progressbar"
+        />
     
     <ProgressBar
         android:id="@+id/progress_bar_background_service"
@@ -63,5 +66,9 @@
             android:textSize="@dimen/info_text_font_size" />
 
     </LinearLayout>
+
+    <include layout="@layout/background_progress_container_below"
+        android:id="@+id/container_below_progressbar"
+        />
 
 </RelativeLayout>
