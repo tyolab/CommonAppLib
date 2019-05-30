@@ -123,7 +123,7 @@ public class PageBackgroundProgress<T extends Controller> extends Page<T> {
             super.handleBroadcastMessage(msg);
     }
 
-    private void updateProgress() {
+    protected void updateProgress() {
         getActivity().runOnUiThread(progressRunnable);
     }
 

@@ -22,43 +22,45 @@
         android:src="@drawable/ic_launcher" />
     -->
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:id="@+id/container_progress_bar"
+        android:orientation="vertical"
         >
+
+        <include layout="@layout/background_progress_text"
+            android:layout_above="@+id/progress_bar_background_service"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            />
+
         <ProgressBar
             android:id="@+id/progress_bar_background_service"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
             android:max="100"
-            android:paddingTop="@dimen/activity_vertical_margin"
+            android:paddingTop="2dp"
             android:paddingLeft="@dimen/page_progress_dialog_padding"
             android:paddingRight="@dimen/page_progress_dialog_padding"
             android:progress="0" />
 
-        <include layout="@layout/background_progress_text"
-            android:layout_above="@+id/progress_bar_background_service"
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
-    </RelativeLayout>
+    </LinearLayout>
 
     <include layout="@layout/background_progress_container_above"
         android:id="@+id/container_above_progressbar"
         android:layout_above="@id/container_progress_bar"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_width="match_parent"
         />
 
     <include layout="@layout/background_progress_container_below"
         android:id="@+id/container_below_progressbar"
         android:layout_below="@id/container_progress_bar"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_width="match_parent"
         />
 
