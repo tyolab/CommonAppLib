@@ -7,7 +7,9 @@ import javax.annotation.OverridingMethodsMustInvokeSuper;
 import au.com.tyo.android.AndroidUtils;
 import au.com.tyo.app.R;
 import au.com.tyo.json.form.DataFormEx;
+import au.com.tyo.json.form.FormField;
 import au.com.tyo.json.form.FormGroup;
+import au.com.tyo.json.jsonform.JsonFormField;
 
 /**
  * Created by Eric Tang (eric.tang@tyo.com.au) on 15/3/19.
@@ -15,6 +17,9 @@ import au.com.tyo.json.form.FormGroup;
 public class FormAbout extends DataFormEx {
 
     public static final String FORM_ID = "about";
+
+    public static final String FORM_KEY_EMAIL = "email";
+    public static final String FORM_KEY_WEBSITE = "website";
 
     private final Context context;
     private boolean showAcknowledgement;
@@ -53,8 +58,12 @@ public class FormAbout extends DataFormEx {
         FormGroup contactGroup = new FormGroup(context.getString(R.string.app_contact_us));
         contactGroup.setShowingTitle(true);
 
-        contactGroup.addField(context.getString(R.string.website), context.getString(R.string.tyolab_website));
-        contactGroup.addField(context.getString(R.string.email), context.getString(R.string.tyolab_email));
+        FormField field = contactGroup.addField(FORM_KEY_WEBSITE, context.getString(R.string.website), context.getString(R.string.tyolab_website));
+        field.setClickable(JsonFormField.CLICKABLE_ROW);
+
+        field = contactGroup.addField(FORM_KEY_EMAIL, context.getString(R.string.email), context.getString(R.string.tyolab_email));
+        field.setClickable(JsonFormField.CLICKABLE_ROW);
+
         addGroup(contactGroup);
 
         if (showAcknowledgement) {
@@ -80,6 +89,8 @@ public class FormAbout extends DataFormEx {
 
     @OverridingMethodsMustInvokeSuper
     protected void addAboutPageAcknowledgementFields(FormGroup acknowledgementGroup) {
-        acknowledgementGroup.addField("TyoDroid", "https://github.com/tyolab/tyodroid");
+        FormField field = acknowledgementGroup.addField("TyoDroid", "https://github.com/tyolab/tyodroid");
+        field.setOrientation(JsonFormField.VALUE_NAME_ORIENTATION_VERTICAL);
+        field.setClickable(JsonFormField.CLICKABLE_ROW);
     }
 }
