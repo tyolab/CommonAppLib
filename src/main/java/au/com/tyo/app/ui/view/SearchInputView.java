@@ -347,10 +347,10 @@ public class SearchInputView extends AppCompatEditText /*AutoCompleteTextView*/ 
     }
 
 	public void onClearInput() {
-		/*
+		/**
 		 * this will cause not accepting input, which is OS bug, see
 		 * 
-		 * http://stackoverflow.com/questions/9069803/edittext-does-not-show-current-input-android-4
+		 * <a href="http://stackoverflow.com/questions/9069803/edittext-does-not-show-current-input-android-4">Question</a>
 		 */
 //		this.setText("");
 		TextKeyListener.clear(this.getText());
