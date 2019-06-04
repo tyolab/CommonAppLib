@@ -58,6 +58,10 @@
         <activity android:name="au.com.tyo.app.ui.activity.CommonActivityBackgroundProgress"
             />
 
+        <activity android:name="au.com.tyo.app.ui.activity.CommonActivityFileManager"
+            android:label="@string/file_manager"
+            />
+
         <activity
             android:name="au.com.tyo.app.ui.activity.CommonActivitySettings"
             android:label="@string/settings" />

@@ -25,6 +25,7 @@ import au.com.tyo.android.CommonInitializer;
 import au.com.tyo.android.CommonUIBase;
 import au.com.tyo.android.DialogFactory;
 import au.com.tyo.app.ui.activity.CommonActivityAbout;
+import au.com.tyo.app.ui.activity.CommonActivityFileManager;
 import au.com.tyo.app.ui.activity.CommonActivityForm;
 import au.com.tyo.app.ui.activity.CommonActivityList;
 import au.com.tyo.app.ui.activity.CommonActivitySettings;
@@ -425,6 +426,11 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
     @Override
     public void gotoAboutPage(Map data, String title) {
         gotoPageWithData((Page) getCurrentPage(), CommonActivityAbout.class, data, title);
+    }
+
+    @Override
+    public void gotoPageFileManager(List files, String title) {
+        gotoPageWithData((Page) getCurrentPage(), CommonActivityFileManager.class, files, title);
     }
 
     @Override

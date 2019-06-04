@@ -560,6 +560,10 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
         }
     }
 
+    public void updateForm(String keyStr) {
+        updateForm(keyStr, null);
+    }
+
     public void updateForm(String keyStr, Object value) {
         getJsonFormFragment().updateForm(keyStr, value);
     }

@@ -142,4 +142,6 @@ public interface UI {
     void openUrl(String url);
 
     void showFormValidationFailureDialog();
+
+    void gotoPageFileManager(List unsafeFiles, String title);
 }
