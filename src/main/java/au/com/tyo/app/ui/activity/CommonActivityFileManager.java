@@ -5,9 +5,10 @@
 
 package au.com.tyo.app.ui.activity;
 
+import au.com.tyo.app.Controller;
 import au.com.tyo.app.ui.page.PageFileManager;
 
-public class CommonActivityFileManager extends CommonActivityList {
+public class CommonActivityFileManager<ControllerType extends Controller> extends CommonActivityList<ControllerType> {
 
     @Override
     protected void createPage() {

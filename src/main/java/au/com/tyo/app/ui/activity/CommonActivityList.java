@@ -2,6 +2,7 @@ package au.com.tyo.app.ui.activity;
 
 
 import au.com.tyo.app.CommonActivity;
+import au.com.tyo.app.Controller;
 import au.com.tyo.app.ui.page.PageCommonList;
 import au.com.tyo.app.ui.UIList;
 
@@ -10,7 +11,7 @@ import au.com.tyo.app.ui.UIList;
  *
  */
 
-public class CommonActivityList extends CommonActivity {
+public class CommonActivityList<ControllerType extends Controller> extends CommonActivity<ControllerType> {
 
     @Override
     protected void createPage() {
