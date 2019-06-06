@@ -73,7 +73,7 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
     }
 
     protected void createAdapter() {
-            createAdapter(listItemResourceId);
+        createAdapter(listItemResourceId);
     }
 
     protected void createAdapter(int resId) {
@@ -139,7 +139,11 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
     }
 
     protected ArrayAdapter getArrayAdapter() {
-        return (ArrayAdapter) adapter;
+        return adapter;
+    }
+
+    public QuickAccessListAdapter getQuickAccessListAdapter() {
+        return adapter;
     }
 
     @Override
