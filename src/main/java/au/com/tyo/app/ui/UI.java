@@ -143,5 +143,5 @@ public interface UI {
 
     void showFormValidationFailureDialog();
 
-    void gotoPageFileManager(List unsafeFiles, String title);
+    void gotoPageFileManager(List unsafeFiles, String title, boolean allowMultipleSelections);
 }

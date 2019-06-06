@@ -1041,4 +1041,9 @@ public abstract class CommonApp<UIType extends UI,
     public void setFormAbout(FormAbout formAbout) {
         this.formAbout = formAbout;
     }
+
+	@Override
+	public boolean onMultipleListItemsSelected(int listId, List selected) {
+		return false;
+	}
 }

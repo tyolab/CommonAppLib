@@ -198,4 +198,6 @@ public interface Controller<T extends UI> extends CommonController {
     PageFormEx.FormHandler getFormHandler();
 
 	FormAbout getFormAbout();
+
+    boolean onMultipleListItemsSelected(int listId, List selected);
 }

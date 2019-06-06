@@ -18,6 +18,9 @@ package au.com.tyo.app.ui.page;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -53,11 +56,16 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
      */
     private int listId;
 
+    private boolean allowMultipleSelections;
+
+    private List selected;
+
     public PageCommonList(T controller, Activity activity) {
         super(controller, activity);
 
         listItemResourceId = -1;
         listId = -1;
+        allowMultipleSelections = false;
 
         setContentViewResId(R.layout.list_view);
 
@@ -107,16 +115,33 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
     public void onActivityStart() {
         super.onActivityStart();
 
-
         getSuggestionView().getSuggestionAdapter().setRequestFromId(listId);
 
         if (null != listView) {
             listView.setAdapter(adapter);
             listView.setOnItemClickListener(getOnItemClickListener());
 
+            if (allowMultipleSelections) {
+                listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+                listView.setItemsCanFocus(false);
+
+
+            }
+
             // not yet
             // showSuggestionView();
         }
+    }
+
+    @Override
+    protected void createMenu(MenuInflater menuInflater, Menu menu) {
+        super.createMenu(menuInflater, menu);
+
+        createMenuSelect(menuInflater, menu);
+    }
+
+    private void createMenuSelect(MenuInflater menuInflater, Menu menu) {
+        menuInflater.inflate(R.menu.menu_select, menu);
     }
 
     public AdapterView.OnItemClickListener getOnItemClickListener() {
@@ -132,6 +157,18 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
                 }
             };
         return onItemClickListener;
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        if (item.getItemId() == R.id.menuItemSelect) {
+            if (!getController().onMultipleListItemsSelected(listId, selected))
+                setResultAndFinish(selected);
+            else
+                finish();
+        }
+
+        return super.onMenuItemClick(item);
     }
 
     public boolean isArrayAdapter() {
@@ -184,6 +221,9 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
 
         if (intent.hasExtra(Constants.DATA_LIST_ID))
             listId = intent.getIntExtra(Constants.DATA_LIST_ID, -1);
+
+        if (intent.hasExtra(Constants.DATA_LIST_ALLOW_MULTIPLE_SELECTIONS))
+            allowMultipleSelections = intent.getBooleanExtra(Constants.DATA_LIST_ALLOW_MULTIPLE_SELECTIONS, false);
     }
 
     private void addList(List list) {
@@ -231,6 +271,9 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
 
                 if (map.containsKey(Constants.DATA_LIST_KEY))
                     listKey = (String) map.get(Constants.DATA_LIST_KEY);
+
+                if (map.containsKey(Constants.DATA_LIST_ALLOW_MULTIPLE_SELECTIONS))
+                    allowMultipleSelections = (boolean) map.get(Constants.DATA_LIST_ALLOW_MULTIPLE_SELECTIONS);
 
                 String title = (String) map.get(Constants.PAGE_TITLE);
                 if (null != title)
@@ -293,5 +336,13 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
             setResultAndFinish(obj);
         else
             finish();
+    }
+
+    @Override
+    protected void onMenuPostCreated() {
+        super.onMenuPostCreated();
+
+        if (allowMultipleSelections)
+            getActionBarMenu().showMenuItem(R.id.menuItemSelect);
     }
 }

@@ -28,5 +28,6 @@
     <string name="error">Error</string>
     <string name="message_form_validation_error">Validation failed. Please check your changes,</string>
     <string name="file_manager">File Manager</string>
+    <string name="select">Select</string>
 
 </resources>
