@@ -41,7 +41,7 @@ import au.com.tyo.app.ui.UIList;
  * Created by Eric Tang (eric.tang@tyo.com.au) on 27/7/17.
  */
 
-public class PageCommonList<T extends Controller> extends Page<T> implements UIList {
+public class PageCommonList<T extends Controller> extends Page<T> implements UIList, AdapterView.OnItemClickListener {
 
     private ListView listView;
     private QuickAccessListAdapter adapter;
@@ -56,7 +56,7 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
      */
     private int listId;
 
-    private boolean allowMultipleSelections;
+    private boolean multipleSelectionsAllowed;
 
     private List selected;
 
@@ -65,11 +65,23 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
 
         listItemResourceId = -1;
         listId = -1;
-        allowMultipleSelections = false;
+        multipleSelectionsAllowed = false;
 
         setContentViewResId(R.layout.list_view);
 
         createAdapter();
+    }
+
+    public String getListKey() {
+        return listKey;
+    }
+
+    public int getListId() {
+        return listId;
+    }
+
+    public List getSelected() {
+        return selected;
     }
 
     public int getListItemResourceId() {
@@ -121,11 +133,9 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
             listView.setAdapter(adapter);
             listView.setOnItemClickListener(getOnItemClickListener());
 
-            if (allowMultipleSelections) {
+            if (multipleSelectionsAllowed) {
                 listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
                 listView.setItemsCanFocus(false);
-
-
             }
 
             // not yet
@@ -146,16 +156,7 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
 
     public AdapterView.OnItemClickListener getOnItemClickListener() {
         if (null == onItemClickListener)
-            return new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Object item = adapter.getItem(position);
-                    if (!getController().onListItemClick(listId, item))
-                        setResultAndFinish(item);
-                    else
-                        finish();
-                }
-            };
+            return this;
         return onItemClickListener;
     }
 
@@ -188,29 +189,29 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
         super.bindData(intent);
 
         if (intent.hasExtra(Constants.DATA_LIST)) {
-            List list = null;
             createAdapter();
 
+            List currentList = null;
             try {
-                list = intent.getParcelableArrayListExtra(Constants.DATA_LIST);
+                currentList = intent.getParcelableArrayListExtra(Constants.DATA_LIST);
             }
             catch (Exception ex) {}
 
-            if (null == list) {
+            if (null == currentList) {
                 try {
                     String[] array = intent.getStringArrayExtra(Constants.DATA_LIST);
-                    list = Arrays.asList(array);
+                    currentList = Arrays.asList(array);
                 }
                 catch (Exception ex) {}
             }
 
-            if (null == list)
+            if (null == currentList)
                 try {
-                    list = intent.getStringArrayListExtra(Constants.DATA_LIST);
+                    currentList = intent.getStringArrayListExtra(Constants.DATA_LIST);
                 }
                 catch (Exception ex) {}
 
-            addList(list);
+            addList(currentList);
         }
 
         if (intent.hasExtra(Constants.DATA_LIST_KEY))
@@ -223,7 +224,7 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
             listId = intent.getIntExtra(Constants.DATA_LIST_ID, -1);
 
         if (intent.hasExtra(Constants.DATA_LIST_ALLOW_MULTIPLE_SELECTIONS))
-            allowMultipleSelections = intent.getBooleanExtra(Constants.DATA_LIST_ALLOW_MULTIPLE_SELECTIONS, false);
+            multipleSelectionsAllowed = intent.getBooleanExtra(Constants.DATA_LIST_ALLOW_MULTIPLE_SELECTIONS, false);
     }
 
     private void addList(List list) {
@@ -232,7 +233,7 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
             arrayAdapter.clear();
             arrayAdapter.addAll(list);
 
-            adapter.notifyDataSetChanged();
+            // adapter.notifyDataSetChanged();
         }
         else
             throw new IllegalStateException("Unknown adapter type");
@@ -273,7 +274,7 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
                     listKey = (String) map.get(Constants.DATA_LIST_KEY);
 
                 if (map.containsKey(Constants.DATA_LIST_ALLOW_MULTIPLE_SELECTIONS))
-                    allowMultipleSelections = (boolean) map.get(Constants.DATA_LIST_ALLOW_MULTIPLE_SELECTIONS);
+                    multipleSelectionsAllowed = (boolean) map.get(Constants.DATA_LIST_ALLOW_MULTIPLE_SELECTIONS);
 
                 String title = (String) map.get(Constants.PAGE_TITLE);
                 if (null != title)
@@ -283,10 +284,16 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
                 data = object;
 
             if (null != data) {
-                if (data instanceof List)
-                    addList((List) data);
-                else
-                    addList(Arrays.asList(data));
+                List currentList;
+
+                if (data instanceof List) {
+                    currentList = (List) data;
+                }
+                else {
+                    currentList = Arrays.asList(data);
+                }
+
+                addList(currentList);
             }
         }
     }
@@ -303,7 +310,7 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
         if (adapter instanceof ArrayAdapter) {
             ArrayAdapter arrayAdapter = getArrayAdapter();
             arrayAdapter.add(obj);
-                adapter.notifyDataSetChanged();
+            adapter.notifyDataSetChanged();
         }
         else
             throw new IllegalStateException("Unknown adapter type");
@@ -332,7 +339,7 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
 
     @Override
     protected void onSuggestionItemClick(Object obj) {
-        if (!getController().onListItemClick(listId, obj))
+        if (!getController().onListItemClick(listKey, listId, obj))
             setResultAndFinish(obj);
         else
             finish();
@@ -342,7 +349,29 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
     protected void onMenuPostCreated() {
         super.onMenuPostCreated();
 
-        if (allowMultipleSelections)
+        if (multipleSelectionsAllowed)
             getActionBarMenu().showMenuItem(R.id.menuItemSelect);
+    }
+
+    protected Object getListItem(int position) {
+        return adapter.getItem(position);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if (isMultipleSelectionsAllowed()) {
+            getListView().setItemChecked(position, !getListView().isItemChecked(position));
+            return;
+        }
+
+        Object item = adapter.getItem(position);
+        if (!getController().onListItemClick(listKey, listId, item))
+            setResultAndFinish(item);
+        else
+            finish();
+    }
+
+    public boolean isMultipleSelectionsAllowed() {
+        return multipleSelectionsAllowed;
     }
 }
