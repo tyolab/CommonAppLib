@@ -14,6 +14,7 @@ import android.os.Message;
 import android.view.KeyEvent;
 
 import java.util.List;
+import java.util.Set;
 
 import au.com.tyo.android.CommonController;
 import au.com.tyo.android.NetworkMonitor;
@@ -199,5 +200,5 @@ public interface Controller<T extends UI> extends CommonController {
 
 	FormAbout getFormAbout();
 
-    boolean onMultipleListItemsSelected(int listId, List selected);
+    boolean onMultipleListItemsSelected(int listId, Set selected);
 }

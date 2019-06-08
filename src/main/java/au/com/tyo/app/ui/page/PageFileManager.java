@@ -32,7 +32,7 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
     public PageFileManager(T controller, Activity activity) {
         super(controller, activity);
 
-        setOnItemClickListener(this);
+        // setOnItemClickListener(this);
 
         paths = new LinkedList();
     }
@@ -72,6 +72,8 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
         if (item instanceof File) {
             File file = (File) item;
             if (file.isDirectory()) {
+                getListView().setItemChecked(position, false);
+
                 paths.push(file.getName());
                 setFileManagerTitle(file.getName());
                 startBackgroundTask();

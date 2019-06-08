@@ -28,8 +28,10 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import au.com.tyo.android.adapter.QuickAccessListAdapter;
 import au.com.tyo.app.Constants;
@@ -58,7 +60,7 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
 
     private boolean multipleSelectionsAllowed;
 
-    private List selected;
+    private Set selected;
 
     public PageCommonList(T controller, Activity activity) {
         super(controller, activity);
@@ -66,6 +68,7 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
         listItemResourceId = -1;
         listId = -1;
         multipleSelectionsAllowed = false;
+        selected = new HashSet();
 
         setContentViewResId(R.layout.list_view);
 
@@ -80,7 +83,7 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
         return listId;
     }
 
-    public List getSelected() {
+    public Set getSelected() {
         return selected;
     }
 
@@ -136,6 +139,9 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
             if (multipleSelectionsAllowed) {
                 listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
                 listView.setItemsCanFocus(false);
+
+                // for (int i = 0; i < listView.getCount(); ++i)
+                //     listView.setItemChecked(0, false);
             }
 
             // not yet
@@ -361,6 +367,13 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (isMultipleSelectionsAllowed()) {
             boolean isChecked = getListView().isItemChecked(position);
+            Object item = getListItem(position);
+
+            if (isChecked)
+                selected.add(item);
+            else
+                selected.remove(item);
+
             // getListView().setItemChecked(position, !isChecked);
             // isChecked = getListView().isItemChecked(position);
             return;
