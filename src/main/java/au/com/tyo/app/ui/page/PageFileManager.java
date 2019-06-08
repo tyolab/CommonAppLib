@@ -110,16 +110,19 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
 
     @Override
     public boolean onBackPressed() {
-        if (paths.size() > 0)
+        if (paths.size() > 0) {
             paths.pop();
+            startBackgroundTask();
+            return true;
+        }
         return super.onBackPressed();
     }
 
-    @Override
-    protected boolean onHomeButtonClick() {
-        finish();
-        return true;
-    }
+    // @Override
+    // protected boolean onHomeButtonClick() {
+    //     finish();
+    //     return true;
+    // }
 
     private String generatePaths() {
        StringBuffer sb = new StringBuffer();

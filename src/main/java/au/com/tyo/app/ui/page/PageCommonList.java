@@ -360,7 +360,9 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (isMultipleSelectionsAllowed()) {
-            getListView().setItemChecked(position, !getListView().isItemChecked(position));
+            boolean isChecked = getListView().isItemChecked(position);
+            // getListView().setItemChecked(position, !isChecked);
+            // isChecked = getListView().isItemChecked(position);
             return;
         }
 
