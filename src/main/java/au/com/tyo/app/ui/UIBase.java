@@ -429,7 +429,7 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
     }
 
     @Override
-    public void gotoPageFileManager(String managerId, List files, String title, boolean allowMultipleSelections) {
+    public void gotoPageFileManager(String managerId, List files, String title, boolean allowMultipleSelections, int requestCode) {
         gotoPageWithData((Page) getCurrentPage(), CommonActivityFileManager.class, files, title);
     }
 

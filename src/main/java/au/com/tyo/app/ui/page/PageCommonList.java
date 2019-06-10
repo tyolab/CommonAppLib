@@ -28,10 +28,12 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+
+import javax.annotation.OverridingMethodsMustInvokeSuper;
 
 import au.com.tyo.android.adapter.QuickAccessListAdapter;
 import au.com.tyo.app.Constants;
@@ -60,7 +62,8 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
 
     private boolean multipleSelectionsAllowed;
 
-    private Set selected;
+    private Collection selected;
+    private Collection<Integer> selectedPosition;
 
     public PageCommonList(T controller, Activity activity) {
         super(controller, activity);
@@ -69,6 +72,7 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
         listId = -1;
         multipleSelectionsAllowed = false;
         selected = new HashSet();
+        selectedPosition = new HashSet();
 
         setContentViewResId(R.layout.list_view);
 
@@ -83,7 +87,7 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
         return listId;
     }
 
-    public Set getSelected() {
+    public Collection getSelected() {
         return selected;
     }
 
@@ -168,7 +172,11 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-        if (item.getItemId() == R.id.menuItemSelect) {
+        if (item.getItemId() == R.id.menuItemSelect || item.getItemId() == R.id.menuItemSelectAll) {
+            if (item.getItemId() == R.id.menuItemSelectAll) {
+                for (int i = 0; i < adapter.getCount(); ++i)
+                    selected.add(adapter.getItem(i));
+            }
             if (!getController().onMultipleListItemsSelected(listId, selected))
                 setResultAndFinish(selected);
             else
@@ -336,10 +344,13 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
         return false;
     }
 
+    @OverridingMethodsMustInvokeSuper
     @Override
     public boolean onBackPressed() {
         // clear result
         setResult(null);
+        deselected();
+
         return super.onBackPressed();
     }
 
@@ -355,8 +366,9 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
     protected void onMenuPostCreated() {
         super.onMenuPostCreated();
 
-        if (multipleSelectionsAllowed)
-            getActionBarMenu().showMenuItem(R.id.menuItemSelect);
+        // No, when there is an item selected
+        // if (multipleSelectionsAllowed)
+        //     getActionBarMenu().showMenuItem(R.id.menuItemSelect);
     }
 
     protected Object getListItem(int position) {
@@ -369,10 +381,19 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
             boolean isChecked = getListView().isItemChecked(position);
             Object item = getListItem(position);
 
-            if (isChecked)
+            if (isChecked) {
                 selected.add(item);
-            else
+                selectedPosition.add(position);
+            }
+            else {
                 selected.remove(item);
+                selectedPosition.remove(position);
+            }
+
+            if (selected.size() > 0)
+                getActionBarMenu().showMenuItem(R.id.menuItemSelect);
+            else
+                getActionBarMenu().hideMenuItem(R.id.menuItemSelect);
 
             // getListView().setItemChecked(position, !isChecked);
             // isChecked = getListView().isItemChecked(position);
@@ -388,5 +409,26 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
 
     public boolean isMultipleSelectionsAllowed() {
         return multipleSelectionsAllowed;
+    }
+
+    @OverridingMethodsMustInvokeSuper
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (multipleSelectionsAllowed)
+            deselectAll();
+    }
+
+    protected void deselectAll() {
+        for (int i = 0; i < listView.getCount(); ++i)
+            listView.setItemChecked(0, false);
+    }
+
+    protected void deselected() {
+        for (Integer pos : selectedPosition) {
+            listView.setItemChecked(pos, false);
+        }
+        selected.clear();
     }
 }

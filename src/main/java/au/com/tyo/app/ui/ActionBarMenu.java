@@ -189,6 +189,11 @@ public class ActionBarMenu {
         setMenuItemVisible(menuItemId, true);
     }
 
+    public void showMenuItem(int menuItemId, boolean visible) {
+        setMenuItemVisible(menuItemId, visible);
+    }
+
+
     public void setMenu(Menu menu) {
         this.menu = menu;
     }

@@ -25,9 +25,9 @@ import android.widget.TextView;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Observable;
-import java.util.Set;
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
@@ -1044,7 +1044,7 @@ public abstract class CommonApp<UIType extends UI,
     }
 
 	@Override
-	public boolean onMultipleListItemsSelected(int listId, Set selected) {
+	public boolean onMultipleListItemsSelected(int listId, Collection selected) {
 		return false;
 	}
 }

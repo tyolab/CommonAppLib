@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2019. TYONLINE TECHNOLOGY PTY. LTD. (TYOLAB)
+  ~
+  -->
+
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menuItemSelectAll"
+        android:title="@string/select_all"
+        app:showAsAction="never"
+        android:visible="true">
+    </item>
+</menu>
