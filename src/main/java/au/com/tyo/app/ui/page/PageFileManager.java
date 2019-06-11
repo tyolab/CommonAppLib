@@ -12,7 +12,6 @@ import android.widget.AdapterView;
 
 import java.io.File;
 import java.util.LinkedList;
-import java.util.List;
 
 import au.com.tyo.android.adapter.QuickAccessListAdapter;
 import au.com.tyo.app.Controller;
@@ -65,7 +64,7 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
         if (null == rootPath && getBaseAdapter().getCount() > 0) {
             if (getBaseAdapter().getItem(0) instanceof File) {
                 File file = (File) getBaseAdapter().getItem(0);
-                setFileManagerTitle(currentFolderName = file.getName());
+                if (file.isDirectory())  setFileManagerTitle(currentFolderName = file.getName());
                 rootPath = file.getParent();
             }
             // more conditions
@@ -91,6 +90,8 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
 
                 paths.push(file.getName());
                 setFileManagerTitle(file.getName());
+
+                setCurrentList(null);
                 startBackgroundTask();
                 return;
             }
@@ -103,16 +104,18 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
     protected void onPageBackgroundTaskFinished(int id) {
         super.onPageBackgroundTaskFinished(id);
 
-        getQuickAccessListAdapter().clear();
-        getQuickAccessListAdapter().addAll(fileList);
-        getQuickAccessListAdapter().notifyDataSetChanged();
+        if (null != fileList) {
+            getQuickAccessListAdapter().clear();
+            getQuickAccessListAdapter().addAll(fileList);
+            getQuickAccessListAdapter().notifyDataSetChanged();
+        }
     }
 
     @Override
     public void run() {
         currentPath = createCompletePath();
 
-        if (!TextUtils.isEmpty(currentPath)) {
+        if (!TextUtils.isEmpty(currentPath) && null == getCurrentList()) {
             fileList = new WildcardFileStack(new File(currentPath));
             fileList.listFiles();
 
@@ -123,6 +126,8 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
                 else if (file.isFile())
                     ++currentFileCount;
             }
+
+            setCurrentList(fileList);
         }
     }
 
@@ -135,7 +140,7 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
 
     @Override
     public boolean onBackPressed() {
-        deselected();
+        clearSelections();
 
         if (paths.size() > 0) {
             paths.pop();
@@ -146,7 +151,7 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
             // getQuickAccessListAdapter().clear();
             // getQuickAccessListAdapter().notifyDataSetChanged();
             // getQuickAccessListAdapter().notifyDataSetInvalidated();
-
+            setCurrentList(null);
             startBackgroundTask();
             return true;
         }

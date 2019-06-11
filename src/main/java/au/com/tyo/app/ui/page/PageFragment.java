@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import au.com.tyo.app.CommonLog;
 import au.com.tyo.app.Constants;
+import au.com.tyo.app.ui.UI;
 import au.com.tyo.app.ui.UIEntity;
 
 /**
@@ -238,4 +239,5 @@ public class PageFragment implements UIEntity {
             return fragment.getActivity();
         return null;
     }
+
 }

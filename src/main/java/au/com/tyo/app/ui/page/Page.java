@@ -60,6 +60,7 @@ import au.com.tyo.app.Controller;
 import au.com.tyo.app.R;
 import au.com.tyo.app.model.Searchable;
 import au.com.tyo.app.ui.ActionBarMenu;
+import au.com.tyo.app.ui.UI;
 import au.com.tyo.app.ui.UIPage;
 import au.com.tyo.app.ui.view.AllAdView;
 import au.com.tyo.app.ui.view.BodyView;
@@ -1867,5 +1868,10 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState) {
         // no pos
+    }
+
+    @Override
+    public UI getUi() {
+        return getController().getUi();
     }
 }

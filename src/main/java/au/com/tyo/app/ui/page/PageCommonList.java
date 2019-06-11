@@ -65,6 +65,11 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
     private Collection selected;
     private Collection<Integer> selectedPosition;
 
+    /**
+     * Not the same addres as in the items
+     */
+    private List currentList;
+
     public PageCommonList(T controller, Activity activity) {
         super(controller, activity);
 
@@ -172,18 +177,26 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-        if (item.getItemId() == R.id.menuItemSelect || item.getItemId() == R.id.menuItemSelectAll) {
-            if (item.getItemId() == R.id.menuItemSelectAll) {
-                for (int i = 0; i < adapter.getCount(); ++i)
-                    selected.add(adapter.getItem(i));
-            }
-            if (!getController().onMultipleListItemsSelected(listId, selected))
-                setResultAndFinish(selected);
-            else
-                finish();
+        if (item.getItemId() == R.id.menuItemSelect)
+            onMenuItemSelectClick();
+        else if (item.getItemId() == R.id.menuItemSelectAll) {
+            onMenuItemSelectAllClick();
         }
 
         return super.onMenuItemClick(item);
+    }
+
+    protected void onMenuItemSelectClick() {
+        if (!getController().onMultipleListItemsSelected(listId, selected))
+            setResultAndFinish(selected);
+        else
+            finish();
+    }
+
+    protected void onMenuItemSelectAllClick() {
+        for (int i = 0; i < adapter.getCount(); ++i)
+            selected.add(adapter.getItem(i));
+        onMenuItemSelectClick();
     }
 
     public boolean isArrayAdapter() {
@@ -205,7 +218,7 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
         if (intent.hasExtra(Constants.DATA_LIST)) {
             createAdapter();
 
-            List currentList = null;
+            // List currentList = null;
             try {
                 currentList = intent.getParcelableArrayListExtra(Constants.DATA_LIST);
             }
@@ -298,7 +311,7 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
                 data = object;
 
             if (null != data) {
-                List currentList;
+                // List currentList;
 
                 if (data instanceof List) {
                     currentList = (List) data;
@@ -349,7 +362,7 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
     public boolean onBackPressed() {
         // clear result
         setResult(null);
-        deselected();
+        clearSelections();
 
         return super.onBackPressed();
     }
@@ -425,10 +438,19 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
             listView.setItemChecked(0, false);
     }
 
-    protected void deselected() {
+    protected void clearSelections() {
         for (Integer pos : selectedPosition) {
             listView.setItemChecked(pos, false);
         }
         selected.clear();
+        selectedPosition.clear();
+    }
+
+    public List getCurrentList() {
+        return currentList;
+    }
+
+    public void setCurrentList(List currentList) {
+        this.currentList = currentList;
     }
 }

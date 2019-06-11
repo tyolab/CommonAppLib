@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import au.com.tyo.android.AndroidHelper;
 import au.com.tyo.android.AndroidUtils;
 import au.com.tyo.android.CommonInitializer;
 import au.com.tyo.android.CommonUIBase;
@@ -429,7 +430,7 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
     }
 
     @Override
-    public void gotoPageFileManager(String managerId, List files, String title, boolean allowMultipleSelections, int requestCode) {
+    public void gotoPageFileManager(int id, String managerId, List files, String title, boolean allowMultipleSelections, int requestCode) {
         gotoPageWithData((Page) getCurrentPage(), CommonActivityFileManager.class, files, title);
     }
 
@@ -498,5 +499,10 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
     public void showFormValidationFailureDialog() {
         // no, not by default
         // override me to show yours
+    }
+
+    @Override
+    public void openSystemDocumentManager(Activity activity, int requestCode, String fileType, boolean allowMultipleSelection) {
+        AndroidHelper.openDocumentManager(activity, requestCode, fileType, allowMultipleSelection);
     }
 }

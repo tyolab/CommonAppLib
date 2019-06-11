@@ -188,4 +188,6 @@ public interface UIPage extends UIEntity {
     Toolbar getToolbar();
 
     Object getResult();
+
+    UI getUi();
 }

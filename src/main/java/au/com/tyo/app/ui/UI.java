@@ -143,5 +143,7 @@ public interface UI {
 
     void showFormValidationFailureDialog();
 
-    void gotoPageFileManager(String managerId, List unsafeFiles, String title, boolean allowMultipleSelections, int requestCode);
+    void gotoPageFileManager(int id, String managerId, List unsafeFiles, String title, boolean allowMultipleSelections, int requestCode);
+
+    void openSystemDocumentManager(Activity activity, int requestCode, String fileType, boolean allowMultipleSelection);
 }
