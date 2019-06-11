@@ -281,6 +281,9 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
             if (object instanceof Map) {
                 Map map = (Map) object;
 
+                if (map.containsKey(Constants.DATA_LIST_ID))
+                    listId = (int) map.get(Constants.DATA_LIST_ID);
+
                 if (map.containsKey(Constants.DATA_LIST))
                     data = (map).get(Constants.DATA_LIST);
                 else {
@@ -292,9 +295,6 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
                             (int[]) map.get(Constants.DATA_LIST_SELECTED));
 
                     setToShowSearchView((Boolean) map.get(Constants.DATA_SHOW_SEARCH));
-
-                    if (map.containsKey(Constants.DATA_LIST_ID))
-                        listId = (int) map.get(Constants.DATA_LIST_ID);
                 }
 
                 if (map.containsKey(Constants.DATA_LIST_KEY))
@@ -438,6 +438,7 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
             listView.setItemChecked(0, false);
     }
 
+    @OverridingMethodsMustInvokeSuper
     protected void clearSelections() {
         for (Integer pos : selectedPosition) {
             listView.setItemChecked(pos, false);

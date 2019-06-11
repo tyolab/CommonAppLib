@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -146,4 +147,6 @@ public interface UI {
     void gotoPageFileManager(int id, String managerId, List unsafeFiles, String title, boolean allowMultipleSelections, int requestCode);
 
     void openSystemDocumentManager(Activity activity, int requestCode, String fileType, boolean allowMultipleSelection);
+
+    void openFileWithOtherApps(File file);
 }

@@ -16,6 +16,9 @@ import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 
+import androidx.core.content.FileProvider;
+
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -505,4 +508,22 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
     public void openSystemDocumentManager(Activity activity, int requestCode, String fileType, boolean allowMultipleSelection) {
         AndroidHelper.openDocumentManager(activity, requestCode, fileType, allowMultipleSelection);
     }
+
+    @Override
+    public void openFileWithOtherApps(File file) {
+        Context context = getCurrentPage().getActivity();
+        openFileWithOtherApps(context, file);
+    }
+
+    public static void openFileWithOtherApps(Context context, File file) {
+        Uri uri = FileProvider.getUriForFile(context, context.getPackageName() + ".fileprovider", file);
+        String type = context.getContentResolver().getType(uri);
+
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.setDataAndType(uri, type);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        context.startActivity(intent);
+    }
+
 }

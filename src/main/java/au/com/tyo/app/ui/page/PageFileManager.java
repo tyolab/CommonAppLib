@@ -184,4 +184,11 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
     public void showProgressBar() {
         // super.showProgressBar();
     }
+
+    @Override
+    protected void clearSelections() {
+        super.clearSelections();
+        currentFolderCount = 0;
+        currentFileCount = 0;
+    }
 }
