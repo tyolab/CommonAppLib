@@ -8,9 +8,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_empty_list_hint"
+        android:layout_centerInParent="true"
+        android:text="@string/zero_files"
+        android:visibility="gone"
+        />
+
     <include layout="@layout/list_view" />
 
     <include layout="@layout/action_list"
         android:id="@+id/container_action_list"
+        android:visibility="gone"
         />
 </RelativeLayout>

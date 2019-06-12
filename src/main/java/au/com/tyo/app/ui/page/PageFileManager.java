@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.TextView;
 
 import java.io.File;
 import java.util.LinkedList;
@@ -35,6 +36,11 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
 
     protected int currentFolderCount;
 
+    /**
+     * UI elements
+     */
+    private TextView tvEmptyListHint;
+
     public PageFileManager(T controller, Activity activity) {
         super(controller, activity);
 
@@ -53,6 +59,8 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
     @Override
     public void setupComponents() {
         super.setupComponents();
+
+        tvEmptyListHint = findViewById(R.id.tv_empty_list_hint);
     }
 
     @Override
@@ -64,7 +72,7 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
         if (null == rootPath && getBaseAdapter().getCount() > 0) {
             if (getBaseAdapter().getItem(0) instanceof File) {
                 File file = (File) getBaseAdapter().getItem(0);
-                if (file.isDirectory())  setFileManagerTitle(currentFolderName = file.getName());
+                // if (file.isDirectory())  setFileManagerTitle(currentFolderName = file.getName());
                 rootPath = file.getParent();
             }
             // more conditions
@@ -76,7 +84,11 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
     }
 
     protected void setFileManagerTitle(String title) {
-        setPageTitleOnToolbar(title);
+        setPageTitleOnToolbar(null != title ? title : getTitle());
+    }
+
+    public void setCurrentFolderName(String currentFolderName) {
+        this.currentFolderName = currentFolderName;
     }
 
     @Override
@@ -88,8 +100,7 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
             if (file.isDirectory()) {
                 getListView().setItemChecked(position, false);
 
-                paths.push(file.getName());
-                setFileManagerTitle(file.getName());
+                paths.push(currentFolderName = file.getName());
 
                 setCurrentList(null);
                 startBackgroundTask();
@@ -109,6 +120,17 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
             getQuickAccessListAdapter().addAll(fileList);
             getQuickAccessListAdapter().notifyDataSetChanged();
         }
+
+        if (null == getCurrentList() || getCurrentList().size() == 0) {
+            tvEmptyListHint.setVisibility(View.VISIBLE);
+            getListView().setVisibility(View.GONE);
+        }
+        else {
+            tvEmptyListHint.setVisibility(View.GONE);
+            getListView().setVisibility(View.VISIBLE);
+        }
+
+        setFileManagerTitle(currentFolderName);
     }
 
     @Override
@@ -141,9 +163,13 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
     @Override
     public boolean onBackPressed() {
         clearSelections();
+        setCurrentFolderName(null);
 
         if (paths.size() > 0) {
             paths.pop();
+
+            if (paths.size() > 0)
+                setCurrentFolderName(paths.getFirst());
 
             // getSelected().clear();
             // deselectAll();
