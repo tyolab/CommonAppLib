@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import au.com.tyo.android.AndroidMarket;
+import au.com.tyo.app.CommonApp;
 import au.com.tyo.app.Controller;
 import au.com.tyo.app.R;
 import au.com.tyo.app.ui.*;
@@ -83,7 +84,6 @@ public class AllAdView extends FrameLayout {
 
 		loadAd();
 	    show();
-// 		hide();
 	}
 
 	private void loadAd() {
@@ -96,12 +96,15 @@ public class AllAdView extends FrameLayout {
 	}
 
 	public void show() {
-		if (controller.getNetworkMonitor().hasInternet())
-			parent.setVisibility(View.VISIBLE);
+		if (null != parent) {
+			if (null == controller.getNetworkMonitor() || controller.getNetworkMonitor().hasInternet())
+				parent.setVisibility(View.VISIBLE);
+		}
 	}
 
 	public void hide() {
-		parent.setVisibility(View.GONE);
+		if (null != parent)
+			parent.setVisibility(View.GONE);
 	}
 
 	public void initialize(Controller controller, ViewGroup parent) {
