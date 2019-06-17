@@ -52,7 +52,7 @@ public class FormAbout extends DataFormEx {
 
         addAboutPageHeader();
 
-        aboutGroup.addField(context.getString(R.string.version), AndroidUtils.getPackageVersionName(context) + " " + AndroidUtils.getAbi() + "-b" + BuildConfig.VERSION_CODE);
+        aboutGroup.addField(context.getString(R.string.version), getAppVersion());
         aboutGroup.addField(context.getString(R.string.copyright), context.getString(R.string.app_copyright));
         addGroup(aboutGroup);
 
@@ -80,6 +80,10 @@ public class FormAbout extends DataFormEx {
         }
 
         addAboutPageFooter();
+    }
+
+    protected String getAppVersion() {
+        return AndroidUtils.getPackageVersionName(context) + " " + AndroidUtils.getAbi();
     }
 
     protected void addAboutPageHeader() {

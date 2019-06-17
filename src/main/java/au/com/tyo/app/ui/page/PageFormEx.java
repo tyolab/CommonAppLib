@@ -16,6 +16,7 @@ import au.com.tyo.app.Controller;
 import au.com.tyo.app.R;
 import au.com.tyo.json.android.interfaces.CommonListener;
 import au.com.tyo.json.android.interfaces.FieldItem;
+import au.com.tyo.json.android.interfaces.JsonApi;
 import au.com.tyo.json.android.utils.FormHelper;
 import au.com.tyo.json.form.DataFormEx;
 import au.com.tyo.json.form.FormField;
@@ -31,6 +32,8 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
     private String formId;
 
     public interface FormHandler {
+
+        void attachAPI(String formId, JsonApi api);
 
         void handleFormValidationFailure(String formId);
 
@@ -57,6 +60,8 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
         DataFormEx getForm(String formId);
 
         void onFormResume(String formId);
+
+        void onValueUpdated(String formId, String key, String value);
 
         // boolean validate(String key, String text);
         //
@@ -153,8 +158,10 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
         /**
          * In case, the form needs to be initialized in the form handler
          */
-        if (null != formHandler)
+        if (null != formHandler) {
+            formHandler.attachAPI(formId, this);
             formHandler.initializeForm(formId, dataFormEx);
+        }
 
         if (!dataFormEx.hasFooter())
             dataFormEx.setFooter(R.layout.form_footer);
@@ -283,6 +290,14 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
 
         if (null != formHandler)
             formHandler.onFormResume(getFormIdInternal());
+    }
+
+    @Override
+    public void writeValue(String stepName, String key, String value) {
+        super.writeValue(stepName, key, value);
+        
+        if (null != formHandler)
+            formHandler.onValueUpdated(formId, key, value);
     }
 
     // @Override

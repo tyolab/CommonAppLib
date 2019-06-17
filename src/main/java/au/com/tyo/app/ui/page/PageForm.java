@@ -560,18 +560,22 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
         }
     }
 
+    @Override
     public void updateForm(String keyStr) {
         updateForm(keyStr, null);
     }
 
+    @Override
     public void updateForm(String keyStr, Object value) {
         getJsonFormFragment().updateForm(keyStr, value);
     }
 
+    @Override
     public void updateGroupVisibility(String keyStr, boolean visible) {
         getJsonFormFragment().updateGroupVisibility(keyStr, visible);
     }
 
+    @Override
     public void updateFieldVisibility(String keyStr, boolean visible) {
         getJsonFormFragment().updateFormFieldVisibility(keyStr, visible);
     }
