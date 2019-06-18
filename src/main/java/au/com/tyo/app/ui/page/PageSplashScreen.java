@@ -255,4 +255,9 @@ public class PageSplashScreen extends Page implements SplashScreenMessageListene
         if (null != controller)
             controller.bindDataFromOtherApps(intent);
     }
+
+    @Override
+    protected void setupAdView() {
+        // In splashscreen we don't show Ad
+    }
 }

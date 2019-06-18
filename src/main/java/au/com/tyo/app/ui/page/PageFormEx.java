@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -62,6 +63,10 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
         void onFormResume(String formId);
 
         void onValueUpdated(String formId, String key, String value);
+
+        void setupFormHeader(String formId, View view);
+
+        void setupFormFooter(String formId, View view);
 
         // boolean validate(String key, String text);
         //
@@ -298,6 +303,18 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
         
         if (null != formHandler)
             formHandler.onValueUpdated(formId, key, value);
+    }
+
+    @Override
+    public void setupFormHeader(View view) {
+        if (null != formHandler)
+            formHandler.setupFormHeader(formId, view);
+    }
+
+    @Override
+    public void setupFormFooter(View view) {
+        if (null != formHandler)
+            formHandler.setupFormFooter(formId, view);
     }
 
     // @Override

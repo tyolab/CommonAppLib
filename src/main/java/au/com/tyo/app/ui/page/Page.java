@@ -545,15 +545,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         setupHeader();
         setupSearchBar();
 
-        if (null != mainView) {
-            ad = (AllAdView) mainView.findViewById(R.id.all_ad_view);
-            if (null != ad) {
-                addAdView();
-
-                // Don't load ad here, because we don't know whether to display ad or not, let the each particular page decides
-                // loadAd();
-            }
-        }
+        setupAdView();
 
         if (!controller.getNetworkMonitor().hasInternet())
             onNetworkDisconnected();
@@ -563,7 +555,26 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         setupPageOverlay(pageOverlay);
     }
 
-    private void loadAd() {
+    protected void setupAdView() {
+        if (null != mainView) {
+            ad = (AllAdView) mainView.findViewById(R.id.all_ad_view);
+            if (null != ad) {
+                addAdView();
+
+                // Don't load ad here, because we don't know whether to display ad or not, let the each particular page decides
+                // loadAd();
+            }
+        }
+    }
+
+    /**
+     * By default we don't show ad, unless you specify what page should load it
+     */
+    protected void addAdView() {
+        //addAdViewToFooter();
+    }
+
+    protected void loadAd() {
         if (null != ad && controller.getSettings().hasAd())
             ad.loadBannerAd();
     }
@@ -756,7 +767,10 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         this.bodyView = bodyView;
     }
 
-    protected void addAdView() {
+    /**
+     * add Ad View to Footer
+     */
+    protected void addAdViewToFooter() {
         ad.initialize(controller, footerView);
     }
 

@@ -109,7 +109,7 @@ public class AllAdView extends FrameLayout {
 
 	public void initialize(Controller controller, ViewGroup parent) {
     	this.controller = controller;
-    	this.parent = parent;
+    	this.parent = null == parent ? this : parent;
     	
     	Context context = this.getContext();
 
