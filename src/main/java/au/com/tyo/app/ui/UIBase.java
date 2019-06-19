@@ -28,6 +28,7 @@ import au.com.tyo.android.AndroidUtils;
 import au.com.tyo.android.CommonInitializer;
 import au.com.tyo.android.CommonUIBase;
 import au.com.tyo.android.DialogFactory;
+import au.com.tyo.app.CommonLog;
 import au.com.tyo.app.ui.activity.CommonActivityAbout;
 import au.com.tyo.app.ui.activity.CommonActivityFileManager;
 import au.com.tyo.app.ui.activity.CommonActivityForm;
@@ -523,7 +524,13 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
         intent.setAction(Intent.ACTION_VIEW);
         intent.setDataAndType(uri, type);
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        context.startActivity(intent);
+
+        try {
+            context.startActivity(intent);
+        }
+        catch (Exception ex) {
+            CommonLog.e("UIBase", "cannot open file with other apps", ex);
+        }
     }
 
 }
