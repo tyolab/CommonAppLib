@@ -22,46 +22,46 @@
         android:src="@drawable/ic_launcher" />
     -->
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:id="@+id/container_progress_bar"
-        android:orientation="vertical"
-        >
+        android:id="@+id/container_bottom"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
 
-        <include layout="@layout/background_progress_text"
-            android:layout_above="@+id/progress_bar_background_service"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:id="@+id/container_progress_bar"
+            android:layout_above="@+id/container_below_progressbar"
+            >
+
+            <include layout="@layout/background_progress_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                />
+
+            <include layout="@layout/horizontal_progress_bar" />
+
+        </LinearLayout>
+
+        <include layout="@layout/background_progress_container_below"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:id="@+id/container_below_progressbar"
+            android:layout_alignParentBottom="true"
             />
 
-        <ProgressBar
-            android:id="@+id/progress_bar_background_service"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:max="100"
-            android:paddingTop="2dp"
-            android:paddingLeft="@dimen/page_progress_dialog_padding"
-            android:paddingRight="@dimen/page_progress_dialog_padding"
-            android:progress="0" />
-
-    </LinearLayout>
+    </RelativeLayout>
 
     <include layout="@layout/background_progress_container_above"
         android:id="@+id/container_above_progressbar"
-        android:layout_above="@id/container_progress_bar"
+        android:layout_above="@id/container_bottom"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         />
 
-    <include layout="@layout/background_progress_container_below"
-        android:id="@+id/container_below_progressbar"
-        android:layout_below="@id/container_progress_bar"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        />
 
 </RelativeLayout>

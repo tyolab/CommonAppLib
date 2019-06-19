@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2019. TYONLINE TECHNOLOGY PTY. LTD. (TYOLAB)
+  ~
+  -->
+
+<resources>
+
+    <style name="AppStyle.Common.ProgressBar.Horizontal" parent="Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:max">100</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:progress">0</item>
+    </style>
+
+    <style name="AppStyle.Common.ProgressBar"></style>
+</resources>

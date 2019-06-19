@@ -31,6 +31,11 @@ import au.com.tyo.app.ui.*;
 
 
 public class AllAdView extends FrameLayout {
+
+	public static final int AD_STATE_NONE = 0;
+	public static final int AD_STATE_LOADING = 99;
+	public static final int AD_STATE_LOADED = 1;
+	public static final int AD_STATE_FAILED = -1;
 	
     private static final String LOG_TAG = "AllAdView";
 	
@@ -45,6 +50,8 @@ public class AllAdView extends FrameLayout {
 	private Controller controller;
 	
 	private ViewGroup parent;
+
+	private int state;
 
 	public AllAdView(Context context) {
 		super(context);
@@ -70,6 +77,7 @@ public class AllAdView extends FrameLayout {
 
     private void init() {
     	banner = null;
+    	state = AD_STATE_NONE;
 	}
 
 	public static void setIsAmazonAd(boolean isAmazonAd) {
@@ -83,7 +91,14 @@ public class AllAdView extends FrameLayout {
 		initializeAd();
 
 		loadAd();
-	    show();
+
+		/**
+		 * Google Ad has a listner
+		 */
+		if (!isAmazonAd)
+			hide();
+
+		state = AD_STATE_LOADING;
 	}
 
 	private void loadAd() {
@@ -96,6 +111,9 @@ public class AllAdView extends FrameLayout {
 	}
 
 	public void show() {
+		if (state != AD_STATE_LOADED)
+			return;
+
 		if (null != parent) {
 			if (null == controller.getNetworkMonitor() || controller.getNetworkMonitor().hasInternet())
 				parent.setVisibility(View.VISIBLE);
@@ -152,7 +170,8 @@ public class AllAdView extends FrameLayout {
 		@Override
 		public void onAdLoaded() {
 			super.onAdLoaded();
-			
+
+			state = AD_STATE_LOADED;
 			controller.getUi().getCurrentPage().onAdLoaded();
 		}
 
@@ -170,6 +189,7 @@ public class AllAdView extends FrameLayout {
          */
         public void onAdLoaded(final au.com.tyo.app.ui.Ad ad, final AdProperties adProperties) {
             Log.i(LOG_TAG, adProperties.getAdType().toString() + " ad loaded successfully.");
+			state = AD_STATE_LOADED;
             controller.getUi().getCurrentPage().onAdLoaded();
         }
         
@@ -177,6 +197,7 @@ public class AllAdView extends FrameLayout {
          * This event is called if an ad fails to load.
          */
         public void onAdFailedToLoad(final au.com.tyo.app.ui.Ad ad, final AdError error) {
+			state = AD_STATE_FAILED;
             Log.w(LOG_TAG, "Ad failed to load. Code: " + error.getCode() + ", Message: " + error.getMessage());
         }
     
