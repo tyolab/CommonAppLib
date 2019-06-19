@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2018. TYONLINE TECHNOLOGY PTY. LTD. (TYOLAB)
+  ~ Copyright (c) 2019. TYONLINE TECHNOLOGY PTY. LTD. (TYOLAB)
   ~
   -->
 
 <!--
    some original attibutes
-               android:textColor="#454545" 
+               android:textColor="#454545"
  -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-     >
-    
-    <!-- 
+    >
+
+    <!--
     <ImageView
         android:id="@+id/app_logo"
         android:layout_width="wrap_content"
@@ -22,12 +22,13 @@
         android:src="@drawable/ic_launcher" />
     -->
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/container_bottom"
         android:layout_alignParentBottom="true"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -54,14 +55,14 @@
             android:layout_alignParentBottom="true"
             />
 
-    </RelativeLayout>
+    </LinearLayout>
 
     <include layout="@layout/background_progress_container_above"
         android:id="@+id/container_above_progressbar"
         android:layout_above="@id/container_bottom"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
+        android:layout_alignParentTop="true"
         />
-
 
 </RelativeLayout>
