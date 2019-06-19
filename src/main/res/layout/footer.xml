@@ -5,9 +5,13 @@
     android:id="@+id/footer_view"
     style="@style/AppStyle.Footer"
     >
+
+	<!--
  
 	<include layout="@layout/ad"
 	    />
+
+	-->
     
     <!-- 	    
    	<include layout="@layout/information_view"

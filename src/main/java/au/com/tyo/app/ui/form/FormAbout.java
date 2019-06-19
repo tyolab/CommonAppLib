@@ -83,7 +83,7 @@ public class FormAbout extends DataFormEx {
     }
 
     protected String getAppVersion() {
-        return AndroidUtils.getPackageVersionName(context) + " " + AndroidUtils.getAbi();
+        return AndroidUtils.getPackageVersionName(context) + "_" + AndroidUtils.getAbi();
     }
 
     protected void addAboutPageHeader() {

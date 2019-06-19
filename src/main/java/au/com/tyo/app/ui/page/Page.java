@@ -555,15 +555,19 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         setupPageOverlay(pageOverlay);
     }
 
-    protected void setupAdView() {
-        if (null != mainView) {
-            ad = (AllAdView) mainView.findViewById(R.id.all_ad_view);
-            if (null != ad) {
-                addAdView();
+    protected void initializeAdView() {
+        ad = (AllAdView) LayoutInflater.from(activity).inflate(R.layout.ad, null);
+    }
 
-                // Don't load ad here, because we don't know whether to display ad or not, let the each particular page decides
-                // loadAd();
-            }
+    protected void setupAdView() {
+        if (null == ad && null != mainView)
+            ad = (AllAdView) mainView.findViewById(R.id.all_ad_view);
+
+        if (null != ad) {
+            addAdView();
+
+            // Don't load ad here, because we don't know whether to display ad or not, let the each particular page decides
+            // loadAd();
         }
     }
 
@@ -772,16 +776,23 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
      */
     protected void addAdViewToFooter() {
         ad.initialize(controller, footerView);
+        footerView.addView(ad);
+        if (footerView instanceof FrameLayout) {
+            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+            ad.setLayoutParams(params);
+        }
     }
 
     @Override
     public void hideAd() {
-        ad.hide();
+        if (null != ad)
+            ad.hide();
     }
 
     @Override
     public void showAd() {
-        ad.show();
+        if (null != ad)
+            ad.show();
     }
 
     protected void showDialog(Dialog dialog) {
