@@ -411,7 +411,8 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
 
         // Page becomes invisible to user
         // But setting to null will cause problems for the operations that needs context
-        getController().getUi().setContextPage(null);
+        if (getController().getUi().getContextPage() == this)
+            getController().getUi().setContextPage(null);
     }
 
     @Override
