@@ -19,6 +19,8 @@ package au.com.tyo.app.ui.page;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -954,5 +956,29 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
     @Override
     public String toString() {
         return TextUtils.isEmpty(json) ? "{}" : json;
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        json = savedInstanceState.getString(Constants.EXTRA_KEY_JSON);
+        setEditable(savedInstanceState.getBoolean(Constants.EXTRA_KEY_EDITABLE));
+        setTitle(savedInstanceState.getString(Constants.EXTRA_KEY_TITLE));
+
+        onDataBound();
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState) {
+        super.onRestoreInstanceState(savedInstanceState, persistentState);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putString(Constants.EXTRA_KEY_JSON, json);
+        savedInstanceState.putBoolean(Constants.EXTRA_KEY_EDITABLE, isEditable());
+        savedInstanceState.putString(Constants.EXTRA_KEY_TITLE, getTitle());
+        super.onSaveInstanceState(savedInstanceState);
     }
 }

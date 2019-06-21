@@ -277,7 +277,8 @@ public class CommonAppCompatActivity<ControllerType extends Controller> extends 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (null != getPage()) {
-            controller.getUi().setCurrentScreen(getPage());
+        	// it is done in the resume
+            // controller.getUi().setCurrentScreen(getPage());
 
             if (!getPage().onActivityResult(requestCode, resultCode, data))
                 super.onActivityResult(requestCode, resultCode, data);
