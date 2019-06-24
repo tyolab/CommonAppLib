@@ -9,6 +9,7 @@ import com.amazon.device.ads.*;
 import com.amazon.device.ads.Ad;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -53,6 +54,8 @@ public class AllAdView extends FrameLayout {
 
 	private int state;
 
+	private boolean adSdkInitialized;
+
 	public AllAdView(Context context) {
 		super(context);
 		init();
@@ -80,6 +83,14 @@ public class AllAdView extends FrameLayout {
     	state = AD_STATE_NONE;
 	}
 
+	public boolean isAdSdkInitialized() {
+		return adSdkInitialized;
+	}
+
+	public void setAdSdkInitialized(boolean adSdkInitialized) {
+		this.adSdkInitialized = adSdkInitialized;
+	}
+
 	public static void setIsAmazonAd(boolean isAmazonAd) {
 		AllAdView.isAmazonAd = isAmazonAd;
 	}
@@ -87,6 +98,11 @@ public class AllAdView extends FrameLayout {
 	public void loadBannerAd() {
 		if (banner != null)	 
 			this.removeView(banner);
+
+		if (isAdSdkInitialized()) {
+			if (!isAmazonAd)
+				MobileAds.initialize(getContext(), getContext().getString(R.string.admob_app_id));
+		}
 		
 		initializeAd();
 

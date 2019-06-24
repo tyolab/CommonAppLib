@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 
 import java.util.List;
@@ -62,11 +61,13 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
 
         void onFormResume(String formId);
 
-        void onValueUpdated(String formId, String key, String value);
+        void onValueUpdated(String formId, String key, Object value);
 
         void setupFormHeader(String formId, View view);
 
         void setupFormFooter(String formId, View view);
+
+        void onFormInitialized(String formId);
 
         // boolean validate(String key, String text);
         //
@@ -179,6 +180,9 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
             setForm(dataFormEx);
 
         super.onDataBound();
+
+        if (null != formHandler)
+            formHandler.onFormInitialized(formId);
     }
 
     @Override
@@ -298,11 +302,12 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
     }
 
     @Override
-    public void writeValue(String stepName, String key, String value) {
+    public boolean writeValue(String stepName, String key, String value) {
         super.writeValue(stepName, key, value);
         
         if (null != formHandler)
             formHandler.onValueUpdated(formId, key, value);
+        return false;
     }
 
     @Override
@@ -315,6 +320,13 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
     public void setupFormFooter(View view) {
         if (null != formHandler)
             formHandler.setupFormFooter(formId, view);
+    }
+
+    @Override
+    protected void onFormValueUpdated(String key, Object o) {
+        if (null != formHandler)
+            formHandler.onValueUpdated(formId, key, o);
+        super.onFormValueUpdated(key, o);
     }
 
     // @Override

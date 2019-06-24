@@ -165,7 +165,8 @@ public abstract class CommonAppSettings<T1 extends Map, T2 extends Map> extends 
 	}
 
 	public void denyPermission(String permission) {
-		permissionsGranted.remove(permission);
+		if (null != permissionsGranted)
+			permissionsGranted.remove(permission);
 	}
 
 	public boolean hasStorageWritePermission() {

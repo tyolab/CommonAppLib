@@ -18,6 +18,7 @@
     
     <!-- Ad -->
     <string name="app_ad_unit_id_splash_screen_interstitial">ca-app-pub-7239401099056195/3079360461</string>
+    <string name="admob_app_id"></string>
 
     <!-- activty data schema -->
     <string name="app_path_reset_password">/resetpassword</string>

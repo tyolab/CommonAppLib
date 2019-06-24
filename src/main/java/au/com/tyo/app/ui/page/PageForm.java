@@ -20,6 +20,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
 import android.os.PersistableBundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -285,41 +286,50 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
     }
 
     @Override
-    public void writeValue(String stepName, String key, String value) {
+    public boolean writeValue(String stepName, String key, String value) {
         synchronized (mJSONObject) {
             try {
                 JSONObject jsonObject = mJSONObject.getJSONObject(stepName);
 
-                writeValueToField(key, value, jsonObject);
+                if (writeValueToField(key, value, jsonObject))
+                    return true;
 
                 JSONArray groups = jsonObject.optJSONArray("groups");
                 if (null != groups)
                     for (int i = 0; i < groups.length(); i++) {
                         JSONObject item = groups.getJSONObject(i);
-                        writeValueToField(key, value, item);
+                        if (writeValueToField(key, value, item))
+                            return true;
                     }
             }
             catch (Exception e) {
                 Log.e(TAG, "Failed to write value to the json object cache for key: " + key, e);
             }
         }
+        return false;
     }
 
-    private void writeValueToField(String key, String value, JSONObject jsonObject) throws JSONException {
+    private boolean writeValueToField(String key, String value, JSONObject jsonObject) throws JSONException {
         JSONArray fields = jsonObject.optJSONArray("fields");
         if (null != fields)
             for (int i = 0; i < fields.length(); i++) {
                 JSONObject item = fields.getJSONObject(i);
                 String keyAtIndex = item.getString("key");
                 if (key.equals(keyAtIndex)) {
-                    getJsonFormFragment().addUserInputValueToMetadata(key, null, value);
+                    JsonFormFragment.FieldMetadata metaData = getJsonFormFragment().getFieldMetaData(key);
+
+                    if (!metaData.editable)
+                        return true;
+
+                    getJsonFormFragment().addUserInputValueToMetadata(metaData, null, value);
 
                     String oldValue = item.optString("value");
 
                     checkAndUpdateValue(item, key, null, oldValue, value);
-                    return;
+                    return true;
                 }
             }
+        return false;
     }
 
     private void checkAndUpdateValue(JSONObject item, String parentKey, String childKey, String oldValue, String value) throws JSONException {
@@ -580,6 +590,16 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
     @Override
     public void updateFieldVisibility(String keyStr, boolean visible) {
         getJsonFormFragment().updateFormFieldVisibility(keyStr, visible);
+    }
+
+    @Override
+    public void enableField(String keyStr, boolean enabled) {
+        getJsonFormFragment().enableField(keyStr, enabled);
+    }
+
+    @Override
+    public void setFieldEditable(String keyStr, boolean editable) {
+        getJsonFormFragment().getFieldMetaData(keyStr).editable = editable;
     }
 
     public FormFragment getJsonFormFragment() {
@@ -843,10 +863,17 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
          *    make the step into array
          */
         String value = objectToString(result);
-        writeValue(FIRST_STEP_NAME, key, value);
 
-        getJsonFormFragment().updateForm(key, value);
-        return true;
+        JsonFormFragment.FieldMetadata fieldMetaData = getJsonFormFragment().getFieldMetaData(key);
+        if (fieldMetaData.editable) {
+            writeValue(FIRST_STEP_NAME, key, value);
+            getJsonFormFragment().updateForm(key, value);
+            return true;
+        }
+        else
+            onFormValueUpdated(key, result);
+
+        return false;
     }
 
     /**
@@ -980,5 +1007,25 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
         savedInstanceState.putBoolean(Constants.EXTRA_KEY_EDITABLE, isEditable());
         savedInstanceState.putString(Constants.EXTRA_KEY_TITLE, getTitle());
         super.onSaveInstanceState(savedInstanceState);
+    }
+
+    @Override
+    protected void handleBroadcastMessage(Message msg) {
+        if (msg.what == Constants.MESSAGE_BROADCAST_FORM_VALUE_UPDATED) {
+            onFormValueUpdated((String) msg.obj, null);
+            return;
+        }
+        super.handleBroadcastMessage(msg);
+    }
+
+    /**
+     * Called when there is value get updated maybe outside of the current form
+     * But not necessary to update the field, for example, setting a passcode/password
+     *
+     * @param obj
+     * @param o
+     */
+    protected void onFormValueUpdated(String obj, Object o) {
+        // do something
     }
 }
