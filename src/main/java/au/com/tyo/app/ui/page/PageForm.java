@@ -1028,4 +1028,9 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
     protected void onFormValueUpdated(String obj, Object o) {
         // do something
     }
+
+    @Override
+    public void updateFieldTitle(String keyStr, int titleResId) {
+        getJsonFormFragment().updateFieldTitle(keyStr, titleResId);
+    }
 }
