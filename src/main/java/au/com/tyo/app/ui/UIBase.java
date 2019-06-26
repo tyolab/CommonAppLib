@@ -533,4 +533,13 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
         }
     }
 
+    @Override
+    public void viewContentWithWebView(String content, String title, String mimeType) {
+        Map map = new HashMap();
+        map.put(Constants.DATA, content);
+        map.put(Constants.PAGE_TITLE, title);
+        map.put(Constants.DATA_MIME_TYPE, mimeType);
+        gotoPageWithData(CommonActivityWebView.class, map, title);
+    }
+
 }

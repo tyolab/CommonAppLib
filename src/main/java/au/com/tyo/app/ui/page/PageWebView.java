@@ -30,6 +30,12 @@ public class PageWebView<C extends Controller> extends Page<C> implements ValueC
 
     protected WebChromeClient webChromeClient;
 
+    private String data;
+
+    private String baseUrl;
+
+    private String mimeType;
+
     public interface WebPageListener extends ValueCallback<String> {
         void onPageFinishedLoading(WebView webView, String url);
     }
@@ -41,6 +47,22 @@ public class PageWebView<C extends Controller> extends Page<C> implements ValueC
     public PageWebView(C controller, Activity activity) {
         super(controller, activity);
         setContentViewResId(R.layout.webview);
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
+
+    public String getBaseUrl() {
+        return baseUrl;
+    }
+
+    public void setBaseUrl(String baseUrl) {
+        this.baseUrl = baseUrl;
     }
 
     public WebView getWebView() {
@@ -78,25 +100,33 @@ public class PageWebView<C extends Controller> extends Page<C> implements ValueC
         String str;
         if (intent.hasExtra(Constants.DATA_ASSETS_PATH)) {
             str = intent.getStringExtra(Constants.DATA_ASSETS_PATH);
-            loadFromAssets(str);
+            loadDataFromAssets(str);
         }
-        else if ((str = intent.getStringExtra(Constants.DATA)) != null) {
-            loadHtml(null, str, null);
-        }
+        if (intent.hasExtra(Constants.DATA_MIME_TYPE))
+            mimeType = intent.getStringExtra(Constants.DATA_MIME_TYPE);
+        else
+            mimeType = "text/html";
     }
 
-    public void loadFromAssets(String fileName) {
+    @Override
+    protected void onDataParcelReceived(Object o) {
+        data = o.toString();
+    }
+
+    public void loadDataFromAssets(String fileName) {
         String html = "<html></html>";
         try {
             html = new String(IO.inputStreamToBytes(getActivity().getAssets().open(fileName)));
         } catch (IOException e) {
             Log.e(TAG, StringUtils.exceptionStackTraceToString(e));
         }
-        loadHtml("file:///android_asset/", html, null);
+        // loadHtml("file:///android_asset/", html, null);
+        data = html;
+        baseUrl = "file:///android_asset/";
     }
 
     public void loadHtml(String baseUrl, String html, String url) {
-        webView.loadDataWithBaseURL(baseUrl, html, "text/html", "UTF-8", url);
+        webView.loadDataWithBaseURL(baseUrl, html, mimeType, "UTF-8", url);
     }
 
     public void call(String functionName, Object[] params) {
@@ -141,6 +171,14 @@ public class PageWebView<C extends Controller> extends Page<C> implements ValueC
     @Override
     public void onReceiveValue(String value) {
         // no ops
+    }
+
+    @Override
+    public void onActivityStart() {
+        super.onActivityStart();
+
+        if (null != data)
+            loadHtml(baseUrl, data, null);
     }
 
     public static class CommonWebViewClient extends WebViewClient {

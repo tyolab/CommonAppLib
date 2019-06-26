@@ -149,4 +149,6 @@ public interface UI {
     void openSystemDocumentManager(Activity activity, int requestCode, String fileType, boolean allowMultipleSelection);
 
     void openFileWithOtherApps(File file);
+
+    void viewContentWithWebView(String content, String title, String mimeType);
 }

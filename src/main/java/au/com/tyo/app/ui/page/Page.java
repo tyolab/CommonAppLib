@@ -1250,6 +1250,9 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         if (checkAppCommands(intent))
             return;
 
+        if (intent.hasExtra(Constants.DATA))
+            onDataParcelReceived(intent.getSerializableExtra(Constants.DATA));
+
         if (intent.hasExtra(Constants.PAGE_TOOLBAR_COLOR))
             toolbarColor = getColorFromIntent(intent, Constants.PAGE_TOOLBAR_COLOR);
 
@@ -1316,6 +1319,9 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     public void bindData() {
         if (getController().getParcel() instanceof Map) {
             Map map = (Map) getController().getParcel();
+
+            if (map.containsKey(Constants.DATA))
+                onDataParcelReceived(map.get(Constants.DATA));
             if (map.containsKey(Constants.PAGE_TOOLBAR_COLOR))
                 toolbarColor = (int) map.get(Constants.PAGE_TOOLBAR_COLOR);
             if (map.containsKey(Constants.PAGE_STATUSBAR_COLOR))
@@ -1330,6 +1336,16 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
                 setSubpage(!(boolean) map.get(Constants.PAGE_IS_MAIN));
             setRequestCode(map.containsKey(Constants.PAGE_REQUEST_CODE) ? (Integer) map.get(Constants.PAGE_REQUEST_CODE) : REQUEST_NONE);
         }
+        else if (getController().getParcel() instanceof String)
+            onDataParcelReceived(getController().getParcel());
+    }
+
+    /**
+     *
+     * @param o
+     */
+    protected void onDataParcelReceived(Object o) {
+        // override me to add your logic
     }
 
     /**
