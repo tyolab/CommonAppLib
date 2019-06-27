@@ -122,12 +122,16 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
         }
 
         if (null == getCurrentList() || getCurrentList().size() == 0) {
-            tvEmptyListHint.setVisibility(View.VISIBLE);
-            getListView().setVisibility(View.GONE);
+            if (null != tvEmptyListHint)
+                tvEmptyListHint.setVisibility(View.VISIBLE);
+            if (null != getListView())
+                getListView().setVisibility(View.GONE);
         }
         else {
-            tvEmptyListHint.setVisibility(View.GONE);
-            getListView().setVisibility(View.VISIBLE);
+            if (null != tvEmptyListHint)
+                tvEmptyListHint.setVisibility(View.GONE);
+            if (null != getListView())
+                getListView().setVisibility(View.VISIBLE);
         }
 
         setFileManagerTitle(currentFolderName);
