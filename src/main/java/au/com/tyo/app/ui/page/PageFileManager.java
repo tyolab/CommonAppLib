@@ -44,7 +44,7 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
     public PageFileManager(T controller, Activity activity) {
         super(controller, activity);
 
-        setContentViewResId(R.layout.page_file_manager);
+        setContentViewResId(R.layout.file_list_viewer);
         // setOnItemClickListener(this);
 
         paths = new LinkedList();
