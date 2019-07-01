@@ -17,7 +17,7 @@ import java.util.LinkedList;
 import au.com.tyo.android.adapter.QuickAccessListAdapter;
 import au.com.tyo.app.Controller;
 import au.com.tyo.app.R;
-import au.com.tyo.app.adapter.FileListItemFactory;
+import au.com.tyo.app.adapter.IconiedListItemFactory;
 import au.com.tyo.io.WildcardFileStack;
 
 public class PageFileManager <T extends Controller> extends PageCommonList<T> implements AdapterView.OnItemClickListener {
@@ -80,7 +80,7 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
 
         QuickAccessListAdapter adapter = getQuickAccessListAdapter();
         if (null != adapter)
-            adapter.setItemFactory(new FileListItemFactory(getActivity()));
+            adapter.setItemFactory(new IconiedListItemFactory(getActivity()));
     }
 
     protected void setFileManagerTitle(String title) {
