@@ -56,7 +56,7 @@ public class IconiedListItemFactory<ItemType> extends CommonItemFactory<ItemType
 
         fileIconDrawable = DrawableUtils.createTintedVectorDrawable(context, R.drawable.ic_insert_drive_file_black_24dp, tintColor);
         folderIconDrawable = DrawableUtils.createTintedVectorDrawable(context, R.drawable.ic_folder_black_24dp, tintColor);
-        videoIconDrawable = DrawableUtils.createTintedVectorDrawable(context, R.drawable.ic_videocam_black_24dp, tintColor);
+        videoIconDrawable = DrawableUtils.createTintedVectorDrawable(context, R.drawable.ic_play_circle_outline_black_24dp, tintColor);
         musicIconDrawable = DrawableUtils.createTintedVectorDrawable(context, R.drawable.ic_music_note_black_24dp, tintColor);
     }
 
@@ -64,5 +64,19 @@ public class IconiedListItemFactory<ItemType> extends CommonItemFactory<ItemType
         this.tintColor = tintColor;
     }
 
+    public Drawable getFolderIconDrawable() {
+        return folderIconDrawable;
+    }
 
+    public Drawable getFileIconDrawable() {
+        return fileIconDrawable;
+    }
+
+    public Drawable getMusicIconDrawable() {
+        return musicIconDrawable;
+    }
+
+    public Drawable getVideoIconDrawable() {
+        return videoIconDrawable;
+    }
 }
