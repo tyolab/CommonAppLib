@@ -151,4 +151,8 @@ public interface UI {
     void openFileWithOtherApps(File file);
 
     void viewContentWithWebView(String content, String title, String mimeType);
+
+    void showInputPrompt(int titleResId, DialogInterface.OnClickListener okListener);
+
+    void showInputPrompt(int titleResId, DialogInterface.OnClickListener okListener, DialogInterface.OnClickListener cancelListener);
 }

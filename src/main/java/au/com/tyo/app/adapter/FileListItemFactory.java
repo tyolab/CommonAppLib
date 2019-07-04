@@ -11,12 +11,15 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.ThumbnailUtils;
+import android.widget.TextView;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+import au.com.tyo.app.R;
 import au.com.tyo.data.ContentTypes;
+import au.com.tyo.io.WildcardFileStack;
 import au.com.tyo.utils.FileFormatter;
 
 public class FileListItemFactory extends IconiedListItemFactory<File> {
@@ -65,4 +68,22 @@ public class FileListItemFactory extends IconiedListItemFactory<File> {
         return fileIconDrawable;
     }
 
+    @Override
+    protected void setText2(final File item, final TextView tv2) {
+        if (item.isDirectory()) {
+            if (null != tv2) {
+                tv2.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        WildcardFileStack wildcardFileStack = new WildcardFileStack(item);
+                        wildcardFileStack.listFiles();
+                        tv2.setText("" + wildcardFileStack.size() + ' ' + tv2.getContext().getString(R.string.items));
+                    }
+                });
+            }
+
+        }
+        else
+            super.setText2(item, tv2);
+    }
 }

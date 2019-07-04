@@ -32,5 +32,6 @@
     <string name="select_all">Select All</string>
     <string name="zero_files">0 Files</string>
     <string name="admob_unit_id_banner1" />
+    <string name="items">items</string>
 
 </resources>

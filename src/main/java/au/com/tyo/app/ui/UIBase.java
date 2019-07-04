@@ -13,8 +13,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 
 import androidx.core.content.FileProvider;
 
@@ -29,6 +31,7 @@ import au.com.tyo.android.CommonInitializer;
 import au.com.tyo.android.CommonUIBase;
 import au.com.tyo.android.DialogFactory;
 import au.com.tyo.app.CommonLog;
+import au.com.tyo.app.R;
 import au.com.tyo.app.ui.activity.CommonActivityAbout;
 import au.com.tyo.app.ui.activity.CommonActivityFileManager;
 import au.com.tyo.app.ui.activity.CommonActivityForm;
@@ -540,6 +543,29 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
         map.put(Constants.PAGE_TITLE, title);
         map.put(Constants.DATA_MIME_TYPE, mimeType);
         gotoPageWithData(CommonActivityWebView.class, map, title);
+    }
+
+    @Override
+    public void showInputPrompt(int titleResId, DialogInterface.OnClickListener okListener) {
+        showInputPrompt(titleResId, okListener, null);
+    }
+
+    @Override
+    public void showInputPrompt(int titleResId, DialogInterface.OnClickListener okListener, DialogInterface.OnClickListener cancelListener) {
+        Context context = getCurrentPage().getActivity();
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(titleResId);
+
+        final EditText input = new EditText(context);
+        // If it is for password
+        //  | InputType.TYPE_TEXT_VARIATION_PASSWORD
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+
+        builder.setPositiveButton(context.getString(R.string.alert_dialog_ok), okListener);
+        builder.setNegativeButton(R.string.alert_dialog_cancel, cancelListener == null ? DialogFactory.dismissMeListener : cancelListener);
+
+        builder.show();
     }
 
 }
