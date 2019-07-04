@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,9 +12,11 @@ import android.widget.ImageView;
 import java.util.List;
 import java.util.Map;
 
+import au.com.tyo.app.CommonLog;
 import au.com.tyo.app.Constants;
 import au.com.tyo.app.Controller;
 import au.com.tyo.app.R;
+import au.com.tyo.app.api.JSON;
 import au.com.tyo.json.android.interfaces.CommonListener;
 import au.com.tyo.json.android.interfaces.FieldItem;
 import au.com.tyo.json.android.interfaces.JsonApi;
@@ -327,6 +330,26 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
         if (null != formHandler)
             formHandler.onValueUpdated(formId, key, o);
         super.onFormValueUpdated(key, o);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        String json = JSON.toJson(dataFormEx);
+        savedInstanceState.putString(Constants.EXTRA_KEY_FORM_EX, json);
+
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        String json = savedInstanceState.getString(Constants.EXTRA_KEY_FORM_EX);
+        try {
+            dataFormEx = JSON.parse(json, DataFormEx.class);
+        }
+        catch (Exception ex) {
+            CommonLog.e(this, "failed to restore data form ex", ex);
+        }
+        super.onRestoreInstanceState(savedInstanceState);
     }
 
     // @Override

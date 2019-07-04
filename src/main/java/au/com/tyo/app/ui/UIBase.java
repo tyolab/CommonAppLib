@@ -545,13 +545,12 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
         gotoPageWithData(CommonActivityWebView.class, map, title);
     }
 
-    @Override
-    public void showInputPrompt(int titleResId, DialogInterface.OnClickListener okListener) {
-        showInputPrompt(titleResId, okListener, null);
+    public interface OnInputListener {
+        void onInput(CharSequence charSequence);
     }
 
     @Override
-    public void showInputPrompt(int titleResId, DialogInterface.OnClickListener okListener, DialogInterface.OnClickListener cancelListener) {
+    public void showInputPrompt(int titleResId, final OnInputListener onInputListener) {
         Context context = getCurrentPage().getActivity();
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(titleResId);
@@ -562,8 +561,15 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
         input.setInputType(InputType.TYPE_CLASS_TEXT);
         builder.setView(input);
 
-        builder.setPositiveButton(context.getString(R.string.alert_dialog_ok), okListener);
-        builder.setNegativeButton(R.string.alert_dialog_cancel, cancelListener == null ? DialogFactory.dismissMeListener : cancelListener);
+        builder.setPositiveButton(context.getString(R.string.alert_dialog_ok), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String inputText = input.getText().toString();
+                if (null != onInputListener)
+                onInputListener.onInput(inputText);
+            }
+        });
+        builder.setNegativeButton(R.string.alert_dialog_cancel, DialogFactory.dismissMeListener);
 
         builder.show();
     }

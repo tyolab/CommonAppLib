@@ -78,7 +78,16 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
             // more conditions
         }
 
+        setupListAdapter();
+    }
+
+    protected void setupListAdapter() {
+        // in case a custom adapter is needed
         QuickAccessListAdapter adapter = getQuickAccessListAdapter();
+        setupListItemFactory(adapter);
+    }
+
+    protected void setupListItemFactory(QuickAccessListAdapter adapter) {
         if (null != adapter)
             adapter.setItemFactory(new FileListItemFactory(getActivity()));
     }

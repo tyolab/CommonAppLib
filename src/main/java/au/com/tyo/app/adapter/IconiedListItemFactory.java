@@ -26,7 +26,7 @@ import au.com.tyo.utils.FileFormatter;
 
 public class IconiedListItemFactory<ItemType> extends CommonItemFactory<ItemType> {
 
-    final int THUMBNAIL_SIZE = 64;
+    public final int THUMBNAIL_SIZE = 64;
 
     protected Drawable fileIconDrawable;
 

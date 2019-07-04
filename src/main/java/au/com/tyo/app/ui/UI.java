@@ -152,7 +152,5 @@ public interface UI {
 
     void viewContentWithWebView(String content, String title, String mimeType);
 
-    void showInputPrompt(int titleResId, DialogInterface.OnClickListener okListener);
-
-    void showInputPrompt(int titleResId, DialogInterface.OnClickListener okListener, DialogInterface.OnClickListener cancelListener);
+    void showInputPrompt(int titleResId, UIBase.OnInputListener onInputListener);
 }
