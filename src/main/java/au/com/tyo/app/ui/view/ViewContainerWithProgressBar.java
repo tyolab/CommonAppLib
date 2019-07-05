@@ -174,8 +174,8 @@ public class ViewContainerWithProgressBar extends FrameLayout {
 		this.contentViewResourceId = resId;
 	}
 
-	public void startTask(int id, Runnable job) {
-		new ProgressTask(id, job).execute();
+	public void startTask(int id, Runnable job, Object... params) {
+		new ProgressTask(id, job).execute(params);
 	}
 
 	public View getContentView() {
@@ -191,7 +191,11 @@ public class ViewContainerWithProgressBar extends FrameLayout {
 		void onPostExecute(Object o);
 	}
 
-	public static class BackgroundTask extends AsyncTask<Void, Integer, Object> {
+	/**
+	 *
+	 *                                         execute params,
+	 */
+	public static class BackgroundTask extends AsyncTask<Object, Integer, Object> {
 
 		private Caller caller;
 		private Runnable job;
@@ -232,7 +236,7 @@ public class ViewContainerWithProgressBar extends FrameLayout {
 		}
 
 		@Override
-		protected Object doInBackground(Void... params) {
+		protected Object doInBackground(Object... params) {
 			job.run();
 
 			if (job instanceof Worker) return ((Worker) job).getResult();

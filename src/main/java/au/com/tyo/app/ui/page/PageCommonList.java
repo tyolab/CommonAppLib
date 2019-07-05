@@ -92,6 +92,10 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
         return listId;
     }
 
+    public void setListId(int listId) {
+        this.listId = listId;
+    }
+
     public Collection getSelected() {
         return selected;
     }

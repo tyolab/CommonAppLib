@@ -1765,10 +1765,14 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         startBackgroundTask(this);
     }
 
+    public void startBackgroundTask(int id) {
+        startBackgroundTask(id, this);
+    }
+
     /**
      *
      */
-    public void startBackgroundTask(int id, Runnable runnable) {
+    public void startBackgroundTask(int id, Runnable runnable, Object... params) {
         setResult(null);
 
         if (null != mainViewContainer)
@@ -1776,7 +1780,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         else {
             if (task == null) {
                 task = new ProgressTask(id, runnable);
-                task.execute();
+                task.execute(params);
             }
         }
     }
@@ -1817,6 +1821,13 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         }
 
         @Override
+        protected Object doInBackground(Object... params) {
+            if (!executeBackgroundTask(id, params))
+                return super.doInBackground(params);
+            return null;
+        }
+
+        @Override
         public void onPostExecute(Object o) {
             if (task == null)
                 return;
@@ -1827,6 +1838,16 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
 
             task = null;
         }
+    }
+
+    /**
+     * Override me to add your own logic
+     * @param id
+     * @param params
+     * @return
+     */
+    protected boolean executeBackgroundTask(int id, Object... params) {
+        return false;
     }
 
     protected void onPageBackgroundTaskFinished(int id) {
