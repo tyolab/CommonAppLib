@@ -41,6 +41,8 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
      */
     private TextView tvEmptyListHint;
 
+    private boolean refreshOnResume;
+
     public PageFileManager(T controller, Activity activity) {
         super(controller, activity);
 
@@ -50,6 +52,15 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
         paths = new LinkedList();
         currentFolderCount = 0;
         currentFileCount = 0;
+        setRefreshOnResume(true);
+    }
+
+    public boolean isRefreshOnResume() {
+        return refreshOnResume;
+    }
+
+    public void setRefreshOnResume(boolean refreshOnResume) {
+        this.refreshOnResume = refreshOnResume;
     }
 
     public void setRootPath(String rootPath) {
@@ -107,17 +118,21 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
         if (item instanceof File) {
             File file = (File) item;
             if (file.isDirectory()) {
-                getListView().setItemChecked(position, false);
-
-                paths.push(currentFolderName = file.getName());
-
-                setCurrentList(null);
-                startBackgroundTask();
+                onDirectoryClick(position, file.getName());
                 return;
             }
         }
 
         super.onItemClick(parent, view, position, id);
+    }
+
+    protected void onDirectoryClick(int position, String name) {
+        getListView().setItemChecked(position, false);
+
+        paths.push(currentFolderName = name);
+
+        setCurrentList(null);
+        startBackgroundTask();
     }
 
     @Override
@@ -148,6 +163,10 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
 
     @Override
     public void run() {
+        list();
+    }
+
+    protected void list() {
         currentPath = createCompletePath();
 
         if (!TextUtils.isEmpty(currentPath) && null == getCurrentList()) {
@@ -170,7 +189,8 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
     public void onResume() {
         super.onResume();
 
-        startBackgroundTask();
+        if (isRefreshOnResume())
+            startBackgroundTask();
     }
 
     @Override
