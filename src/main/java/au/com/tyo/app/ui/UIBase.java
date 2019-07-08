@@ -12,9 +12,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.text.InputType;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
@@ -552,26 +554,30 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
     @Override
     public void showInputPrompt(int titleResId, final OnInputListener onInputListener) {
         Context context = getCurrentPage().getActivity();
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(titleResId);
+        View view = LayoutInflater.from(context).inflate(R.layout.prompt_input_text, null);
 
-        final EditText input = new EditText(context);
-        // If it is for password
-        //  | InputType.TYPE_TEXT_VARIATION_PASSWORD
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
-        builder.setView(input);
+        final EditText input = view.findViewById(R.id.edit_input); // new EditText(context);
 
-        builder.setPositiveButton(context.getString(R.string.alert_dialog_ok), new DialogInterface.OnClickListener() {
+        androidx.appcompat.app.AlertDialog.Builder builder = DialogFactory.createDialogBuilder(context, titleResId, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String inputText = input.getText().toString();
                 if (null != onInputListener)
-                onInputListener.onInput(inputText);
+                    onInputListener.onInput(inputText);
             }
-        });
-        builder.setNegativeButton(R.string.alert_dialog_cancel, DialogFactory.dismissMeListener);
+        }, DialogFactory.dismissMeListener);
 
-        builder.show();
+        // If it is for password
+        //  | InputType.TYPE_TEXT_VARIATION_PASSWORD
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(view);
+
+        androidx.appcompat.app.AlertDialog dialog = builder.create();
+        showDialogInternal(dialog);
     }
 
+    protected void showDialogInternal(Dialog dialog) {
+        DialogFactory.setDialogAttributes(dialog, false, Color.BLUE, Color.LTGRAY, -1);
+        dialog.show();
+    }
 }

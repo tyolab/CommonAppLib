@@ -104,7 +104,11 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
     }
 
     protected void setFileManagerTitle(String title) {
-        setPageTitleOnToolbar(null != title ? title : getTitle());
+        if (null == title)
+            title = getTitle();
+
+        if (null != title)
+            setPageTitleOnToolbar(title);
     }
 
     public void setCurrentFolderName(String currentFolderName) {
