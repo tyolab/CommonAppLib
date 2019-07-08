@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import java.io.File;
 import java.util.LinkedList;
+import java.util.List;
 
 import au.com.tyo.android.adapter.QuickAccessListAdapter;
 import au.com.tyo.app.Controller;
@@ -28,7 +29,7 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
 
     private LinkedList<String> paths;
 
-    private WildcardFileStack fileList;
+    // private WildcardFileStack fileList;
 
     protected String currentFolderName;
 
@@ -143,13 +144,24 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
     protected void onPageBackgroundTaskFinished(int id) {
         super.onPageBackgroundTaskFinished(id);
 
-        if (null != fileList) {
-            getQuickAccessListAdapter().clear();
-            getQuickAccessListAdapter().addAll(fileList);
-            getQuickAccessListAdapter().notifyDataSetChanged();
-        }
+        // if (null != fileList) {
+        //     getQuickAccessListAdapter().clear();
+        //     getQuickAccessListAdapter().addAll(fileList);
+        //     getQuickAccessListAdapter().notifyDataSetChanged();
+        // }
+        updateList(getCurrentList());
 
-        if (null == getCurrentList() || getCurrentList().size() == 0) {
+        updateEmptyListHintState();
+
+        setFileManagerTitle(currentFolderName);
+    }
+
+    private void updateEmptyListHintState() {
+        updateEmptyListHintState((null == getCurrentList() || getCurrentList().size() == 0));
+    }
+
+    public void updateEmptyListHintState(boolean visible) {
+        if (visible) {
             if (null != tvEmptyListHint)
                 tvEmptyListHint.setVisibility(View.VISIBLE);
             if (null != getListView())
@@ -161,8 +173,6 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
             if (null != getListView())
                 getListView().setVisibility(View.VISIBLE);
         }
-
-        setFileManagerTitle(currentFolderName);
     }
 
     @Override
@@ -174,7 +184,7 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
         currentPath = createCompletePath();
 
         if (!TextUtils.isEmpty(currentPath) && null == getCurrentList()) {
-            fileList = new WildcardFileStack(new File(currentPath));
+            WildcardFileStack fileList = new WildcardFileStack(new File(currentPath));
             fileList.listFiles();
 
             for (int i = 0; i < fileList.size(); ++i) {
@@ -253,5 +263,22 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
         super.clearSelections();
         currentFolderCount = 0;
         currentFileCount = 0;
+    }
+
+    @Override
+    public void updateList(List newList) {
+        super.updateList(newList);
+        updateEmptyListHintState();
+    }
+
+    @Override
+    public void updateList(Object newItem) {
+        super.updateList(newItem);
+        updateEmptyListHintState();
+    }
+
+    public void notifiyDataSetChanged() {
+        updateEmptyListHintState(null == getCurrentList() || getCurrentList().size() == 0);
+        getQuickAccessListAdapter().notifyDataSetChanged();
     }
 }

@@ -18,6 +18,7 @@ import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import androidx.core.content.FileProvider;
@@ -553,6 +554,11 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
 
     @Override
     public void showInputPrompt(int titleResId, final OnInputListener onInputListener) {
+        showInputPrompt(titleResId, onInputListener, false);
+    }
+
+    @Override
+    public void showInputPrompt(int titleResId, final OnInputListener onInputListener, boolean requestFocus) {
         Context context = getCurrentPage().getActivity();
         View view = LayoutInflater.from(context).inflate(R.layout.prompt_input_text, null);
 
@@ -564,6 +570,7 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
                 String inputText = input.getText().toString();
                 if (null != onInputListener)
                     onInputListener.onInput(inputText);
+                dialog.dismiss();
             }
         }, DialogFactory.dismissMeListener);
 
@@ -574,6 +581,11 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
 
         androidx.appcompat.app.AlertDialog dialog = builder.create();
         showDialogInternal(dialog);
+
+        if (requestFocus) {
+            input.requestFocus();
+            ((InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
+        }
     }
 
     protected void showDialogInternal(Dialog dialog) {

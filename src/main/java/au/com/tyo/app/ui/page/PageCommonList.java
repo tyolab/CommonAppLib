@@ -458,4 +458,16 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
     public void setCurrentList(List currentList) {
         this.currentList = currentList;
     }
+
+    public void updateList(List newList) {
+        adapter.clear();
+        adapter.addAll(newList);
+        adapter.notifyDataSetChanged();
+    }
+
+    public void updateList(Object newItem) {
+        currentList.add(newItem);
+        adapter.add(newItem);
+        adapter.notifyDataSetChanged();
+    }
 }

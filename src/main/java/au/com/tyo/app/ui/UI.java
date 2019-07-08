@@ -153,4 +153,6 @@ public interface UI {
     void viewContentWithWebView(String content, String title, String mimeType);
 
     void showInputPrompt(int titleResId, UIBase.OnInputListener onInputListener);
+
+    void showInputPrompt(int titleResId, UIBase.OnInputListener onInputListener, boolean requestFocus);
 }
