@@ -27,7 +27,7 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
 
     private String currentPath;
 
-    private LinkedList<String> paths;
+    protected LinkedList paths;
 
     // private WildcardFileStack fileList;
 
@@ -134,21 +134,20 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
     protected void onDirectoryClick(int position, String name) {
         getListView().setItemChecked(position, false);
 
-        paths.push(currentFolderName = name);
+        pushPath(currentFolderName = name);
 
         setCurrentList(null);
         startBackgroundTask();
+    }
+
+    public void pushPath(Object pathItem) {
+        paths.push(pathItem);
     }
 
     @Override
     protected void onPageBackgroundTaskFinished(int id) {
         super.onPageBackgroundTaskFinished(id);
 
-        // if (null != fileList) {
-        //     getQuickAccessListAdapter().clear();
-        //     getQuickAccessListAdapter().addAll(fileList);
-        //     getQuickAccessListAdapter().notifyDataSetChanged();
-        // }
         updateList(getCurrentList());
 
         updateEmptyListHintState();
@@ -216,7 +215,7 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
             paths.pop();
 
             if (paths.size() > 0)
-                setCurrentFolderName(paths.getFirst());
+                setCurrentFolderName(paths.getFirst().toString());
 
             // getSelected().clear();
             // deselectAll();
@@ -240,7 +239,7 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
     private String generatePaths() {
        StringBuffer sb = new StringBuffer();
        for (int i = paths.size() - 1; i > -1; --i) {
-           String path = paths.get(i);
+           String path = paths.get(i).toString();
            if (sb.length() > 0)
                sb.append(File.separatorChar);
 
