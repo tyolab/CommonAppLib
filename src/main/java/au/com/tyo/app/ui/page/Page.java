@@ -1838,11 +1838,14 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
             if (task == null)
                 return;
 
+            /**
+             * The task needs to set to null early, if there is a chained jobs
+             */
+            task = null;
+
             hideProgressBar();
 
             onPageBackgroundTaskFinished(id);
-
-            task = null;
         }
     }
 
@@ -1857,6 +1860,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     }
 
     protected void onPageBackgroundTaskFinished(int id) {
+        task = null;
         hideProgressBar();
     }
 
