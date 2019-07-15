@@ -140,6 +140,7 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
     }
 
     public void refresh() {
+        getQuickAccessListAdapter().clear();
         setCurrentList(null);
         startBackgroundTask();
     }
@@ -254,11 +255,6 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
 
     private String createCompletePath() {
         return (rootPath != null ? rootPath + File.separatorChar : "") + generatePaths();
-    }
-
-    @Override
-    public void showProgressBar() {
-        // super.showProgressBar();
     }
 
     @Override

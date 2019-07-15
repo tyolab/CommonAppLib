@@ -93,6 +93,8 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
 
     private static final String LOG_TAG = "Page";
 
+    public static final int TASK_ID_BACKGROUND_DEFAULT = -1;
+
     /**
      * Common Widgets
      */
@@ -1793,7 +1795,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
      *
      */
     public void startBackgroundTask(Runnable runnable) {
-        startBackgroundTask(-1, runnable);
+        startBackgroundTask(TASK_ID_BACKGROUND_DEFAULT, runnable);
     }
 
     /**
