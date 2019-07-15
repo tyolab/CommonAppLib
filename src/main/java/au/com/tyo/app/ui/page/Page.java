@@ -1769,6 +1769,10 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         startBackgroundTask(id, this);
     }
 
+    public void startBackgroundTask(int id, Object... params) {
+        startBackgroundTask(id, this, params);
+    }
+
     /**
      *
      */

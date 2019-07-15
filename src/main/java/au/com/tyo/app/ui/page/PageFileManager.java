@@ -27,7 +27,7 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
 
     private String currentPath;
 
-    protected LinkedList paths;
+    private LinkedList paths;
 
     // private WildcardFileStack fileList;
 
@@ -136,6 +136,10 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
 
         pushPath(currentFolderName = name);
 
+        refresh();
+    }
+
+    public void refresh() {
         setCurrentList(null);
         startBackgroundTask();
     }
@@ -279,5 +283,9 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
     public void notifiyDataSetChanged() {
         updateEmptyListHintState(null == getCurrentList() || getCurrentList().size() == 0);
         getQuickAccessListAdapter().notifyDataSetChanged();
+    }
+
+    public LinkedList getPaths() {
+        return paths;
     }
 }
