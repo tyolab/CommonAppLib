@@ -393,6 +393,10 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         return  mainUiResId;
     }
 
+    public void setMainContentResId(int mainUiResId) {
+        this.mainUiResId = mainUiResId;
+    }
+
     @Override
     public void onPause() {
         super.onPause();
