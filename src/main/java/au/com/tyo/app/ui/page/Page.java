@@ -279,9 +279,17 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         this.statusBarColor = statusBarColor;
     }
 
+    public Integer getStatusBarColor() {
+        return statusBarColor;
+    }
+
     @Override
     public void setToolbarColor(Integer toolbarColor) {
         this.toolbarColor = toolbarColor;
+    }
+
+    public Integer getToolbarColor() {
+        return toolbarColor;
     }
 
     public void setTitleTextColor(Integer titleTextColor) {
