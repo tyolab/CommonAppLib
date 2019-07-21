@@ -551,23 +551,27 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
 
         /**
          * the root view of content.xml
+         * if the body view is not found, it means the page is not a standard tyodroid page
+         * so we won't bother to load the content view and others anymore
          */
-        setContentView((ViewGroup) bodyView.findViewById(R.id.content_view));
-        loadContentView();
+        if (null != bodyView) {
+            setContentView((ViewGroup) bodyView.findViewById(R.id.content_view));
+            loadContentView();
 
-        footerView = (ViewGroup) mainView.findViewById(R.id.footer_view);
+            footerView = (ViewGroup) mainView.findViewById(R.id.footer_view);
 
-        setupHeader();
-        setupSearchBar();
+            setupHeader();
+            setupSearchBar();
 
-        setupAdView();
+            setupAdView();
+
+            setupActionBarMenu();
+
+            setupPageOverlay(pageOverlay);
+        }
 
         if (!controller.getNetworkMonitor().hasInternet())
             onNetworkDisconnected();
-
-        setupActionBarMenu();
-
-        setupPageOverlay(pageOverlay);
     }
 
     protected void initializeAdView() {
@@ -625,10 +629,16 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     @OverridingMethodsMustInvokeSuper
     protected void setupToolbar() {
         toolbarContainer = mainView.findViewById(R.id.tyodroid_toolbar_container);
+
+        if (null == toolbarContainer)
+            toolbarContainer = getMainView();
+
         Toolbar toolbar = (Toolbar) toolbarContainer.findViewById(R.id.tyodroid_toolbar);
         if (null == toolbar && toolbarContainer instanceof Toolbar)
             toolbar = (Toolbar) toolbarContainer;
-        actionBarMenu.setToolbar(toolbar);
+
+        if (null != toolbar && null != actionBarMenu)
+            actionBarMenu.setToolbar(toolbar);
     }
 
     public Toolbar getToolbar() {
@@ -1370,6 +1380,8 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     public final <T extends View> T findViewById(int id) {
         if (getContentView() != null)
             return getContentView().findViewById(id);
+        else if (null != getMainView())
+            return getMainView().findViewById(id);
         return null;
     }
 

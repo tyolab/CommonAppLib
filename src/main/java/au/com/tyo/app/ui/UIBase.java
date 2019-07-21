@@ -375,7 +375,7 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
 
     @Override
     public void gotoPageWithData(Page fromPage, Class cls, String key, Object data, boolean throughController, int requestCode, String title) {
-        controller.setParcel(null);
+        // controller.setParcel(null); // not to clear up the parcel here
         Context context = fromPage.getActivity();
 
         CommonExtra extra = new CommonExtra(cls);
@@ -390,6 +390,7 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
             controller.setParcel(data);
             extra.setExtra(Constants.DATA_LOCATION_CONTROLLER, true);
         } else {
+            extra.setExtra(Constants.DATA_LOCATION_CONTROLLER, false);
             if (data instanceof Uri) {
                 extra.getIntent().setData((Uri) data);
                 // extra.getIntent().addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
