@@ -550,7 +550,9 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
     }
 
     public interface OnInputListener {
-        void onInput(CharSequence charSequence);
+        void onInput(int op, CharSequence charSequence);
+
+        void onBeforeInput(EditText input);
     }
 
     @Override
@@ -560,17 +562,27 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
 
     @Override
     public void showInputPrompt(int titleResId, final OnInputListener onInputListener, boolean requestFocus) {
+        showInputPrompt(titleResId, onInputListener, requestFocus, -1, null);
+    }
+
+    @Override
+    public void showInputPrompt(int titleResId, final OnInputListener onInputListener, boolean requestFocus, final int op, String originalValue) {
         Context context = getCurrentPage().getActivity();
         View view = LayoutInflater.from(context).inflate(R.layout.prompt_input_text, null);
 
         final EditText input = view.findViewById(R.id.edit_input); // new EditText(context);
+        if (null != originalValue) {
+            input.setText(originalValue);
+            if (null != onInputListener)
+                onInputListener.onBeforeInput(input);
+        }
 
         androidx.appcompat.app.AlertDialog.Builder builder = DialogFactory.createDialogBuilder(context, titleResId, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String inputText = input.getText().toString();
                 if (null != onInputListener)
-                    onInputListener.onInput(inputText);
+                    onInputListener.onInput(op, inputText);
                 dialog.dismiss();
             }
         }, DialogFactory.dismissMeListener);

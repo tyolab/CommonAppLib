@@ -155,4 +155,6 @@ public interface UI {
     void showInputPrompt(int titleResId, UIBase.OnInputListener onInputListener);
 
     void showInputPrompt(int titleResId, UIBase.OnInputListener onInputListener, boolean requestFocus);
+
+    void showInputPrompt(int titleResId, UIBase.OnInputListener onInputListener, boolean requestFocus, int op, String name);
 }

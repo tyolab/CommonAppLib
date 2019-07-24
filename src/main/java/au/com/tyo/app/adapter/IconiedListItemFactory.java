@@ -36,6 +36,8 @@ public class IconiedListItemFactory<ItemType> extends CommonItemFactory<ItemType
 
     protected Drawable videoIconDrawable;
 
+    protected Drawable imageIconDrawable;
+
     /**
      * Tint Color for the default icons (file, folder)
      */
@@ -52,12 +54,13 @@ public class IconiedListItemFactory<ItemType> extends CommonItemFactory<ItemType
     }
 
     private void init(Context context) {
-        tintColor = Color.LTGRAY;
+        tintColor = context.getResources().getColor(R.color.iconied_item_tint); // Color.LTGRAY;
 
         fileIconDrawable = DrawableUtils.createTintedVectorDrawable(context, R.drawable.ic_insert_drive_file_black_24dp, tintColor);
         folderIconDrawable = DrawableUtils.createTintedVectorDrawable(context, R.drawable.ic_folder_black_24dp, tintColor);
         videoIconDrawable = DrawableUtils.createTintedVectorDrawable(context, R.drawable.ic_play_circle_outline_black_24dp, tintColor);
         musicIconDrawable = DrawableUtils.createTintedVectorDrawable(context, R.drawable.ic_music_note_black_24dp, tintColor);
+        imageIconDrawable = DrawableUtils.createTintedVectorDrawable(context, R.drawable.ic_photo_black_24dp, tintColor);
     }
 
     public void setTintColor(int tintColor) {
@@ -78,5 +81,9 @@ public class IconiedListItemFactory<ItemType> extends CommonItemFactory<ItemType
 
     public Drawable getVideoIconDrawable() {
         return videoIconDrawable;
+    }
+
+    public Drawable getImageIconDrawable() {
+        return imageIconDrawable;
     }
 }

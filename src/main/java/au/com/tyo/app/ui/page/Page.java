@@ -1074,9 +1074,10 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
 
     /**
      *
+     * @param id
      */
     @Override
-    public void showProgressBar() {
+    public void showProgressBar(int id) {
         showProgressBar("");
     }
 
@@ -1845,7 +1846,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
 
         @Override
         public void onPreExecute() {
-            showProgressBar();
+            showProgressBar(id);
 
             onPrePageBackgroundTaskExecute();
         }

@@ -83,7 +83,7 @@ public interface UIPage extends UIEntity {
 
     boolean onBackPressed();
 
-    void showProgressBar();
+    void showProgressBar(int id);
 
     void initialiseComponents();
 
