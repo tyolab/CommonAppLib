@@ -140,6 +140,7 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
     }
 
     public void refresh() {
+        clearSelections();
         getQuickAccessListAdapter().clear();
         setCurrentList(null);
         startBackgroundTask();
