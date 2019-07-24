@@ -284,4 +284,27 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
     public LinkedList getPaths() {
         return paths;
     }
+
+    protected void deleteSelected() {
+        // clear selection first
+        // for (int position : getSelectedPosition())
+        //     clearSelection(position);
+
+        for (Object item : getSelected()) {
+            delete(item);
+        }
+
+        clearSelections();
+
+        getQuickAccessListAdapter().notifyDataSetChanged();
+    }
+
+    private void delete(Object item) {
+        if (item instanceof File) {
+            ((File) item).delete();
+
+            getCurrentList().remove(item);
+            getQuickAccessListAdapter().remove(item);
+        }
+    }
 }

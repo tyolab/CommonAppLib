@@ -100,6 +100,10 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
         return selected;
     }
 
+    public Collection<Integer> getSelectedPosition() {
+        return selectedPosition;
+    }
+
     public int getListItemResourceId() {
         return listItemResourceId;
     }
@@ -395,25 +399,12 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (isMultipleSelectionsAllowed()) {
-            boolean isChecked = getListView().isItemChecked(position);
-            Object item = getListItem(position);
-
-            if (isChecked) {
-                selected.add(item);
-                selectedPosition.add(position);
-            }
-            else {
-                selected.remove(item);
-                selectedPosition.remove(position);
-            }
+            updateCheckedStatus(position);
 
             if (selected.size() > 0)
                 getActionBarMenu().showMenuItem(R.id.menuItemSelect);
             else
                 getActionBarMenu().hideMenuItem(R.id.menuItemSelect);
-
-            // getListView().setItemChecked(position, !isChecked);
-            // isChecked = getListView().isItemChecked(position);
             return;
         }
 
@@ -424,8 +415,43 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
             finish();
     }
 
+    protected void setChecked(int position) {
+        boolean isChecked = getListView().isItemChecked(position);
+        Object item = getListItem(position);
+
+        getListView().setItemChecked(position, !isChecked);
+
+        updateCheckedStatus(position, !isChecked, item);
+    }
+
+    protected void updateCheckedStatus(int position) {
+        boolean isChecked = getListView().isItemChecked(position);
+        Object item = getListItem(position);
+
+        updateCheckedStatus(position, isChecked, item);
+    }
+
+    protected boolean isItemSelected(int position) {
+        return selectedPosition.contains(position);
+    }
+
+    private void updateCheckedStatus(int position, boolean isChecked, Object item) {
+        if (isChecked) {
+            selected.add(item);
+            selectedPosition.add(position);
+        }
+        else {
+            selected.remove(item);
+            selectedPosition.remove(position);
+        }
+    }
+
     public boolean isMultipleSelectionsAllowed() {
         return multipleSelectionsAllowed;
+    }
+
+    public void setMultipleSelectionsAllowed(boolean multipleSelectionsAllowed) {
+        this.multipleSelectionsAllowed = multipleSelectionsAllowed;
     }
 
     @OverridingMethodsMustInvokeSuper
@@ -444,11 +470,20 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
 
     @OverridingMethodsMustInvokeSuper
     protected void clearSelections() {
-        for (Integer pos : selectedPosition) {
-            listView.setItemChecked(pos, false);
-        }
         selected.clear();
         selectedPosition.clear();
+
+        // for (Integer pos : selectedPosition) {
+        //     listView.setItemChecked(pos, false);
+        // }
+        deselectAll();
+    }
+
+    protected void clearSelection(int position) {
+        listView.setItemChecked(position, false);
+        Object item = adapter.getItem(position);
+        selected.remove(item);
+        selectedPosition.remove(position);
     }
 
     public List getCurrentList() {
