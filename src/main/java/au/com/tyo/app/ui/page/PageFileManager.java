@@ -56,7 +56,7 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
         setRefreshOnResume(true);
     }
 
-    public boolean isRefreshOnResume() {
+    public boolean requiresRefreshingOnResume() {
         return refreshOnResume;
     }
 
@@ -208,7 +208,7 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
     public void onResume() {
         super.onResume();
 
-        if (isRefreshOnResume())
+        if (requiresRefreshingOnResume())
             startBackgroundTask();
     }
 
