@@ -143,15 +143,17 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
                         dataFormEx = new DataFormEx();
                         dataFormEx.putAll((Map<? extends String, ?>) getForm());
                     }
-                } else {
+                }
+                else {
                     if (null == formId)
                         throw new IllegalStateException(getClass().getName() + ": Both form id and data form object are not set.");
                     else {
                         dataFormEx = new DataFormEx();
-                        dataFormEx.setFormId(formId);
                     }
                 }
             }
+
+            dataFormEx.setFormId(formId);
         }
         else {
             if (null != formId)

@@ -542,6 +542,14 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
     }
 
     /**
+     * Recreate the form with new json data
+     */
+    public void onDataReset() {
+        json = null;
+        onDataBound();
+    }
+
+    /**
      * Create form json string, and set the form fragment to the page
      */
     @Override

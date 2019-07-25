@@ -5,7 +5,6 @@ import android.content.Context;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
 import au.com.tyo.android.AndroidUtils;
-import au.com.tyo.app.BuildConfig;
 import au.com.tyo.app.R;
 import au.com.tyo.json.form.DataFormEx;
 import au.com.tyo.json.form.FormField;
