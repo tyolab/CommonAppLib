@@ -548,11 +548,19 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
     public void onDataBound() {
         super.onDataBound();
 
-        if (null == json && null != form)
-            createJsonForm();
+        if (null == json) {
+            if (null != form)
+                createJsonForm();
 
-        if (null != jsonForm)
-            json = jsonForm.toString();
+            if (null != jsonForm)
+                json = jsonForm.toString();
+        }
+
+        /**
+         * When json is recovered from the restoring states
+         */
+        if (null == jsonForm)
+            jsonForm = new JsonForm();
 
         if (null != json) {
             load(json);
@@ -990,6 +998,7 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
         super.onRestoreInstanceState(savedInstanceState);
 
         json = savedInstanceState.getString(Constants.EXTRA_KEY_JSON);
+        jsonForm = JSON.parse(json, JsonForm.class);
         setEditable(savedInstanceState.getBoolean(Constants.EXTRA_KEY_EDITABLE));
         setTitle(savedInstanceState.getString(Constants.EXTRA_KEY_TITLE));
 
