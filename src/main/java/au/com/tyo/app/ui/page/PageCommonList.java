@@ -465,7 +465,7 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
 
     protected void deselectAll() {
         for (int i = 0; i < listView.getCount(); ++i)
-            listView.setItemChecked(0, false);
+            getListView().setItemChecked(i, false);
     }
 
     @OverridingMethodsMustInvokeSuper

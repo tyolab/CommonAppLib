@@ -263,6 +263,8 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
         super.clearSelections();
         currentFolderCount = 0;
         currentFileCount = 0;
+
+        notifiyDataSetChanged();
     }
 
     @Override
@@ -293,6 +295,9 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
 
         for (Object item : getSelected()) {
             delete(item);
+
+            getCurrentList().remove(item);
+            getQuickAccessListAdapter().remove(item);
         }
 
         clearSelections();
@@ -300,12 +305,9 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
         getQuickAccessListAdapter().notifyDataSetChanged();
     }
 
-    private void delete(Object item) {
+    protected void delete(Object item) {
         if (item instanceof File) {
             ((File) item).delete();
-
-            getCurrentList().remove(item);
-            getQuickAccessListAdapter().remove(item);
         }
     }
 }
