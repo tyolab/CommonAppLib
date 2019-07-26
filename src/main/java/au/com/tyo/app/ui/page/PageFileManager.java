@@ -79,13 +79,12 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
     public void onActivityStart() {
         super.onActivityStart();
 
-        // currentFileList = getQuickAccessListAdapter().getItems();
-
         if (null == rootPath && getBaseAdapter().getCount() > 0) {
             if (getBaseAdapter().getItem(0) instanceof File) {
                 File file = (File) getBaseAdapter().getItem(0);
                 // if (file.isDirectory())  setFileManagerTitle(currentFolderName = file.getName());
                 rootPath = file.getParent();
+                generateCurrentPath();
             }
             // more conditions
         }
@@ -135,6 +134,8 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
         getListView().setItemChecked(position, false);
 
         pushPath(currentFolderName = name);
+
+        generateCurrentPath();
 
         refresh();
     }
@@ -186,8 +187,6 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
     }
 
     protected void list() {
-        currentPath = createCompletePath();
-
         if (!TextUtils.isEmpty(currentPath) && null == getCurrentList()) {
             WildcardFileStack fileList = new WildcardFileStack(new File(currentPath));
             fileList.listFiles();
@@ -204,6 +203,10 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
         }
     }
 
+    protected void generateCurrentPath() {
+        currentPath = createCompletePath();
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -215,6 +218,14 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
     @Override
     public boolean onBackPressed() {
         clearSelections();
+        if (onBackToPreviousPath()) {
+            startBackgroundTask();
+            return true;
+        }
+        return super.onBackPressed();
+    }
+
+    protected boolean onBackToPreviousPath() {
         setCurrentFolderName(null);
 
         if (paths.size() > 0) {
@@ -223,17 +234,13 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
             if (paths.size() > 0)
                 setCurrentFolderName(paths.getFirst().toString());
 
-            // getSelected().clear();
-            // deselectAll();
-            //
-            // getQuickAccessListAdapter().clear();
-            // getQuickAccessListAdapter().notifyDataSetChanged();
-            // getQuickAccessListAdapter().notifyDataSetInvalidated();
             setCurrentList(null);
-            startBackgroundTask();
+
+            generateCurrentPath();
+
             return true;
         }
-        return super.onBackPressed();
+        return false;
     }
 
     // @Override
@@ -264,7 +271,7 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
         currentFolderCount = 0;
         currentFileCount = 0;
 
-        notifiyDataSetChanged();
+        notifyDataSetChanged();
     }
 
     @Override
@@ -279,7 +286,7 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
         updateEmptyListHintState();
     }
 
-    public void notifiyDataSetChanged() {
+    public void notifyDataSetChanged() {
         updateEmptyListHintState(null == getCurrentList() || getCurrentList().size() == 0);
         getQuickAccessListAdapter().notifyDataSetChanged();
     }
@@ -309,5 +316,9 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
         if (item instanceof File) {
             ((File) item).delete();
         }
+    }
+
+    public String getCurrentPath() {
+        return currentPath;
     }
 }
