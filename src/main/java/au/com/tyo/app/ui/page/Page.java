@@ -1418,10 +1418,12 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     }
 
     public void removeFragments() {
-        // the alternative way
-//        while (fragmentManager.getBackStackEntryCount() > 0) {
-//            fragmentManager.popBackStackImmediate();
-//        }
+        /*
+            // the alternative way
+           while (fragmentManager.getBackStackEntryCount() > 0) {
+               fragmentManager.popBackStackImmediate();
+           }
+       */
         if (null != fragments && fragments.size() > 0) {
             FragmentTransaction fragmentTransaction = ((FragmentActivity) activity).getSupportFragmentManager().beginTransaction();
             for (Fragment fragment : fragments) {

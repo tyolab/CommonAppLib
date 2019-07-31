@@ -103,6 +103,10 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
             adapter.setItemFactory(new FileListItemFactory(getActivity()));
     }
 
+    protected void updateFileManagerTitle() {
+        setFileManagerTitle(currentFolderName);
+    }
+
     protected void setFileManagerTitle(String title) {
         if (null == title)
             title = getTitle();
@@ -134,6 +138,8 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
         getListView().setItemChecked(position, false);
 
         pushPath(currentFolderName = name);
+
+        updateFileManagerTitle();
 
         generateCurrentPath();
 
@@ -238,8 +244,12 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
 
             generateCurrentPath();
 
+            updateFileManagerTitle();
+
             return true;
         }
+
+        updateFileManagerTitle();
         return false;
     }
 
