@@ -158,8 +158,8 @@ public class PageFileManager <T extends Controller> extends PageCommonList<T> im
     }
 
     @Override
-    protected void onPageBackgroundTaskFinished(int id) {
-        super.onPageBackgroundTaskFinished(id);
+    protected void onPageBackgroundTaskFinished(int id, Object o) {
+        super.onPageBackgroundTaskFinished(id, o);
 
         updateList(getCurrentList());
 

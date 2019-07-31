@@ -183,7 +183,8 @@ public class ViewContainerWithProgressBar extends FrameLayout {
 	}
 
 	public interface Worker {
-		Object getResult();
+		Object getBackgroundTaskResult();
+		void setBackgroundTaskResult(Object o);
 	}
 
 	public interface Caller {
@@ -197,9 +198,9 @@ public class ViewContainerWithProgressBar extends FrameLayout {
 	 */
 	public static class BackgroundTask extends AsyncTask<Object, Integer, Object> {
 
-		private Caller caller;
-		private Runnable job;
-		private Object result;
+		protected Caller caller;
+		protected Runnable job;
+		protected Object result;
 
 		public BackgroundTask(Runnable job) {
 			this(job, null);
@@ -239,7 +240,7 @@ public class ViewContainerWithProgressBar extends FrameLayout {
 		protected Object doInBackground(Object... params) {
 			job.run();
 
-			if (job instanceof Worker) return ((Worker) job).getResult();
+			if (job instanceof Worker) return ((Worker) job).getBackgroundTaskResult();
             return result;
 		}
 	}

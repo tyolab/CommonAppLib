@@ -185,10 +185,13 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-        if (item.getItemId() == R.id.menuItemSelect)
+        if (item.getItemId() == R.id.menuItemSelect) {
             onMenuItemSelectClick();
+            return true;
+        }
         else if (item.getItemId() == R.id.menuItemSelectAll) {
             onMenuItemSelectAllClick();
+            return true;
         }
 
         return super.onMenuItemClick(item);

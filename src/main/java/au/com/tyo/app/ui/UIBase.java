@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 
 import java.io.File;
@@ -604,5 +605,10 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
     protected void showDialogInternal(Dialog dialog) {
         DialogFactory.setDialogAttributes(dialog, false, Color.BLUE, Color.LTGRAY, -1);
         dialog.show();
+    }
+
+    @Nullable
+    public Activity getActivity() {
+        return null != getCurrentPage() ? getCurrentPage().getActivity() : null;
     }
 }

@@ -1855,8 +1855,11 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
 
         @Override
         protected Object doInBackground(Object... params) {
-            if (!executeBackgroundTask(id, params))
+            if (!executeBackgroundTask(id, params)) {
                 return super.doInBackground(params);
+            }
+            if (job instanceof ViewContainerWithProgressBar.Worker)
+                return ((ViewContainerWithProgressBar.Worker) job).getBackgroundTaskResult();
             return null;
         }
 
@@ -1872,7 +1875,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
 
             hideProgressBar();
 
-            onPageBackgroundTaskFinished(id);
+            onPageBackgroundTaskFinished(id, o);
         }
     }
 
@@ -1886,7 +1889,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         return false;
     }
 
-    protected void onPageBackgroundTaskFinished(int id) {
+    protected void onPageBackgroundTaskFinished(int id, Object o) {
         task = null;
         hideProgressBar();
     }
