@@ -515,7 +515,7 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
 
     @Override
     public void openSystemDocumentManager(Activity activity, int requestCode, String fileType, boolean allowMultipleSelection) {
-        AndroidHelper.openDocumentManager(activity, requestCode, fileType, allowMultipleSelection, false);
+        AndroidHelper.openDocumentManager(activity, requestCode, fileType, allowMultipleSelection, true);
     }
 
     @Override

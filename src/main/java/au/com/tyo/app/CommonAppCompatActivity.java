@@ -20,6 +20,7 @@ import javax.annotation.OverridingMethodsMustInvokeSuper;
 
 import au.com.tyo.app.ui.UIActivity;
 import au.com.tyo.app.ui.UIPage;
+import au.com.tyo.app.ui.page.PageSplashScreen;
 
 /**
  * 
@@ -79,7 +80,11 @@ public class CommonAppCompatActivity<ControllerType extends Controller> extends 
 		CommonLog.i(this, "Page created");
 
         if (null != agent.getPage()) {
-        	if (!getPage().isSubpage()) {
+			/**
+			 * Don't need to check whether it is subpage, as long as the activity gets started and
+			 * the controller isn't initialized, then we do it
+			 */
+			if (!(getPage() instanceof PageSplashScreen)) {
 				CommonLog.i(this, "Checking main-thread");
         		if (!controller.isMainThreadInitialised())
         			controller.initializeInMainThread(this);
