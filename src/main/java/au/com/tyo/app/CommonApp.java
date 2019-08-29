@@ -116,9 +116,6 @@ public abstract class CommonApp<UIType extends UI,
 	}
 
 	private void init() {
-		if (instance == null)
-			instance = this;
-		
 		if (CommonInitializer.classMainActivity == null)
 			setMainActivityClass(CommonAppCompatActivity.class);
 		
