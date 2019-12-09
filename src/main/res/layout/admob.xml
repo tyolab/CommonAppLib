@@ -1,8 +1,10 @@
 <!--
+ Sample Admob
  Customize your add layout by overriding the following and add:
       ads:adSize="SMART_BANNER"
       ads:adUnitId="ca-app-pub-xxxxxxxxxxxxxxxxxxxxxxxxx"
 -->
+<!--
 <com.google.android.gms.ads.AdView
       xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:ads="http://schemas.android.com/apk/res-auto"
@@ -13,4 +15,9 @@
       android:visibility="visible"
         ads:adSize="SMART_BANNER"
         ads:adUnitId="@string/admob_unit_id_banner1"
-      />  
+      />
+-->
+<View xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="0dp" android:layout_width="0dp">
+
+</View>
