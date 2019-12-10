@@ -10,8 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import au.com.tyo.app.R;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
+// import com.google.android.gms.ads.AdRequest;
+// import com.google.android.gms.ads.AdView;
 
 /**
  * @author Eric Tang <eric.tang@tyo.com.au>
@@ -20,7 +20,7 @@ import com.google.android.gms.ads.AdView;
 
 public class Ad {
 	
-	private AdView banner;
+	private View banner;
 	
 	public Ad() {
 		banner = null;
@@ -33,13 +33,14 @@ public class Ad {
 		if (banner != null)	 {
 			parent.removeView(banner);
 			banner = null;
-			banner = (AdView) LayoutInflater.from(parent.getContext()).inflate(R.layout.ad, null);
+			banner = LayoutInflater.from(parent.getContext()).inflate(R.layout.ad, null);
 			parent.addView(banner);
 		}
 		else
-			banner = (AdView) parent.findViewById(R.id.adView);
-	    banner.loadAd(new AdRequest.Builder().build());
+			banner = parent.findViewById(R.id.adView);
 
+		// load the Ad in the real App
+	    // banner.loadAd(new AdRequest.Builder().build());
 	    show();
 	}
 
