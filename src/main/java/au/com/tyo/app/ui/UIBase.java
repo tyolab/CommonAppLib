@@ -428,7 +428,7 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
     }
 
     public void gotoSettingsPage() {
-        gotoPage(CommonActivitySettings.class);
+        gotoPage(getController().getSettings().getClass());
     }
 
     @Override

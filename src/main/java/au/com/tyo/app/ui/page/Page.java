@@ -1569,7 +1569,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     }
 
     protected void createMenuItemAbout(MenuInflater menuInflater, Menu menu) {
-        menuInflater.inflate(R.menu.common_menu, menu);
+        menuInflater.inflate(R.menu.common_menu_about, menu);
     }
 
     @Override
