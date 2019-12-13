@@ -118,6 +118,8 @@ public interface UI {
 
     void gotoMainPage();
 
+    void gotoSettingsPage();
+
     void gotoAboutPage();
 
     void gotoAboutPage(Map data, String title);
