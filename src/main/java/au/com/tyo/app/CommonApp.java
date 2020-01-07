@@ -943,7 +943,11 @@ public abstract class CommonApp<UIType extends UI,
 	public void broadcastMessage(String key, Object data) {
 		Intent intent = new Intent(Constants.ACTION_MESSAGE_RECEIVER);
 		CommonExtra.putExtra(intent, key, data);
-		LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+
+		Context context = getContext();
+		if (null == context)
+			context = getApplicationContext();
+		LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
 	}
 
 	@Override
