@@ -947,7 +947,11 @@ public abstract class CommonApp<UIType extends UI,
 		Context context = getContext();
 		if (null == context)
 			context = getApplicationContext();
-		LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+
+		if (null != context)
+			LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+		else
+			CommonLog.e(this, "Empty context: BUG!!!!!!, check your logic, the App class wasn't finished initialisation with context yet");
 	}
 
 	@Override
