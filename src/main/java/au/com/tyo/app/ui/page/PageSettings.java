@@ -52,6 +52,8 @@ public class PageSettings <T extends Controller> extends PageFormEx<T> {
                 settings.commit();
             }
         }).start();
+
+        super.saveFormData(form);
     }
 
     @Override
