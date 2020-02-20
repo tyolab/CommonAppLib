@@ -97,8 +97,9 @@ public class CommonFragmentActivity extends FragmentActivity implements UIActivi
 
 	@Override
 	protected void onNewIntent(Intent intent) {
-  		setIntent(intent);
-  		agent.handleIntent(intent);
+		super.onNewIntent(intent);
+		setIntent(intent);
+		agent.handleIntent(intent);
 	}
 	
 	@Override
@@ -135,12 +136,12 @@ public class CommonFragmentActivity extends FragmentActivity implements UIActivi
 	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		return controller.onKeyDown(keyCode, event) || super.onKeyDown(keyCode, event);
+		return getPage().onKeyDown(keyCode, event) || super.onKeyDown(keyCode, event);
 	}
 
 	@Override
 	public boolean onKeyUp(int keyCode, KeyEvent event) {
-		return controller.onKeyUp(keyCode, event) || super.onKeyUp(keyCode, event);
+		return getPage().onKeyUp(keyCode, event) || super.onKeyUp(keyCode, event);
 	}
 	
 	@Override
@@ -150,6 +151,7 @@ public class CommonFragmentActivity extends FragmentActivity implements UIActivi
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
 		getPage().onActivityResult(requestCode, resultCode, data);
 	}
 	

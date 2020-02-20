@@ -6,6 +6,7 @@
 package au.com.tyo.app.ui;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;
@@ -157,4 +158,18 @@ public interface UI {
     void showInputPrompt(int titleResId, UIBase.OnInputListener onInputListener, boolean requestFocus);
 
     void showInputPrompt(int titleResId, UIBase.OnInputListener onInputListener, boolean requestFocus, int op, String name);
+
+    void showInfo(boolean showAcknowledgement);
+
+    void showInfoInActivity(boolean showAcknowledgement);
+
+    void showInfo();
+
+    void showAlertDialog(String title, String message,
+                         DialogInterface.OnClickListener okListener, DialogInterface.OnClickListener cancelListener);
+
+    void showAlertDialog(String title, String message, DialogInterface.OnClickListener okListener,
+                         DialogInterface.OnClickListener cancelListner, boolean cancelable);
+
+    void showDialog(Dialog dialog);
 }

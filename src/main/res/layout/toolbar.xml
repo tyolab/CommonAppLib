@@ -10,7 +10,9 @@
     style="?attr/toolbarStyle"
     android:id="@+id/tyodroid_toolbar"
     android:minHeight="?attr/actionBarSize"
-    app:titleTextAppearance="@style/AppStyle.ToolbarTitle">
+    app:titleTextAppearance="@style/AppStyle.ToolbarTitle"
+    app:popupTheme="@style/AppStyle.Toolbar.Popup"
+    >
 
 </androidx.appcompat.widget.Toolbar>
 <!--

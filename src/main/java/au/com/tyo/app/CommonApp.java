@@ -7,8 +7,10 @@ package au.com.tyo.app;
 
 import android.app.Activity;
 import android.app.Application;
+import android.app.Dialog;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -754,10 +756,30 @@ public abstract class CommonApp<UIType extends UI,
 		this.quitOrRestart(true);
 	}
 
-	@Override
+	protected void showConfirmQuitDialog() {
+		Dialog dialog = DialogFactory.createExitPromptDialog(context, this.getAppName(),
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						backKeyCount = 0;
+						quitOrRestart(false);
+					}
+
+				}, new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						backKeyCount = 0;
+					}
+
+				});
+		getUi().showDialog(dialog);
+	}
+
 	protected void onBackKeyPressed() {
 		if (!ui.onBackPressed())
-			super.onBackKeyPressed();
+			showConfirmQuitDialog();
 	}
 
     @Override
@@ -765,110 +787,17 @@ public abstract class CommonApp<UIType extends UI,
         return false;
     }
 
-    @Override
-	protected void showInfo(boolean showAcknowledgement) {
-		// Inflate the about message contents
-		/**
-		 * We are not replace dialog method with page
-		 */
-		// showInfoInActivity(showAcknowledgement);
-		/*
+	@Override
+	public boolean onOptionsItemSelected(Activity activity, android.view.MenuItem item) {
+		int itemId = item.getItemId();
 
-		*/
-		showInfoInActivity(showAcknowledgement);
-	}
-
-	protected void showInfoInActivity(boolean showAcknowledgement) {
-		String appDesc = getAppNameWithVersion();
-		Context context = getContext();
-
-		DataFormEx infoData = new DataFormEx();
-		infoData.setTitle(context.getString(R.string.about));
-		infoData.setEditable(false);
-
-		addAboutPageHeader(infoData);
-
-		FormGroup aboutGroup = new FormGroup(context.getString(R.string.app_information));
-		aboutGroup.setShowingTitle(true);
-
-		aboutGroup.addField(context.getString(R.string.version), AndroidUtils.getPackageVersionName(context) + " " + AndroidUtils.getAbi());
-		aboutGroup.addField(context.getString(R.string.copyright), context.getString(R.string.app_copyright));
-        infoData.addGroup(aboutGroup);
-
-        FormGroup contactGroup = new FormGroup(context.getString(R.string.app_contact_us));
-        contactGroup.setShowingTitle(true);
-
-        contactGroup.addField(context.getString(R.string.website), context.getString(R.string.tyolab_website));
-        contactGroup.addField(context.getString(R.string.email), context.getString(R.string.tyolab_email));
-		infoData.addGroup(contactGroup);
-
-        if (showAcknowledgement) {
-            FormGroup acknowledgementGroup = new FormGroup(context.getString(R.string.app_acknowledgement_title));
-            acknowledgementGroup.setShowingTitle(true);
-
-            if (null != acknowledgementTitle) {
-                acknowledgementGroup.setTitle(acknowledgementTitle);
-            }
-
-            addAboutPageAcknowledgementFields(acknowledgementGroup);
-            infoData.addGroup(acknowledgementGroup);
-        }
-
-        addAboutPageFooter(infoData);
-
-		getUi().gotoAboutPage(infoData, getAppNameWithVersion());
-	}
-
-    /**
-     * Override me for adding header to the about page
-     * @param infoData
-     */
-    protected void addAboutPageHeader(DataFormEx infoData) {
-	    // no ops
-    }
-
-    /**
-     * Override me for adding the footer to the about page
-     * @param infoData
-     */
-    protected void addAboutPageFooter(DataFormEx infoData) {
-        // no ops
-    }
-
-    /**
-     * Override this
-     *
-     * @param acknowledgementGroup
-     */
-    protected void addAboutPageAcknowledgementFields(FormGroup acknowledgementGroup) {
-        // no ops
-    }
-
-    protected void showInfoInDialog(boolean showAcknowledgement) {
-		View messageView = ((Activity) context).getLayoutInflater().inflate(R.layout.info_dialog, null, false);
-		View acknowledgement = messageView.findViewById(au.com.tyo.android.R.id.acknowledge_view);
-		if (showAcknowledgement) {
-			acknowledgement.setVisibility(View.VISIBLE);
-
-			if (null != acknowledgementTitle) {
-				TextView tv = (TextView) acknowledgement.findViewById(au.com.tyo.android.R.id.tv_acknowledgement_title);
-				tv.setText(acknowledgementTitle);
-			}
-
-			if (null != acknowledgementInfo) {
-				TextView tv = (TextView) acknowledgement.findViewById(au.com.tyo.android.R.id.info_acknowledgement);
-				tv.setText(acknowledgementInfo);
-			}
+		if (itemId == au.com.tyo.android.R.id.menuItemAbout) {
+			getUi().showInfo(context.getResources().getBoolean(R.bool.showAcknowledgement)
+					|| context.getResources().getString(R.string.app_acknowledgement).length() > 0);
+			return true;
 		}
 
-		String appDesc = getAppNameWithVersion();
-
-		AlertDialog.Builder builder = DialogFactory.getBuilder(context, getSettings().getThemeId(), logoResId);
-		builder.setIcon(logoResId);
-		builder.setTitle(appDesc);
-		builder.setView(messageView);
-		AlertDialog dialog = builder.create();
-		showDialog(dialog);
+		return false;
 	}
 
 	@Override

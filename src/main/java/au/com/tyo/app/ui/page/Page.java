@@ -1779,6 +1779,14 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
+        switch(keyCode) {
+            case KeyEvent.KEYCODE_BACK:
+                if (event.isTracking() && !event.isCanceled()) {
+                    onBackPressed();
+                    return true;
+                }
+                break;
+        }
         return false;
     }
 
@@ -1977,4 +1985,5 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     public UI getUi() {
         return getController().getUi();
     }
+
 }

@@ -36,6 +36,8 @@ public class PageWebView<C extends Controller> extends Page<C> implements ValueC
 
     private String mimeType;
 
+    private WebPageListener pageMonitor;
+
     public interface WebPageListener extends ValueCallback<String> {
         void onPageFinishedLoading(WebView webView, String url);
     }
@@ -77,6 +79,14 @@ public class PageWebView<C extends Controller> extends Page<C> implements ValueC
         this.webChromeClient = webChromeClient;
     }
 
+    public WebPageListener getPageMonitor() {
+        return pageMonitor;
+    }
+
+    public void setPageMonitor(WebPageListener pageMonitor) {
+        this.pageMonitor = pageMonitor;
+    }
+
     @Override
     public void setupComponents() {
         super.setupComponents();
@@ -84,7 +94,7 @@ public class PageWebView<C extends Controller> extends Page<C> implements ValueC
 
         if (null != webView) {
             webView.setWebChromeClient(webChromeClient == null ? (webChromeClient = new CommonWebChromeClient()) : webChromeClient);
-            webView.setWebViewClient(webViewClient == null ? (webViewClient = new CommonWebViewClient(getController().getUi().getWebPageListener())) : webViewClient);
+            webView.setWebViewClient(webViewClient == null ? (webViewClient = new CommonWebViewClient(pageMonitor)) : webViewClient);
 
             // webView.clearCache(true);
             // webView.clearHistory();

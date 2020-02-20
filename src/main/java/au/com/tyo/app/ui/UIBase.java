@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
@@ -48,6 +49,8 @@ import au.com.tyo.app.Controller;
 import au.com.tyo.app.ui.activity.CommonActivityBackgroundProgress;
 import au.com.tyo.app.ui.page.Page;
 import au.com.tyo.app.ui.page.PageWebView;
+import au.com.tyo.json.form.DataFormEx;
+import au.com.tyo.json.form.FormGroup;
 
 import static au.com.tyo.app.Constants.REQUEST_NONE;
 
@@ -72,6 +75,9 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
     private UIPage mainPage;
 
     private UIPage contextPage;
+
+    protected String acknowledgementTitle = null;
+    protected String acknowledgementInfo = null;
 
     public UIBase(ControllerType controller) {
         this.controller = controller;
@@ -610,5 +616,142 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
     @Nullable
     public Activity getActivity() {
         return null != getCurrentPage() ? getCurrentPage().getActivity() : null;
+    }
+
+    @Override
+    public void showInfoInActivity(boolean showAcknowledgement) {
+        String appDesc = getController().getAppNameWithVersion();
+        Context context = getContext();
+
+        DataFormEx infoData = new DataFormEx();
+        infoData.setTitle(context.getString(R.string.about));
+        infoData.setEditable(false);
+
+        addAboutPageHeader(infoData);
+
+        FormGroup aboutGroup = new FormGroup(context.getString(R.string.app_information));
+        aboutGroup.setShowingTitle(true);
+
+        aboutGroup.addField(context.getString(R.string.version), AndroidUtils.getPackageVersionName(context) + " " + AndroidUtils.getAbi());
+        aboutGroup.addField(context.getString(R.string.copyright), context.getString(R.string.app_copyright));
+        infoData.addGroup(aboutGroup);
+
+        FormGroup contactGroup = new FormGroup(context.getString(R.string.app_contact_us));
+        contactGroup.setShowingTitle(true);
+
+        contactGroup.addField(context.getString(R.string.website), context.getString(R.string.tyolab_website));
+        contactGroup.addField(context.getString(R.string.email), context.getString(R.string.tyolab_email));
+        infoData.addGroup(contactGroup);
+
+        if (showAcknowledgement) {
+            FormGroup acknowledgementGroup = new FormGroup(context.getString(R.string.app_acknowledgement_title));
+            acknowledgementGroup.setShowingTitle(true);
+
+            if (null != acknowledgementTitle) {
+                acknowledgementGroup.setTitle(acknowledgementTitle);
+            }
+
+            addAboutPageAcknowledgementFields(acknowledgementGroup);
+            infoData.addGroup(acknowledgementGroup);
+        }
+
+        addAboutPageFooter(infoData);
+
+        gotoAboutPage(infoData, getController().getAppNameWithVersion());
+    }
+
+    /**
+     * Override me for adding header to the about page
+     * @param infoData
+     */
+    protected void addAboutPageHeader(DataFormEx infoData) {
+        // no ops
+    }
+
+    /**
+     * Override me for adding the footer to the about page
+     * @param infoData
+     */
+    protected void addAboutPageFooter(DataFormEx infoData) {
+        // no ops
+    }
+
+    /**
+     * Override this
+     *
+     * @param acknowledgementGroup
+     */
+    protected void addAboutPageAcknowledgementFields(FormGroup acknowledgementGroup) {
+        // no ops
+    }
+
+    public void setAcknowledgementTitle(String acknowledgementTitle) {
+        this.acknowledgementTitle = acknowledgementTitle;
+    }
+
+    public void setAcknowledgementInfo(String acknowledgementInfo) {
+        this.acknowledgementInfo = acknowledgementInfo;
+    }
+
+    protected void showInfoInDialog(boolean showAcknowledgement) {
+        showInfoInDialog(showAcknowledgement, -1);
+    }
+
+    protected void showInfoInDialog(boolean showAcknowledgement, int logoResId) {
+        Context context = getCurrentPage().getActivity();
+        View messageView = ((Activity) context).getLayoutInflater().inflate(R.layout.info_dialog, null, false);
+        View acknowledgement = messageView.findViewById(au.com.tyo.android.R.id.acknowledge_view);
+        if (showAcknowledgement) {
+            acknowledgement.setVisibility(View.VISIBLE);
+
+            if (null != acknowledgementTitle) {
+                TextView tv = (TextView) acknowledgement.findViewById(au.com.tyo.android.R.id.tv_acknowledgement_title);
+                tv.setText(acknowledgementTitle);
+            }
+
+            if (null != acknowledgementInfo) {
+                TextView tv = (TextView) acknowledgement.findViewById(au.com.tyo.android.R.id.info_acknowledgement);
+                tv.setText(acknowledgementInfo);
+            }
+        }
+
+        String appDesc = getController().getAppNameWithVersion();
+
+        androidx.appcompat.app.AlertDialog.Builder builder = DialogFactory.getBuilder(context, getController().getSettings().getThemeId(), logoResId);
+        if (logoResId > -1)
+            builder.setIcon(logoResId);
+        builder.setTitle(appDesc);
+        builder.setView(messageView);
+        androidx.appcompat.app.AlertDialog dialog = builder.create();
+        showDialog(dialog);
+    }
+
+    @Override
+    public void showInfo() {
+        showInfoInActivity(false);
+    }
+
+    @Override
+    public void showInfo(boolean showAcknowledgement) {
+        showInfoInActivity(showAcknowledgement);
+    }
+
+    public void showDialog(Dialog dialog) {
+        if(dialog != null && !getCurrentPage().getActivity().isFinishing())
+            dialog.show();
+    }
+
+    @Override
+    public void showAlertDialog(String title, String message,
+                                DialogInterface.OnClickListener okListener, DialogInterface.OnClickListener cancelListener) {
+        showAlertDialog(title, message, okListener, cancelListener, true);
+    }
+
+    @Override
+    public void showAlertDialog(String title, String message, DialogInterface.OnClickListener okListener,
+                                DialogInterface.OnClickListener cancelListner, boolean cancelable) {
+        Dialog dialog = DialogFactory.createDialogBuilder(getCurrentPage().getActivity(), -1, title, message, okListener, cancelListner).create();
+        dialog.setCancelable(cancelable);
+        showDialog(dialog);
     }
 }

@@ -201,4 +201,5 @@ public interface Controller<T extends UI> extends CommonController {
 	FormAbout getFormAbout();
 
     boolean onMultipleListItemsSelected(int listId, Collection selected);
+
 }
