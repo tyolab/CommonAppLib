@@ -5,12 +5,6 @@
 
 package au.com.tyo.app.ui.view;
 
-import com.amazon.device.ads.*;
-import com.amazon.device.ads.Ad;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
-
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
@@ -20,11 +14,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+
+import com.amazon.device.ads.AdError;
+import com.amazon.device.ads.AdLayout;
+import com.amazon.device.ads.AdProperties;
+import com.amazon.device.ads.AdRegistration;
+import com.amazon.device.ads.DefaultAdListener;
+// import com.google.android.gms.ads.AdRequest;
+// import com.google.android.gms.ads.AdView;
+// import com.google.android.gms.ads.MobileAds;
+
 import au.com.tyo.android.AndroidMarket;
-import au.com.tyo.app.CommonApp;
 import au.com.tyo.app.Controller;
 import au.com.tyo.app.R;
-import au.com.tyo.app.ui.*;
 
 /**
  * @author Eric Tang <eric.tang@tyo.com.au>
@@ -40,7 +42,7 @@ public class AllAdView extends FrameLayout {
 	
     private static final String LOG_TAG = "AllAdView";
 	
-	private AdView admobAdBanner;
+	// private AdView admobAdBanner;
 	
 	private AdLayout amazonAdBanner;
 	
@@ -100,8 +102,11 @@ public class AllAdView extends FrameLayout {
 			this.removeView(banner);
 
 		if (isAdSdkInitialized()) {
-			if (!isAmazonAd)
-				MobileAds.initialize(getContext(), getContext().getString(R.string.admob_app_id));
+			if (!isAmazonAd) {
+				// TODO
+				// create a Ad listener
+				// MobileAds.initialize(getContext(), getContext().getString(R.string.admob_app_id));
+			}
 		}
 		
 		initializeAd();
@@ -122,7 +127,9 @@ public class AllAdView extends FrameLayout {
 			amazonAdBanner.loadAd();
 		}
 		else {
-			admobAdBanner.loadAd(new AdRequest.Builder().build());
+			// TODO
+			// create a Ad listener
+			// admobAdBanner.loadAd(new AdRequest.Builder().build());
 		}
 	}
 
@@ -176,22 +183,24 @@ public class AllAdView extends FrameLayout {
 	}
 	
 	public void initializeAdmobBanner() {
-		admobAdBanner = (AdView) LayoutInflater.from(this.getContext()).inflate(R.layout.admob, null);
-		admobAdBanner.setAdListener(new AdmobAdListener());
-		banner = admobAdBanner;
+		// TODO
+		// create a Ad listener
+		// admobAdBanner = (AdView) LayoutInflater.from(this.getContext()).inflate(R.layout.admob, null);
+		// admobAdBanner.setAdListener(new AdmobAdListener());
+		// banner = admobAdBanner;
 	}
     
-    public class AdmobAdListener extends com.google.android.gms.ads.AdListener {
-
-		@Override
-		public void onAdLoaded() {
-			super.onAdLoaded();
-
-			state = AD_STATE_LOADED;
-			controller.getUi().getCurrentPage().onAdLoaded();
-		}
-
-    }
+    // public class AdmobAdListener extends com.google.android.gms.ads.AdListener {
+	//
+	// 	@Override
+	// 	public void onAdLoaded() {
+	// 		super.onAdLoaded();
+	//
+	// 		state = AD_STATE_LOADED;
+	// 		controller.getUi().getCurrentPage().onAdLoaded();
+	// 	}
+	//
+    // }
 
 	/**
      * This class is for an event listener that tracks ad lifecycle events.

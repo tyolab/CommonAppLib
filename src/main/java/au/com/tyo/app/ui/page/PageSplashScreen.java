@@ -8,9 +8,9 @@ import android.os.Message;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.InterstitialAd;
+// import com.google.android.gms.ads.AdListener;
+// import com.google.android.gms.ads.AdRequest;
+// import com.google.android.gms.ads.InterstitialAd;
 
 import au.com.tyo.android.AndroidUtils;
 import au.com.tyo.android.NetworkMonitor;
@@ -30,7 +30,7 @@ public class PageSplashScreen extends Page implements SplashScreenMessageListene
 
     private Controller controller;
 
-    private InterstitialAd interstitial;
+    // private InterstitialAd interstitial;
 
     private Handler handler;
 
@@ -74,34 +74,35 @@ public class PageSplashScreen extends Page implements SplashScreenMessageListene
                 && activity.getResources().getBoolean(R.bool.show_ad_splash_screen_interstitial)
                 && NetworkMonitor.hasInternet(activity);
 
-        if (showAd) {
-            // Create the interstitial.
-            interstitial = new InterstitialAd(activity);
-            interstitial.setAdUnitId(activity.getResources().getString(R.string.app_ad_unit_id_splash_screen_interstitial));
-            interstitial.setAdListener(new AdListener() {
-                @Override
-                public void onAdLoaded() {
-                    super.onAdLoaded();
-                    Message msg = Message.obtain();
-                    msg.what = Constants.MESSAGE_AD_LOADED;
-                    handler.sendMessage(msg);
-                }
-
-                @Override
-                public void onAdFailedToLoad(int errorCode) {
-                    super.onAdFailedToLoad(errorCode);
-                    Message msg = Message.obtain();
-                    msg.what = Constants.MESSAGE_AD_FAILED;
-                    handler.sendMessage(msg);
-                }
-            });
-
-            // Create ad request.
-            AdRequest adRequest = new AdRequest.Builder().build();
-
-            // Begin loading your interstitial.
-            interstitial.loadAd(adRequest);
-        }
+        // TODO
+        // if (showAd) {
+        //     // Create the interstitial.
+        //     interstitial = new InterstitialAd(activity);
+        //     interstitial.setAdUnitId(activity.getResources().getString(R.string.app_ad_unit_id_splash_screen_interstitial));
+        //     interstitial.setAdListener(new AdListener() {
+        //         @Override
+        //         public void onAdLoaded() {
+        //             super.onAdLoaded();
+        //             Message msg = Message.obtain();
+        //             msg.what = Constants.MESSAGE_AD_LOADED;
+        //             handler.sendMessage(msg);
+        //         }
+        //
+        //         @Override
+        //         public void onAdFailedToLoad(int errorCode) {
+        //             super.onAdFailedToLoad(errorCode);
+        //             Message msg = Message.obtain();
+        //             msg.what = Constants.MESSAGE_AD_FAILED;
+        //             handler.sendMessage(msg);
+        //         }
+        //     });
+        //
+        //     // Create ad request.
+        //     AdRequest adRequest = new AdRequest.Builder().build();
+        //
+        //     // Begin loading your interstitial.
+        //     interstitial.loadAd(adRequest);
+        // }
 
 //        if (controller.getContext() == null)
 //            controller.initializeInMainThread(activity);
@@ -132,11 +133,11 @@ public class PageSplashScreen extends Page implements SplashScreenMessageListene
     }
 
     // Invoke displayInterstitial() when you are ready to display an interstitial.
-    private void displayInterstitial() {
-        if (interstitial.isLoaded()) {
-            interstitial.show();
-        }
-    }
+    // private void displayInterstitial() {
+    //     if (interstitial.isLoaded()) {
+    //         interstitial.show();
+    //     }
+    // }
 
     private static class MessageHandler extends Handler {
 
@@ -240,7 +241,8 @@ public class PageSplashScreen extends Page implements SplashScreenMessageListene
 
     @Override
     public void onAdLoaded() {
-        displayInterstitial();
+        // TODO
+        // displayInterstitial();
     }
 
     /**

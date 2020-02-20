@@ -1410,6 +1410,10 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
+        if (item.getItemId() == au.com.tyo.android.R.id.menuItemPreferences) {
+            getUi().gotoSettingsPage();
+            return true;
+        }
         return false;
     }
 
@@ -1569,7 +1573,11 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     }
 
     protected void createMenuItemAbout(MenuInflater menuInflater, Menu menu) {
-        menuInflater.inflate(R.menu.common_menu, menu);
+        menuInflater.inflate(R.menu.common_menu_about, menu);
+    }
+
+    protected void createMenuItemSettings(MenuInflater menuInflater, Menu menu) {
+        menuInflater.inflate(R.menu.common_menu_settings, menu);
     }
 
     @Override

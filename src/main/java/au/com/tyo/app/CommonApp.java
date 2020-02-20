@@ -872,7 +872,15 @@ public abstract class CommonApp<UIType extends UI,
 	public void broadcastMessage(String key, Object data) {
 		Intent intent = new Intent(Constants.ACTION_MESSAGE_RECEIVER);
 		CommonExtra.putExtra(intent, key, data);
-		LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+
+		Context context = getContext();
+		if (null == context)
+			context = getApplicationContext();
+
+		if (null != context)
+			LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+		else
+			CommonLog.e(this, "Empty context: BUG!!!!!!, check your logic, the App class wasn't finished initialisation with context yet");
 	}
 
 	@Override
