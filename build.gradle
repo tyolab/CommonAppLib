@@ -35,7 +35,7 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.multidex:multidex:2.0.0'
+    api 'androidx.multidex:multidex:2.0.1'
 
     api project(':CommonAndroid')
 
@@ -45,27 +45,28 @@ dependencies {
     api project(':CommonJsonFormDroid')
 
     // Calligraphy
-    implementation 'uk.co.chrisjenx:calligraphy:2.3.0'
+    api 'uk.co.chrisjenx:calligraphy:2.3.0'
 
-    api ('com.google.code.gson:gson:2.8.0') {
+    api ('com.google.code.gson:gson:2.8.6') {
         exclude module: 'httpclient'
         exclude group: 'org.apache.httpcomponents'
     }
 
-    api ('com.google.http-client:google-http-client-gson:1.22.0') {
+    api ('com.google.http-client:google-http-client-gson:1.36.0') {
         exclude module: 'httpclient'
         exclude group: 'org.apache.httpcomponents'
     }
 
-    api ('com.google.http-client:google-http-client-jackson2:1.22.0') {
+    api ('com.google.http-client:google-http-client-jackson2:1.36.0') {
         exclude module: 'httpclient'
         exclude group: 'org.apache.httpcomponents'
     }
 
-    implementation 'androidx.preference:preference:1.0.0-beta01'
+    implementation 'androidx.preference:preference:1.1.1'
 
     // Amazon Ad
-    implementation 'com.amazon.android:mobile-ads:5.+'
+    implementation 'com.amazon.android:mobile-ads:6.0.0'
+    implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.0.0'
 
     // Google Ad
     // implementation 'com.google.android.gms:play-services-ads:17.2.0'

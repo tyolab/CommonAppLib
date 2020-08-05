@@ -1078,6 +1078,10 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
      */
     @Override
     public void showProgressBar(int id) {
+        showProgressBar();
+    }
+
+    public void showProgressBar() {
         showProgressBar("");
     }
 
