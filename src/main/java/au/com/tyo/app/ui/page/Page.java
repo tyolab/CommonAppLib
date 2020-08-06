@@ -494,12 +494,14 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     @Override
     public void setSuggestionViewVisibility(boolean b) {
         if (b) {
-            ad.hide();
+            if (null != ad)
+                ad.hide();
             suggestionView.setVisibility(View.VISIBLE);
             super.hideContentView();
         }
         else {
-            ad.show();
+            if (null != ad)
+                ad.show();
             super.showContentView();
             suggestionView.setVisibility(View.GONE);
         }
@@ -800,11 +802,13 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
      * add Ad View to Footer
      */
     protected void addAdViewToFooter() {
-        ad.initialize(controller, footerView);
-        footerView.addView(ad);
-        if (footerView instanceof FrameLayout) {
-            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT);
-            ad.setLayoutParams(params);
+        if (null != ad) {
+            ad.initialize(controller, footerView);
+            footerView.addView(ad);
+            if (footerView instanceof FrameLayout) {
+                FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+                ad.setLayoutParams(params);
+            }
         }
     }
 
