@@ -1418,7 +1418,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-        if (item.getItemId() == au.com.tyo.android.R.id.menuItemPreferences) {
+        if (item.getItemId() == R.id.menuItemPreferences) {
             getUi().gotoSettingsPage();
             return true;
         }

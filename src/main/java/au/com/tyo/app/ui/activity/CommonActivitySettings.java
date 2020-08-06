@@ -9,8 +9,8 @@ public class CommonActivitySettings extends CommonActivity {
     private static Class activitySettingsClass;
     private static Class pageSettingsClass;
 
-    public void setActivitySettingsClass(Class activitySettingsClass) {
-        this.activitySettingsClass = activitySettingsClass;
+    public static void setActivitySettingsClass(Class activitySettingsClass) {
+        CommonActivitySettings.activitySettingsClass = activitySettingsClass;
     }
 
     public static Class getActivitySettingsClass() {
@@ -31,7 +31,8 @@ public class CommonActivitySettings extends CommonActivity {
 
     @Override
     protected void onCreatePage() {
-        setPage(new PageSettings<>(getController(), this));
+        if (null == getPage())
+            setPage(new PageSettings<>(getController(), this));
         super.onCreatePage();
     }
 
