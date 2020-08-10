@@ -45,15 +45,15 @@
     <style name="AppStyle.Widget.ProgressBar" parent="@android:style/Widget.ProgressBar">
     </style>
 
-    <style name="AppStyle.Menu" parent="@style/Widget.AppCompat.ActionButton.Overflow" >
+    <style name="AppStyle.Menu">
 
     </style>
 
-    <style name="AppStyle.Menu.Light">
+    <style name="AppStyle.Menu.Light" parent="Widget.AppCompat.Light.ActionButton.Overflow">
 
     </style>
 
-    <style name="AppStyle.Menu.Dark">
+    <style name="AppStyle.Menu.Dark" parent="Widget.AppCompat.ActionButton.Overflow" >
 
     </style>
 
@@ -65,10 +65,10 @@
     </style>
 
 
-    <style name="AppStyle.Toolbar.PopupLight" parent="@style/ThemeOverlay.AppCompat.Light">
+    <style name="AppStyle.Toolbar.PopupLight" parent="ThemeOverlay.AppCompat.Light">
     </style>
 
-    <style name="AppStyle.Toolbar.PopupDark" parent="@style/ThemeOverlay.AppCompat.Dark">
+    <style name="AppStyle.Toolbar.PopupDark" parent="ThemeOverlay.AppCompat.Dark">
     </style>
 
     <style name="AppStyle.Toolbar.Light">

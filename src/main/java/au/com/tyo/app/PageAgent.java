@@ -397,7 +397,8 @@ public class PageAgent {
                 controller.getUi().setContextPage(screen);
 
                 // setting the them when page is in onStart or onActivityStart function
-                //controller.getUi().setupTheme(getActivity());
+                // cannot remember why this line of code got commented off
+                controller.getUi().setupTheme(getActivity());
             }
         }
     }

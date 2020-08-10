@@ -80,6 +80,7 @@
 
         <!-- This is the one will change the text color of radiobutton in the listview-->
         <item name="android:textColorAlertDialogListItem">@color/theme_dark_text_color</item>
+        <item name="textColorAlertDialogListItem">@color/theme_dark_text_color</item>
 
         <item name="android:textAppearanceListItem">@style/CommonTextAppearance.Dark</item>
         <item name="android:textAppearance">@style/CommonTextAppearance.Dark</item>
@@ -181,7 +182,7 @@
 
         <item name="ic_action_navigation_expand">@drawable/ic_action_navigation_expand_light</item>
 
-        <item name="ic_action_navigation_collpase">@drawable/ic_action_navigation_collapse_light</item>
+        <item name="ic_action_navigation_collapse">@drawable/ic_action_navigation_collapse_light</item>
 
         <item name="ic_more_overflow_style">@style/CommonButtonOverflow.Light</item>
 
@@ -271,7 +272,7 @@
 
         <item name="ic_action_navigation_expand">@drawable/ic_action_navigation_expand_dark</item>
 
-        <item name="ic_action_navigation_collpase">@drawable/ic_action_navigation_collapse_dark</item>
+        <item name="ic_action_navigation_collapse">@drawable/ic_action_navigation_collapse_dark</item>
 
         <item name="ic_more_overflow_style">@style/CommonButtonOverflow.Dark</item>
 
