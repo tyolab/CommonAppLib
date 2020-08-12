@@ -96,6 +96,8 @@ public abstract class CommonAppSettings<T1 extends Map, T2 extends Map> extends 
 	public void loadAppData(Class<T1> aClass) {
 		appDataClass = aClass;
         userData = JSON.parse(prefs.getString(PREF_APP_DATA, getAppDataTemplate(context)), aClass);
+
+        loadAppDataIntoMemory();
 	}
 
 	protected String getAppDataTemplate(Context context) {
@@ -134,8 +136,12 @@ public abstract class CommonAppSettings<T1 extends Map, T2 extends Map> extends 
      * Specify each setting from the map
      */
     public void loadSettingsIntoMemory() {
-        // no ops
+        // no ops yet
     }
+
+    public void loadAppDataIntoMemory() {
+		// no ops yet
+	}
 
     public void updateSetting(String key, Object value) {
     	if (null == settingsCache)
