@@ -102,6 +102,10 @@ public abstract class CommonApp<UIType extends UI,
 	 */
 	protected ServiceRunner dpServiceRunner = null;
 
+    public CommonApp() {
+		super();
+	}
+
 	public static class ThemeInfo {
 		int themeId;
 		String name;

@@ -83,6 +83,14 @@
 
     </style>
 
+    <style name="AppStyle.Splash.Slang">
+        <item name="android:textColor">@color/text_app_slang</item>
+    </style>
+
+    <style name="AppStyle.Splash.Slang2">
+        <item name="android:textColor">@color/text_app_slang2</item>
+    </style>
+
     <style name="AppStyle.Splash.Icon">
         <item name="android:src">@mipmap/splash_icon</item>
     </style>
@@ -111,10 +119,15 @@
     </style>
 
     <style name="AppStyle.ToolbarTitle">
-
+        <item name="android:textSize">20sp</item>
+        <item name="android:layout_marginLeft">-8dp</item>
+        <item name="android:paddingLeft">0dp</item>
     </style>
 
-    <style name="AppStyle.Toolbar.Popup"></style>
+    <style name="AppStyle.Toolbar.Popup">
+        <item name="android:colorBackground">@color/green</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
 
 
 </resources>

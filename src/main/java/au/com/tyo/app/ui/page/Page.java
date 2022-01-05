@@ -1706,6 +1706,9 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
                             onRequestedPermissionsGranted(permission);
                     }
                 }
+                // Since we already has the permission
+                else
+                    onRequestedPermissionsGranted(permission);
             }
 
             if (list.size() > 0) {

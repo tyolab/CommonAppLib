@@ -343,10 +343,12 @@
     <!-- Application theme. -->
     <style name="CommonAppTheme.Light" parent="CommonAppBaseTheme.Light">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="android:itemBackground">@android:color/transparent</item>
     </style>
 
     <style name="CommonAppTheme.Dark" parent="CommonAppBaseTheme.Dark">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="android:itemBackground">@android:color/transparent</item>
     </style>
 
     <style name="CommonAppTheme.Light.NoActionBar">
