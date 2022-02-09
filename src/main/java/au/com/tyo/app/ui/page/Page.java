@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -52,6 +53,7 @@ import au.com.tyo.android.AndroidUtils;
 import au.com.tyo.android.CommonInitializer;
 import au.com.tyo.android.CommonPermission;
 import au.com.tyo.android.utils.ActivityUtils;
+import au.com.tyo.android.utils.ResourceUtils;
 import au.com.tyo.app.CommonAppLog;
 import au.com.tyo.app.CommonExtra;
 import au.com.tyo.app.CommonLog;
@@ -226,6 +228,9 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     private boolean keepShowingSuggestionView;
     private Drawable upArrow;
 
+    protected Integer originalToolbarColor;
+    protected Integer originalStatusbarColor;
+
     /**
      *
      * @param controller
@@ -239,6 +244,9 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         toShowSearchView = false;
         keepShowingSuggestionView = false;
         upArrow = null;
+
+        originalToolbarColor = null;
+        originalStatusbarColor = null;
 
         /**
          * can be set
@@ -1530,7 +1538,13 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         if (null != title && title.length() > 0)
             setPageTitleOnToolbar(title);
 
+        Drawable drawable = getToolbar().getBackground();
+        if (drawable instanceof ColorDrawable) {
+            originalToolbarColor = ((ColorDrawable) drawable).getColor();
+        }
+
         updatePageTitleTextColor();
+        updatePageColor();
 
         if (!isSubpage())
             getController().getUi().setMainPage(this);
@@ -1557,17 +1571,6 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
 
     public FragmentManager getSupportFragmentManager() {
         return ((AppCompatActivity) activity).getSupportFragmentManager();
-    }
-
-    @Override
-    public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (null != fragments) {
-            for (Fragment fragment : fragments)
-                fragment.onActivityResult(requestCode, resultCode, data);
-
-            return true; // by default page will handle the activity result
-        }
-        return false;
     }
 
     @Override
@@ -1861,6 +1864,29 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         // pass the result with controller if any
     }
 
+    public void updatePageColor() {
+        updateToolbarColor();
+        updateStatusColor();
+    }
+
+    public  void updateStatusColor() {
+        if (null != originalStatusbarColor && originalStatusbarColor > -1) {
+            setPageStatusBarColor(originalStatusbarColor);
+        }
+        else {
+            setPageStatusBarColor(ResourceUtils.getAttributeColor(getActivity(), R.attr.colorStatusBar));
+        }
+    }
+
+    protected void updateToolbarColor() {
+        if (null != originalToolbarColor && originalToolbarColor > -1) {
+            setPageToolbarColor(originalToolbarColor);
+        }
+        else {
+            setPageToolbarColor(ResourceUtils.getAttributeColor(getActivity(), R.attr.colorPrimary));
+        }
+    }
+
     public class ProgressTask extends ViewContainerWithProgressBar.BackgroundTask implements ViewContainerWithProgressBar.Caller {
 
         private int id;
@@ -1968,6 +1994,35 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
                 result = controller.getResult();
         }
         return result;
+    }
+
+    @Override
+    public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (null != fragments) {
+            for (Fragment fragment : fragments)
+                // to see if
+                fragment.onActivityResult(requestCode, resultCode, data);
+        }
+
+        if (data != null) {
+            String key = getRequestKeyByCode(requestCode, resultCode);
+            if (null != key) {
+                Object result = getActivityResult(data);
+                if (null != result) {
+                    return onChangeResultReceived(key, result);
+                }
+            }
+        }
+        return false;
+    }
+
+    protected boolean onChangeResultReceived(String key, Object result) {
+        // do nothing here, override to handle the result
+        return true;
+    }
+
+    protected String getRequestKeyByCode(int requestCode, int resultCode) {
+        return null;
     }
 
     public void setKeepShowingSuggestionViewEvenLosingFocus(

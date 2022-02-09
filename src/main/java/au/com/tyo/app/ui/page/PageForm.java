@@ -863,7 +863,7 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
             String key = getCurrentKey();
             Object result = getActivityResult(data);
             if (null != result) {
-                return onResultReceived(key, result);
+                return onChangeResultReceived(key, result);
             }
         }
         /**
@@ -873,7 +873,7 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
     }
 
     @OverridingMethodsMustInvokeSuper
-    protected boolean onResultReceived(String key, Object result) {
+    protected boolean onChangeResultReceived(String key, Object result) {
         /**
          * @TODO
          *    make the step into array
@@ -924,15 +924,22 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
     }
 
     /**
-     * Save the data on stop if the edit/save menu item is not visible
+     * Page stops after starting another activity on the top as well
      */
     @Override
     public void onStop() {
         super.onStop();
+    }
 
+    /**
+     * Save the data on stop if the edit/save menu item is not visible
+     */
+    @Override
+    public void onFinish() {
         if (isDirty()) {
             saveAndFinish();
         }
+        super.onFinish();
     }
 
     @Override

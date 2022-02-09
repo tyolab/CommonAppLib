@@ -44,4 +44,6 @@
     <color name="iconied_item_tint">#ff73E5A1</color>
     <color name="text_app_slang">#B6F8FA</color>
     <color name="text_app_slang2">#B6F8FA</color>
+    <color name="status_bar_light">#80375F7F</color>
+    <color name="status_bar_dark">#000000</color>
 </resources>

@@ -118,4 +118,5 @@ public interface Constants extends au.com.tyo.android.Constants {
 	String PAGE_RESULT_KEY = "TYODROID_PAGE_RESULT_KEY";
 
     String DATA_MIME_TYPE = "TYODROID_DATA_MIME_TYPE";
+    String KEY_GENERAL_REQUEST = "TYODROID_KEY_GENERAL_REQUEST";
 }

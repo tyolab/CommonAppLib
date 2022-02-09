@@ -61,14 +61,18 @@
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:background">?attr/colorPrimary</item>
         <item name="android:elevation" tools:ignore="NewApi">2dp</item>
-        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingLeft">-2dp</item>
+        <item name="android:itemBackground">@android:color/transparent</item>
     </style>
 
-
     <style name="AppStyle.Toolbar.PopupLight" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:itemBackground">@android:color/transparent</item>
     </style>
 
     <style name="AppStyle.Toolbar.PopupDark" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:itemBackground">@android:color/transparent</item>
     </style>
 
     <style name="AppStyle.Toolbar.Light">
@@ -125,7 +129,6 @@
     </style>
 
     <style name="AppStyle.Toolbar.Popup">
-        <item name="android:colorBackground">@color/green</item>
         <item name="android:textColor">@color/black</item>
     </style>
 

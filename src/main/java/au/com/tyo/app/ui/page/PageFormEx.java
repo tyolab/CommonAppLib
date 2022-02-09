@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -71,6 +72,8 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
         void setupFormFooter(String formId, View view);
 
         void onFormInitialized(String formId);
+
+        void onReceiveBroadcastMessage(String formId, int messageId, Object msgObj);
 
         // boolean validate(String key, String text);
         //
@@ -256,7 +259,7 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
     }
 
     @Override
-    public void loadImage(String keyStr, ImageView imageView) {
+    public void loadFormFieldImage(String keyStr, ImageView imageView) {
         // it is not very efficient but does the job
         List<FormGroup> list = dataFormEx.getGroups();
         for (int i = 0; i < list.size(); ++i) {
@@ -327,6 +330,33 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
             formHandler.setupFormFooter(formId, view);
     }
 
+    /**
+     *
+     * @return the ordered list/map for key and value
+     */
+    @Override
+    public OrderedDataMap getOrderedDataMap() {
+        return null;
+    }
+
+    /**
+     *
+     * @return the form groups
+     */
+    @Override
+    public List getGroups() {
+        return null;
+    }
+
+    /**
+     *
+     * @return the fields if there are no groups in the form
+     */
+    @Override
+    public List getFields() {
+        return null;
+    }
+
     @Override
     protected void onFormValueUpdated(String key, Object o) {
         if (null != formHandler)
@@ -354,4 +384,12 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
         super.onRestoreInstanceState(savedInstanceState);
     }
 
+    @Override
+    protected void handleBroadcastMessage(Message msg) {
+        super.handleBroadcastMessage(msg);
+
+        if (null != formHandler) {
+            formHandler.onReceiveBroadcastMessage(formId, msg.what, msg.obj);
+        }
+    }
 }
