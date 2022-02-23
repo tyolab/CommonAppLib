@@ -95,16 +95,17 @@ public class PageBackgroundProgress<T extends Controller> extends Page<T> {
      * Should only handle the message related to the UI updates
      *
      * @param msg
+     * @return
      */
     @Override
-    protected void handleBroadcastMessage(Message msg) {
+    protected boolean handleBroadcastMessage(Message msg) {
         if (msg.what == Constants.MESSAGE_BROADCAST_BACKGROUND_PROGRESS) {
 
             int lp = (int) msg.obj;
 
             if (lp > 100) {
                 Log.w(TAG, "Progress just has jumped over 100");
-                return;
+                return false;
             }
 
             if (lp > progress) {
@@ -118,9 +119,9 @@ public class PageBackgroundProgress<T extends Controller> extends Page<T> {
         // }
         else if (msg.what == Constants.MESSAGE_BROADCAST_BACKGROUND_TASK_DONE) {
             finish();
+            return true;
         }
-        else
-            super.handleBroadcastMessage(msg);
+        return super.handleBroadcastMessage(msg);
     }
 
     protected void updateProgress() {

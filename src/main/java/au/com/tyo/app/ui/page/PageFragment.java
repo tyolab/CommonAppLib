@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 
 import au.com.tyo.app.CommonLog;
 import au.com.tyo.app.Constants;
-import au.com.tyo.app.ui.UI;
 import au.com.tyo.app.ui.UIEntity;
 
 /**
@@ -200,17 +199,19 @@ public class PageFragment implements UIEntity {
      * is finished
      *
      * @param msg
+     * @return
      */
-    protected void handleBroadcastMessage(Message msg) {
+    protected boolean handleBroadcastMessage(Message msg) {
         switch (msg.what) {
             case Constants.MESSAGE_BROADCAST_LOADING_DATA:
                 onLoadingData();
-                break;
+                return true;
 
             case Constants.MESSAGE_BROADCAST_DATA_LOADED:
                 onDataLoaded();
-                break;
+                return true;
         }
+        return false;
     }
 
     protected void onDataLoaded() {

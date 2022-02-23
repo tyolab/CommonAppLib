@@ -1034,12 +1034,12 @@ public abstract class PageForm<T extends Controller> extends Page<T>  implements
     }
 
     @Override
-    protected void handleBroadcastMessage(Message msg) {
+    protected boolean handleBroadcastMessage(Message msg) {
         if (msg.what == Constants.MESSAGE_BROADCAST_FORM_VALUE_UPDATED) {
             onFormValueUpdated((String) msg.obj, null);
-            return;
+            return true;
         }
-        super.handleBroadcastMessage(msg);
+        return super.handleBroadcastMessage(msg);
     }
 
     /**

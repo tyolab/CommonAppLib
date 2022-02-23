@@ -380,7 +380,7 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
 
     @Override
     protected void onSuggestionItemClick(Object obj) {
-        if (!getController().onListItemClick(listKey, listId, obj))
+        if (!getController().onSuggestionItemClick(listKey, listId, obj))
             setResultAndFinish(obj);
         else
             finish();
@@ -412,7 +412,7 @@ public class PageCommonList<T extends Controller> extends Page<T> implements UIL
         }
 
         Object item = adapter.getItem(position);
-        if (!getController().onListItemClick(listKey, listId, item))
+        if (!getController().onSuggestionItemClick(listKey, listId, item))
             setResultAndFinish(item);
         else
             finish();

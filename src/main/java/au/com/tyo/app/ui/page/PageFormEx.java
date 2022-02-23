@@ -73,7 +73,7 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
 
         void onFormInitialized(String formId);
 
-        void onReceiveBroadcastMessage(String formId, int messageId, Object msgObj);
+        boolean onReceiveBroadcastMessage(String formId, int messageId, Object msgObj);
 
         // boolean validate(String key, String text);
         //
@@ -385,11 +385,12 @@ public class PageFormEx<T extends Controller> extends PageForm<T> {
     }
 
     @Override
-    protected void handleBroadcastMessage(Message msg) {
+    protected boolean handleBroadcastMessage(Message msg) {
         super.handleBroadcastMessage(msg);
 
         if (null != formHandler) {
-            formHandler.onReceiveBroadcastMessage(formId, msg.what, msg.obj);
+            return formHandler.onReceiveBroadcastMessage(formId, msg.what, msg.obj);
         }
+        return true;
     }
 }

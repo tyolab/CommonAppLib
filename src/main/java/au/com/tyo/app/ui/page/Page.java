@@ -1523,6 +1523,11 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     @OverridingMethodsMustInvokeSuper
     @Override
     public void onActivityStart() {
+        // check the permissions required for the app since Android 6
+        // we don't have to check the permission for every page,
+        // if page permission check is necessary, just add the permission(s) requested in the request list
+        checkPermissions();
+
         if (null != pageInitializer)
             pageInitializer.initializePageOnActivityStart(this);
 
@@ -1683,14 +1688,6 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
 
     public Resources getResources() {
         return activity.getResources();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // check the permissions required for the app since Android 6
-        checkPermissions();
     }
 
     protected void checkPermissions() {
