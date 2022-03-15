@@ -117,6 +117,13 @@ public abstract class CommonAppSettings<T1 extends Map, T2 extends Map> extends 
 	}
 
     public T2 getSettingsCache() {
+		if (null == settingsCache)
+			try {
+				settingsCache = appSettingsClass.newInstance();
+			}
+			catch (Exception ex) {
+				Log.e(LOG_TAG, "settingsCache is null, and failed to create an instance for it", ex);
+			}
         return settingsCache;
     }
 
@@ -144,14 +151,7 @@ public abstract class CommonAppSettings<T1 extends Map, T2 extends Map> extends 
 	}
 
     public void updateSetting(String key, Object value) {
-    	if (null == settingsCache)
-    		try {
-				settingsCache = appSettingsClass.newInstance();
-			}
-    		catch (Exception ex) {
-    			Log.e(LOG_TAG, "settingsCache is null, and failed to create an instance for it", ex);
-			}
-    	settingsCache.put(key, value);
+    	getSettingsCache().put(key, value);
 	}
 
 	/**
