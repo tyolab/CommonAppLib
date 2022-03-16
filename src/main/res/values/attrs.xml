@@ -27,4 +27,6 @@
     <attr name="colorPrimarySuggestionNotAvailable" format="reference" />
 
     <attr name="colorStatusBar" format="reference" />
+
+    <attr name="ic_action_navigation_collapse" format="reference" />
 </resources>

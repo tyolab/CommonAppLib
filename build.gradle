@@ -60,11 +60,12 @@ dependencies {
         exclude group: 'org.apache.httpcomponents'
     }
 
-    implementation 'androidx.preference:preference:1.1.1'
+    // implementation 'androidx.preference:preference:1.1.1'
 
     // Amazon Ad
     implementation 'com.amazon.android:mobile-ads:6.0.0'
-    implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.0.0'
+    implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.1.0'
+    implementation 'androidx.preference:preference:1.2.0'
 
     // Google Ad
     // implementation 'com.google.android.gms:play-services-ads:17.2.0'

@@ -826,7 +826,6 @@ public abstract class CommonApp<UIType extends UI,
 		// to be implemented if a simple list is used
 	}
 
-	@Override
 	public boolean onSuggestionItemClick(String listKey, int listId, Object obj) {
 		// to be implemented if a simple list is used
 		return false;

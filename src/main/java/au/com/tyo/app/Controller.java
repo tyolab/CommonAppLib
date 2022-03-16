@@ -202,4 +202,5 @@ public interface Controller<T extends UI> extends CommonController {
 
     boolean onMultipleListItemsSelected(int listId, Collection selected);
 
+    boolean onSuggestionItemClick(String listKey, int listId, Object obj);
 }
