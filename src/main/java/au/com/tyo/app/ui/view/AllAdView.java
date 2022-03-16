@@ -15,14 +15,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import androidx.annotation.NonNull;
+
 import com.amazon.device.ads.AdError;
 import com.amazon.device.ads.AdLayout;
 import com.amazon.device.ads.AdProperties;
 import com.amazon.device.ads.AdRegistration;
 import com.amazon.device.ads.DefaultAdListener;
-// import com.google.android.gms.ads.AdRequest;
-// import com.google.android.gms.ads.AdView;
-// import com.google.android.gms.ads.MobileAds;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
 import au.com.tyo.android.AndroidMarket;
 import au.com.tyo.app.Controller;
@@ -42,7 +47,7 @@ public class AllAdView extends FrameLayout {
 	
     private static final String LOG_TAG = "AllAdView";
 	
-	// private AdView admobAdBanner;
+	 private AdView admobAdBanner;
 	
 	private AdLayout amazonAdBanner;
 	
@@ -105,7 +110,13 @@ public class AllAdView extends FrameLayout {
 			if (!isAmazonAd) {
 				// TODO
 				// create a Ad listener
-				// MobileAds.initialize(getContext(), getContext().getString(R.string.admob_app_id));
+				 MobileAds.initialize(getContext(), new OnInitializationCompleteListener() {
+
+					 @Override
+					 public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
+
+					 }
+				 });
 			}
 		}
 		
@@ -129,7 +140,7 @@ public class AllAdView extends FrameLayout {
 		else {
 			// TODO
 			// create a Ad listener
-			// admobAdBanner.loadAd(new AdRequest.Builder().build());
+			 admobAdBanner.loadAd(new AdRequest.Builder().build());
 		}
 	}
 
@@ -185,22 +196,22 @@ public class AllAdView extends FrameLayout {
 	public void initializeAdmobBanner() {
 		// TODO
 		// create a Ad listener
-		// admobAdBanner = (AdView) LayoutInflater.from(this.getContext()).inflate(R.layout.admob, null);
-		// admobAdBanner.setAdListener(new AdmobAdListener());
-		// banner = admobAdBanner;
+		 admobAdBanner = (AdView) LayoutInflater.from(this.getContext()).inflate(R.layout.admob, null);
+		 admobAdBanner.setAdListener(new AdmobAdListener());
+		 banner = admobAdBanner;
 	}
     
-    // public class AdmobAdListener extends com.google.android.gms.ads.AdListener {
-	//
-	// 	@Override
-	// 	public void onAdLoaded() {
-	// 		super.onAdLoaded();
-	//
-	// 		state = AD_STATE_LOADED;
-	// 		controller.getUi().getCurrentPage().onAdLoaded();
-	// 	}
-	//
-    // }
+     public class AdmobAdListener extends com.google.android.gms.ads.AdListener {
+
+	 	@Override
+	 	public void onAdLoaded() {
+	 		super.onAdLoaded();
+
+	 		state = AD_STATE_LOADED;
+	 		controller.getUi().getCurrentPage().onAdLoaded();
+	 	}
+
+     }
 
 	/**
      * This class is for an event listener that tracks ad lifecycle events.
