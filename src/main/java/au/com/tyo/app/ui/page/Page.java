@@ -1549,7 +1549,7 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         }
 
         updatePageTitleTextColor();
-        updatePageColor();
+        // resetPageColor();
 
         if (!isSubpage())
             getController().getUi().setMainPage(this);
@@ -1861,26 +1861,32 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         // pass the result with controller if any
     }
 
-    public void updatePageColor() {
-        updateToolbarColor();
-        updateStatusColor();
+    public void resetPageColor() {
+        resetToolbarColor();
+        resetStatusColor();
     }
 
-    public  void updateStatusColor() {
+    public  void resetStatusColor() {
         if (null != originalStatusbarColor && originalStatusbarColor > -1) {
             setPageStatusBarColor(originalStatusbarColor);
         }
         else {
-            setPageStatusBarColor(ResourceUtils.getAttributeColor(getActivity(), R.attr.colorStatusBar));
+            if (null != statusBarColor)
+                setPageStatusBarColor(statusBarColor);
+            else
+                setPageStatusBarColor(ResourceUtils.getAttributeColor(getActivity(), R.attr.colorStatusBar));
         }
     }
 
-    protected void updateToolbarColor() {
+    protected void resetToolbarColor() {
         if (null != originalToolbarColor && originalToolbarColor > -1) {
             setPageToolbarColor(originalToolbarColor);
         }
         else {
-            setPageToolbarColor(ResourceUtils.getAttributeColor(getActivity(), R.attr.colorPrimary));
+            if (null == toolbarColor)
+                setPageToolbarColor(ResourceUtils.getAttributeColor(getActivity(), R.attr.colorPrimary));
+            else
+                setPageToolbarColor(toolbarColor);
         }
     }
 

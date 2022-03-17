@@ -200,15 +200,15 @@ public class UIBase<ControllerType extends Controller> extends CommonUIBase impl
             activity.setTheme(themeId);
         else {
             // we use light theme by default
-//			controller.getSettings().setThemeId(R.style.CommonAppTheme_Light_NoActionBar);
-//			activity.setTheme(R.style.CommonAppTheme_Light_NoActionBar);
             try {
                 themeId = AndroidUtils.getPredefinedApplicationThemeId(activity);
             } catch (PackageManager.NameNotFoundException e) {
 
             }
-            if (themeId > 0)
+            if (themeId > 0) {
                 controller.getSettings().setThemeId(themeId);
+                activity.setTheme(themeId);
+            }
         }
     }
 
