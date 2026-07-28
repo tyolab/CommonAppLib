@@ -10,6 +10,8 @@ project.ext {
 }
 
 android {
+    buildFeatures { buildConfig true }
+    namespace 'au.com.tyo.app'
     compileSdkVersion COMPILE_SDK_VERSION
     // buildToolsVersion TOOLS_VERSION
 
@@ -60,8 +62,7 @@ dependencies {
         exclude group: 'org.apache.httpcomponents'
     }
 
-    // Amazon Ad
-     implementation 'com.amazon.android:mobile-ads:6.0.0'
+    // Amazon Mobile Ads SDK removed — Amazon discontinued it in 2022 (AllAdView is now AdMob-only).
 
     implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.1.0'
     implementation 'androidx.preference:preference:1.2.0'
