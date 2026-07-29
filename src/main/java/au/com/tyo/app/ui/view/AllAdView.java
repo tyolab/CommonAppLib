@@ -157,5 +157,13 @@ public class AllAdView extends FrameLayout {
 	 		controller.getUi().getCurrentPage().onAdLoaded();
 	 	}
 
+		@Override
+		public void onAdFailedToLoad(@NonNull com.google.android.gms.ads.LoadAdError error) {
+			super.onAdFailedToLoad(error);
+
+			state = AD_STATE_FAILED;
+			android.util.Log.w(LOG_TAG, "onAdFailedToLoad: code=" + error.getCode() + " msg=" + error.getMessage());
+		}
+
      }
 }

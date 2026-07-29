@@ -68,6 +68,6 @@ dependencies {
     implementation 'androidx.preference:preference:1.2.0'
 
     // Google Ad
-     implementation 'com.google.android.gms:play-services-ads:20.6.0'
+     implementation 'com.google.android.gms:play-services-ads:23.6.0'
 
 }
