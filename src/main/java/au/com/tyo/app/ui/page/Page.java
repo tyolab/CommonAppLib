@@ -649,6 +649,33 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
 
         if (null != toolbar && null != actionBarMenu)
             actionBarMenu.setToolbar(toolbar);
+
+        applyStatusBarInset(null != toolbar ? toolbar : toolbarContainer);
+    }
+
+    /**
+     * Edge-to-edge is enforced from target SDK 35+ (Android 16): the window draws under the status
+     * bar. Pad the toolbar down by the status-bar inset so its title/actions aren't drawn beneath
+     * the status bar; the toolbar's own (coloured) background fills the inset area. Idempotent —
+     * padding is computed from a captured base value, so re-applying insets doesn't accumulate.
+     */
+    private void applyStatusBarInset(final android.view.View bar) {
+        if (null == bar)
+            return;
+        final int basePadTop = bar.getPaddingTop();
+        androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(bar,
+                new androidx.core.view.OnApplyWindowInsetsListener() {
+                    @Override
+                    public androidx.core.view.WindowInsetsCompat onApplyWindowInsets(
+                            android.view.View v, androidx.core.view.WindowInsetsCompat insets) {
+                        int top = insets.getInsets(
+                                androidx.core.view.WindowInsetsCompat.Type.statusBars()).top;
+                        v.setPadding(v.getPaddingLeft(), basePadTop + top,
+                                v.getPaddingRight(), v.getPaddingBottom());
+                        return insets;
+                    }
+                });
+        androidx.core.view.ViewCompat.requestApplyInsets(bar);
     }
 
     public Toolbar getToolbar() {
