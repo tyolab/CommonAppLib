@@ -666,28 +666,18 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     private void applyStatusBarInset(final android.view.View bar) {
         if (null == bar)
             return;
-        // NOTE: paddingTop is set to exactly the status-bar inset (base top padding is 0 for the
-        // toolbar). Do NOT add it onto the view's current paddingTop: the toolbar container is a
-        // single view reused across pages and setupToolbar() runs per page, so capturing the live
-        // (already-inset) paddingTop as a base would accumulate the inset on every navigation,
-        // pushing the nav button + title down until they clip below the bar.
-        androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(bar,
-                new androidx.core.view.OnApplyWindowInsetsListener() {
-                    @Override
-                    public androidx.core.view.WindowInsetsCompat onApplyWindowInsets(
-                            android.view.View v, androidx.core.view.WindowInsetsCompat insets) {
-                        // Include the display cutout so every activity gets a consistent top inset
-                        // (some hosts report statusBars() without the cutout, which left the toolbar
-                        // too short on those pages and clipped the nav button/title).
-                        int top = insets.getInsets(
-                                androidx.core.view.WindowInsetsCompat.Type.statusBars()
-                                        | androidx.core.view.WindowInsetsCompat.Type.displayCutout()).top;
-                        v.setPadding(v.getPaddingLeft(), top,
-                                v.getPaddingRight(), v.getPaddingBottom());
-                        return insets;
-                    }
-                });
-        androidx.core.view.ViewCompat.requestApplyInsets(bar);
+        // Deterministic status-bar inset. The WindowInsets listener approach was dispatched
+        // inconsistently across the app's various host activities/pages (the toolbar view often
+        // isn't attached to the window when setupToolbar() runs, so requestApplyInsets never fired):
+        // some toolbars got NO inset and collided with the status bar, others got an oversized inset
+        // that jammed the title/nav to the bottom. Instead pad the toolbar top by the system
+        // status-bar height from resources — the same value on every page, no dispatch/timing/
+        // attachment dependency.
+        int statusBarHeight = 0;
+        int resId = bar.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resId > 0)
+            statusBarHeight = bar.getResources().getDimensionPixelSize(resId);
+        bar.setPadding(bar.getPaddingLeft(), statusBarHeight, bar.getPaddingRight(), bar.getPaddingBottom());
     }
 
     /**
