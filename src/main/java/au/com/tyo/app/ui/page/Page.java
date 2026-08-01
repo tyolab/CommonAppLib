@@ -554,6 +554,10 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         textViewProgressInfo = (TextView) mainView.findViewById(R.id.tv_progress_info);
         pageOverlay = mainView.findViewById(R.id.tyodroid_page_overlay);
 
+        // Edge-to-edge (target SDK 35+): pad the page content up by the navigation-bar inset so the
+        // bottom of the content (footer/last rows) isn't drawn behind the system navigation bar.
+        applyNavBarInset(pageView);
+
         /**
          * the root view of body.xml
          */
@@ -662,20 +666,50 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
     private void applyStatusBarInset(final android.view.View bar) {
         if (null == bar)
             return;
-        final int basePadTop = bar.getPaddingTop();
+        // NOTE: paddingTop is set to exactly the status-bar inset (base top padding is 0 for the
+        // toolbar). Do NOT add it onto the view's current paddingTop: the toolbar container is a
+        // single view reused across pages and setupToolbar() runs per page, so capturing the live
+        // (already-inset) paddingTop as a base would accumulate the inset on every navigation,
+        // pushing the nav button + title down until they clip below the bar.
         androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(bar,
                 new androidx.core.view.OnApplyWindowInsetsListener() {
                     @Override
                     public androidx.core.view.WindowInsetsCompat onApplyWindowInsets(
                             android.view.View v, androidx.core.view.WindowInsetsCompat insets) {
+                        // Include the display cutout so every activity gets a consistent top inset
+                        // (some hosts report statusBars() without the cutout, which left the toolbar
+                        // too short on those pages and clipped the nav button/title).
                         int top = insets.getInsets(
-                                androidx.core.view.WindowInsetsCompat.Type.statusBars()).top;
-                        v.setPadding(v.getPaddingLeft(), basePadTop + top,
+                                androidx.core.view.WindowInsetsCompat.Type.statusBars()
+                                        | androidx.core.view.WindowInsetsCompat.Type.displayCutout()).top;
+                        v.setPadding(v.getPaddingLeft(), top,
                                 v.getPaddingRight(), v.getPaddingBottom());
                         return insets;
                     }
                 });
         androidx.core.view.ViewCompat.requestApplyInsets(bar);
+    }
+
+    /**
+     * Edge-to-edge: pad a view's bottom by the navigation-bar inset so its content stays above the
+     * system navigation bar. Set directly (not additive) so re-applying insets never accumulates.
+     */
+    private void applyNavBarInset(final android.view.View v) {
+        if (null == v)
+            return;
+        androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(v,
+                new androidx.core.view.OnApplyWindowInsetsListener() {
+                    @Override
+                    public androidx.core.view.WindowInsetsCompat onApplyWindowInsets(
+                            android.view.View view, androidx.core.view.WindowInsetsCompat insets) {
+                        int bottom = insets.getInsets(
+                                androidx.core.view.WindowInsetsCompat.Type.navigationBars()).bottom;
+                        view.setPadding(view.getPaddingLeft(), view.getPaddingTop(),
+                                view.getPaddingRight(), bottom);
+                        return insets;
+                    }
+                });
+        androidx.core.view.ViewCompat.requestApplyInsets(v);
     }
 
     public Toolbar getToolbar() {
