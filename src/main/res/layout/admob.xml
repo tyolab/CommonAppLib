@@ -17,7 +17,11 @@
         ads:adUnitId="@string/admob_unit_id_banner1"
       />
 -->
+<!-- Placeholder carries the @+id/adView so Ad.java (findViewById(R.id.adView)) still compiles
+     after the real AdView was removed from this library (4a46e09). Apps that show ads override
+     this layout with their own AdView (see app/src/main/res/layout/admob.xml). -->
 <View xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/adView"
     android:layout_height="0dp" android:layout_width="0dp">
 
 </View>
