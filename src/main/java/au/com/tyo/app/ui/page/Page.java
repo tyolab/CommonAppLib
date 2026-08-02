@@ -677,7 +677,21 @@ public class Page<ControllerType extends Controller> extends PageFragment implem
         int resId = bar.getResources().getIdentifier("status_bar_height", "dimen", "android");
         if (resId > 0)
             statusBarHeight = bar.getResources().getDimensionPixelSize(resId);
+
+        // Keep a full actionBarSize content row BELOW the status-bar padding. The toolbar is
+        // wrap_content with minHeight=actionBarSize; top padding alone lets the status-bar inset eat
+        // into that minimum, squeezing the title and clipping the nav ("<") button against the
+        // toolbar's bottom edge. So also grow the toolbar's height to statusBarHeight + actionBarSize,
+        // giving the title/nav a full, uncropped row under the status bar.
+        int contentHeight = bar.getMinimumHeight();
+        if (contentHeight <= 0)
+            contentHeight = Math.round(56 * bar.getResources().getDisplayMetrics().density);
         bar.setPadding(bar.getPaddingLeft(), statusBarHeight, bar.getPaddingRight(), bar.getPaddingBottom());
+        android.view.ViewGroup.LayoutParams lp = bar.getLayoutParams();
+        if (null != lp) {
+            lp.height = statusBarHeight + contentHeight;
+            bar.setLayoutParams(lp);
+        }
     }
 
     /**
